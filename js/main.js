@@ -1,4 +1,3 @@
-
 const groupSelect = document.getElementById("group");
 const track = document.getElementById("track");
 
@@ -11,7 +10,7 @@ document.addEventListener("DOMContentLoaded", () => {
         res.data.forEach((group) => {
           const option = document.createElement("option");
           option.value = group.id;
-          option.textContent = capitalizeFirstLetter(group.name);          
+          option.textContent = capitalizeFirstLetter(group.name);
           groupSelect.append(option);
         });
       }
@@ -33,26 +32,28 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     })
     .catch((error) => console.error("Error fetching groups:", error));
-});
 
+});
 
 /** Fetch tracks based on selected group */
 /** when select group autoselect the track */
-groupSelect.oninput = function(){
-    const groupId = this.value;
+groupSelect.oninput = function () {
+  const groupId = this.value;
 
-    fetch(`functions/Lectures/get_group_track.php?group_id=${groupId}`)
-      .then((response) => response.json())
-      .then((res) => {        
-        if(res.data) {
-            let opt = document.querySelector(`#track option[value="${res.data.track_id}"]`); 
-            opt.selected = true ;
-        } else {
-            document.querySelector(`#track option[value="1"]`).selected = true ;
-        }
-      })
-      .catch((error) => console.error("Error fetching tracks:", error));
-}
+  fetch(`functions/Lectures/get_group_track.php?group_id=${groupId}`)
+    .then((response) => response.json())
+    .then((res) => {
+      if (res.data) {
+        let opt = document.querySelector(
+          `#track option[value="${res.data.track_id}"]`
+        );
+        opt.selected = true;
+      } else {
+        document.querySelector(`#track option[value="1"]`).selected = true;
+      }
+    })
+    .catch((error) => console.error("Error fetching tracks:", error));
+};
 
 /** helper functions */
 function capitalizeFirstLetter(value) {
