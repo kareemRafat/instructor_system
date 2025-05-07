@@ -11,7 +11,7 @@ if(!isset($_SESSION['user_id'])) {
 
 try {
     // Query to fetch all instructors
-    $stmt = $pdo->prepare("SELECT username , branch_id FROM instructors WHERE branch_id = :branch");
+    $stmt = $pdo->prepare("SELECT username , id  FROM instructors WHERE branch_id = :branch");
     $stmt->bindParam(':branch', $_GET['branch_id'], PDO::PARAM_INT);
     $stmt->execute();
     $instructors = $stmt->fetchAll(PDO::FETCH_ASSOC);
