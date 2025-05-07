@@ -87,22 +87,11 @@ if ($result['role'] !== 'admin') {
         <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
             <!-- Card -->
             <div class="bg-white shadow-md rounded-lg p-5">
-                <h2 class="text-xl font-semibold text-blue-700 mb-1">Dr. Ahmed Said</h2>
-                <p class="text-gray-700">Lecture: Advanced Physics</p>
+                <h2 class="text-xl font-semibold text-blue-700 mb-1">London</h2>
+                <p class="text-gray-700 ml-5 my-3">Lecture: Advanced Physics</p>
                 <p class="text-gray-500 text-sm mt-1">Time: 10:00 AM - 12:00 PM</p>
             </div>
 
-            <div class="bg-white shadow-md rounded-lg p-5">
-                <h2 class="text-xl font-semibold text-blue-700 mb-1">Dr. fatma Fathy</h2>
-                <p class="text-gray-700">Lecture: Organic Chemistry</p>
-                <p class="text-gray-500 text-sm mt-1">Time: 12:30 PM - 2:30 PM</p>
-            </div>
-
-            <div class="bg-white shadow-md rounded-lg p-5">
-                <h2 class="text-xl font-semibold text-blue-700 mb-1">Dr. Tarek Ali</h2>
-                <p class="text-gray-700">Lecture: Mathematics</p>
-                <p class="text-gray-500 text-sm mt-1">Time: 3:00 PM - 5:00 PM</p>
-            </div>
         </div>
     </div>
     <script src="js/lectures-main.js"></script>

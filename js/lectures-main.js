@@ -27,7 +27,7 @@ document.addEventListener("DOMContentLoaded", () => {
           branch.appendChild(option);
         });
       }
-    }
+    })
 
 });
 
