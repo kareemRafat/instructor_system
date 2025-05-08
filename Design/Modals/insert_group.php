@@ -99,6 +99,7 @@
             let instructors = await fetch(`functions/Instructors/get_instructors.php`)
             let res = await instructors.json();
             if (res.data) {
+                instructorSelect.innerHTML = '<option value="" selected="">Select instructor</option>';
                 res.data.forEach(instructor => {
                     let option = document.createElement('option');
                     option.value = instructor.id;
@@ -112,6 +113,7 @@
             let instructors = await fetch(`functions/Branches/get_branches.php`)
             let res = await instructors.json();
             if (res.data) {
+                branchSelect.innerHTML = `<option value="" selected="">Select branch</option>`;
                 res.data.forEach(branch => {
                     let option = document.createElement('option');
                     option.value = branch.id;
