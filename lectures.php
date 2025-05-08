@@ -70,14 +70,6 @@ if ($result['role'] !== 'admin') {
                         <option selected>Select branch first</option>
                     </select>
                 </div>
-
-                <!-- Submit Button -->
-                <div class="w-full md:w-1/6 flex items-end">
-                    <button type="submit"
-                        class="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg text-sm px-5 py-2.5 text-center shadow-md transition-colors">
-                        Show Lectures
-                    </button>
-                </div>
             </div>
         </form>
 
