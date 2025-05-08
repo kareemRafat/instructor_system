@@ -16,10 +16,12 @@ try {
                         SELECT 
                             lectures.*,
                             groups.name AS group_name,
-                            DATE_FORMAT(lectures.date, '%Y-%m-%d') AS formatted_date,
+                            instructors.username AS instructor_name,
+                            DATE_FORMAT(lectures.date, '%M   %m-%d-%Y') AS formatted_date,
                             ROW_NUMBER() OVER (PARTITION BY lectures.group_id ORDER BY lectures.date DESC) AS rn
                         FROM lectures 
                         JOIN groups ON lectures.group_id = groups.id 
+                        JOIN instructors ON lectures.instructor_id = instructors.id
                         WHERE 
                             groups.branch_id = :branch 
                             AND groups.is_active = 1
@@ -34,10 +36,12 @@ try {
                         SELECT 
                             lectures.*,
                             groups.name AS group_name,
-                            DATE_FORMAT(lectures.date, '%Y-%m-%d') AS formatted_date,
+                            instructors.username AS instructor_name,
+                            DATE_FORMAT(lectures.date, '%M   %m-%d-%Y') AS formatted_date,
                             ROW_NUMBER() OVER (PARTITION BY lectures.group_id ORDER BY lectures.date DESC) AS rn
                         FROM lectures 
                         JOIN groups ON lectures.group_id = groups.id 
+                        JOIN instructors ON lectures.instructor_id = instructors.id
                         WHERE 
                             lectures.instructor_id = :instructor
                             AND groups.is_active = 1

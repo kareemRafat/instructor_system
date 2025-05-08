@@ -3,7 +3,7 @@ session_start();
 // Database connection
 require_once '../../Database/connect.php';
 
-if(!isset($_SESSION['user_id'])) {
+if (!isset($_SESSION['user_id'])) {
     header("Location: ../../login.php");
     exit('You are not logged in!');
 }
@@ -11,8 +11,12 @@ if(!isset($_SESSION['user_id'])) {
 
 try {
     // Query to fetch all instructors
-    $stmt = $pdo->prepare("SELECT username , id  FROM instructors WHERE branch_id = :branch");
-    $stmt->bindParam(':branch', $_GET['branch_id'], PDO::PARAM_INT);
+    if (isset($_GET['branch_id'])) {
+        $stmt = $pdo->prepare("SELECT username , id  FROM instructors WHERE branch_id = :branch");
+        $stmt->bindParam(':branch', $_GET['branch_id'], PDO::PARAM_INT);
+    } else {
+        $stmt = $pdo->prepare("SELECT username , id  FROM instructors");
+    }
     $stmt->execute();
     $instructors = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
@@ -24,4 +28,3 @@ try {
     header('Content-Type: application/json');
     echo json_encode(['status' => 'error', 'message' => $e->getMessage()]);
 }
-?>

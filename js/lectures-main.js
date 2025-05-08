@@ -90,13 +90,22 @@ function setCard(lec) {
     <div class="hidden sm:flex w-full bg-gray-200 h-0.5 dark:bg-gray-700"></div>
     </div>
     <div class="mt-3 sm:pe-8 pb-7 border-indigo-500 border-b-2">
-      <h3 class="text-xl font-semibold text-amber-500 dark:text-white">${capitalizeFirstLetter(
-        lec.group_name
-      )}</h3>
-      <time class="block mb-2 text-sm font-normal leading-none text-gray-400 dark:text-gray-500">commented on ${
+      <div class="flex  items-center gap-2">
+        <i class="fas fa-circle-check mb-2 text-zinc-500"></i>
+        <h3 class="text-xl mb-2 font-semibold text-amber-500 dark:text-white">${capitalizeFirstLetter(
+          lec.group_name
+        )}</h3>
+      </div>
+      
+      <div class="block mb-4 text-md font-normal leading-none text-gray-500 dark:text-gray-500"><i class="fab fa-teamspeak mr-1"></i> Instructor :  ${
+        capitalizeFirstLetter(lec.instructor_name)
+      }</div>
+
+      <time class="block mb-4 text-sm font-normal leading-none text-gray-400 dark:text-gray-500"><i class="fas fa-calendar-check mr-1"></i> Commented on ${
         lec.formatted_date
       }</time>
-      <p class="text-base font-normal text-gray-500 dark:text-gray-400">${
+
+      <p class="border p-2 rounded-md text-base border-gray-200 text-base font-normal text-gray-500 dark:text-gray-400">${
         lec.comment
       }</p>
     </div>
