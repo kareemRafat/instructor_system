@@ -31,7 +31,7 @@
             </div>
         </form>
 
-        <ol id="lecturesCards" class="items-center sm:flex gap-2">
+        <ol id="lecturesCards" class="flex flex-col md:flex-row md:flex-wrap gap-4 px-4 max-w-7xl mx-auto">
             <p><i class="fas fa-arrow-up-long mr-2"></i>Select Branch</p>
         </ol>
 

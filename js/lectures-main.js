@@ -80,7 +80,7 @@ function capitalizeFirstLetter(value) {
 /** set card */
 function setCard(lec) {
   return `
-  <li class="relative mb-6 sm:mb-0 sm:w-1/3">
+  <li class="relative mb-6 md:mb-0 md:w-[calc(33.333%-1rem)] flex-shrink-0">
     <div class="flex items-center">
     <div class="z-10 flex items-center justify-center w-6 h-6 bg-blue-100 rounded-full ring-0 ring-white dark:bg-blue-900 sm:ring-8 dark:ring-gray-900 shrink-0">
       <svg class="w-2.5 h-2.5 text-blue-800 dark:text-blue-300" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
@@ -89,7 +89,7 @@ function setCard(lec) {
     </div>
     <div class="hidden sm:flex w-full bg-gray-200 h-0.5 dark:bg-gray-700"></div>
     </div>
-    <div class="mt-3 sm:pe-8 pb-7 border-indigo-500 border-b-2">
+    <div class="mt-3 sm:pe-0 pb-7 border-indigo-500 border-b-2">
       <div class="flex  items-center gap-2">
         <i class="fas fa-circle-check mb-2 text-zinc-500"></i>
         <h3 class="text-xl mb-2 font-semibold text-amber-500 dark:text-white">${capitalizeFirstLetter(
@@ -105,7 +105,7 @@ function setCard(lec) {
         lec.formatted_date
       }</time>
 
-      <p class="border p-2 rounded-md text-base border-gray-200 text-base font-normal text-gray-500 dark:text-gray-400">${
+      <p class="w-full border border-blue-200 bg-blue-50 pl-3 p-2 rounded-md text-base border-gray-200 text-base font-normal text-gray-500 dark:text-gray-400">${
         lec.comment
       }</p>
     </div>

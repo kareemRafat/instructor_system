@@ -88,15 +88,20 @@
     <?php unset($_SESSION['errors']) ?>
     <script>
         const instructorSelect = document.getElementById('instructorSelect');
+        const branchSelect = document.getElementById('branchSelect');
         const modalBtn = document.querySelector('[data-modal-target="crud-modal"]');
 
         modalBtn.addEventListener('click', function() {
-            fetchInstructors();
             fetchBranches();
         });
 
-        async function fetchInstructors() {
-            let instructors = await fetch(`functions/Instructors/get_instructors.php`)
+        branchSelect.addEventListener('change' , function(){
+            fetchInstructors(this.value);
+        });
+
+
+        async function fetchInstructors(value) {
+            let instructors = await fetch(`functions/Instructors/get_instructors.php?branch_id=${value}`)
             let res = await instructors.json();
             if (res.data) {
                 instructorSelect.innerHTML = '<option value="" selected="">Select instructor</option>';
