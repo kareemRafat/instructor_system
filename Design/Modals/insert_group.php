@@ -20,6 +20,12 @@
                 </div>
                 <!-- Modal body -->
                 <form class="p-4 md:p-5" action="functions/Groups/insert_group.php" method="POST">
+                    <input type="hidden" name="time" id="currentTime">
+                    <script>
+                        const now = new Date();
+                        const time = now.toTimeString().split(' ')[0]; // Gets "HH:MM:SS"
+                        document.getElementById('currentTime').value = time;                        
+                    </script>
                     <div class="relative w-full my-5">
                         <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
                             <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
@@ -95,7 +101,7 @@
             fetchBranches();
         });
 
-        branchSelect.addEventListener('change' , function(){
+        branchSelect.addEventListener('change', function() {
             fetchInstructors(this.value);
         });
 

@@ -9,12 +9,15 @@ if(!isset($_SESSION['user_id'])) {
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $date = $_POST['date'] ?? null;
+    $time = $_POST['time'] ?? null;
     $name = $_POST['name'] ?? null;
     $instructor = $_POST['instructor'] ?? null;
     $branch = $_POST['branch'] ?? null;
 
     if ($date) {
         $date = date('Y-m-d', strtotime($date));
+        $time = date('H:i:s', strtotime($time));
+        $date = $date . ' ' . $time;
     }
 
     if ($date && $name && $instructor && $branch) {

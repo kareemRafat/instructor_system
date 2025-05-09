@@ -79,7 +79,12 @@ document.addEventListener("DOMContentLoaded", function () {
 /** Finish a group */
 function finishGroup(groupId, button) {
   const formData = new FormData();
+
+  const now = new Date();
+  const datetime = now.toLocaleString('sv-SE').replace('T', ' '); // 'YYYY-MM-DD HH:mm:ss'
+  
   formData.append('group_id', groupId);
+  formData.append('finist_date' , datetime );
 
   fetch('functions/Groups/finish_group.php', {
     method: 'POST',

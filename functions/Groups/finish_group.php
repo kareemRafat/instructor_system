@@ -9,10 +9,11 @@ if (!isset($_SESSION['user_id'])) {
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $group_id = $_POST['group_id'] ?? null;
+    $finist_date = $_POST['finist_date'] ?? null;
 
     if ($group_id) {
         try {
-            $stmt = $pdo->prepare("UPDATE groups SET is_active = 0 WHERE id = :group_id");
+            $stmt = $pdo->prepare("UPDATE groups SET is_active = 0 , finish_date = '$finist_date' WHERE id = :group_id");
             $stmt->bindParam(':group_id', $group_id);
             $stmt->execute();
 
