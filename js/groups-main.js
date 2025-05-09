@@ -2,6 +2,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const searchInput = document.getElementById("table-search");
   const tbody = document.querySelector("tbody");
 
+
   searchInput.addEventListener("input", function () {
     const searchValue = this.value.trim();
 
@@ -47,9 +48,8 @@ document.addEventListener("DOMContentLoaded", function () {
                     row.branch_name.charAt(0).toUpperCase() +
                     row.branch_name.slice(1)
                 }
-            </td>
-            <td class="px-6 py-4">
-                <button class="font-medium text-red-600 dark:text-red-500 hover:underline">
+            </td>            <td class="px-6 py-4">
+                <button data-group-id="${row.id}" class="finish-group-btn font-medium text-red-600 dark:text-red-500 hover:underline">
                     <i class="fas fa-ban mr-2"></i>Finish
                 </button>
             </td>
@@ -60,4 +60,42 @@ document.addEventListener("DOMContentLoaded", function () {
       })
       .catch((error) => console.error("Error:", error));
   });
+
+  
+  // Handle finish button clicks
+  tbody.addEventListener('click', function(e) {
+    if (e.target.closest('.finish-group-btn')) {
+      const button = e.target.closest('.finish-group-btn');
+      const groupId = button.dataset.groupId;
+      
+      if (confirm('Are you sure you want to finish this group?')) {
+        finishGroup(groupId, button);
+      }
+    }
+  });
+
 });
+
+/** Finish a group */
+function finishGroup(groupId, button) {
+  const formData = new FormData();
+  formData.append('group_id', groupId);
+
+  fetch('functions/Groups/finish_group.php', {
+    method: 'POST',
+    body: formData
+  })
+  .then(response => response.json())
+  .then(data => {
+    if (data.status === 'success') {
+      // Remove the row from the table
+      const row = button.closest('tr');
+      row.remove();
+    } else {
+      alert('Error: ' + data.message);
+    }
+  })
+  .catch(error => {
+    alert('An error occurred while finishing the group');
+  });
+}

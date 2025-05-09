@@ -3,8 +3,8 @@ include_once "../../Database/connect.php";
 
 if (isset($_GET['search'])) {
     $search = $_GET['search'];
-
     $query = "SELECT 
+        groups.id,
         groups.name AS group_name,
         instructors.username AS instructor_name,
         branches.name AS branch_name 
@@ -22,6 +22,7 @@ if (isset($_GET['search'])) {
     echo json_encode($result);
 } else {
     $query = "SELECT 
+        groups.id,
         groups.name AS group_name,
         instructors.username AS instructor_name,
         branches.name AS branch_name 
