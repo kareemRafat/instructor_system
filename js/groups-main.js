@@ -1,5 +1,6 @@
 const searchInput = document.getElementById("table-search");
 const tbody = document.querySelector("tbody");
+// branchSelect const came from the modal in the same page
 
 document.addEventListener("DOMContentLoaded", function () {
 
@@ -22,12 +23,18 @@ document.addEventListener("DOMContentLoaded", function () {
   /** search functionality */
   searchInput.addEventListener("input", function () {
     const searchValue = this.value.trim();
+    let url = '';
 
-    fetch(
-      `functions/Groups/search_groups.php?search=${encodeURIComponent(
+    // check if the branch selected or not
+    if (branchSelect.value) {
+      url = `functions/Groups/search_groups.php?search=${encodeURIComponent(searchValue)}&branch_id=${encodeURIComponent(branchSelect.value)}`
+    } else {
+      url = `functions/Groups/search_groups.php?search=${encodeURIComponent(
         searchValue
-      )}`
-    )
+      )}`;
+    }
+    
+    fetch(url)
       .then((response) => response.json())
       .then((data) => {        
         setTable(data);
@@ -49,6 +56,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
   /** show branch lectures functionality */
   branchSelect.onchange = function(){
+    // empty search input
+    searchInput.value = '';
+    
     fetchLecturesByGroup(this.value , this.selectedOptions[0].text)
   }
 });
