@@ -13,6 +13,7 @@ include_once 'Design/includes/navbar.php';
     $query = "SELECT 
                         groups.id,
                         groups.name AS group_name,
+                        groups.time AS group_time,
                         instructors.username AS instructor_name,
                         branches.name AS branch_name,
                         DATE_FORMAT(groups.start_date, '%d-%m-%Y') AS formatted_date
@@ -40,7 +41,7 @@ include_once 'Design/includes/navbar.php';
         <!-- Country Dropdown -->
         <div class="w-full md:flex-1">
             <select id="branchSelect"
-            class="block w-full p-2 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                class="block w-full p-2 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                 <option selected>Choose a Branch</option>
             </select>
         </div>
@@ -69,6 +70,9 @@ include_once 'Design/includes/navbar.php';
                         Group
                     </th>
                     <th scope="col" class="px-6 py-3">
+                        Time
+                    </th>
+                    <th scope="col" class="px-6 py-3">
                         Instructor
                     </th>
                     <th scope="col" class="px-6 py-3">
@@ -89,6 +93,12 @@ include_once 'Design/includes/navbar.php';
                     <tr class="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600">
                         <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                             <?= ucwords($row['group_name']) ?>
+                        </th>
+                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                            <?=
+                            $row['group_time'] == 2 || $row['group_time'] == 5
+                                ? $row['group_time'] . " - Friday"
+                                : $row['group_time'] ?>
                         </th>
                         <td class="px-6 py-4">
                             <?= ucwords($row['instructor_name']) ?>

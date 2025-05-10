@@ -10,6 +10,7 @@ if(!isset($_SESSION['user_id'])) {
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $date = $_POST['date'] ?? null;
     $time = $_POST['time'] ?? null;
+    $groupTime = $_POST['grouptime'] ?? null;
     $name = $_POST['name'] ?? null;
     $instructor = $_POST['instructor'] ?? null;
     $branch = $_POST['branch'] ?? null;
@@ -22,11 +23,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if ($date && $name && $instructor && $branch) {
         try {
-            $stmt = $pdo->prepare("INSERT INTO groups (name, branch_id, instructor_id, is_active , start_date) VALUES (:name, :branch, :instructor,  1 , :date )");
+            $stmt = $pdo->prepare("INSERT INTO groups (name, branch_id, instructor_id, is_active , start_date , time) VALUES (:name, :branch, :instructor,  1 , :date , :groupTime )");
             $stmt->bindParam(':name', $name);
             $stmt->bindParam(':branch', $branch);
             $stmt->bindParam(':instructor', $instructor);
             $stmt->bindParam(':date', $date);
+            $stmt->bindParam(':groupTime', $groupTime);
             $stmt->execute();
 
             $_SESSION['insert_done'] = true ;
@@ -51,6 +53,10 @@ function checkErrors($formData){
 
     if (empty($formData['date'])) {
         $errors['date'] = "Date is required.";
+    }
+
+    if (empty($formData['grouptime'])) {
+        $errors['grouptime'] = "Date is required.";
     }
 
     if (empty($formData['instructor'])) {

@@ -110,7 +110,7 @@ function setTable(res , branch = null) {
   if (res.data.length == 0) {
     tbody.innerHTML = `
         <tr>
-          <td class="px-6 py-4 font-bold" colspan="4"> No Group Found </td>
+          <td class="px-6 py-4 font-bold" colspan="5"> No Group Found </td>
         </tr>
     `;
   }
@@ -126,6 +126,11 @@ function setTable(res , branch = null) {
           ${
             row.group_name.charAt(0).toUpperCase() +
             row.group_name.slice(1)
+          }
+      </th>
+      <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+          ${
+            row.group_time == 2 || row.group_time == 5 ? `${row.group_time} - Friday` : row.group_time 
           }
       </th>
       <td class="px-6 py-4">
