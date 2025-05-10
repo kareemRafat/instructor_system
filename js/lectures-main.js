@@ -39,15 +39,14 @@ branch.onchange = function () {
     .catch((error) => console.error("Error fetching instructors:", error));
 
     // fetch lectures based on selected branch
-    fetchBranch(this.value);
+    fetchBranchLectures(this.value);
   
 };
 
 /** select instructor */
 instructor.onchange = function () {
-  
   if (this.value == "") {
-    fetchBranch(branch.value);
+    fetchBranchLectures(branch.value);
     return ;
   }
 
@@ -68,14 +67,6 @@ instructor.onchange = function () {
     })
     .catch((error) => console.error("Error fetching lectures:", error));
 };
-
-/** helper functions */
-function capitalizeFirstLetter(value) {
-  if (typeof value !== "string" || value.length === 0) {
-    return value;
-  }
-  return value.charAt(0).toUpperCase() + value.slice(1);
-}
 
 /** set card */
 function setCard(lec) {
@@ -114,7 +105,7 @@ function setCard(lec) {
 }
 
 /** fetch branch lectures */
-function fetchBranch(value){
+function fetchBranchLectures(value){
   // get all lectures based on selected branch
   fetch(`functions/Lectures/get_lectures.php?branch_id=${value}`)
     .then((response) => response.json())
@@ -132,4 +123,12 @@ function fetchBranch(value){
       }
     })
     .catch((error) => console.error("Error fetching lectures:", error));
+}
+
+/** helper functions */
+function capitalizeFirstLetter(value) {
+  if (typeof value !== "string" || value.length === 0) {
+    return value;
+  }
+  return value.charAt(0).toUpperCase() + value.slice(1);
 }

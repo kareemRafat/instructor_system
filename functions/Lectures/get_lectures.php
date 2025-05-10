@@ -17,7 +17,7 @@ try {
                             lectures.*,
                             groups.name AS group_name,
                             instructors.username AS instructor_name,
-                            DATE_FORMAT(lectures.date, '%M   %m-%d-%Y') AS formatted_date,
+                            DATE_FORMAT(lectures.date, '%M   %d-%m-%Y') AS formatted_date,
                             ROW_NUMBER() OVER (PARTITION BY lectures.group_id ORDER BY lectures.date DESC) AS rn
                         FROM lectures 
                         JOIN groups ON lectures.group_id = groups.id 
@@ -37,7 +37,7 @@ try {
                             lectures.*,
                             groups.name AS group_name,
                             instructors.username AS instructor_name,
-                            DATE_FORMAT(lectures.date, '%M   %m-%d-%Y') AS formatted_date,
+                            DATE_FORMAT(lectures.date, '%M   %d-%m-%Y') AS formatted_date,
                             ROW_NUMBER() OVER (PARTITION BY lectures.group_id ORDER BY lectures.date DESC) AS rn
                         FROM lectures 
                         JOIN groups ON lectures.group_id = groups.id 

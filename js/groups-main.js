@@ -29,9 +29,7 @@ document.addEventListener("DOMContentLoaded", function () {
       )}`
     )
       .then((response) => response.json())
-      .then((data) => {
-        console.log(data);
-        
+      .then((data) => {        
         setTable(data);
       })
       .catch((error) => console.error("Error:", error));
@@ -84,14 +82,6 @@ function finishGroup(groupId, button) {
     });
 }
 
-/** helper functions */
-function capitalizeFirstLetter(value) {
-  if (typeof value !== "string" || value.length === 0) {
-    return value;
-  }
-  return value.charAt(0).toUpperCase() + value.slice(1);
-}
-
 /** fetch branch lectures for table */
 function fetchLecturesByGroup(value , branch){
   // get all lectures based on selected branch
@@ -104,12 +94,10 @@ function fetchLecturesByGroup(value , branch){
 }
 
 /** setTable */
-function setTable(data , branch = null) {
+function setTable(res , branch = null) {
   tbody.innerHTML = ""; // Clear current table content
-
-  console.log(data.data);
   
-  if (data.length == 0) {
+  if (res.data.length == 0) {
     tbody.innerHTML = `
         <tr>
           <td class="px-6 py-4 font-bold" colspan="4"> No Group Found </td>
@@ -117,9 +105,8 @@ function setTable(data , branch = null) {
     `;
   }
 
-  data.data.forEach((row) => {
-    console.log(row);
-    
+  res.data.forEach((row) => {
+
     const tr = document.createElement("tr");
     tr.className =
       "bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600";
@@ -157,4 +144,13 @@ function setTable(data , branch = null) {
 
     tbody.appendChild(tr);
   });
+}
+
+
+/** helper functions */
+function capitalizeFirstLetter(value) {
+  if (typeof value !== "string" || value.length === 0) {
+    return value;
+  }
+  return value.charAt(0).toUpperCase() + value.slice(1);
 }

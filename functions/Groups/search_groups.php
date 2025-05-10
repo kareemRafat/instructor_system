@@ -8,7 +8,7 @@ if (isset($_GET['search'])) {
         groups.name AS group_name,
         instructors.username AS instructor_name,
         branches.name AS branch_name,
-        DATE_FORMAT(groups.start_date, '%m-%d-%Y') AS formatted_date
+        DATE_FORMAT(groups.start_date, '%d-%m-%Y') AS formatted_date
     FROM groups 
     JOIN instructors ON groups.instructor_id = instructors.id 
     JOIN branches ON groups.branch_id = branches.id
@@ -28,7 +28,7 @@ if (isset($_GET['search'])) {
         groups.name AS group_name,
         instructors.username AS instructor_name,
         branches.name AS branch_name,
-        DATE_FORMAT(groups.start_date,'%m-%d-%Y') AS formatted_date
+        DATE_FORMAT(groups.start_date, '%d-%m-%Y') AS formatted_date
     FROM groups 
     JOIN instructors ON groups.instructor_id = instructors.id 
     JOIN branches ON groups.branch_id = branches.id
