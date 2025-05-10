@@ -2,10 +2,10 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Generation Time: May 10, 2025 at 03:29 AM
--- Server version: 10.4.28-MariaDB
--- PHP Version: 8.2.4
+-- Host: localhost:3306
+-- Generation Time: May 10, 2025 at 05:49 PM
+-- Server version: 11.7.2-MariaDB-log
+-- PHP Version: 8.2.25
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -51,6 +51,7 @@ INSERT INTO `branches` (`id`, `name`, `arabic_name`) VALUES
 CREATE TABLE `groups` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `name` varchar(255) NOT NULL,
+  `time` decimal(4,2) NOT NULL,
   `instructor_id` bigint(20) UNSIGNED DEFAULT NULL,
   `branch_id` bigint(20) UNSIGNED DEFAULT NULL,
   `is_active` tinyint(1) NOT NULL,
@@ -62,34 +63,38 @@ CREATE TABLE `groups` (
 -- Dumping data for table `groups`
 --
 
-INSERT INTO `groups` (`id`, `name`, `instructor_id`, `branch_id`, `is_active`, `start_date`, `finish_date`) VALUES
-(1, 'london', 1, 1, 1, NULL, NULL),
-(2, 'cut', 2, 2, 1, NULL, NULL),
-(3, 'lock', 2, 2, 1, NULL, NULL),
-(4, 'home', 3, 3, 1, NULL, NULL),
-(5, 'nike', 3, 3, 1, NULL, NULL),
-(6, 'FLOWER', 4, 3, 1, NULL, NULL),
-(7, 'ddddd', 6, 1, 0, '0000-00-00 00:00:00', NULL),
-(8, 'new', 1, 2, 0, '0000-00-00 00:00:00', NULL),
-(9, 'ahmed', 1, 2, 0, '2025-05-10 00:00:00', NULL),
-(10, 'time', 4, 1, 0, '2025-05-09 00:00:00', NULL),
-(11, 'Horizon', 3, 3, 0, '2025-05-09 00:00:00', '2025-05-10 02:41:26'),
-(12, 'Rixos', 4, 3, 0, '2025-05-09 22:06:02', '0000-00-00 00:00:00'),
-(13, '33', 2, 2, 0, '2025-05-09 00:00:00', NULL),
-(15, 'tttt', 1, 1, 0, '2025-05-09 00:00:00', NULL),
-(16, 'asdsa', 1, 1, 0, '2025-05-09 00:00:00', '2025-05-10 02:41:25'),
-(17, 'dddddd', 1, 1, 0, '2025-05-09 00:00:00', '2025-05-10 02:41:26'),
-(18, 'dd11', 1, 1, 0, '2025-05-09 00:00:00', '2025-05-10 02:41:27'),
-(19, 'kkokokok', 1, 1, 0, '2025-05-09 00:00:00', '2025-05-10 02:41:27'),
-(20, 'dasdasdwqeqwe', 1, 1, 0, '2025-05-09 01:00:00', '2025-05-10 02:41:08'),
-(21, 'dasqwezxc', 2, 2, 0, '2025-05-09 01:00:00', '2025-05-10 02:41:24'),
-(22, 'asdasdsadad', 2, 2, 0, '2025-05-09 22:06:07', '2025-05-09 22:11:46'),
-(23, 'total sd', 1, 1, 0, '2025-05-09 22:07:01', NULL),
-(24, 'Nayda Morse', 2, 2, 0, '1998-08-27 02:19:39', '2025-05-10 02:41:28'),
-(25, 'asdsadad', 2, 2, 0, '2025-05-11 02:19:48', '2025-05-10 02:41:22'),
-(26, 'asdwqewqezxczxc', 3, 3, 0, '2025-05-14 02:20:48', '2025-05-10 02:33:09'),
-(27, 'cccccc', 5, 1, 0, '2025-05-10 02:21:05', '2025-05-10 02:41:06'),
-(28, 'dasdsadsad', 2, 2, 0, '2025-05-10 02:21:16', '2025-05-10 02:41:24');
+INSERT INTO `groups` (`id`, `name`, `time`, `instructor_id`, `branch_id`, `is_active`, `start_date`, `finish_date`) VALUES
+(1, 'london', 12.00, 1, 1, 1, NULL, NULL),
+(2, 'cut', 5.00, 2, 2, 1, NULL, NULL),
+(3, 'lock', 10.30, 2, 2, 1, NULL, NULL),
+(4, 'home', 0.00, 3, 3, 1, NULL, NULL),
+(5, 'nike', 10.24, 3, 3, 1, NULL, NULL),
+(6, 'FLOWER', 0.00, 4, 3, 1, NULL, NULL),
+(7, 'ddddd', 0.00, 6, 1, 0, '0000-00-00 00:00:00', NULL),
+(8, 'new', 0.00, 1, 2, 0, '0000-00-00 00:00:00', NULL),
+(9, 'ahmed', 0.00, 1, 2, 0, '2025-05-10 00:00:00', NULL),
+(10, 'time', 0.00, 4, 1, 0, '2025-05-09 00:00:00', NULL),
+(11, 'Horizon', 0.00, 3, 3, 0, '2025-05-09 00:00:00', '2025-05-10 02:41:26'),
+(12, 'Rixos', 0.00, 4, 3, 0, '2025-05-09 22:06:02', '0000-00-00 00:00:00'),
+(13, '33', 0.00, 2, 2, 0, '2025-05-09 00:00:00', NULL),
+(15, 'tttt', 0.00, 1, 1, 0, '2025-05-09 00:00:00', NULL),
+(16, 'asdsa', 0.00, 1, 1, 0, '2025-05-09 00:00:00', '2025-05-10 02:41:25'),
+(17, 'dddddd', 0.00, 1, 1, 0, '2025-05-09 00:00:00', '2025-05-10 02:41:26'),
+(18, 'dd11', 0.00, 1, 1, 0, '2025-05-09 00:00:00', '2025-05-10 02:41:27'),
+(19, 'kkokokok', 0.00, 1, 1, 0, '2025-05-09 00:00:00', '2025-05-10 02:41:27'),
+(20, 'dasdasdwqeqwe', 0.00, 1, 1, 0, '2025-05-09 01:00:00', '2025-05-10 02:41:08'),
+(21, 'dasqwezxc', 0.00, 2, 2, 0, '2025-05-09 01:00:00', '2025-05-10 02:41:24'),
+(22, 'asdasdsadad', 0.00, 2, 2, 0, '2025-05-09 22:06:07', '2025-05-09 22:11:46'),
+(23, 'total sd', 0.00, 1, 1, 0, '2025-05-09 22:07:01', NULL),
+(24, 'Nayda Morse', 0.00, 2, 2, 0, '1998-08-27 02:19:39', '2025-05-10 02:41:28'),
+(25, 'asdsadad', 0.00, 2, 2, 0, '2025-05-11 02:19:48', '2025-05-10 02:41:22'),
+(26, 'asdwqewqezxczxc', 0.00, 3, 3, 0, '2025-05-14 02:20:48', '2025-05-10 02:33:09'),
+(27, 'cccccc', 0.00, 5, 1, 0, '2025-05-10 02:21:05', '2025-05-10 02:41:06'),
+(28, 'dasdsadsad', 0.00, 2, 2, 0, '2025-05-10 02:21:16', '2025-05-10 02:41:24'),
+(29, 'zz', 0.00, 2, 2, 0, '2025-05-10 14:27:57', '2025-05-10 14:45:24'),
+(30, 'monday', 0.00, 5, 1, 0, '2025-05-10 15:34:37', '2025-05-10 15:48:02'),
+(31, 'Hover', 12.30, 6, 1, 1, '2025-05-10 19:38:57', NULL),
+(32, 'this is test', 2.00, 6, 1, 1, '2025-05-10 19:45:56', NULL);
 
 -- --------------------------------------------------------
 
@@ -138,7 +143,7 @@ CREATE TABLE `lectures` (
 
 INSERT INTO `lectures` (`id`, `group_id`, `track_id`, `instructor_id`, `comment`, `date`) VALUES
 (28, 1, 3, 1, 'المحاضرة الاخيرة', '2025-05-08 16:35:27'),
-(29, 1, 3, 1, 'يشسيسشيي', '2025-05-08 16:35:52'),
+(29, 1, 3, 2, 'يشسيسشيي', '2025-05-08 16:35:52'),
 (30, 4, 5, 3, '3 lecture', '2025-05-08 16:42:34'),
 (31, 5, 3, 3, 'المحاضرة الثالثة', '2025-05-08 16:42:45'),
 (32, 2, 4, 2, 'الكوكيز', '2025-05-08 16:43:08'),
@@ -148,7 +153,8 @@ INSERT INTO `lectures` (`id`, `group_id`, `track_id`, `instructor_id`, `comment`
 (36, 5, 4, 3, 'asdsdasdsadsdasdaadadad', '2025-05-08 17:21:43'),
 (37, 6, 4, 4, 'qweqweqwewqeqwewqe', '2025-05-08 17:23:55'),
 (38, 11, 3, 3, 'المحاضرة الثالثة loop', '2025-05-09 17:43:19'),
-(39, 12, 4, 4, 'محاضرة الفورم', '2025-05-09 17:44:19');
+(39, 12, 4, 4, 'محاضرة الفورم', '2025-05-09 17:44:19'),
+(40, 1, 3, 1, 'المحاضرة الفيو الثالثة', '2025-05-10 15:41:12');
 
 -- --------------------------------------------------------
 
@@ -170,7 +176,8 @@ CREATE TABLE `remember_tokens` (
 INSERT INTO `remember_tokens` (`id`, `instructor_id`, `token`, `expiry`) VALUES
 (1, 1, 'f61e44be8e083f01462c04d9124c4d8760aa15fa3314577dc8cde4761cfa6fa6', '2025-06-06 17:26:08'),
 (2, 1, '33e4d8e5c58a367f966a2a211e5e47cd85bb525a76ee9d229e77c0f9144c9b1e', '2025-06-06 22:35:20'),
-(3, 1, '3c3d2f3bc5c1a6d84e2a5fa1d5b6cea209c88cf259e8bfc10685033915600432', '2025-06-08 00:30:20');
+(3, 1, '3c3d2f3bc5c1a6d84e2a5fa1d5b6cea209c88cf259e8bfc10685033915600432', '2025-06-08 00:30:20'),
+(4, 1, '31b9f81149dfcdba23cdf0aa8eee36f6e3f2580493234d7f272d020749c18fd7', '2025-06-09 11:27:36');
 
 -- --------------------------------------------------------
 
@@ -254,7 +261,7 @@ ALTER TABLE `branches`
 -- AUTO_INCREMENT for table `groups`
 --
 ALTER TABLE `groups`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
 
 --
 -- AUTO_INCREMENT for table `instructors`
@@ -266,13 +273,13 @@ ALTER TABLE `instructors`
 -- AUTO_INCREMENT for table `lectures`
 --
 ALTER TABLE `lectures`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
 
 --
 -- AUTO_INCREMENT for table `remember_tokens`
 --
 ALTER TABLE `remember_tokens`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `tracks`
