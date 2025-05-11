@@ -1,7 +1,5 @@
 <?php
-session_start();
-require_once 'Database/connect.php';
-require_once 'functions/Auth/auth_helper.php';
+include_once 'Helpers/bootstrap.php';
 
 if (!isset($_SESSION['user_id'])) {
     // Check for remember-me token if session is not set

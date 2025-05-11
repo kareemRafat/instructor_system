@@ -1,10 +1,5 @@
 <?php
 
-session_start();
-
-require_once "Database/connect.php";
-require_once 'functions/Auth/auth_helper.php';
-
 if (!isset($_SESSION['user_id']) || $result['role'] !== 'admin') {
     header("Location: login.php");
     exit();

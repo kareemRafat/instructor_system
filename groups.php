@@ -1,4 +1,5 @@
 <?php
+include_once 'Helpers/bootstrap.php';
 include_once 'Design/includes/header.php';
 include_once 'Design/includes/navbar.php';
 ?>
