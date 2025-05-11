@@ -27,23 +27,4 @@ if (isset($_GET['search'])) {
 
     header('Content-Type: application/json');
     echo json_encode(['status' => 'success', 'data' => $groups]);
-} 
-
-// else {
-//     $query = "SELECT 
-//         groups.id,
-//         groups.name AS group_name,
-//         instructors.username AS instructor_name,
-//         branches.name AS branch_name,
-//         DATE_FORMAT(groups.start_date, '%d-%m-%Y') AS formatted_date
-//     FROM groups 
-//     JOIN instructors ON groups.instructor_id = instructors.id 
-//     JOIN branches ON groups.branch_id = branches.id
-//     WHERE groups.is_active = 1 
-//     ORDER BY groups.start_date DESC";
-
-//     $stmt = $pdo->prepare($query);
-//     $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-//     echo json_encode($result);
-// }
+}
