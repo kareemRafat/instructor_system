@@ -42,7 +42,7 @@ branch.onchange = function () {
     // fetch lectures based on selected branch
     fetchBranchLectures(this.value);
 
-    // reset tiem
+    // reset time
     groupTimeSelect.value = '';
   
 };
@@ -105,6 +105,9 @@ instructor.onchange = function () {
       }
     })
     .catch((error) => console.error("Error fetching lectures:", error));
+
+    // reset time
+    groupTimeSelect.value = '';
 };
 
 /** set card */
