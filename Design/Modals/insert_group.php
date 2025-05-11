@@ -40,7 +40,7 @@
                             </div>
                         </div>
                         <div class="col-span-1">
-                            <label for="grouptime" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Grouptime</label>
+                            <label for="grouptime" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Group time</label>
                             <select name="grouptime" id="grouptime" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" required>
                                 <option value="" selected="">Select Time</option>
                                 <option value="10">10</option>
