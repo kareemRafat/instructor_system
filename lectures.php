@@ -16,7 +16,22 @@
                     <label for="branch" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Branch</label>
                     <select id="branch"
                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                        <option selected>Choose a branch</option>
+                        <option value="" selected>Choose a branch</option>
+                    </select>
+                </div>
+
+                <!-- Time Select -->
+                <div class="lg:w-1/3 md:w-1/2 w-full">
+                    <label for="group-time" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Group Time</label>
+                    <select id="group-time"
+                        class=" bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                        <option class="font-semibold" value="" selected>Choose a Time</option>
+                        <option class="font-semibold" value="10">10</option>
+                        <option class="font-semibold" value="12.30">12.30</option>
+                        <option class="font-semibold" value="3">3</option>
+                        <option class="font-semibold" value="6">6</option>
+                        <option class="font-semibold" value="2">2 [Friday]</option>
+                        <option class="font-semibold" value="5">5 [Friday]</option>
                     </select>
                 </div>
 

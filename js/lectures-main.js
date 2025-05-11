@@ -2,6 +2,7 @@ const branch = document.getElementById("branch");
 const instructor = document.getElementById("instructor");
 const lecturesCards = document.getElementById("lecturesCards");
 const lectureForm = document.getElementById("lectureForm");
+const groupTimeSelect = document.getElementById('group-time');
 
 document.addEventListener("DOMContentLoaded", () => {
   // Fetch branches
@@ -40,8 +41,46 @@ branch.onchange = function () {
 
     // fetch lectures based on selected branch
     fetchBranchLectures(this.value);
+
+    // reset tiem
+    groupTimeSelect.value = '';
   
 };
+
+/** select Lectures by Group time */
+groupTimeSelect.onchange = function() {
+  let url = '';
+
+  if (this.value == "") {
+    fetchBranchLectures(branch.value);
+    return ;
+  }
+
+  if(branch.value ) {
+    url = `functions/Lectures/get_lectures.php?branch_id=${branch.value}&time=${this.value}`
+  } else {
+    url = `functions/Lectures/get_lectures.php?time=${this.value}`
+  }
+
+  fetch(url)
+    .then((response) => response.json())
+    .then((res) => {
+      if (res.status == "success") {
+        if (res.data.length > 0) {
+          lecturesCards.innerHTML = ""; // Clear previous cards
+          res.data.forEach((lec) => {
+            let card = setCard(lec);
+            lecturesCards.innerHTML += card;
+          });
+        } else {
+          lecturesCards.innerHTML = "<p>No lectures found</p>";
+        }
+      }
+    })
+    .catch((error) => console.error("Error fetching lectures:", error));
+
+
+}
 
 /** select instructor */
 instructor.onchange = function () {

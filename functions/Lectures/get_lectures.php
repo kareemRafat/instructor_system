@@ -24,15 +24,41 @@ try {
                         JOIN groups ON lectures.group_id = groups.id 
                         JOIN instructors ON lectures.instructor_id = instructors.id
                         WHERE 
-                            groups.branch_id = :branch 
-                            AND groups.is_active = 1
+                            groups.is_active = 1 
+                            AND (
+                                (:branch IS NULL OR groups.branch_id = :branch)
+                                AND
+                                (:time IS NULL OR groups.time = :time)
+                            )
                     ) AS ranked_lectures
                     WHERE rn = 1
                     ORDER BY date DESC";
         $stmt = $pdo->prepare($query);
         $stmt->bindParam(':branch', $_GET['branch_id'], PDO::PARAM_INT);
+        $stmt->bindParam(':time', $_GET['time']);
+    } elseif (isset($_GET['time'])) {
+
+        $query = "SELECT * FROM (
+                        SELECT 
+                            lectures.*,
+                            groups.name AS group_name,
+                            groups.time AS group_time,
+                            instructors.username AS instructor_name,
+                            DATE_FORMAT(lectures.date, '%M   %d-%m-%Y') AS formatted_date,
+                            ROW_NUMBER() OVER (PARTITION BY lectures.group_id ORDER BY lectures.date DESC) AS rn
+                        FROM lectures 
+                        JOIN groups ON lectures.group_id = groups.id 
+                        JOIN instructors ON lectures.instructor_id = instructors.id
+                        WHERE 
+                            groups.time = :time 
+                            AND groups.is_active = 1
+                    ) AS ranked_lectures
+                    WHERE rn = 1
+                    ORDER BY date DESC";
+        $stmt = $pdo->prepare($query);
+        $stmt->bindParam(':time', $_GET['time']);
     } else {
-        // Query to fetch lectures along with group name
+        // $_GET['instructor_id']
         $query = "SELECT * FROM (
                         SELECT 
                             lectures.*,
@@ -57,8 +83,6 @@ try {
 
     $stmt->execute();
     $lectures = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-  
 
     // Return JSON response
     header('Content-Type: application/json');
