@@ -15,13 +15,7 @@ $stmt = $pdo->prepare("DELETE FROM remember_tokens WHERE instructor_id = :user_i
 $stmt->execute(['user_id' => $userId]);
 
 // Expire the cookie
-setcookie(
-    name : 'remember_token',
-    value : '',
-    expires_or_options : time() - 3600, 
-    secure : true,    
-    httponly : true  
-);
+setcookie('remember_token', '', time() - 3600, '/');
 
 session_unset();
 

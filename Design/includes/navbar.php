@@ -1,6 +1,13 @@
-<?php 
+<?php
 
-    $pageName = basename($_SERVER['PHP_SELF']);
+$pageName = basename($_SERVER['PHP_SELF']);
+
+$user_id = $_SESSION['user_id'];
+$query = "SELECT role FROM instructors WHERE id = :id";
+$stmt = $pdo->prepare($query);
+$stmt->bindParam(':id', $user_id);
+$stmt->execute();
+$result = $stmt->fetch(PDO::FETCH_ASSOC);
 
 ?>
 
@@ -21,15 +28,15 @@
                 <li>
                     <a href="#" class="block py-2 px-3 text-white rounded-sm md:bg-transparent md:text-blue-700 md:p-0 dark:text-white md:dark:text-blue-500" aria-current="page"></a>
                 </li>
-                <?php 
-                    if ($result['role'] === 'admin') {
+                <?php
+                if ($result['role'] === 'admin') {
                 ?>
-                <li>
-                    <a href="lectures.php" class=" <?= $pageName == 'lectures.php' ? 'text-blue-600' : '' ?> block py-2 px-3 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0">Lectures</a>
-                </li>
-                <li>
-                    <a href="groups.php" class=" <?= $pageName == 'groups.php' ? 'text-blue-600' : '' ?> block py-2 px-3 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">Groups</a>
-                </li>
+                    <li>
+                        <a href="lectures.php" class=" <?= $pageName == 'lectures.php' ? 'text-blue-600' : '' ?> block py-2 px-3 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0">Lectures</a>
+                    </li>
+                    <li>
+                        <a href="groups.php" class=" <?= $pageName == 'groups.php' ? 'text-blue-600' : '' ?> block py-2 px-3 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">Groups</a>
+                    </li>
                 <?php } ?>
                 <li>
                     <a href="index.php" class=" <?= $pageName == 'index.php' ? 'text-blue-600' : '' ?> block py-2 px-3 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">Add Lecture</a>
