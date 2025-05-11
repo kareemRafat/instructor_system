@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: May 10, 2025 at 05:49 PM
+-- Generation Time: May 11, 2025 at 05:39 PM
 -- Server version: 11.7.2-MariaDB-log
 -- PHP Version: 8.2.25
 
@@ -107,6 +107,7 @@ CREATE TABLE `instructors` (
   `username` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL,
   `branch_id` bigint(20) UNSIGNED DEFAULT NULL,
+  `is_active` tinyint(1) NOT NULL DEFAULT 1,
   `role` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -114,13 +115,17 @@ CREATE TABLE `instructors` (
 -- Dumping data for table `instructors`
 --
 
-INSERT INTO `instructors` (`id`, `username`, `password`, `branch_id`, `role`) VALUES
-(1, 'kareem', '$2y$10$HtisKuRB1rUWCrToSZ5D6OPBBEO9/deo.Z81s/lov5WYpnK0BLbuK', 1, 'admin'),
-(2, 'magdy', '$2y$10$HtisKuRB1rUWCrToSZ5D6OPBBEO9/deo.Z81s/lov5WYpnK0BLbuK', 2, 'inst'),
-(3, 'sobhy', '$2y$10$HtisKuRB1rUWCrToSZ5D6OPBBEO9/deo.Z81s/lov5WYpnK0BLbuK', 3, 'inst'),
-(4, 'assim', '$2y$10$HtisKuRB1rUWCrToSZ5D6OPBBEO9/deo.Z81s/lov5WYpnK0BLbuK', 3, 'inst'),
-(5, 'nora', '123', 1, 'inst'),
-(6, 'esraa', '123', 1, 'inst');
+INSERT INTO `instructors` (`id`, `username`, `password`, `branch_id`, `is_active`, `role`) VALUES
+(1, 'kareem', '$2y$10$HtisKuRB1rUWCrToSZ5D6OPBBEO9/deo.Z81s/lov5WYpnK0BLbuK', 1, 0, 'admin'),
+(2, 'magdy', '$2y$10$HtisKuRB1rUWCrToSZ5D6OPBBEO9/deo.Z81s/lov5WYpnK0BLbuK', 2, 0, 'inst'),
+(3, 'sobhy', '$2y$10$HtisKuRB1rUWCrToSZ5D6OPBBEO9/deo.Z81s/lov5WYpnK0BLbuK', 3, 0, 'inst'),
+(4, 'assim', '$2y$10$HtisKuRB1rUWCrToSZ5D6OPBBEO9/deo.Z81s/lov5WYpnK0BLbuK', 3, 1, 'inst'),
+(5, 'nora', '123', 1, 0, 'inst'),
+(6, 'esraa', '123', 1, 0, 'inst'),
+(7, 'asdsad', '$2y$10$jUQdd92yLTSN4mmk7TkkaOhIuHxYS3TPx8.aEFM1lyeVJoFvoqa86', NULL, 1, 'instructor'),
+(8, 'mostafa', '$2y$10$mtuJJFP3v7EW.SOoSnzBq.N8.PKhpOaJkaqKGnV8R0fCCRpywWoba', NULL, 1, 'instructor'),
+(9, 'khaled', '$2y$10$13oIR41j2hADa3GZnQO8PuqA6YCCgSKPKP9YInRRhxwfSEc/BWq4m', 2, 1, 'instructor'),
+(10, 'omar', '$2y$10$m2REgLOKjGD8tKxngLF9NOaAcewZjrGA.EVF/vt6RvLln8Tjdnigi', 2, 1, 'instructor');
 
 -- --------------------------------------------------------
 
@@ -168,16 +173,6 @@ CREATE TABLE `remember_tokens` (
   `token` varchar(64) NOT NULL,
   `expiry` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `remember_tokens`
---
-
-INSERT INTO `remember_tokens` (`id`, `instructor_id`, `token`, `expiry`) VALUES
-(1, 1, 'f61e44be8e083f01462c04d9124c4d8760aa15fa3314577dc8cde4761cfa6fa6', '2025-06-06 17:26:08'),
-(2, 1, '33e4d8e5c58a367f966a2a211e5e47cd85bb525a76ee9d229e77c0f9144c9b1e', '2025-06-06 22:35:20'),
-(3, 1, '3c3d2f3bc5c1a6d84e2a5fa1d5b6cea209c88cf259e8bfc10685033915600432', '2025-06-08 00:30:20'),
-(4, 1, '31b9f81149dfcdba23cdf0aa8eee36f6e3f2580493234d7f272d020749c18fd7', '2025-06-09 11:27:36');
 
 -- --------------------------------------------------------
 
@@ -267,7 +262,7 @@ ALTER TABLE `groups`
 -- AUTO_INCREMENT for table `instructors`
 --
 ALTER TABLE `instructors`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `lectures`
@@ -279,7 +274,7 @@ ALTER TABLE `lectures`
 -- AUTO_INCREMENT for table `remember_tokens`
 --
 ALTER TABLE `remember_tokens`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT for table `tracks`
