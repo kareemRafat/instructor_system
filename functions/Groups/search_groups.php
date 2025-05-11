@@ -6,6 +6,7 @@ if (isset($_GET['search'])) {
     $query = "SELECT 
         groups.id,
         groups.name AS group_name,
+        groups.time AS group_time,
         instructors.username AS instructor_name,
         branches.name AS branch_name,
         DATE_FORMAT(groups.start_date, '%d-%m-%Y') AS formatted_date
