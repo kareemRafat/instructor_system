@@ -40,8 +40,10 @@ document.addEventListener("DOMContentLoaded", function () {
           .then((data) => {
             if (data.status === "success") {
               // Refresh the table data
-              notyf.success('Instructor Update successfully');
-              location.reload();
+              notyf.success("Instructor Update successfully");
+
+              // update the row
+              updateInstructorStatusUI(button, isDisabling);
             } else {
               alert("Error updating instructor status");
             }
@@ -84,8 +86,7 @@ function setTable(res) {
         </tr>
     `;
   }
-  
-  
+
   if (res.status === "success") {
     res.data.forEach((instructor) => {
       const row = document.createElement("tr");
@@ -120,7 +121,9 @@ function setTable(res) {
                     </span>
                 </td>
                 <td class="px-6 py-4">
-                    <button class="toggle-status-btn font-medium ${actionColor} hover:underline" data-instructor-id="${instructor.id}">
+                    <button class="toggle-status-btn font-medium ${actionColor} hover:underline" data-instructor-id="${
+        instructor.id
+      }">
                         ${actionIcon}
                         ${actionText}
                     </button>
@@ -134,4 +137,25 @@ function setTable(res) {
 // Helper function to capitalize first letter
 function capitalizeFirstLetter(string) {
   return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
+function updateInstructorStatusUI(button, isDisabling) {
+  const statusText = isDisabling ? "Disabled" : "Active";
+  const statusColor = isDisabling
+    ? "bg-red-50 text-red-700 ring-red-600/10"
+    : "bg-green-50 text-green-700 ring-green-600/20";
+  const actionText = isDisabling ? "Enable" : "Disable";
+  const actionColor = isDisabling ? "text-green-500" : "text-red-500";
+  const actionIcon = isDisabling
+    ? '<i class="fa-solid fa-user mr-1"></i>'
+    : '<i class="fa-solid fa-user-slash mr-1"></i>';
+
+  // Update the status text and styles
+  const statusSpan = button.closest("tr").querySelector("td span");
+  statusSpan.textContent = statusText;
+  statusSpan.className = `inline-flex items-center rounded-md px-2 py-1 text-xs font-medium ring-1 ring-inset ${statusColor}`;
+
+  // Update the button text, icon, and styles
+  button.innerHTML = `${actionIcon} ${actionText}`;
+  button.className = `toggle-status-btn font-medium ${actionColor} hover:underline`;
 }
