@@ -68,4 +68,3 @@ $errors = $_SESSION['errors'] ?? [];
     </div>
 </div>
 
-<?php unset($_SESSION['errors']); ?>

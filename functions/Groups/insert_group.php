@@ -2,12 +2,18 @@
 session_start();
 require_once '../../Database/connect.php';
 
-if(!isset($_SESSION['user_id'])) {
+if (!isset($_SESSION['user_id'])) {
     header("Location: ../../login.php");
     exit('You are not logged in!');
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+    if (!checkErrors($_POST, $pdo)) {
+        header("Location: ../../groups.php");
+        return;
+    }
+
     $date = $_POST['date'] ?? null;
     $time = $_POST['time'] ?? null;
     $groupTime = $_POST['grouptime'] ?? null;
@@ -21,30 +27,27 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $date = $date . ' ' . $time;
     }
 
-    if ($date && $name && $instructor && $branch) {
-        try {
-            $stmt = $pdo->prepare("INSERT INTO groups (name, branch_id, instructor_id, is_active , start_date , time) VALUES (:name, :branch, :instructor,  1 , :date , :groupTime )");
-            $stmt->bindParam(':name', $name);
-            $stmt->bindParam(':branch', $branch);
-            $stmt->bindParam(':instructor', $instructor);
-            $stmt->bindParam(':date', $date);
-            $stmt->bindParam(':groupTime', $groupTime);
-            $stmt->execute();
+    try {
+        $stmt = $pdo->prepare("INSERT INTO groups (name, branch_id, instructor_id, is_active , start_date , time) VALUES (:name, :branch, :instructor,  1 , :date , :groupTime )");
+        $stmt->bindParam(':name', $name);
+        $stmt->bindParam(':branch', $branch);
+        $stmt->bindParam(':instructor', $instructor);
+        $stmt->bindParam(':date', $date);
+        $stmt->bindParam(':groupTime', $groupTime);
+        $stmt->execute();
 
-            $_SESSION['insert_done'] = true ;
-
-            header("Location: ../../groups.php");
-        } catch (PDOException $e) {
-            echo "Error: " . $e->getMessage();
-        }
-    } else {
-        $errors = checkErrors($_POST);
+        $_SESSION['success'] = "Group added successfully";
         header("Location: ../../groups.php");
+    } catch (PDOException $e) {
+        $_SESSION['errors'] = $e->getMessage();
+        header("Location: ../../groups.php");
+        exit();
     }
 }
 
 /** check errors */
-function checkErrors($formData){
+function checkErrors($formData , $pdo)
+{
     $errors = [];
 
     if (empty($formData['name'])) {
@@ -67,9 +70,10 @@ function checkErrors($formData){
         $errors['branch'] = "Branch is required.";
     }
 
-    if (!empty($errors)){
+    if (!empty($errors)) {
         $_SESSION['errors'] = $errors;
+        return false;
     }
 
-    return $errors;
+    return true;
 }

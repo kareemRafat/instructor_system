@@ -2,47 +2,51 @@
 session_start();
 require_once "../../Database/connect.php";
 
-try {    // Validate input
-    
-    if (!checkErrors($_POST , $pdo)) {
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+    // Validate input
+    if (!checkErrors($_POST, $pdo)) {
         header("Location: ../../instructors.php");
-        return ;
+        return;
     }
 
-    $username = trim($_POST['username']);
-    $password = $_POST['password'];
-    $branch = trim($_POST['branch']);
+    try {
 
-    // Hash password
-    $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+        $username = trim($_POST['username']);
+        $password = $_POST['password'];
+        $branch = trim($_POST['branch']);
 
-    // Insert new instructor
-    $query = "INSERT INTO instructors (username, password, is_active , role , branch_id) VALUES (:username, :password, 1 , 'instructor' , :branch )";
-    $stmt = $pdo->prepare($query);
-    $stmt->execute([
-        ':username' => $username,
-        ':password' => $hashedPassword,
-        ':branch' => $branch
-    ]);
+        // Hash password
+        $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
-    header('Location: ../../instructors.php');
-    exit;
-} catch (Exception $e) {
-    $_SESSION['errors'] = $e->getMessage();
-    header('Location: ../../instructors.php');
-    exit;
+        // Insert new instructor
+        $query = "INSERT INTO instructors (username, password, is_active , role , branch_id) VALUES (:username, :password, 1 , 'instructor' , :branch )";
+        $stmt = $pdo->prepare($query);
+        $stmt->execute([
+            ':username' => $username,
+            ':password' => $hashedPassword,
+            ':branch' => $branch
+        ]);
+
+        $_SESSION['success'] = "Instructor added successfully";
+        header('Location: ../../instructors.php');
+    } catch (Exception $e) {
+        echo $e->getMessage();
+        $_SESSION['errors'] = $e->getMessage();
+        header('Location: ../../instructors.php');
+    }
 }
 
 
-
 /** check errors */
-function checkErrors($formData , $pdo) {
+function checkErrors($formData, $pdo):bool
+{
 
     $errors = [];
 
     // Validate username length
     if (strlen($formData['username']) < 3) {
-         $errors['username'] = "Username must be at least 3 characters long";
+        $errors['username'] = "Username must be at least 3 characters long";
     }
 
     if (empty($formData['username'])) {
@@ -66,10 +70,10 @@ function checkErrors($formData , $pdo) {
         $errors['username'] = 'Username already exists';
     }
 
-    if (!empty($errors)){
+    if (!empty($errors)) {
         $_SESSION['errors'] = $errors;
-        return false ;
+        return false;
     }
 
-    return true ;
+    return true;
 }

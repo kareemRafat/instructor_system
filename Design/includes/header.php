@@ -21,6 +21,10 @@ if (!isset($_SESSION['user_id']) || $result['role'] !== 'admin') {
 
     <!-- Flowbite CDN -->
     <script src="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js"></script>
+
+    <!-- notyf -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.js"></script>
 </head>
 
 <body class="bg-gray-50 min-h-screen">

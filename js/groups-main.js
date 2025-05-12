@@ -83,6 +83,7 @@ function finishGroup(groupId, button) {
         // Remove the row from the table
         const row = button.closest("tr");
         row.remove();
+        notyf.success('Group Finished Successfully');
       } else {
         alert("Error: " + data.message);
       }

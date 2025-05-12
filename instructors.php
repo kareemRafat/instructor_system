@@ -79,9 +79,9 @@ include_once 'Design/includes/navbar.php';
                         </td>
                         <td class="px-6 py-4">
                             <span class="inline-flex items-center rounded-md px-2 py-1 text-xs font-medium ring-1 ring-inset <?=
-                                        $row['is_active']
-                                            ? 'text-green-700 bg-green-50 ring-green-600/20'
-                                            : 'text-red-700 bg-red-50 ring-red-600/20' ?>">
+                                                                                                                                $row['is_active']
+                                                                                                                                    ? 'text-green-700 bg-green-50 ring-green-600/20'
+                                                                                                                                    : 'text-red-700 bg-red-50 ring-red-600/20' ?>">
                                 <?= $row['is_active'] ? 'Active' : 'Disabled' ?>
                             </span>
                         </td>
@@ -106,3 +106,41 @@ include_once 'Design/includes/navbar.php';
 
 <!-- Add this before closing body tag -->
 <script src="js/instructors-main.js"></script>
+
+<script>
+    // notFy
+    const notyf = new Notyf({
+        duration: 4000,
+        dismissible: true,
+        position: {
+            x: 'right',
+            y: 'top',
+        },
+    });
+</script>
+
+<script>
+    // success toaster
+    <?php if (isset($_SESSION['success'])): ?>
+        notyf.success(`<?= $_SESSION['success'] ?>`);
+    <?php endif; ?>
+
+    // error toaster
+    <?php if (isset($_SESSION['errors'])): ?>
+        <?php foreach($_SESSION['errors'] as $error): ?>
+        notyf.error(`<?= $error ?>`);
+        <?php endforeach; ?>
+    <?php endif; ?>
+</script>
+
+
+<?php
+
+unset($_SESSION['success']);
+unset($_SESSION['errors']);
+
+?>
+
+</body>
+
+</html>

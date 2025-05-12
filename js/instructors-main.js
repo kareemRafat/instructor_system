@@ -40,6 +40,7 @@ document.addEventListener("DOMContentLoaded", function () {
           .then((data) => {
             if (data.status === "success") {
               // Refresh the table data
+              notyf.success('Instructor Update successfully');
               location.reload();
             } else {
               alert("Error updating instructor status");

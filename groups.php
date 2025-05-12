@@ -135,6 +135,41 @@ include_once 'Design/Modals/insert_group.php';
 ?>
 
 <script src="js/groups-main.js"></script>
+
+
+<script>
+    // notFy
+    const notyf = new Notyf({
+        duration: 4000,
+        dismissible: true,
+        position: {
+            x: 'right',
+            y: 'top',
+        },
+    });
+</script>
+
+<script>
+    // success toaster
+    <?php if (isset($_SESSION['success'])): ?>
+        notyf.success(`<?= $_SESSION['success'] ?>`);
+    <?php endif; ?>
+
+    // error toaster
+    <?php if (isset($_SESSION['errors'])): ?>
+        notyf.error(`there is an Errors in the form`);
+    <?php endif; ?>
+</script>
+
+
+<?php
+
+unset($_SESSION['success']);
+unset($_SESSION['errors']);
+
+?>
+
+
 </body>
 
 </html>

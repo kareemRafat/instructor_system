@@ -116,7 +116,6 @@
         </div>
     </div>
 
-    <?php unset($_SESSION['errors']) ?>
     <script>
         const instructorSelect = document.getElementById('instructorSelect');
         const branchesSelect = document.getElementById('branchesSelect');
