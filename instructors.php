@@ -78,10 +78,10 @@ include_once 'Design/includes/navbar.php';
                             <?= ucwords($row['branch_name'] ?? 'Not Assigned') ?>
                         </td>
                         <td class="px-6 py-4">
-                            <span class="<?=
-                                            $row['is_active']
-                                                ? 'inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-green-600/20 ring-inset'
-                                                : 'inline-flex items-center rounded-md bg-red-50 px-2 py-1 text-xs font-medium text-red-700 ring-1 ring-red-600/10 ring-inset' ?>">
+                            <span class="inline-flex items-center rounded-md px-2 py-1 text-xs font-medium ring-1 ring-inset <?=
+                                        $row['is_active']
+                                            ? 'text-green-700 bg-green-50 ring-green-600/20'
+                                            : 'text-red-700 bg-red-50 ring-red-600/20' ?>">
                                 <?= $row['is_active'] ? 'Active' : 'Disabled' ?>
                             </span>
                         </td>
