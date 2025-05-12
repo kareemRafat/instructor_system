@@ -24,10 +24,24 @@ $errors = $_SESSION['errors'] ?? [];
                     <div class="col-span-2">
                         <label for="username" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Username</label>
                         <input type="text" name="username" id="username" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Enter instructor username" required>
+                        <?php
+                            if (isset($errors['username'])) {
+                                echo '<div class="p-2 my-2 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-300" role="alert"> ' .
+                                    $errors['username'] .
+                                    '</div>';
+                            }
+                            ?>
                     </div>
                     <div class="col-span-2">
                         <label for="password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Password</label>
                         <input type="password" name="password" id="password" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Enter password" required>
+                        <?php
+                            if (isset($errors['password'])) {
+                                echo '<div class="p-2 my-2 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-300" role="alert"> ' .
+                                    $errors['password'] .
+                                    '</div>';
+                            }
+                            ?>
                     </div>
                     <div class="col-span-2">
                             <label for="branch" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Branch</label>
@@ -53,3 +67,5 @@ $errors = $_SESSION['errors'] ?? [];
         </div>
     </div>
 </div>
+
+<?php unset($_SESSION['errors']); ?>
