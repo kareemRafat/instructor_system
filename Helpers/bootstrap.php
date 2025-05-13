@@ -11,7 +11,7 @@ function checkAccess($role) {
 
     $accessRules = [
         'admin' => ['*'], // Admin can access all pages
-        'cs' => ['lectures.php'], // CS can access lectures.php only
+        'cs' => ['lectures.php','customer-service.php'], // CS can access lectures.php only
         'instructor' => ['lectures.php', 'index.php'], // Instructor can access lectures.php and index.php
     ];
 
@@ -20,10 +20,12 @@ function checkAccess($role) {
             return true;
         }
     }
-    exit();
+
+    header("location: ../login.php");
+    return false ;
 }
 
-// fetch user informatio
+// fetch user information
 $user_id = $_SESSION['user_id'];
 $query = "SELECT username , role FROM instructors WHERE id = :id";
 $stmt = $pdo->prepare($query);

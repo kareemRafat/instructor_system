@@ -6,7 +6,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // Validate input
     if (!checkErrors($_POST, $pdo)) {
-        header("Location: ../../instructors.php");
+        header("Location: ../../customer-service.php");
         return;
     }
 
@@ -20,7 +20,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
         // Insert new instructor
-        $query = "INSERT INTO instructors (username, password, is_active , role , branch_id ) VALUES (:username, :password, 1 , 'instructor' , :branch)";
+        $query = "INSERT INTO instructors (username, password, is_active , role , branch_id) VALUES (:username, :password, 1 , 'cs' , :branch)";
         $stmt = $pdo->prepare($query);
         $stmt->execute([
             ':username' => $username,
@@ -28,12 +28,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             ':branch' => $branch
         ]);
 
-        $_SESSION['success'] = "Instructor added successfully";
-        header('Location: ../../instructors.php');
+        $_SESSION['success'] = "customer service agent added successfully";
+        header('Location: ../../customer-service.php');
     } catch (Exception $e) {
         echo $e->getMessage();
         $_SESSION['errors'] = $e->getMessage();
-        header('Location: ../../instructors.php');
+        header('Location: ../../customer-service.php');
     }
 }
 

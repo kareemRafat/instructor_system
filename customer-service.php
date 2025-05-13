@@ -5,7 +5,7 @@ include_once 'Design/includes/navbar.php';
 ?>
 
 <div class="min-h-screen max-w-7xl mx-auto p-6 pb-20">
-    <h1 class="text-3xl font-bold mb-6 text-center text-gray-800">Instructors</h1>
+    <h1 class="text-3xl font-bold mb-6 text-center text-gray-800">Customer Service</h1>
     <?php
     // Fetch all instructors from the database
     require_once 'Database/connect.php';
@@ -16,7 +16,7 @@ include_once 'Design/includes/navbar.php';
                     branches.name as branch_name
                 FROM instructors 
                 LEFT JOIN branches ON instructors.branch_id = branches.id
-                WHERE role IN ('instructor' , 'admin') 
+                WHERE role = 'cs'
                 ORDER BY instructors.is_active DESC";
     
     $stmt = $pdo->prepare($query);
@@ -25,11 +25,11 @@ include_once 'Design/includes/navbar.php';
     ?>
 
     <div class="flex flex-col md:flex-row md:justify-between md:items-center mb-7 space-y-4 md:space-y-0 md:space-x-4">
-        <!-- Add Instructor Button -->
+        <!-- Add Agent Button -->
         <button id="addInstructor" data-modal-target="crud-modal" data-modal-toggle="crud-modal"
             class="w-full md:w-auto text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 
         font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-            Add <span class="hidden md:inline-block">Instructor</span>
+            Add <span class="hidden md:inline-block">Agent</span>
         </button>
 
         <!-- Search Input -->
@@ -91,7 +91,7 @@ include_once 'Design/includes/navbar.php';
                     <td class="px-6 py-4">
                         <button
                             class="toggle-status-btn border py-1 px-2 rounded-lg <?= $row['is_active'] ? 'text-red-600' : 'text-green-600' ?> hover:underline"
-                            data-instructor-id="<?= $row['id'] ?>">
+                            data-agent-id="<?= $row['id'] ?>">
                             <?= $row['is_active'] ? '<i class="fa-solid fa-user-slash mr-1"></i>' : '<i class="fa-solid fa-user mr-1"></i>' ?>
                             <?= $row['is_active'] ? 'Disable' : 'Enable' ?>
                         </button>
@@ -103,10 +103,10 @@ include_once 'Design/includes/navbar.php';
     </div>
 </div>
 
-<?php include_once 'Design/Modals/insert_instructor.php'; ?>
+<?php include_once 'Design/Modals/insert_customer_service.php'; ?>
 
 <!-- Add this before closing body tag -->
-<script src="js/instructors-main.js"></script>
+<script src="js/cs-main.js"></script>
 
 <script>
     // notFy
