@@ -125,7 +125,7 @@ function setCard(lec) {
     <div class="mt-3 sm:pe-0 pb-7 border-indigo-500 border-b-2">
       <div class="flex items-center gap-2">
         <i class="fas fa-circle-check text-zinc-500"></i>
-        <h3 class="text-xl mb-1 font-semibold text-amber-500 dark:text-white">${capitalizeFirstLetter(
+        <h3 class="text-2xl mb-1 font-semibold text-amber-500 dark:text-white">${capitalizeFirstLetter(
           lec.group_name
         )}</h3>
         <span class="ml-2 inline-flex items-center rounded-md bg-yellow-50 px-2 py-1 text-xs font-medium text-yellow-800 ring-1 ring-yellow-600/20 ring-inset ">${lec.group_time == 2 || lec.group_time == 5 ? lec.group_time + ' - Friday' : lec.group_time}</span>

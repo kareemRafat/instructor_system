@@ -8,16 +8,16 @@ include_once 'Design/includes/navbar.php';
     <h1 class="text-3xl font-bold mb-6 text-center text-gray-800">Instructors</h1>
     <?php
     // Fetch all instructors from the database
-    require_once "Database/connect.php";
+    require_once 'Database/connect.php';
     $query = "SELECT 
-                instructors.id,
-                instructors.username,
-                instructors.is_active,
-                branches.name as branch_name
-            FROM instructors 
-            LEFT JOIN branches ON instructors.branch_id = branches.id
-            ORDER BY instructors.is_active DESC";
-
+                    instructors.id,
+                    instructors.username,
+                    instructors.is_active,
+                    branches.name as branch_name
+                FROM instructors 
+                LEFT JOIN branches ON instructors.branch_id = branches.id
+                ORDER BY instructors.is_active DESC";
+    
     $stmt = $pdo->prepare($query);
     $stmt->execute();
     $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -34,8 +34,11 @@ include_once 'Design/includes/navbar.php';
         <!-- Search Input -->
         <div class="relative w-full md:flex-1">
             <div class="absolute inset-y-0 left-0 rtl:inset-r-0 rtl:right-0 flex items-center ps-3 pointer-events-none">
-                <svg class="w-5 h-5 text-gray-500 dark:text-gray-400" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20">
-                    <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"></path>
+                <svg class="w-5 h-5 text-gray-500 dark:text-gray-400" aria-hidden="true" fill="currentColor"
+                    viewBox="0 0 20 20">
+                    <path fill-rule="evenodd"
+                        d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
+                        clip-rule="evenodd"></path>
                 </svg>
             </div>
             <input type="search" id="table-search"
@@ -51,7 +54,7 @@ include_once 'Design/includes/navbar.php';
     <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
         <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
             <thead class="text-xs text-gray-700 uppercase bg-gray-200 dark:bg-gray-700 dark:text-gray-400">
-                <tr>
+                <tr class="text-base">
                     <th scope="col" class="px-6 py-3">
                         Username
                     </th>
@@ -66,36 +69,33 @@ include_once 'Design/includes/navbar.php';
                     </th>
                 </tr>
             </thead>
-            <tbody class="font-semibold">
+            <tbody class="font-semibold text-base">
                 <?php
                 foreach ($result as $row) :
                 ?>
-                    <tr class="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600">
-                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                            <?= ucwords($row['username']) ?>
-                        </th>
-                        <td class="px-6 py-4">
-                            <?= ucwords($row['branch_name'] ?? 'Not Assigned') ?>
-                        </td>
-                        <td class="px-6 py-4">
-                            <span class="inline-flex items-center rounded-md px-2 py-1 text-xs font-medium ring-1 ring-inset <?=
-                                                                                                                                $row['is_active']
-                                                                                                                                    ? 'text-green-700 bg-green-50 ring-green-600/20'
-                                                                                                                                    : 'text-red-700 bg-red-50 ring-red-600/20' ?>">
-                                <?= $row['is_active'] ? 'Active' : 'Disabled' ?>
-                            </span>
-                        </td>
-                        <td class="px-6 py-4">
-                            <button class="toggle-status-btn <?= $row['is_active'] ? 'text-red-600' : 'text-green-600' ?> hover:underline" data-instructor-id="<?= $row['id'] ?>">
-                                <?=
-                                $row['is_active']
-                                    ? '<i class="fa-solid fa-user-slash mr-1"></i>'
-                                    : '<i class="fa-solid fa-user mr-1"></i>';
-                                ?>
-                                <?= $row['is_active'] ? 'Disable' : 'Enable' ?>
-                            </button>
-                        </td>
-                    </tr>
+                <tr
+                    class="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600">
+                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                        <?= ucwords($row['username']) ?>
+                    </th>
+                    <td class="px-6 py-4">
+                        <?= ucwords($row['branch_name'] ?? 'Not Assigned') ?>
+                    </td>
+                    <td class="px-6 py-4">
+                        <span
+                            class="inline-flex items-center rounded-md px-2 py-1 text-xs font-medium ring-1 ring-inset <?= $row['is_active'] ? 'text-green-700 bg-green-50 ring-green-600/20' : 'text-red-700 bg-red-50 ring-red-600/20' ?>">
+                            <?= $row['is_active'] ? 'Active' : 'Disabled' ?>
+                        </span>
+                    </td>
+                    <td class="px-6 py-4">
+                        <button
+                            class="toggle-status-btn border py-1 px-2 rounded-lg <?= $row['is_active'] ? 'text-red-600' : 'text-green-600' ?> hover:underline"
+                            data-instructor-id="<?= $row['id'] ?>">
+                            <?= $row['is_active'] ? '<i class="fa-solid fa-user-slash mr-1"></i>' : '<i class="fa-solid fa-user mr-1"></i>' ?>
+                            <?= $row['is_active'] ? 'Disable' : 'Enable' ?>
+                        </button>
+                    </td>
+                </tr>
                 <?php endforeach; ?>
             </tbody>
         </table>
@@ -110,7 +110,7 @@ include_once 'Design/includes/navbar.php';
 <script>
     // notFy
     const notyf = new Notyf({
-        duration: 4000,
+        duration: 7000,
         dismissible: true,
         position: {
             x: 'right',
@@ -127,9 +127,9 @@ include_once 'Design/includes/navbar.php';
 
     // error toaster
     <?php if (isset($_SESSION['errors'])): ?>
-        <?php foreach($_SESSION['errors'] as $error): ?>
+    <?php foreach ($_SESSION['errors'] as $error): ?>
         notyf.error(`<?= $error ?>`);
-        <?php endforeach; ?>
+    <?php endforeach; ?>
     <?php endif; ?>
 </script>
 

@@ -5,6 +5,24 @@ session_start();
 require_once "Database/connect.php";
 require_once 'functions/Auth/auth_helper.php';
 
+// check access for pages in the website
+function checkAccess($role) {
+    $currentPage = basename($_SERVER['PHP_SELF']);
+
+    $accessRules = [
+        'admin' => ['*'], // Admin can access all pages
+        'cs' => ['lectures.php'], // CS can access lectures.php only
+        'instructor' => ['lectures.php', 'index.php'], // Instructor can access lectures.php and index.php
+    ];
+
+    if (isset($accessRules[$role])) {
+        if (in_array('*', $accessRules[$role]) || in_array($currentPage, $accessRules[$role])) {
+            return true;
+        }
+    }
+    exit();
+}
+
 // fetch user informatio
 $user_id = $_SESSION['user_id'];
 $query = "SELECT username , role FROM instructors WHERE id = :id";

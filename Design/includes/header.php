@@ -1,6 +1,15 @@
 <?php
 
-if (!isset($_SESSION['user_id']) || $result['role'] !== 'admin') {
+if (!isset($_SESSION['user_id'])) {
+    header("Location: login.php");
+    exit();
+}
+
+
+if (isset($_SESSION['user_id'])) {
+    // bootstrap Helper function
+    checkAccess(ROLE);
+} else {
     header("Location: login.php");
     exit();
 }
@@ -25,6 +34,15 @@ if (!isset($_SESSION['user_id']) || $result['role'] !== 'admin') {
     <!-- notyf -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css">
     <script src="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.js"></script>
+    <style>
+        /* ovveride toast width */
+        .notyf__toast {
+            max-width: fit-content;
+        }
+        .notyf__ripple {
+            width: 500px;
+        }
+    </style>
 </head>
 
 <body class="bg-gray-50 min-h-screen">

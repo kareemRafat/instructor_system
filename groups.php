@@ -2,6 +2,9 @@
 include_once 'Helpers/bootstrap.php';
 include_once 'Design/includes/header.php';
 include_once 'Design/includes/navbar.php';
+
+
+
 ?>
 
 
@@ -66,7 +69,7 @@ include_once 'Design/includes/navbar.php';
     <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
         <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
             <thead class="text-xs text-gray-700 uppercase bg-gray-200 dark:bg-gray-700 dark:text-gray-400">
-                <tr>
+                <tr class="text-base">
                     <th scope="col" class="px-6 py-3">
                         Group
                     </th>
@@ -87,7 +90,7 @@ include_once 'Design/includes/navbar.php';
                     </th>
                 </tr>
             </thead>
-            <tbody class="font-semibold">
+            <tbody class="font-semibold text-base">
                 <?php
                 foreach ($result as $row) :
                 ?>
@@ -111,7 +114,7 @@ include_once 'Design/includes/navbar.php';
                             <?= $row['formatted_date'] ?? 'No date added' ?>
                         </td>
                         <td class="px-6 py-4">
-                            <button data-group-id="<?= $row['id'] ?>" class="finish-group-btn font-medium text-red-600 dark:text-red-500 hover:underline"><i class="fa-regular fa-circle-check mr-2"></i>Finish
+                            <button data-group-id="<?= $row['id'] ?>" class="finish-group-btn border py-1 px-2 rounded-lg font-medium text-red-600 dark:text-red-500 hover:underline"><i class="fa-regular fa-circle-check mr-2"></i>Finish
                             </button>
                         </td>
                     </tr>
@@ -140,7 +143,7 @@ include_once 'Design/Modals/insert_group.php';
 <script>
     // notFy
     const notyf = new Notyf({
-        duration: 4000,
+        duration: 7000,
         dismissible: true,
         position: {
             x: 'right',
@@ -157,7 +160,9 @@ include_once 'Design/Modals/insert_group.php';
 
     // error toaster
     <?php if (isset($_SESSION['errors'])): ?>
-        notyf.error(`there is an Errors in the form`);
+        <?php foreach($_SESSION['errors'] as $error): ?>
+        notyf.error(`<?= $error ?>`);
+        <?php endforeach; ?>
     <?php endif; ?>
 </script>
 

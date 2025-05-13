@@ -14,6 +14,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $instructor = $stmt->fetch(PDO::FETCH_ASSOC);
 
+    if ($instructor && $instructor['is_active'] == 0) {
+        $_SESSION['error'] = errorDiv('Account Suspended');
+        header("Location: ../../login.php");
+        exit();
+    }
+
     if ($instructor && password_verify($inputPassword, $instructor['password'])) {
         $_SESSION['user_id'] = $instructor['id'];
 
@@ -45,16 +51,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         header("Location: ../../index.php");
     } else {
-        $_SESSION['error'] = errorDiv();
+        $_SESSION['old'] = $_POST ;
+        $_SESSION['error'] = errorDiv('Wrong Credentials');
         header("Location: ../../login.php");
     }
 } else {
     http_response_code(401);
 }
 
-function errorDiv()
+function errorDiv($errorTxt)
 {
-    return '<div class="text-center p-4 my-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400" role="alert">
-        <span class="font-medium">Wrong Credentials</span>
+    return '<div class="text-center p-4 my-4 text-base text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400" role="alert">
+        <span class="font-medium">'. $errorTxt .'</span>
         </div>';
 }

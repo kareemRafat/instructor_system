@@ -12,6 +12,11 @@ if (!isset($_SESSION['user_id'])) {
     header("Location: login.php");
 }
 
+if (ROLE == 'cs') {
+    header("location: lectures.php");
+    exit();
+}
+
 $errors = $_SESSION['errors'] ?? [];
 
 ?>
