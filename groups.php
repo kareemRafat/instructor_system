@@ -15,7 +15,7 @@ include_once 'Design/includes/navbar.php';
     // Fetch all groups from the database
     require_once "Database/connect.php";
     $query = "SELECT 
-                        groups.id,
+                        groups.id AS group_id,
                         groups.name AS group_name,
                         groups.time AS group_time,
                         instructors.username AS instructor_name,
@@ -114,7 +114,7 @@ include_once 'Design/includes/navbar.php';
                             <?= $row['formatted_date'] ?? 'No date added' ?>
                         </td>
                         <td class="px-6 py-4">
-                            <button data-group-id="<?= $row['id'] ?>" class="finish-group-btn border py-1 px-2 rounded-lg font-medium text-red-600 dark:text-red-500 hover:underline"><i class="fa-regular fa-circle-check mr-2"></i>Finish
+                            <button data-group-id="<?= $row['group_id'] ?>" class="finish-group-btn border py-1 px-2 rounded-lg font-medium text-red-600 dark:text-red-500 hover:underline"><i class="fa-regular fa-circle-check mr-2"></i>Finish
                             </button>
                         </td>
                     </tr>
@@ -160,8 +160,8 @@ include_once 'Design/Modals/insert_group.php';
 
     // error toaster
     <?php if (isset($_SESSION['errors'])): ?>
-        <?php foreach($_SESSION['errors'] as $error): ?>
-        notyf.error(`<?= $error ?>`);
+        <?php foreach ($_SESSION['errors'] as $error): ?>
+            notyf.error(`<?= $error ?>`);
         <?php endforeach; ?>
     <?php endif; ?>
 </script>

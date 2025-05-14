@@ -1,17 +1,18 @@
-<?php 
+<?php
 
 session_start();
 
-require_once "Database/connect.php";
-require_once 'functions/Auth/auth_helper.php';
+require_once __DIR__ . "/../Database/connect.php";
+require_once __DIR__ . '/../functions/Auth/auth_helper.php';
 
 // check access for pages in the website
-function checkAccess($role) {
+function checkAccess($role)
+{
     $currentPage = basename($_SERVER['PHP_SELF']);
 
     $accessRules = [
         'admin' => ['*'], // Admin can access all pages
-        'cs' => ['lectures.php','customer-service.php'], // CS can access lectures.php only
+        'cs' => ['lectures.php', 'customer-service.php'], // CS can access lectures.php only
         'instructor' => ['lectures.php', 'index.php'], // Instructor can access lectures.php and index.php
     ];
 
@@ -22,7 +23,7 @@ function checkAccess($role) {
     }
 
     header("location: ../login.php");
-    return false ;
+    return false;
 }
 
 // fetch user information
