@@ -16,7 +16,7 @@ include_once 'Design/includes/navbar.php';
                     branches.name as branch_name
                 FROM instructors 
                 LEFT JOIN branches ON instructors.branch_id = branches.id
-                WHERE role = 'cs'
+                WHERE role IN ('cs' , 'cs-admin')
                 ORDER BY instructors.is_active DESC";
     
     $stmt = $pdo->prepare($query);

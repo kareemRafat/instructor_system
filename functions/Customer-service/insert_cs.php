@@ -49,6 +49,10 @@ function checkErrors($formData, $pdo):bool
         $errors['username'] = "Username must be at least 3 characters long";
     }
 
+    if (isAgentNameDuplicated($formData['username'] , $pdo)) {
+        $errors['username'] = "Customer Service Agent name alreay Exists";
+    }
+
     if (empty($formData['username'])) {
         $errors['username'] = "username is required.";
     }
@@ -76,4 +80,14 @@ function checkErrors($formData, $pdo):bool
     }
 
     return true;
+}
+
+
+/** check Agent name duplicated */
+function isAgentNameDuplicated($name, $pdo):bool
+{
+    $stmt = $pdo->prepare("SELECT COUNT(*) FROM `instructors` WHERE username = :username");
+    $stmt->bindParam(':username', $name);
+    $stmt->execute();
+    return $stmt->fetchColumn() > 0;
 }

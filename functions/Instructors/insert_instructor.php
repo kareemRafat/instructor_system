@@ -61,13 +61,9 @@ function checkErrors($formData, $pdo):bool
         $errors['branch'] = "Branch is required.";
     }
 
-    // Check if username already exists
-    $query = "SELECT id FROM instructors WHERE username = :username";
-    $stmt = $pdo->prepare($query);
-    $stmt->execute(['username' => $formData['username']]);
-
-    if ($stmt->rowCount() > 0) {
-        $errors['username'] = 'Username already exists';
+    
+    if (isInstructorNameDuplicated($formData['username'] , $pdo)) {
+        $errors['username'] = 'Instructor name already Exists';
     }
 
     if (!empty($errors)) {
@@ -76,4 +72,13 @@ function checkErrors($formData, $pdo):bool
     }
 
     return true;
+}
+
+function isInstructorNameDuplicated($name , $pdo):bool 
+{
+    // Check if username already exists
+    $query = "SELECT id FROM instructors WHERE username = :username";
+    $stmt = $pdo->prepare($query);
+    $stmt->execute([':username' => $name]);
+    return $stmt->rowCount() > 0 ;
 }

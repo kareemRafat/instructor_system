@@ -22,28 +22,31 @@ $pageName = basename($_SERVER['PHP_SELF']);
                     <a href="#" class="block py-2 px-3 text-white rounded-sm md:bg-transparent md:text-blue-700 md:p-0 dark:text-white md:dark:text-blue-500" aria-current="page"></a>
                 </li>
                 <?php
-                if (ROLE == 'admin' or ROLE == 'cs') {
-                ?>
-                    <li>
-                        <a href="lectures.php" class=" <?= $pageName == 'lectures.php' ? 'text-blue-600' : '' ?> block py-2 px-3 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0">Lectures</a>
-                    </li>
-                    <li>
-                        <a href="customer-service.php" class=" <?= $pageName == 'customer-service.php' ? 'text-blue-600' : '' ?> block py-2 px-3 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0">Customer service</a>
-                    </li>
-                <?php } ?>
-                <?php
                 if (ROLE === 'admin') {
                 ?>
                     <li>
                         <a href="instructors.php" class=" <?= $pageName == 'instructors.php' ? 'text-blue-600' : '' ?> block py-2 px-3 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">Instructors</a>
                     </li>
+                <?php } ?>
+                <li>
+                    <a href="lectures.php" class=" <?= $pageName == 'lectures.php' ? 'text-blue-600' : '' ?> block py-2 px-3 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0">Lectures</a>
+                </li>
+                <?php
+                if (ROLE == 'admin' or ROLE == 'cs-admin') {
+                ?>
+                    <li>
+                        <a href="customer-service.php" class=" <?= $pageName == 'customer-service.php' ? 'text-blue-600' : '' ?> block py-2 px-3 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0">Customer service</a>
+                    </li>
+                <?php } ?>
+                 <?php
+                if (ROLE == 'admin' or ROLE == 'cs' or ROLE == 'cs-admin') {
+                ?>
                     <li>
                         <a href="groups.php" class=" <?= $pageName == 'groups.php' ? 'text-blue-600' : '' ?> block py-2 px-3 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">Groups</a>
                     </li>
                 <?php } ?>
-
                 <?php
-                if (ROLE === 'admin' or ROLE == 'instructor') {
+                if (ROLE === 'admin' or ROLE === 'instructor') {
                 ?>
                     <li>
                         <a href="index.php" class=" <?= $pageName == 'index.php' ? 'text-blue-600' : '' ?> block py-2 px-3 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">Add Lecture</a>

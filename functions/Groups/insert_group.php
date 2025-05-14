@@ -45,6 +45,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
+
 /** check errors */
 function checkErrors($formData , $pdo)
 {
@@ -52,6 +53,10 @@ function checkErrors($formData , $pdo)
 
     if (empty($formData['name'])) {
         $errors['name'] = "Name is required.";
+    }
+
+    if (isGroupNameDuplicated($formData['name'], $pdo)) {
+        $errors['name'] = "Group name already Exists";
     }
 
     if (empty($formData['date'])) {
@@ -70,10 +75,21 @@ function checkErrors($formData , $pdo)
         $errors['branch'] = "Branch is required.";
     }
 
+    
     if (!empty($errors)) {
         $_SESSION['errors'] = $errors;
         return false;
     }
 
     return true;
+}
+
+
+/** check group name duplicated */
+function isGroupNameDuplicated($name, $pdo):bool
+{
+    $stmt = $pdo->prepare("SELECT COUNT(*) FROM `groups` WHERE name = :name");
+    $stmt->bindParam(':name', $name);
+    $stmt->execute();
+    return $stmt->fetchColumn() > 0;
 }
