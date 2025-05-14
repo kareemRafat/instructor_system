@@ -5,6 +5,18 @@ session_start();
 require_once __DIR__ . "/../Database/connect.php";
 require_once __DIR__ . '/../functions/Auth/auth_helper.php';
 
+if (!isset($_SESSION['user_id'])) {
+    // Check for remember-me token if session is not set
+
+    if (!validateRememberMeToken($pdo)) {
+        header("Location: login.php");
+        exit();
+    }
+
+    header("Location: login.php");
+    exit();
+}
+
 // check access for pages in the website
 function checkAccess($role)
 {

@@ -1,21 +1,12 @@
 <?php
 include_once 'Helpers/bootstrap.php';
 
-if (!isset($_SESSION['user_id'])) {
-    // Check for remember-me token if session is not set
+// checkAccess(ROLE);
 
-    if (!validateRememberMeToken($pdo)) {
-        header("Location: login.php");
-        exit();
-    }
-
-    header("Location: login.php");
-}
-
-if (ROLE == 'cs') {
-    header("location: lectures.php");
-    exit();
-}
+// if (ROLE == 'cs') {
+//     header("location: lectures.php");
+//     exit();
+// }
 
 $errors = $_SESSION['errors'] ?? [];
 
