@@ -28,7 +28,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     try {
-        $stmt = $pdo->prepare("INSERT INTO groups (name, branch_id, instructor_id, is_active , start_date , time) VALUES (:name, :branch, :instructor,  1 , :date , :groupTime )");
+        $stmt = $pdo->prepare("INSERT INTO `groups` (name, branch_id, instructor_id, is_active , start_date , time) VALUES (:name, :branch, :instructor,  1 , :date , :groupTime )");
         $stmt->bindParam(':name', $name);
         $stmt->bindParam(':branch', $branch);
         $stmt->bindParam(':instructor', $instructor);

@@ -13,7 +13,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if ($group_id) {
         try {
-            $stmt = $pdo->prepare("UPDATE groups SET is_active = 0 , finish_date = '$finist_date' WHERE id = :group_id");
+            $stmt = $pdo->prepare("UPDATE `groups` SET is_active = 0 , finish_date = '$finist_date' WHERE id = :group_id");
             $stmt->bindParam(':group_id', $group_id);
             $stmt->execute();
 

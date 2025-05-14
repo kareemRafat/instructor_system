@@ -15,20 +15,20 @@ try {
         $query = "SELECT * FROM (
                         SELECT 
                             lectures.*,
-                            groups.name AS group_name,
-                            groups.time AS group_time,
+                            `groups`.name AS group_name,
+                            `groups`.time AS group_time,
                             instructors.username AS instructor_name,
                             DATE_FORMAT(lectures.date, '%M   %d-%m-%Y') AS formatted_date,
                             ROW_NUMBER() OVER (PARTITION BY lectures.group_id ORDER BY lectures.date DESC) AS rn
                         FROM lectures 
-                        JOIN groups ON lectures.group_id = groups.id 
+                        JOIN `groups` ON lectures.group_id = `groups`.id 
                         JOIN instructors ON lectures.instructor_id = instructors.id
                         WHERE 
-                            groups.is_active = 1 
+                            `groups`.is_active = 1 
                             AND (
-                                (:branch IS NULL OR groups.branch_id = :branch)
+                                (:branch IS NULL OR `groups`.branch_id = :branch)
                                 AND
-                                (:time IS NULL OR groups.time = :time)
+                                (:time IS NULL OR `groups`.time = :time)
                             )
                     ) AS ranked_lectures
                     WHERE rn = 1
@@ -41,17 +41,17 @@ try {
         $query = "SELECT * FROM (
                         SELECT 
                             lectures.*,
-                            groups.name AS group_name,
-                            groups.time AS group_time,
+                            `groups`.name AS group_name,
+                            `groups`.time AS group_time,
                             instructors.username AS instructor_name,
                             DATE_FORMAT(lectures.date, '%M   %d-%m-%Y') AS formatted_date,
                             ROW_NUMBER() OVER (PARTITION BY lectures.group_id ORDER BY lectures.date DESC) AS rn
                         FROM lectures 
-                        JOIN groups ON lectures.group_id = groups.id 
+                        JOIN `groups` ON lectures.group_id = `groups`.id 
                         JOIN instructors ON lectures.instructor_id = instructors.id
                         WHERE 
-                            groups.time = :time 
-                            AND groups.is_active = 1
+                            `groups`.time = :time 
+                            AND `groups`.is_active = 1
                     ) AS ranked_lectures
                     WHERE rn = 1
                     ORDER BY date DESC";
@@ -62,17 +62,17 @@ try {
         $query = "SELECT * FROM (
                         SELECT 
                             lectures.*,
-                            groups.name AS group_name,
-                            groups.time AS group_time,
+                            `groups`.name AS group_name,
+                            `groups`.time AS group_time,
                             instructors.username AS instructor_name,
                             DATE_FORMAT(lectures.date, '%M   %d-%m-%Y') AS formatted_date,
                             ROW_NUMBER() OVER (PARTITION BY lectures.group_id ORDER BY lectures.date DESC) AS rn
                         FROM lectures 
-                        JOIN groups ON lectures.group_id = groups.id 
+                        JOIN `groups` ON lectures.group_id = `groups`.id 
                         JOIN instructors ON lectures.instructor_id = instructors.id
                         WHERE 
                             lectures.instructor_id = :instructor
-                            AND groups.is_active = 1
+                            AND `groups`.is_active = 1
                     ) AS ranked_lectures
                     WHERE rn = 1
                     ORDER BY date DESC";

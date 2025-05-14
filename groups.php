@@ -15,18 +15,18 @@ include_once 'Design/includes/navbar.php';
     // Fetch all groups from the database
     require_once "Database/connect.php";
     $query = "SELECT 
-                        groups.id AS group_id,
-                        groups.name AS group_name,
-                        groups.time AS group_time,
+                        `groups`.id AS group_id,
+                        `groups`.name AS group_name,
+                        `groups`.time AS group_time,
                         instructors.username AS instructor_name,
                         branches.name AS branch_name,
-                        DATE_FORMAT(groups.start_date, '%d-%m-%Y') AS formatted_date
+                        DATE_FORMAT(`groups`.start_date, '%d-%m-%Y') AS formatted_date
 
-                FROM groups 
-                JOIN instructors ON groups.instructor_id = instructors.id 
-                JOIN branches ON groups.branch_id = branches.id
-                WHERE groups.is_active = 1
-                ORDER BY groups.start_date DESC";
+                FROM `groups` 
+                JOIN instructors ON `groups`.instructor_id = instructors.id 
+                JOIN branches ON `groups`.branch_id = branches.id
+                WHERE `groups`.is_active = 1
+                ORDER BY `groups`.start_date DESC";
 
     $stmt = $pdo->prepare($query);
     $stmt->execute();

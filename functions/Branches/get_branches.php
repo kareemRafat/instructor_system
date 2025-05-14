@@ -11,7 +11,7 @@ if(!isset($_SESSION['user_id'])) {
 
 try {
     // Query to fetch all branches
-    $stmt = $pdo->prepare("SELECT * FROM branches WHERE is_active = 1");
+    $stmt = $pdo->prepare("SELECT * FROM branches");
     $stmt->execute();
     $branches = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
