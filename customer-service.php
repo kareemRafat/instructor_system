@@ -13,6 +13,7 @@ include_once 'Design/includes/navbar.php';
                     instructors.id,
                     instructors.username,
                     instructors.is_active,
+                    instructors.role AS instructor_role,
                     branches.name as branch_name
                 FROM instructors 
                 LEFT JOIN branches ON instructors.branch_id = branches.id
@@ -78,6 +79,9 @@ include_once 'Design/includes/navbar.php';
                     class="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600">
                     <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                         <?= ucwords($row['username']) ?>
+                        <?php if ($row['instructor_role'] == 'cs-admin'): ?>
+                             <i class="fa-solid fa-user-shield ml-3 text-green-700"></i>
+                        <?php endif ; ?>
                     </th>
                     <td class="px-6 py-4">
                         <?= ucwords($row['branch_name'] ?? 'Not Assigned') ?>
@@ -138,6 +142,7 @@ include_once 'Design/includes/navbar.php';
 <?php
 
 unset($_SESSION['success']);
+unset($_SESSION['old']);
 unset($_SESSION['errors']);
 
 ?>

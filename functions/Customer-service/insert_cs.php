@@ -15,20 +15,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $username = trim($_POST['username']);
         $password = $_POST['password'];
         $branch = trim($_POST['branch']);
+        $role = $_POST['role'] ?? 'cs';
 
         // Hash password
         $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
         // Insert new instructor
-        $query = "INSERT INTO instructors (username, password, is_active , role , branch_id) VALUES (:username, :password, 1 , 'cs' , :branch)";
+        $query = "INSERT INTO instructors (username, password, is_active , role , branch_id) VALUES (:username, :password, 1 , :role, :branch)";
         $stmt = $pdo->prepare($query);
         $stmt->execute([
             ':username' => $username,
             ':password' => $hashedPassword,
-            ':branch' => $branch
+            ':branch' => $branch,
+            ':role' => $role,
         ]);
 
-        $_SESSION['success'] = "customer service agent added successfully";
+        $_SESSION['success'] = "Customer Service Agent Added Successfully";
         header('Location: ../../customer-service.php');
     } catch (Exception $e) {
         echo $e->getMessage();
@@ -39,7 +41,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 
 /** check errors */
-function checkErrors($formData, $pdo):bool
+function checkErrors($formData, $pdo): bool
 {
 
     $errors = [];
@@ -49,7 +51,7 @@ function checkErrors($formData, $pdo):bool
         $errors['username'] = "Username must be at least 3 characters long";
     }
 
-    if (isAgentNameDuplicated($formData['username'] , $pdo)) {
+    if (isAgentNameDuplicated($formData['username'], $pdo)) {
         $errors['username'] = "Customer Service Agent name alreay Exists";
     }
 
@@ -65,16 +67,14 @@ function checkErrors($formData, $pdo):bool
         $errors['branch'] = "Branch is required.";
     }
 
-    // Check if username already exists
-    $query = "SELECT id FROM instructors WHERE username = :username";
-    $stmt = $pdo->prepare($query);
-    $stmt->execute(['username' => $formData['username']]);
-
-    if ($stmt->rowCount() > 0) {
-        $errors['username'] = 'Username already exists';
+    if ($_SESSION['role'] === 'admin') {
+        if (empty($formData['role'])) {
+            $errors['role'] = "Role is required.";
+        }
     }
 
     if (!empty($errors)) {
+        $_SESSION['old'] = $_POST ;
         $_SESSION['errors'] = $errors;
         return false;
     }
@@ -84,7 +84,7 @@ function checkErrors($formData, $pdo):bool
 
 
 /** check Agent name duplicated */
-function isAgentNameDuplicated($name, $pdo):bool
+function isAgentNameDuplicated($name, $pdo): bool
 {
     $stmt = $pdo->prepare("SELECT COUNT(*) FROM `instructors` WHERE username = :username");
     $stmt->bindParam(':username', $name);

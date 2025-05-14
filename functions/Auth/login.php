@@ -22,6 +22,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if ($instructor && password_verify($inputPassword, $instructor['password'])) {
         $_SESSION['user_id'] = $instructor['id'];
+        $_SESSION['role'] = $instructor['role'];
 
         if ($rememberMe) {
             // Generate a secure token
