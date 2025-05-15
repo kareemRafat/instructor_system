@@ -2,8 +2,7 @@
 session_start();
 
 if (isset($_SESSION['user_id'])) {
-  header("Location: index.php");
-  exit('You are logged in!');
+  redirectBasedOnRole($_SESSION['role']);
 }
 
 ?>
@@ -54,3 +53,18 @@ if (isset($_SESSION['user_id'])) {
 </body>
 
 </html>
+
+<?php 
+
+function redirectBasedOnRole($role):void
+{
+    if ($role == 'admin' || $role == 'instructor') {
+        header("Location: ../../index.php");
+    } elseif ($role == 'cs' or $role == 'cs-admin') {
+        header("Location: ../../lectures.php");
+    }
+
+    exit();
+}
+
+?>

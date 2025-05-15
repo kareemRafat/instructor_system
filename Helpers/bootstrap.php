@@ -7,7 +7,6 @@ require_once __DIR__ . '/../functions/Auth/auth_helper.php';
 
 if (!isset($_SESSION['user_id'])) {
     // Check for remember-me token if session is not set
-
     if (!validateRememberMeToken($pdo)) {
         header("Location: login.php");
         exit();

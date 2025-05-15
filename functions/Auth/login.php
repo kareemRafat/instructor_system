@@ -14,6 +14,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $instructor = $stmt->fetch(PDO::FETCH_ASSOC);
 
+    define("ROLE", $instructor['role']);
+
     if ($instructor && $instructor['is_active'] == 0) {
         $_SESSION['error'] = errorDiv('Account Suspended');
         header("Location: ../../login.php");
@@ -21,8 +23,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     if ($instructor && password_verify($inputPassword, $instructor['password'])) {
+
         $_SESSION['user_id'] = $instructor['id'];
-        $_SESSION['role'] = $instructor['role'];
+        $_SESSION['role'] = ROLE;
 
         if ($rememberMe) {
             // Generate a secure token
@@ -50,9 +53,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             );
         }
 
-        header("Location: ../../index.php");
+        // redirect base on ROLE
+        redirectBasedOnRole(ROLE);
     } else {
-        $_SESSION['old'] = $_POST ;
+        $_SESSION['old'] = $_POST;
         $_SESSION['error'] = errorDiv('Wrong Credentials');
         header("Location: ../../login.php");
     }
@@ -63,6 +67,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 function errorDiv($errorTxt)
 {
     return '<div class="text-center p-4 my-4 text-base text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400" role="alert">
-        <span class="font-medium">'. $errorTxt .'</span>
+        <span class="font-medium">' . $errorTxt . '</span>
         </div>';
+}
+
+function redirectBasedOnRole($role)
+{
+    if ($role == 'admin' || $role == 'instructor') {
+        header("Location: ../../index.php");
+    } elseif ($role == 'cs' or $role == 'cs-admin') {
+        header("Location: ../../lectures.php");
+    }
 }

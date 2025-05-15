@@ -1,7 +1,7 @@
 <?php
 include_once 'Helpers/bootstrap.php';
 
-// checkAccess(ROLE);
+checkAccess(ROLE);
 
 // if (ROLE == 'cs') {
 //     header("location: lectures.php");
