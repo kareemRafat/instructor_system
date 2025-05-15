@@ -6,7 +6,7 @@ include_once 'Design/includes/navbar.php';
 
 <style>
     .my-arrow {
-        transition: 1s ;
+        transition: 1s;
         animation: moving 1s alternate 8;
     }
 
@@ -22,9 +22,9 @@ include_once 'Design/includes/navbar.php';
     document.addEventListener('DOMContentLoaded', function() {
         let arrow = document.querySelector('.my-arrow');
         arrow.onanimationend = function() {
-            this.style.scale = 2 ;
+            this.style.scale = 2;
             setTimeout(() => {
-                arrow.style.opacity = 0 
+                arrow.style.opacity = 0
             }, 100);
         }
     })
@@ -84,6 +84,7 @@ include_once 'Design/includes/navbar.php';
 
 </div>
 <script src="js/lectures-main.js"></script>
+
 </body>
 
 </html>

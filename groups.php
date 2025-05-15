@@ -3,11 +3,7 @@ include_once 'Helpers/bootstrap.php';
 include_once 'Design/includes/header.php';
 include_once 'Design/includes/navbar.php';
 
-
-
 ?>
-
-
 
 <div class="min-h-screen max-w-7xl mx-auto p-6 pb-20">
     <h1 class="text-3xl font-bold mb-6 text-center text-gray-800">Groups</h1>
@@ -66,7 +62,7 @@ include_once 'Design/includes/navbar.php';
         </div>
     </div>
     <!-- table -->
-    <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+    <div class="relative overflow-x-auto shadow-md sm:rounded-lg mb-10">
         <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
             <thead class="text-xs text-gray-700 uppercase bg-gray-200 dark:bg-gray-700 dark:text-gray-400">
                 <tr class="text-base">
@@ -124,12 +120,6 @@ include_once 'Design/includes/navbar.php';
     </div>
 </div>
 
-
-<footer class="bg-white rounded-lg shadow-sm dark:bg-gray-900">
-    <div class="w-full max-w-screen-xl mx-auto p-4 md:py-8">
-        <span class="block text-sm text-gray-500 sm:text-center dark:text-gray-400">© 2023 <a href="https://createivo.com/" class="hover:underline">Createivo™</a>. All Rights Reserved.</span>
-    </div>
-</footer>
 
 
 <?php
