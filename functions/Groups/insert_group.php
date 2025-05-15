@@ -77,6 +77,7 @@ function checkErrors($formData , $pdo)
 
     
     if (!empty($errors)) {
+        $_SESSION['old'] = $_POST ;
         $_SESSION['errors'] = $errors;
         return false;
     }

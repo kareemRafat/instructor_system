@@ -19,7 +19,7 @@ include_once 'Design/includes/navbar.php';
                 LEFT JOIN branches ON instructors.branch_id = branches.id
                 WHERE role IN ('cs' , 'cs-admin')
                 ORDER BY instructors.is_active DESC";
-    
+
     $stmt = $pdo->prepare($query);
     $stmt->execute();
     $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -75,32 +75,32 @@ include_once 'Design/includes/navbar.php';
                 <?php
                 foreach ($result as $row) :
                 ?>
-                <tr
-                    class="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600">
-                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                        <?= ucwords($row['username']) ?>
-                        <?php if ($row['instructor_role'] == 'cs-admin'): ?>
-                             <i class="fa-solid fa-user-shield ml-3 text-green-700"></i>
-                        <?php endif ; ?>
-                    </th>
-                    <td class="px-6 py-4">
-                        <?= ucwords($row['branch_name'] ?? 'Not Assigned') ?>
-                    </td>
-                    <td class="px-6 py-4">
-                        <span
-                            class="inline-flex items-center rounded-md px-2 py-1 text-xs font-medium ring-1 ring-inset <?= $row['is_active'] ? 'text-green-700 bg-green-50 ring-green-600/20' : 'text-red-700 bg-red-50 ring-red-600/20' ?>">
-                            <?= $row['is_active'] ? 'Active' : 'Disabled' ?>
-                        </span>
-                    </td>
-                    <td class="px-6 py-4">
-                        <button
-                            class="toggle-status-btn border py-1 px-2 rounded-lg <?= $row['is_active'] ? 'text-red-600' : 'text-green-600' ?> hover:underline"
-                            data-agent-id="<?= $row['id'] ?>">
-                            <?= $row['is_active'] ? '<i class="fa-solid fa-user-slash mr-1"></i>' : '<i class="fa-solid fa-user mr-1"></i>' ?>
-                            <?= $row['is_active'] ? 'Disable' : 'Enable' ?>
-                        </button>
-                    </td>
-                </tr>
+                    <tr
+                        class="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600">
+                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                            <?= ucwords($row['username']) ?>
+                            <?php if ($row['instructor_role'] == 'cs-admin'): ?>
+                                <i class="fa-solid fa-user-shield ml-3 text-green-700"></i>
+                            <?php endif; ?>
+                        </th>
+                        <td class="px-6 py-4">
+                            <?= ucwords($row['branch_name'] ?? 'Not Assigned') ?>
+                        </td>
+                        <td class="px-6 py-4">
+                            <span
+                                class="inline-flex items-center rounded-md px-2 py-1 text-xs font-medium ring-1 ring-inset <?= $row['is_active'] ? 'text-green-700 bg-green-50 ring-green-600/20' : 'text-red-700 bg-red-50 ring-red-600/20' ?>">
+                                <?= $row['is_active'] ? 'Active' : 'Disabled' ?>
+                            </span>
+                        </td>
+                        <td class="px-6 py-4">
+                            <button
+                                class="toggle-status-btn border py-1 px-2 rounded-lg <?= $row['is_active'] ? 'text-red-600' : 'text-green-600' ?> hover:underline"
+                                data-agent-id="<?= $row['id'] ?>">
+                                <?= $row['is_active'] ? '<i class="fa-solid fa-user-slash mr-1"></i>' : '<i class="fa-solid fa-user mr-1"></i>' ?>
+                                <?= $row['is_active'] ? 'Disable' : 'Enable' ?>
+                            </button>
+                        </td>
+                    </tr>
                 <?php endforeach; ?>
             </tbody>
         </table>
@@ -112,39 +112,8 @@ include_once 'Design/includes/navbar.php';
 <!-- Add this before closing body tag -->
 <script src="js/cs-main.js"></script>
 
-<script>
-    // notFy
-    const notyf = new Notyf({
-        duration: 7000,
-        dismissible: true,
-        position: {
-            x: 'right',
-            y: 'top',
-        },
-    });
-</script>
-
-<script>
-    // success toaster
-    <?php if (isset($_SESSION['success'])): ?>
-        notyf.success(`<?= $_SESSION['success'] ?>`);
-    <?php endif; ?>
-
-    // error toaster
-    <?php if (isset($_SESSION['errors'])): ?>
-    <?php foreach ($_SESSION['errors'] as $error): ?>
-        notyf.error(`<?= $error ?>`);
-    <?php endforeach; ?>
-    <?php endif; ?>
-</script>
-
-
 <?php
-
-unset($_SESSION['success']);
-unset($_SESSION['old']);
-unset($_SESSION['errors']);
-
+include_once "Design/includes/notFy-footer.php";
 ?>
 
 </body>
