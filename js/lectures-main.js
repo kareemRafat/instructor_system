@@ -110,7 +110,7 @@ instructor.onchange = function () {
 /** set card */
 function setCard(lec) {
   return `
-  <li class="relative mb-6 md:mb-0 md:w-[calc(33.333%-1rem)] flex-shrink-0">
+  <li class="relative mb-6 flex-shrink-0">
     <div class="flex items-center">
     <div class="z-10 flex items-center justify-center w-6 h-6 bg-blue-100 rounded-full ring-0 ring-white dark:bg-blue-900 sm:ring-8 dark:ring-gray-900 shrink-0">
       <svg class="w-2.5 h-2.5 text-blue-800 dark:text-blue-300" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">

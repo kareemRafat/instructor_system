@@ -159,5 +159,5 @@ function updateInstructorStatusUI(button, isDisabling) {
 
   // Update the button text, icon, and styles
   button.innerHTML = `${actionIcon} ${actionText}`;
-  button.className = `toggle-status-btn text-sm font-medium border py-1 px-2 rounded-lg ${actionColor} hover:underline`;
+  button.className = `toggle-status-btn cursor-pointer text-sm font-medium border border-gray-300 py-1 px-2 rounded-lg ${actionColor} hover:underline`;
 }

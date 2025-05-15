@@ -78,7 +78,7 @@ include_once 'Design/includes/navbar.php';
         </div>
     </form>
 
-    <ol id="lecturesCards" class="flex flex-col md:flex-row md:flex-wrap gap-4 px-4 max-w-7xl mx-auto">
+    <ol id="lecturesCards" class="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         <p><i class="fas fa-arrow-up-long mr-2"></i>Select Branch</p>
     </ol>
 
