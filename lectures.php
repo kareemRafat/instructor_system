@@ -4,9 +4,41 @@ include_once 'Design/includes/header.php';
 include_once 'Design/includes/navbar.php';
 ?>
 
+<style>
+    .my-arrow {
+        transition: 1s ;
+        animation: moving 1s alternate 8;
+    }
+
+    @keyframes moving {
+        to {
+            translate: -20px;
+        }
+    }
+</style>
+
+<script>
+    // track animation
+    document.addEventListener('DOMContentLoaded', function() {
+        let arrow = document.querySelector('.my-arrow');
+        arrow.onanimationend = function() {
+            this.style.scale = 2 ;
+            setTimeout(() => {
+                arrow.style.opacity = 0 
+            }, 100);
+        }
+    })
+</script>
+
 
 <div class="max-w-7xl mx-auto pt-6 px-6">
     <h1 class="text-3xl font-bold mb-6 text-center text-gray-800">Instructor Lectures</h1>
+
+    <h2 class="text-2xl font-semibold text-blue-700 mb-5">
+        <i class="fa-solid fa-fire mr-1"></i>
+        <a class="hover:underline" href="https://tinyurl.com/createivo-track" target="_blank">Track</a>
+        <i class="fa-solid fa-circle-arrow-left text-xl ml-5 my-arrow"></i>
+    </h2>
 
     <form id="lectureForm" class="mb-8" action="functions/Lectures/get_lectures.php">
         <!-- Select Row -->
