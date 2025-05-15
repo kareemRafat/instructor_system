@@ -17,11 +17,13 @@ try {
                             lectures.*,
                             `groups`.name AS group_name,
                             `groups`.time AS group_time,
+                            `tracks`.name AS track_name,
                             instructors.username AS instructor_name,
                             DATE_FORMAT(lectures.date, '%M   %d-%m-%Y') AS formatted_date,
                             ROW_NUMBER() OVER (PARTITION BY lectures.group_id ORDER BY lectures.date DESC) AS rn
                         FROM lectures 
                         JOIN `groups` ON lectures.group_id = `groups`.id 
+                        JOIN `tracks` ON lectures.track_id = `tracks`.id 
                         JOIN instructors ON lectures.instructor_id = instructors.id
                         WHERE 
                             `groups`.is_active = 1 
@@ -43,11 +45,13 @@ try {
                             lectures.*,
                             `groups`.name AS group_name,
                             `groups`.time AS group_time,
+                            `tracks`.name AS track_name,
                             instructors.username AS instructor_name,
                             DATE_FORMAT(lectures.date, '%M   %d-%m-%Y') AS formatted_date,
                             ROW_NUMBER() OVER (PARTITION BY lectures.group_id ORDER BY lectures.date DESC) AS rn
                         FROM lectures 
                         JOIN `groups` ON lectures.group_id = `groups`.id 
+                        JOIN `tracks` ON lectures.track_id = `tracks`.id 
                         JOIN instructors ON lectures.instructor_id = instructors.id
                         WHERE 
                             `groups`.time = :time 
@@ -64,11 +68,13 @@ try {
                             lectures.*,
                             `groups`.name AS group_name,
                             `groups`.time AS group_time,
+                            `tracks`.name AS track_name,
                             instructors.username AS instructor_name,
                             DATE_FORMAT(lectures.date, '%M   %d-%m-%Y') AS formatted_date,
                             ROW_NUMBER() OVER (PARTITION BY lectures.group_id ORDER BY lectures.date DESC) AS rn
                         FROM lectures 
                         JOIN `groups` ON lectures.group_id = `groups`.id 
+                        JOIN `tracks` ON lectures.track_id = `tracks`.id 
                         JOIN instructors ON lectures.instructor_id = instructors.id
                         WHERE 
                             lectures.instructor_id = :instructor

@@ -2,7 +2,7 @@ const branch = document.getElementById("branch");
 const instructor = document.getElementById("instructor");
 const lecturesCards = document.getElementById("lecturesCards");
 const lectureForm = document.getElementById("lectureForm");
-const groupTimeSelect = document.getElementById('group-time');
+const groupTimeSelect = document.getElementById("group-time");
 
 document.addEventListener("DOMContentLoaded", () => {
   // Fetch branches
@@ -39,27 +39,26 @@ branch.onchange = function () {
     })
     .catch((error) => console.error("Error fetching instructors:", error));
 
-    // fetch lectures based on selected branch
-    fetchBranchLectures(this.value);
+  // fetch lectures based on selected branch
+  fetchBranchLectures(this.value);
 
-    // reset time
-    groupTimeSelect.value = '';
-  
+  // reset time
+  groupTimeSelect.value = "";
 };
 
 /** select Lectures by Group time */
-groupTimeSelect.onchange = function() {
-  let url = '';
+groupTimeSelect.onchange = function () {
+  let url = "";
 
   if (this.value == "") {
     fetchBranchLectures(branch.value);
-    return ;
+    return;
   }
 
-  if(branch.value ) {
-    url = `functions/Lectures/get_lectures.php?branch_id=${branch.value}&time=${this.value}`
+  if (branch.value) {
+    url = `functions/Lectures/get_lectures.php?branch_id=${branch.value}&time=${this.value}`;
   } else {
-    url = `functions/Lectures/get_lectures.php?time=${this.value}`
+    url = `functions/Lectures/get_lectures.php?time=${this.value}`;
   }
 
   fetch(url)
@@ -78,15 +77,13 @@ groupTimeSelect.onchange = function() {
       }
     })
     .catch((error) => console.error("Error fetching lectures:", error));
-
-
-}
+};
 
 /** select instructor */
 instructor.onchange = function () {
   if (this.value == "") {
     fetchBranchLectures(branch.value);
-    return ;
+    return;
   }
 
   fetch(`functions/Lectures/get_lectures.php?instructor_id=${this.value}`)
@@ -106,8 +103,8 @@ instructor.onchange = function () {
     })
     .catch((error) => console.error("Error fetching lectures:", error));
 
-    // reset time
-    groupTimeSelect.value = '';
+  // reset time
+  groupTimeSelect.value = "";
 };
 
 /** set card */
@@ -128,27 +125,35 @@ function setCard(lec) {
         <h3 class="text-2xl mb-1 font-semibold text-amber-500 dark:text-white">${capitalizeFirstLetter(
           lec.group_name
         )}</h3>
-        <span class="ml-2 inline-flex items-center rounded-md bg-yellow-50 px-2 py-1 text-xs font-medium text-yellow-800 ring-1 ring-yellow-600/20 ring-inset ">${lec.group_time == 2 || lec.group_time == 5 ? lec.group_time + ' - Friday' : lec.group_time}</span>
+        <span class="ml-2 inline-flex items-center rounded-md bg-yellow-50 px-2 py-1 text-xs font-medium text-yellow-800 ring-1 ring-yellow-600/20 ring-inset ">${
+          lec.group_time == 2 || lec.group_time == 5
+            ? lec.group_time + " - Friday"
+            : lec.group_time
+        }</span>
       </div>
       
-      <div class="block mt-1 mb-4 text-md font-normal leading-none text-gray-500 dark:text-gray-500"><i class="fab fa-teamspeak mr-1"></i> Instructor :  ${
-        capitalizeFirstLetter(lec.instructor_name)
-      }</div>
+      <div class="block mt-1 mb-4 text-md font-normal leading-none text-gray-500 dark:text-gray-500"><i class="fab fa-teamspeak mr-1"></i> Instructor :  ${capitalizeFirstLetter(
+        lec.instructor_name
+      )}</div>
 
       <time class="block mb-4 text-sm font-normal leading-none text-gray-400 dark:text-gray-500"><i class="fas fa-calendar-check mr-1"></i> Commented on ${
         lec.formatted_date
       }</time>
 
-      <p class="w-full border border-blue-200 bg-blue-50 pl-3 p-2 rounded-md text-base font-semibold text-gray-500 dark:text-gray-400">${
-        lec.comment
-      }</p>
+ 
+      <p class="relative w-full border border-blue-200 bg-blue-50 pl-3 p-2 rounded-md text-base font-semibold text-gray-500 dark:text-gray-400">
+        <span class="absolute inline-flex items-center justify-center text-sm font-bold text-white bg-blue-500 border-2 border-white rounded-lg -top-4 end-5 px-4 py-1 dark:border-gray-900">
+          ${ capitalizeFirstLetter(lec.track_name) }
+        </span>
+         ${lec.comment}
+        </p>
     </div>
   </li>
   `;
 }
 
 /** fetch branch lectures */
-function fetchBranchLectures(value){
+function fetchBranchLectures(value) {
   // get all lectures based on selected branch
   fetch(`functions/Lectures/get_lectures.php?branch_id=${value}`)
     .then((response) => response.json())
