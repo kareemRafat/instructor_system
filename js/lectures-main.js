@@ -139,7 +139,7 @@ function setCard(lec) {
         lec.formatted_date
       }</time>
 
-      <p class="w-full border border-blue-200 bg-blue-50 pl-3 p-2 rounded-md text-base font-bold text-gray-500 dark:text-gray-400">${
+      <p class="w-full border border-blue-200 bg-blue-50 pl-3 p-2 rounded-md text-base font-semibold text-gray-500 dark:text-gray-400">${
         lec.comment
       }</p>
     </div>
