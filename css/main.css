@@ -1,0 +1,9 @@
+@import "tailwindcss";
+
+.notyf__toast {
+  max-width: fit-content !important;
+}
+
+.notyf__ripple {
+  width: 500px !important;
+}

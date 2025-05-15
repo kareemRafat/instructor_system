@@ -88,7 +88,7 @@ include_once 'Design/includes/navbar.php';
                         </td>
                         <td class="px-6 py-4">
                             <button
-                                class="toggle-status-btn border py-1 px-2 rounded-lg <?= $row['is_active'] ? 'text-red-600' : 'text-green-600' ?> hover:underline"
+                                class="toggle-status-btn text-sm border border-gray-300 py-1 px-2 rounded-lg <?= $row['is_active'] ? 'text-red-600' : 'text-green-600' ?> hover:underline"
                                 data-instructor-id="<?= $row['id'] ?>">
                                 <?= $row['is_active'] ? '<i class="fa-solid fa-user-slash mr-1"></i>' : '<i class="fa-solid fa-user mr-1"></i>' ?>
                                 <?= $row['is_active'] ? 'Disable' : 'Enable' ?>

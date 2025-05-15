@@ -40,7 +40,7 @@ document.addEventListener("DOMContentLoaded", function () {
           .then((data) => {
             if (data.status === "success") {
               // Refresh the table data
-              notyf.success("Instructor Update successfully");
+              notyf.success("Instructor Updated successfully");
 
               // update the row
               updateInstructorStatusUI(button, isDisabling);
@@ -121,7 +121,7 @@ function setTable(res) {
                     </span>
                 </td>
                 <td class="px-6 py-4">
-                    <button class="toggle-status-btn border py-1 px-2 rounded-lg font-medium ${actionColor} hover:underline" data-instructor-id="${
+                    <button class="toggle-status-btn text-sm border border-gray-300 py-1 px-2 rounded-lg hover:underline ${actionColor}" data-instructor-id="${
         instructor.id
       }">
                         ${actionIcon}
@@ -157,5 +157,5 @@ function updateInstructorStatusUI(button, isDisabling) {
 
   // Update the button text, icon, and styles
   button.innerHTML = `${actionIcon} ${actionText}`;
-  button.className = `toggle-status-btn font-medium border py-1 px-2 rounded-lg ${actionColor} hover:underline`;
+  button.className = `toggle-status-btn text-sm font-medium border border-gray-300 py-1 px-2 rounded-lg ${actionColor} hover:underline`;
 }

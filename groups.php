@@ -110,7 +110,7 @@ include_once 'Design/includes/navbar.php';
                             <?= $row['formatted_date'] ?? 'No date added' ?>
                         </td>
                         <td class="px-6 py-4">
-                            <button data-group-id="<?= $row['group_id'] ?>" class="finish-group-btn border py-1 px-2 rounded-lg font-medium text-red-600 dark:text-red-500 hover:underline"><i class="fa-regular fa-circle-check mr-2"></i>Finish
+                            <button data-group-id="<?= $row['group_id'] ?>" class="finish-group-btn border border-gray-300 py-1 px-2 rounded-lg font-medium text-red-600 dark:text-red-500 hover:underline"><i class="fa-regular fa-circle-check mr-2"></i>Finish
                             </button>
                         </td>
                     </tr>
