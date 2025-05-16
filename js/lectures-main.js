@@ -141,8 +141,8 @@ function setCard(lec) {
       }</time>
 
  
-      <p class="relative w-full border border-blue-200 bg-blue-50 pl-3 p-2 rounded-md text-base font-semibold text-gray-500 dark:text-gray-400">
-        <span class="absolute inline-flex items-center justify-center text-sm font-bold text-white bg-blue-500 border-2 border-white rounded-lg -top-4 end-5 px-4 py-1 dark:border-gray-900">
+      <p class="relative w-full border border-blue-200 bg-blue-50 pl-3 p-2 py-3 rounded-md text-base font-semibold text-gray-500 dark:text-gray-400">
+        <span class="absolute inline-flex items-center justify-center text-sm font-bold text-white bg-blue-500 border-2 border-white rounded-lg -top-4 end-5 px-4 py-1 dark:border-gray-900 tracking-wider">
           ${ capitalizeFirstLetter(lec.track_name) }
         </span>
          ${lec.comment}
