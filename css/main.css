@@ -1,6 +1,7 @@
 @import "tailwindcss";
 
 .notyf__toast {
+  @apply sm:mt-6 md:mt-1 ;
   max-width: fit-content !important;
 }
 

@@ -9,7 +9,7 @@ document.addEventListener("DOMContentLoaded", function () {
     .then((response) => response.json())
     .then((res) => {
       if (res.status == "success") {
-        branchSelect.innerHTML = `<option value="" selected>Choose a Branch</option>`; // Clear previous cards
+        branchSelect.innerHTML = `<option value="" selected>Select a Branch</option>`; // Clear previous cards
         res.data.forEach((branch) => {
           let option = document.createElement("option");
           option.value = branch.id;

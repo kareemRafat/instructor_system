@@ -42,7 +42,7 @@ include_once 'Design/includes/navbar.php';
         <div class="w-full md:flex-1">
             <select id="branchSelect"
                 class="block w-full p-2 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                <option selected>Choose a Branch</option>
+                <option selected>Select a Branch</option>
             </select>
         </div>
 
@@ -58,7 +58,7 @@ include_once 'Design/includes/navbar.php';
             bg-gray-50 focus:ring-blue-500 focus:border-blue-500 
             dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 
             dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                placeholder="Search for items">
+                placeholder="Search for Groups">
         </div>
     </div>
     <!-- table -->

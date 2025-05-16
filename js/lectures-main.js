@@ -122,7 +122,7 @@ function setCard(lec) {
     <div class="mt-3 sm:pe-0 pb-7 border-indigo-500 border-b-2">
       <div class="flex items-center gap-2">
         <i class="fas fa-circle-check text-zinc-500"></i>
-        <h3 class="text-2xl mb-1 font-semibold text-amber-500 dark:text-white">${capitalizeFirstLetter(
+        <h3 class="text-2xl mb-1 font-semibold tracking-wide text-amber-500 dark:text-white">${capitalizeFirstLetter(
           lec.group_name
         )}</h3>
         <span class="ml-2 inline-flex items-center rounded-md bg-yellow-50 px-2 py-1 text-xs font-medium text-yellow-800 ring-1 ring-yellow-600/20 ring-inset ">${
@@ -132,7 +132,7 @@ function setCard(lec) {
         }</span>
       </div>
       
-      <div class="block mt-1 mb-4 text-md font-normal leading-none text-gray-500 dark:text-gray-500"><i class="fab fa-teamspeak mr-1"></i> Instructor :  ${capitalizeFirstLetter(
+      <div class="block mt-1 mb-4 text-md font-semibold tracking-wide leading-none text-gray-500 dark:text-gray-500"><i class="fab fa-teamspeak mr-1"></i> Instructor :  ${capitalizeFirstLetter(
         lec.instructor_name
       )}</div>
 
