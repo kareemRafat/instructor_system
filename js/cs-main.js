@@ -123,7 +123,7 @@ function setTable(res) {
                     </span>
                 </td>
                 <td class="px-6 py-4">
-                    <button class=" text-sm border py-1 px-2 rounded-lg font-medium ${actionColor} hover:underline" data-agent-id="${
+                    <button class=" text-sm border border-gray-300 py-1 px-2 rounded-lg font-medium ${actionColor} hover:underline" data-agent-id="${
         instructor.id
       }">
                         ${actionIcon}

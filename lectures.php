@@ -10,9 +10,20 @@ include_once 'Design/includes/navbar.php';
         animation: moving 1s alternate 8;
     }
 
+    ol li {
+        opacity: 0;
+        animation: fading 0.4s forwards;
+    }
+
     @keyframes moving {
         to {
             translate: -20px;
+        }
+    }
+
+    @keyframes fading {
+        to {
+            opacity: 1;
         }
     }
 </style>
