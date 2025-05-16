@@ -56,6 +56,36 @@ document.addEventListener("DOMContentLoaded", function () {
           });
       }
     }
+    
+    // Handle delete button clicks
+    if (e.target.closest(".delete-cs-btn")) {
+      const button = e.target.closest(".delete-cs-btn");
+      const agentId = button.dataset.agentId;
+      
+      if (confirm("Are you sure you want to delete this CS Agent? This action cannot be undone.")) {
+        fetch("functions/Customer-service/delete_cs.php", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+          },
+          body: `cs_id=${agentId}`,
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            if (data.status === "success") {
+              notyf.success("Customer service agent deleted successfully");
+              // Remove the row from the table
+              button.closest("tr").remove();
+            } else {
+              notyf.error(data.message || "Error deleting Customer service agent");
+            }
+          })
+          .catch((error) => {
+            console.error("Error:", error);
+            notyf.error("Error deleting Customer service agent");
+          });
+      }
+    }
   });
 });
 
@@ -89,9 +119,14 @@ function setTable(res) {
     `;
   }
 
-  if (res.status === "success") {
+  if (res.status === "success") { 
+    // the logged in user ROLE
+    const authCSAdmin = res.logged_instructor_role ;
     res.data.forEach((instructor) => {
-      const row = document.createElement("tr");
+      const row = document.createElement("tr");      
+      const roleDisabled = instructor.instructor_role === authCSAdmin ? 'disabled' : '';
+      const csAdminIcon = instructor.instructor_role == 'cs-admin' ? ` <i class="fa-solid fa-user-shield ml-3 text-green-700"></i>` : '';
+
       row.className =
         "odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600";
 
@@ -101,14 +136,15 @@ function setTable(res) {
         : " bg-red-50 text-red-700 ring-red-600/10 ";
       const actionText = instructor.is_active ? "Disable" : "Enable";
       const actionColor = instructor.is_active
-        ? "text-red-500"
-        : "text-green-500";
+        ? "text-red-600"
+        : "text-green-600";
       const actionIcon = instructor.is_active
         ? '<i class="fa-solid fa-user-slash mr-1"></i>'
         : '<i class="fa-solid fa-user mr-1"></i>';
       row.innerHTML = `
                 <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                     ${capitalizeFirstLetter(instructor.username)}
+                    ${csAdminIcon}
                 </th>
                 <td class="px-6 py-4">
                     ${
@@ -123,11 +159,16 @@ function setTable(res) {
                     </span>
                 </td>
                 <td class="px-6 py-4">
-                    <button class=" text-sm border border-gray-300 py-1 px-2 rounded-lg font-medium ${actionColor} hover:underline" data-agent-id="${
+                    <button ${roleDisabled} class="toggle-status-btn cursor-pointer text-sm border border-gray-300 py-1 px-2 rounded-lg hover:underline disabled:border-gray-200 disabled:bg-gray-50 disabled:text-gray-500 disabled:shadow-none disabled:cursor-not-allowed disabled:hover:no-underline mr-2 ${actionColor}" data-agent-id="${
         instructor.id
       }">
                         ${actionIcon}
                         ${actionText}
+                    </button>
+                    <button class="delete-cs-btn text-sm border border-gray-300 py-1 px-2 rounded-lg font-medium text-red-500 hover:underline" data-agent-id="${
+        instructor.id
+      }">
+                        <i class="fa-solid fa-trash mr-1"></i> Delete
                     </button>
                 </td>
             `;

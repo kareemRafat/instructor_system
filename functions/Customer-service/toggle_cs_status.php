@@ -11,7 +11,7 @@ try {
     $csId = $_POST['cs_id'];
     
     // First get the current status
-    $query = "SELECT is_active FROM instructors WHERE id = :id";
+    $query = "SELECT is_active FROM instructors WHERE id = :id AND role IN ('cs' ,'cs-admin')";
     $stmt = $pdo->prepare($query);
     $stmt->execute(['id' => $csId]);
     $customerService = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -23,7 +23,7 @@ try {
     // Toggle the status
     $newStatus = $customerService['is_active'] ? 0 : 1;
 
-    $query = "UPDATE instructors SET is_active = :status WHERE id = :id";
+    $query = "UPDATE instructors SET is_active = :status WHERE id = :id AND role IN ('cs' ,'cs-admin')";
     $stmt = $pdo->prepare($query);
     $stmt->execute([
         'status' => $newStatus,
