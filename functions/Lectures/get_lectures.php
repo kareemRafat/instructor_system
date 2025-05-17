@@ -15,8 +15,7 @@ $baseQuery = "SELECT
         `groups`.time AS group_time,
         `tracks`.name AS track_name,
         instructors.username AS instructor_name,
-        DATE_FORMAT(lectures.date, '%M   %d-%m-%Y') AS formatted_date,
-        ROW_NUMBER() OVER (PARTITION BY lectures.group_id ORDER BY lectures.date DESC) AS rn
+        DATE_FORMAT(lectures.date, '%M   %d-%m-%Y') AS formatted_date
     FROM lectures 
     JOIN `groups` ON lectures.group_id = `groups`.id 
     JOIN `tracks` ON lectures.track_id = `tracks`.id 
@@ -25,7 +24,18 @@ $baseQuery = "SELECT
 
 $params = [];
 
-if (isset($_GET['branch_id'])) {
+if (isset($_GET['branch_id']) and isset($_GET['track_id'])) {
+
+    // Query to fetch lectures along with group name and time if exists
+    $baseQuery .= " AND (
+                        (`groups`.branch_id = :branch)
+                        AND
+                        (:track IS NULL OR `lectures`.track_id = :track)
+                    )";
+    $params[':branch'] = $_GET['branch_id'];
+    $params[':track'] = $_GET['track_id'] ?? Null ;
+
+}elseif (isset($_GET['branch_id'])) {
 
     // Query to fetch lectures along with group name and time if exists
     $baseQuery .= " AND (
@@ -50,13 +60,7 @@ if (isset($_GET['branch_id'])) {
 
 try {
     // Query to fetch all lectures
-    $query = "SELECT * FROM (
-                $baseQuery
-            ) AS ranked_lectures
-            WHERE rn = 1
-            ORDER BY date DESC";
-
-    $stmt = $pdo->prepare($query);
+    $stmt = $pdo->prepare($baseQuery);
     $stmt->execute($params);
     $lectures = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
