@@ -53,9 +53,9 @@ include_once 'Design/includes/navbar.php';
 
     <form id="lectureForm" class="mb-8" action="functions/Lectures/get_lectures.php">
         <!-- Select Row -->
-        <div class="flex flex-col md:flex-row gap-4 mb-8">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
             <!-- Branch Select -->
-            <div class="md:w-1/2">
+            <div>
                 <label for="branch" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Branch</label>
                 <select id="branch"
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
@@ -64,7 +64,7 @@ include_once 'Design/includes/navbar.php';
             </div>
 
             <!-- Track Select -->
-            <div class="md:w-1/2">
+            <div>
                 <label for="tracks" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Track</label>
                 <select id="tracks"
                     class=" bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
@@ -73,7 +73,7 @@ include_once 'Design/includes/navbar.php';
             </div>
 
             <!-- Time Select -->
-            <div class="md:w-1/2">
+            <div>
                 <label for="group-time" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Group Time</label>
                 <select id="group-time"
                     class=" bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
@@ -88,7 +88,7 @@ include_once 'Design/includes/navbar.php';
             </div>
 
             <!-- Instructor Select -->
-            <div class="md:w-1/2">
+            <div>
                 <label for="instructor" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Instructor</label>
                 <select id="instructor" name="instructor_id"
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
