@@ -3,20 +3,39 @@ const instructor = document.getElementById("instructor");
 const lecturesCards = document.getElementById("lecturesCards");
 const lectureForm = document.getElementById("lectureForm");
 const groupTimeSelect = document.getElementById("group-time");
+const timeOptions = document.getElementById("time-options");
 const trackSelect = document.getElementById('tracks');
 
 document.addEventListener("DOMContentLoaded", () => {
+  const branchMeta = getMetaContent('branch');
+  const roleMeta = getMetaContent('role');
+
   // Fetch branches
   fetch("functions/Branches/get_branches.php")
     .then((response) => response.json())
     .then((res) => {
       if (res.data) {
-        res.data.forEach((br) => {
-          const option = document.createElement("option");
-          option.value = br.id;
-          option.textContent = br.name;
-          branch.appendChild(option);
+        // filter branches based on role and the same branch
+         let filter = res.data.filter((branch) => {
+          return branch.id == branchMeta && roleMeta !== 'admin' && roleMeta !== 'cs-admin';
         });
+
+        if(filter.length > 0) {
+          filter.forEach((br) => {
+            const option = document.createElement("option");
+            option.value = br.id;
+            option.textContent = br.name;
+            branch.appendChild(option);
+          });
+        } else {
+          res.data.forEach((br) => {
+            const option = document.createElement("option");
+            option.value = br.id;
+            option.textContent = br.name;
+            branch.appendChild(option);
+          });
+        }
+        
       }
     })
     .catch((error) => console.error("Error fetching groups:", error));
@@ -24,30 +43,22 @@ document.addEventListener("DOMContentLoaded", () => {
 
 /** select branch */
 branch.onchange = function () {
-  // Fetch instructors based on selected branch
-  fetch(`functions/Instructors/get_instructors.php?branch_id=${this.value}`)
-    .then((response) => response.json())
-    .then((res) => {
-      instructor.innerHTML = "<option value=''>Choose Instructor</option>";
-      if (res.data) {
-        res.data.forEach((instructorData) => {
-          const option = document.createElement("option");
-          option.value = instructorData.id;
-          option.textContent = instructorData.username;
-          instructor.appendChild(option);
-        });
-      }
-    })
-    .catch((error) => console.error("Error fetching instructors:", error));
-
-  // fetch tracks when select a branch
+  
   if (!branch.value) {
-    tracks.innerHTML = "<option value=''>Select Track</option>";
-  } else {
-    fetchTracks();
+    resetAllWithNoBranch();
+    return ;
   }
+  
+  // fetch tracks when select a branch
+  fetchTracks();
 
-  // fetch lectures based on selected branch
+  // show time options
+  showTimeOptions();
+ 
+  // fetch instructors whitin the selected branch
+  fetchInstructors(this.value);
+
+  // show lectures based on selected branch
   fetchBranchLectures(this.value);
 
   // reset time
@@ -107,13 +118,14 @@ function fetchBranchAndTrackLec(branchId , trackId){
 }
 
 /** select Lectures by Group time */
-groupTimeSelect.onchange = function () {
-  let url = "";
-
+groupTimeSelect.onchange = async function () {
+  
   if (this.value == "") {
     fetchBranchLectures(branch.value);
     return;
   }
+  
+  let url = "";
 
   if (branch.value) {
     url = `functions/Lectures/get_lectures.php?branch_id=${branch.value}&time=${this.value}`;
@@ -121,22 +133,23 @@ groupTimeSelect.onchange = function () {
     url = `functions/Lectures/get_lectures.php?time=${this.value}`;
   }
 
-  fetch(url)
-    .then((response) => response.json())
-    .then((res) => {
-      if (res.status == "success") {
-        if (res.data.length > 0) {
-          lecturesCards.innerHTML = ""; // Clear previous cards
-          res.data.forEach((lec) => {
-            let card = setCard(lec);
-            lecturesCards.innerHTML += card;
-          });
-        } else {
-          lecturesCards.innerHTML = "<p>No lectures found</p>";
-        }
+  try {
+    let lectures = await fetch(url)
+    let res = await lectures.json();
+    if (res.status == "success") {
+      if (res.data.length > 0) {
+        lecturesCards.innerHTML = ""; // Clear previous cards
+        res.data.forEach((lec) => {
+          let card = setCard(lec);
+          lecturesCards.innerHTML += card;
+        });
+      } else {
+        lecturesCards.innerHTML = "<p>No lectures found</p>";
       }
-    })
-    .catch((error) => console.error("Error fetching lectures:", error));
+    }
+  } catch (error) {
+    console.error('An error occurred:', error);
+  }
 };
 
 /** select instructor */
@@ -197,7 +210,7 @@ function setCard(lec) {
       )}</div>
 
       <time class="block mb-4 text-sm font-normal leading-none text-gray-400 dark:text-gray-500"><i class="fas fa-calendar-check mr-1"></i> Commented on ${
-        lec.formatted_date
+        lec.latest_comment_date
       }</time>
 
  
@@ -233,6 +246,39 @@ function fetchBranchLectures(value) {
     .catch((error) => console.error("Error fetching lectures:", error));
 }
 
+/** Fetch instructors based on selected branch */
+function fetchInstructors(branchId){
+  fetch(`functions/Instructors/get_instructors.php?branch_id=${branchId}`)
+    .then((response) => response.json())
+    .then((res) => {
+      instructor.innerHTML = "<option value=''>Choose Instructor</option>";
+      if (res.data) {
+        res.data.forEach((instructorData) => {
+          const option = document.createElement("option");
+          option.value = instructorData.id;
+          option.textContent = instructorData.username;
+          instructor.appendChild(option);
+        });
+      }
+    })
+    .catch((error) => console.error("Error fetching instructors:", error));
+}
+
+/** show time options */
+function showTimeOptions() {
+  document.querySelector("#group-time option:first-child").innerHTML = "Choose a Time";
+  timeOptions.classList.remove("hidden");
+}
+
+ /** reset other selects when nulling the branches */
+function resetAllWithNoBranch() {
+  // reset tracks , time and instructor when no branch selected
+  tracks.innerHTML = "<option value=''>Select Branch First</option>";
+  instructor.innerHTML = "<option value=''>Select Branch First</option>";
+  document.querySelector("#group-time option:first-child").innerHTML = "Select Branch First";
+  timeOptions.classList.add("hidden");
+}
+
 /** helper functions */
 function capitalizeFirstLetter(value) {
   if (typeof value !== "string" || value.length === 0) {
@@ -240,3 +286,10 @@ function capitalizeFirstLetter(value) {
   }
   return value.charAt(0).toUpperCase() + value.slice(1);
 }
+
+/** get roles from meta */
+function getMetaContent(value) {
+  return document.querySelector(`meta[name="${value}"]`)?.content || null;
+}
+
+

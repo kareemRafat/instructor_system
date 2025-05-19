@@ -2,10 +2,10 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Generation Time: May 13, 2025 at 02:01 AM
--- Server version: 10.4.28-MariaDB
--- PHP Version: 8.2.4
+-- Host: localhost:3306
+-- Generation Time: May 19, 2025 at 11:19 AM
+-- Server version: 11.7.2-MariaDB-log
+-- PHP Version: 8.2.25
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -49,10 +49,10 @@ INSERT INTO `branches` (`id`, `name`, `arabic_name`) VALUES
 --
 
 CREATE TABLE `groups` (
-  `id` bigint(20) UNSIGNED NOT NULL,
+  `id` int(11) UNSIGNED NOT NULL,
   `name` varchar(255) NOT NULL,
   `time` decimal(4,2) NOT NULL,
-  `instructor_id` bigint(20) UNSIGNED DEFAULT NULL,
+  `instructor_id` int(11) DEFAULT NULL,
   `branch_id` bigint(20) UNSIGNED DEFAULT NULL,
   `is_active` tinyint(1) NOT NULL,
   `start_date` datetime DEFAULT NULL,
@@ -64,38 +64,22 @@ CREATE TABLE `groups` (
 --
 
 INSERT INTO `groups` (`id`, `name`, `time`, `instructor_id`, `branch_id`, `is_active`, `start_date`, `finish_date`) VALUES
-(1, 'london', 12.00, 1, 1, 1, NULL, NULL),
+(1, 'london', 12.30, 1, 1, 1, NULL, NULL),
 (2, 'cut', 5.00, 2, 2, 1, NULL, NULL),
 (3, 'lock', 10.30, 2, 2, 1, NULL, NULL),
-(4, 'home', 0.00, 3, 3, 1, NULL, NULL),
-(5, 'nike', 10.24, 3, 3, 1, NULL, NULL),
-(6, 'FLOWER', 0.00, 4, 3, 1, NULL, NULL),
-(7, 'ddddd', 0.00, 6, 1, 0, '0000-00-00 00:00:00', NULL),
-(8, 'new', 0.00, 1, 2, 0, '0000-00-00 00:00:00', NULL),
-(9, 'ahmed', 0.00, 1, 2, 0, '2025-05-10 00:00:00', NULL),
-(10, 'time', 0.00, 4, 1, 0, '2025-05-09 00:00:00', NULL),
-(11, 'Horizon', 0.00, 3, 3, 0, '2025-05-09 00:00:00', '2025-05-10 02:41:26'),
-(12, 'Rixos', 0.00, 4, 3, 0, '2025-05-09 22:06:02', '0000-00-00 00:00:00'),
-(13, '33', 0.00, 2, 2, 0, '2025-05-09 00:00:00', NULL),
-(15, 'tttt', 0.00, 1, 1, 0, '2025-05-09 00:00:00', NULL),
-(16, 'asdsa', 0.00, 1, 1, 0, '2025-05-09 00:00:00', '2025-05-10 02:41:25'),
-(17, 'dddddd', 0.00, 1, 1, 0, '2025-05-09 00:00:00', '2025-05-10 02:41:26'),
-(18, 'dd11', 0.00, 1, 1, 0, '2025-05-09 00:00:00', '2025-05-10 02:41:27'),
-(19, 'kkokokok', 0.00, 1, 1, 0, '2025-05-09 00:00:00', '2025-05-10 02:41:27'),
-(20, 'dasdasdwqeqwe', 0.00, 1, 1, 0, '2025-05-09 01:00:00', '2025-05-10 02:41:08'),
-(21, 'dasqwezxc', 0.00, 2, 2, 0, '2025-05-09 01:00:00', '2025-05-10 02:41:24'),
-(22, 'asdasdsadad', 0.00, 2, 2, 0, '2025-05-09 22:06:07', '2025-05-09 22:11:46'),
-(23, 'total sd', 0.00, 1, 1, 0, '2025-05-09 22:07:01', NULL),
-(24, 'Nayda Morse', 0.00, 2, 2, 0, '1998-08-27 02:19:39', '2025-05-10 02:41:28'),
-(25, 'asdsadad', 0.00, 2, 2, 0, '2025-05-11 02:19:48', '2025-05-10 02:41:22'),
-(26, 'asdwqewqezxczxc', 0.00, 3, 3, 0, '2025-05-14 02:20:48', '2025-05-10 02:33:09'),
+(4, 'home', 3.00, 3, 3, 1, NULL, NULL),
+(5, 'nike', 3.00, 3, 3, 1, NULL, NULL),
+(6, 'FLOWER', 12.30, 4, 3, 1, NULL, NULL),
+(11, 'Horizon', 0.00, 3, 3, 0, '2025-05-09 00:00:00', '2025-05-16 19:39:44'),
+(12, 'Rixos', 0.00, 4, 3, 0, '2025-05-09 22:06:02', '2025-05-16 19:39:48'),
 (27, 'cccccc', 0.00, 5, 1, 0, '2025-05-10 02:21:05', '2025-05-10 02:41:06'),
-(28, 'dasdsadsad', 0.00, 2, 2, 0, '2025-05-10 02:21:16', '2025-05-10 02:41:24'),
-(29, 'zz', 0.00, 2, 2, 0, '2025-05-10 14:27:57', '2025-05-10 14:45:24'),
+(28, 'dasdsadsad', 0.00, 2, 2, 0, '2025-05-10 02:21:16', '2025-05-16 19:38:59'),
+(29, 'zz', 0.00, 2, 2, 0, '2025-05-10 14:27:57', '2025-05-16 19:38:27'),
 (30, 'monday', 0.00, 5, 1, 0, '2025-05-10 15:34:37', '2025-05-10 15:48:02'),
 (31, 'Hover', 12.30, 6, 1, 1, '2025-05-10 19:38:57', NULL),
-(32, 'this is test', 2.00, 6, 1, 1, '2025-05-10 19:45:56', NULL),
-(33, '555555asasdsad', 3.00, 2, 2, 0, '2025-05-13 02:01:50', '2025-05-13 02:35:09');
+(32, 'this is test', 2.00, 6, 1, 0, '2025-05-10 19:45:56', '2025-05-16 19:34:34'),
+(33, '555555asasdsad', 3.00, 2, 2, 0, '2025-05-13 02:01:50', '2025-05-13 02:35:09'),
+(37, 'sdsd', 3.00, 1, 1, 0, '2025-05-15 01:05:23', '2025-05-16 19:34:18');
 
 -- --------------------------------------------------------
 
@@ -118,15 +102,19 @@ CREATE TABLE `instructors` (
 
 INSERT INTO `instructors` (`id`, `username`, `password`, `branch_id`, `is_active`, `role`) VALUES
 (1, 'kareem', '$2y$10$HtisKuRB1rUWCrToSZ5D6OPBBEO9/deo.Z81s/lov5WYpnK0BLbuK', 1, 1, 'admin'),
-(2, 'magdy', '$2y$10$HtisKuRB1rUWCrToSZ5D6OPBBEO9/deo.Z81s/lov5WYpnK0BLbuK', 2, 1, 'inst'),
-(3, 'sobhy', '$2y$10$HtisKuRB1rUWCrToSZ5D6OPBBEO9/deo.Z81s/lov5WYpnK0BLbuK', 3, 1, 'inst'),
+(2, 'magdy', '$2y$10$HtisKuRB1rUWCrToSZ5D6OPBBEO9/deo.Z81s/lov5WYpnK0BLbuK', 2, 1, 'instructor'),
+(3, 'sobhy', '$2y$10$HtisKuRB1rUWCrToSZ5D6OPBBEO9/deo.Z81s/lov5WYpnK0BLbuK', 3, 1, 'instructor'),
 (4, 'assim', '$2y$10$HtisKuRB1rUWCrToSZ5D6OPBBEO9/deo.Z81s/lov5WYpnK0BLbuK', 3, 1, 'instructor'),
-(5, 'hala', '$2y$10$HtisKuRB1rUWCrToSZ5D6OPBBEO9/deo.Z81s/lov5WYpnK0BLbuK', 1, 1, 'cs'),
-(6, 'esraa', '123', 1, 1, 'cs'),
+(5, 'hala', '$2y$10$HtisKuRB1rUWCrToSZ5D6OPBBEO9/deo.Z81s/lov5WYpnK0BLbuK', 1, 1, 'cs-admin'),
+(6, 'esraa', '$2y$10$HtisKuRB1rUWCrToSZ5D6OPBBEO9/deo.Z81s/lov5WYpnK0BLbuK', 1, 1, 'cs'),
 (7, 'asdsad', '$2y$10$jUQdd92yLTSN4mmk7TkkaOhIuHxYS3TPx8.aEFM1lyeVJoFvoqa86', NULL, 0, 'instructor'),
 (8, 'mostafa', '$2y$10$mtuJJFP3v7EW.SOoSnzBq.N8.PKhpOaJkaqKGnV8R0fCCRpywWoba', NULL, 1, 'instructor'),
 (9, 'khaled', '$2y$10$13oIR41j2hADa3GZnQO8PuqA6YCCgSKPKP9YInRRhxwfSEc/BWq4m', 2, 1, 'instructor'),
-(10, 'omar', '$2y$10$m2REgLOKjGD8tKxngLF9NOaAcewZjrGA.EVF/vt6RvLln8Tjdnigi', 2, 0, 'instructor');
+(10, 'omar', '$2y$10$m2REgLOKjGD8tKxngLF9NOaAcewZjrGA.EVF/vt6RvLln8Tjdnigi', 2, 0, 'instructor'),
+(11, 'dddddddddd', '$2y$10$7HJ73TW5pSzXTn1sJzizwe2boBpI8e6QxFadq0llz/vuTQRUL/ocO', 1, 1, 'cs'),
+(12, 'ddddddd', '$2y$10$6E/vB6HCC2rKitBBu8ny2.THuNqsAGo5rCELTQQpIlQMdUSrsf1fq', 1, 0, 'cs-admin'),
+(13, 'dadsdadsadad', '$2y$10$gTwEiVcqyEo4Nvs8Mmjl8ucqyOiFiKXGyC7nnxCuHtA1EFtbZNK8q', 1, 1, ''),
+(14, 'aaaaaa', '$2y$10$xK8A/cFMhKBBPBaweFZ7Fee7sxp2nWGd6n5iPUjvRu9ZUtWcEnJUi', 1, 1, '');
 
 -- --------------------------------------------------------
 
@@ -135,8 +123,8 @@ INSERT INTO `instructors` (`id`, `username`, `password`, `branch_id`, `is_active
 --
 
 CREATE TABLE `lectures` (
-  `id` int(11) NOT NULL,
-  `group_id` int(11) DEFAULT NULL,
+  `id` int(11) UNSIGNED NOT NULL,
+  `group_id` int(11) UNSIGNED DEFAULT NULL,
   `track_id` int(11) DEFAULT NULL,
   `instructor_id` int(11) NOT NULL,
   `comment` text DEFAULT NULL,
@@ -148,19 +136,15 @@ CREATE TABLE `lectures` (
 --
 
 INSERT INTO `lectures` (`id`, `group_id`, `track_id`, `instructor_id`, `comment`, `date`) VALUES
-(28, 1, 3, 1, 'المحاضرة الاخيرة', '2025-05-08 16:35:27'),
-(29, 1, 3, 2, 'يشسيسشيي', '2025-05-08 16:35:52'),
-(30, 4, 5, 3, '3 lecture', '2025-05-08 16:42:34'),
-(31, 5, 3, 3, 'المحاضرة الثالثة', '2025-05-08 16:42:45'),
-(32, 2, 4, 2, 'الكوكيز', '2025-05-08 16:43:08'),
 (33, 3, 3, 2, 'المحاضرة السادسة', '2025-05-08 16:43:18'),
-(34, 6, 5, 4, 'المحاضرة الاخيرة', '2025-05-08 17:13:27'),
-(35, 6, 6, 4, 'دخلو البروجيكت', '2025-05-08 17:13:42'),
-(36, 5, 4, 3, 'asdsdasdsadsdasdaadadad', '2025-05-08 17:21:43'),
-(37, 6, 4, 4, 'qweqweqwewqeqwewqe', '2025-05-08 17:23:55'),
 (38, 11, 3, 3, 'المحاضرة الثالثة loop', '2025-05-09 17:43:19'),
 (39, 12, 4, 4, 'محاضرة الفورم', '2025-05-09 17:44:19'),
-(40, 1, 3, 1, 'المحاضرة الفيو الثالثة', '2025-05-10 15:41:12');
+(45, 6, 3, 4, 'المحاضرة الثالثة get -set', '2025-05-18 01:33:17'),
+(47, 5, 6, 3, 'الثالثة', '2025-05-18 01:37:45'),
+(48, 2, 5, 2, 'المحاضرة الثالثة', '2025-05-18 01:41:32'),
+(50, 4, 3, 3, 'get - set', '2025-05-18 01:45:50'),
+(51, 6, 5, 4, 'المحاضرة الثالثة update', '2025-05-18 01:33:17'),
+(53, 1, 5, 1, 'dasdasdsada', '2025-05-19 02:04:58');
 
 -- --------------------------------------------------------
 
@@ -195,7 +179,7 @@ INSERT INTO `tracks` (`id`, `name`) VALUES
 (2, 'css'),
 (3, 'javascript'),
 (4, 'php'),
-(5, 'mysql'),
+(5, 'Database MySQL'),
 (6, 'project');
 
 --
@@ -213,20 +197,27 @@ ALTER TABLE `branches`
 --
 ALTER TABLE `groups`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `groups_name_unique` (`name`);
+  ADD UNIQUE KEY `groups_name_unique` (`name`),
+  ADD KEY `branch_id` (`branch_id`),
+  ADD KEY `instructor_id` (`instructor_id`);
 
 --
 -- Indexes for table `instructors`
 --
 ALTER TABLE `instructors`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `instructors_name_unique` (`username`);
+  ADD UNIQUE KEY `instructors_name_unique` (`username`),
+  ADD KEY `branch_id` (`branch_id`);
 
 --
 -- Indexes for table `lectures`
 --
 ALTER TABLE `lectures`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `group_id` (`group_id`),
+  ADD KEY `track_id` (`track_id`),
+  ADD KEY `instructor_id` (`instructor_id`),
+  ADD KEY `idx_lectures_group_date` (`group_id`,`date`);
 
 --
 -- Indexes for table `remember_tokens`
@@ -257,25 +248,25 @@ ALTER TABLE `branches`
 -- AUTO_INCREMENT for table `groups`
 --
 ALTER TABLE `groups`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
 
 --
 -- AUTO_INCREMENT for table `instructors`
 --
 ALTER TABLE `instructors`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT for table `lectures`
 --
 ALTER TABLE `lectures`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=54;
 
 --
 -- AUTO_INCREMENT for table `remember_tokens`
 --
 ALTER TABLE `remember_tokens`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT for table `tracks`
@@ -286,6 +277,27 @@ ALTER TABLE `tracks`
 --
 -- Constraints for dumped tables
 --
+
+--
+-- Constraints for table `groups`
+--
+ALTER TABLE `groups`
+  ADD CONSTRAINT `groups_ibfk_1` FOREIGN KEY (`branch_id`) REFERENCES `branches` (`id`),
+  ADD CONSTRAINT `groups_ibfk_2` FOREIGN KEY (`instructor_id`) REFERENCES `instructors` (`id`);
+
+--
+-- Constraints for table `instructors`
+--
+ALTER TABLE `instructors`
+  ADD CONSTRAINT `instructors_ibfk_1` FOREIGN KEY (`branch_id`) REFERENCES `branches` (`id`);
+
+--
+-- Constraints for table `lectures`
+--
+ALTER TABLE `lectures`
+  ADD CONSTRAINT `lectures_ibfk_1` FOREIGN KEY (`instructor_id`) REFERENCES `instructors` (`id`),
+  ADD CONSTRAINT `lectures_ibfk_2` FOREIGN KEY (`track_id`) REFERENCES `tracks` (`id`),
+  ADD CONSTRAINT `lectures_ibfk_3` FOREIGN KEY (`group_id`) REFERENCES `groups` (`id`);
 
 --
 -- Constraints for table `remember_tokens`

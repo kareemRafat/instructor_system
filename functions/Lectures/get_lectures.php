@@ -8,14 +8,15 @@ if (!isset($_SESSION['user_id'])) {
     exit('You are not logged in!');
 }
 
-// this query included in the main query $query
+// Base query for lectures
 $baseQuery = "SELECT 
         lectures.*,
         `groups`.name AS group_name,
         `groups`.time AS group_time,
         `tracks`.name AS track_name,
         instructors.username AS instructor_name,
-        DATE_FORMAT(lectures.date, '%M   %d-%m-%Y') AS formatted_date
+        DATE_FORMAT(lectures.date, '%M %d-%m-%Y') AS formatted_date,
+        ROW_NUMBER() OVER (PARTITION BY lectures.group_id ORDER BY lectures.date DESC) AS rn
     FROM lectures 
     JOIN `groups` ON lectures.group_id = `groups`.id 
     JOIN `tracks` ON lectures.track_id = `tracks`.id 
@@ -24,43 +25,47 @@ $baseQuery = "SELECT
 
 $params = [];
 
-if (isset($_GET['branch_id']) and isset($_GET['track_id'])) {
-
-    // Query to fetch lectures along with group name and time if exists
-    $baseQuery .= " AND (
-                        (`groups`.branch_id = :branch)
-                        AND
-                        (:track IS NULL OR `lectures`.track_id = :track)
-                    )";
+if (isset($_GET['branch_id'])) {
+    $baseQuery .= " AND `groups`.branch_id = :branch";
     $params[':branch'] = $_GET['branch_id'];
-    $params[':track'] = $_GET['track_id'] ?? Null ;
-
-}elseif (isset($_GET['branch_id'])) {
-
-    // Query to fetch lectures along with group name and time if exists
-    $baseQuery .= " AND (
-                        (`groups`.branch_id = :branch)
-                        AND
-                        (:time IS NULL OR `groups`.time = :time)
-                    )";
-    $params[':branch'] = $_GET['branch_id'];
-    $params[':time'] = $_GET['time'] ?? Null ;
+    if (isset($_GET['time'])) {
+        $baseQuery .= " AND `groups`.time = :time";
+        $params[':time'] = $_GET['time'];
+    }
 } elseif (isset($_GET['time'])) {
-
-    // Query to fetch lectures along with group time
-    $baseQuery .= " AND `groups`.time = :time  ";
+    $baseQuery .= " AND `groups`.time = :time";
     $params[':time'] = $_GET['time'];
 } else {
-
-    // Query to fetch lectures along with group instructor name
-    $baseQuery .= " AND  lectures.instructor_id = :instructor";
+    $baseQuery .= " AND lectures.instructor_id = :instructor";
     $params[':instructor'] = $_GET['instructor_id'];
 }
 
-
 try {
-    // Query to fetch all lectures
-    $stmt = $pdo->prepare($baseQuery);
+    // Final query to fetch latest lectures per group
+    $query = "WITH RankedLectures AS (
+                $baseQuery
+            )
+            SELECT 
+                group_id,
+                group_name,
+                group_time,
+                track_id,
+                track_name,
+                instructor_name,
+                comment,
+                formatted_date AS latest_comment_date
+            FROM RankedLectures
+            WHERE rn = 1";
+
+    // Apply track_id filter only to the latest lecture
+    if (isset($_GET['track_id'])) {
+        $query .= " AND track_id = :track";
+        $params[':track'] = $_GET['track_id'];
+    }
+
+    $query .= " ORDER BY date DESC";
+
+    $stmt = $pdo->prepare($query);
     $stmt->execute($params);
     $lectures = $stmt->fetchAll(PDO::FETCH_ASSOC);
 

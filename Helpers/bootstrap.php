@@ -37,7 +37,7 @@ function checkAccess($role)
 
 // fetch user information
 $user_id = $_SESSION['user_id'];
-$query = "SELECT username , role FROM instructors WHERE id = :id";
+$query = "SELECT username , role , branch_id FROM instructors WHERE id = :id";
 $stmt = $pdo->prepare($query);
 $stmt->bindParam(':id', $user_id);
 $stmt->execute();
@@ -45,3 +45,4 @@ $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
 define('ROLE', $result['role']);
 define('USERNAME', $result['username']);
+define('BRANCH', $result['branch_id']);

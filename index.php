@@ -8,7 +8,9 @@ $errors = $_SESSION['errors'] ?? [];
 ?>
 
 <div class="max-w-7xl mx-auto pt-6 px-6">
-    <h1 class="text-3xl font-bold mb-6 text-center text-gray-800">الـمـحـاضـرات</h1>
+    <h1 class="text-3xl font-bold mb-6 text-center tracking-wide text-blue-500">
+        <?= ucwords(USERNAME) ?>
+    </h1>
     <!-- card -->
     <div class="flex flex-col items-center justify-center my-8 text">
         <div class="w-full max-w-md bg-white rounded-lg shadow-md p-6">
