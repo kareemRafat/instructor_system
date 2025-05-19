@@ -46,6 +46,7 @@ branch.onchange = function () {
   
   if (!branch.value) {
     resetAllWithNoBranch();
+    fetchBranchLectures(this.value);
     return ;
   }
   
@@ -84,6 +85,11 @@ async function fetchTracks(){
 
 /** select lectures by Track and Group */
 tracks.onchange = function(){
+    
+  // reset instructor and time when select a track
+  document.querySelector("#instructor option:first-child").selected = "true";
+  document.querySelector("#group-time option:first-child").selected = "true";
+  
   // reset groups when select no track
   if (this.value == "") {
     fetchBranchLectures(branch.value);
@@ -99,9 +105,7 @@ tracks.onchange = function(){
 function fetchBranchAndTrackLec(branchId , trackId){
   fetch(`functions/Lectures/get_lectures.php?branch_id=${branchId}&track_id=${trackId}`)
     .then((response) => response.json())
-    .then((res) => {
-      console.log(res);
-      
+    .then((res) => {      
       if (res.status == "success") {
         if (res.data.length > 0) {
           lecturesCards.innerHTML = ""; // Clear previous cards
@@ -239,7 +243,7 @@ function fetchBranchLectures(value) {
             lecturesCards.innerHTML += card;
           });
         } else {
-          lecturesCards.innerHTML = "<p>No lectures found</p>";
+          lecturesCards.innerHTML = `<p><i class="fas fa-arrow-up-long mr-2"></i>Select Branch</p>`;
         }
       }
     })
@@ -276,6 +280,8 @@ function resetAllWithNoBranch() {
   tracks.innerHTML = "<option value=''>Select Branch First</option>";
   instructor.innerHTML = "<option value=''>Select Branch First</option>";
   document.querySelector("#group-time option:first-child").innerHTML = "Select Branch First";
+  document.querySelector("#group-time option:first-child").selected = "true";
+
   timeOptions.classList.add("hidden");
 }
 
