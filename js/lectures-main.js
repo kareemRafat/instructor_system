@@ -6,15 +6,6 @@ const groupTimeSelect = document.getElementById("group-time");
 const timeOptions = document.getElementById("time-options");
 const trackSelect = document.getElementById('tracks');
 
-const cardImgs = {
-  html : "https://img.icons8.com/?size=100&id=D2Hi2VkJSi33&format=png&color=000000" , 
-  css : "https://img.icons8.com/?size=100&id=NPK9UueLJjaj&format=png&color=000000" , 
-  javascript : "https://img.icons8.com/?size=100&id=RwtOBojoLS2N&format=png&color=000000" , 
-  php : "https://img.icons8.com/?size=100&id=39856&format=png&color=037585" , 
-  'Database MySQL' : "https://img.icons8.com/?size=120&id=9nLaR5KFGjN0&format=png&color=000000" , 
-  project : "https://img.icons8.com/?size=120&id=111139&format=png&color=000000" , 
-}
-
 document.addEventListener("DOMContentLoaded", () => {
   const branchMeta = getMetaContent('branch');
   const roleMeta = getMetaContent('role');
@@ -181,10 +172,7 @@ instructor.onchange = function () {
 /** set card */
 function setCard(lec) {
   return `
-  <li class="relative mb-6 flex-shrink-0">
- 
-   <img class="absolute top-2 right-0 opacity-20" src="${cardImgs[lec.track_name]}" alt="" />
-   
+  <li class="relative mb-6 flex-shrink-0">   
     <div class="flex items-center">
     <div class="z-10 flex items-center justify-center w-6 h-6 bg-blue-100 rounded-full ring-0 ring-white dark:bg-blue-900 sm:ring-8 dark:ring-gray-900 shrink-0">
       <svg class="w-2.5 h-2.5 text-blue-800 dark:text-blue-300" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
