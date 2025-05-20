@@ -147,6 +147,7 @@ function setTable(res , branch = null) {
           }
       </td> 
       <td class="px-6 py-4">
+          <span class="block">${row.month}</span>
           ${row.formatted_date ? row.formatted_date : "No date added"}
       </td>           
       <td class="px-6 py-4">

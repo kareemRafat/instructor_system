@@ -83,6 +83,7 @@ include_once 'Design/includes/navbar.php';
                         <option class="font-semibold" value="12.30">12.30</option>
                         <option class="font-semibold" value="3">3</option>
                         <option class="font-semibold" value="6">6</option>
+                        <option class="font-semibold" value="8">Online</option>
                         <option class="font-semibold" value="2">2 [Friday]</option>
                         <option class="font-semibold" value="5">5 [Friday]</option>
                     </div>

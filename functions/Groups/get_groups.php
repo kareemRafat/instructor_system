@@ -16,7 +16,8 @@ try {
                 `groups`.time AS group_time,
                 instructors.username AS instructor_name,
                 branches.name AS branch_name,
-                DATE_FORMAT(`groups`.start_date, '%d-%m-%Y') AS formatted_date
+                DATE_FORMAT(`groups`.start_date, '%d-%m-%Y') AS formatted_date,
+                DATE_FORMAT(`groups`.start_date, '%M') AS month
         FROM `groups` 
         JOIN instructors ON `groups`.instructor_id = instructors.id 
         JOIN branches ON `groups`.branch_id = branches.id
