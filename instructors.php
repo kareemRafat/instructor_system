@@ -19,6 +19,7 @@ include_once 'Design/includes/navbar.php';
 
     $stmt = $pdo->prepare($query);
     $stmt->execute();
+    $count = $stmt->rowCount();
     $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
     ?>
 
@@ -69,6 +70,13 @@ include_once 'Design/includes/navbar.php';
                 </tr>
             </thead>
             <tbody class="font-semibold text-base">
+                <?php if ($count == 0) : ?>
+                    <tr class="bg-white dark:bg-gray-800 dark:border-gray-700">
+                        <td colspan="4" class="px-6 py-4 text-gray-500 dark:text-gray-400 font-semibold">
+                            No instructors found
+                        </td>
+                    </tr>
+                <?php endif; ?>
                 <?php
                 foreach ($result as $row) :
                 ?>

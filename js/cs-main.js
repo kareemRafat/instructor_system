@@ -114,7 +114,7 @@ function setTable(res) {
   if (res.data.length == 0) {
     tbody.innerHTML = `
         <tr>
-          <td class="px-6 py-4 font-bold" colspan="4"> No Instructor Found </td>
+          <td class="px-6 py-4 font-bold" colspan="4"> No Customer Service Agent Found </td>
         </tr>
     `;
   }
