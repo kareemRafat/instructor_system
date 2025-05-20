@@ -59,7 +59,7 @@ document.addEventListener("DOMContentLoaded", function () {
     // empty search input
     searchInput.value = '';
     
-    fetchLecturesByGroup(this.value , this.selectedOptions[0].text)
+    fetchGroups(this.value , this.selectedOptions[0].text)
   }
 });
 
@@ -94,8 +94,8 @@ function finishGroup(groupId, button) {
 }
 
 /** fetch branch lectures for table */
-function fetchLecturesByGroup(value , branch){
-  // get all lectures based on selected branch
+function fetchGroups(value , branch){
+  // get all groups based on selected branch
   fetch(`functions/Groups/get_groups.php?branch_id=${value}`)
     .then((response) => response.json())
     .then((data) => {           
