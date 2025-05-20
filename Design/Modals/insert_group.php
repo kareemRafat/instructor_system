@@ -158,10 +158,6 @@
             }
         }
 
-
-
-
-
         /** helper functions */
         function capitalizeFirstLetter(value) {
             if (typeof value !== "string" || value.length === 0) {

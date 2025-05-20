@@ -15,27 +15,12 @@ document.addEventListener("DOMContentLoaded", () => {
     .then((response) => response.json())
     .then((res) => {
       if (res.data) {
-        // filter branches based on role and the same branch
-         let filter = res.data.filter((branch) => {
-          return branch.id == branchMeta && roleMeta !== 'admin' && roleMeta !== 'cs-admin';
-        });
-
-        if(filter.length > 0) {
-          filter.forEach((br) => {
-            const option = document.createElement("option");
+        res.data.forEach((br) => {
+          const option = document.createElement("option");
             option.value = br.id;
             option.textContent = br.name;
             branch.appendChild(option);
           });
-        } else {
-          res.data.forEach((br) => {
-            const option = document.createElement("option");
-            option.value = br.id;
-            option.textContent = br.name;
-            branch.appendChild(option);
-          });
-        }
-        
       }
     })
     .catch((error) => console.error("Error fetching groups:", error));

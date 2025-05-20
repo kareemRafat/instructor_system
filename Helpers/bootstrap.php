@@ -43,6 +43,11 @@ $stmt->bindParam(':id', $user_id);
 $stmt->execute();
 $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
+// make branch and role sessions for [Functions pages]
+$_SESSION['branch'] = $result['branch_id'];
+$_SESSION['role'] = $result['role'];
+
+// make constants for branch and role for [Design pages]
 define('ROLE', $result['role']);
 define('USERNAME', $result['username']);
 define('BRANCH', $result['branch_id']);

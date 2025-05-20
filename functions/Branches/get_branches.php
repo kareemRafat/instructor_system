@@ -8,11 +8,13 @@ if(!isset($_SESSION['user_id'])) {
     exit('You are not logged in!');
 }
 
+$is_admin = $_SESSION['role'] == 'admin' || $_SESSION['role'] == 'cs-admin';
 
 try {
     // Query to fetch all branches
-    $stmt = $pdo->prepare("SELECT * FROM branches");
-    $stmt->execute();
+    $stmt = $pdo->prepare(fetchBranchesOnRoles($is_admin));
+    $stmt->execute(executeParams($is_admin));
+
     $branches = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
     // Return JSON response
@@ -23,4 +25,24 @@ try {
     header('Content-Type: application/json');
     echo json_encode(['status' => 'error', 'message' => $e->getMessage()]);
 }
-?>
+
+
+/** fetch Branches based on ROLES */
+function fetchBranchesOnRoles($is_admin) {
+    if ($is_admin) {
+        return "SELECT * FROM branches";
+    } else {
+        return "SELECT * FROM branches WHERE id = :branch";
+    }
+}
+
+/** execute params based on ROLES */
+function executeParams($is_admin) {
+    if ($is_admin) {
+        return [];
+    } else {
+        return [
+            ':branch' => $_SESSION['branch']
+        ];
+    }
+}
