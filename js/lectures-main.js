@@ -180,47 +180,61 @@ instructor.onchange = function () {
 
 /** set card */
 function setCard(lec) {
+  const fullComment = lec.comment;
+  const isLong = fullComment.length > 30;
+  const shortComment = isLong ? fullComment.slice(0, 30) + '...' : fullComment;
+
+  const commentId = `comment-${Math.random().toString(36).substring(2, 9)}`;
+
   return `
   <li class="relative mb-6 flex-shrink-0">
- 
-   <img class="absolute top-2 right-0 opacity-20" src="${cardImgs[lec.track_name]}" alt="" />
-   
+    <img class="absolute top-2 right-0 opacity-20" src="${cardImgs[lec.track_name]}" alt="" />
+    
     <div class="flex items-center">
-    <div class="z-10 flex items-center justify-center w-6 h-6 bg-blue-100 rounded-full ring-0 ring-white dark:bg-blue-900 sm:ring-8 dark:ring-gray-900 shrink-0">
-      <svg class="w-2.5 h-2.5 text-blue-800 dark:text-blue-300" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
-      <path d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z" />
-      </svg>
+      <div class="z-10 flex items-center justify-center w-6 h-6 bg-blue-100 rounded-full ring-0 ring-white dark:bg-blue-900 sm:ring-8 dark:ring-gray-900 shrink-0">
+        <svg class="w-2.5 h-2.5 text-blue-800 dark:text-blue-300" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+          <path d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z" />
+        </svg>
+      </div>
+      <div class="hidden sm:flex w-full bg-gray-200 h-0.5 dark:bg-gray-700"></div>
     </div>
-    <div class="hidden sm:flex w-full bg-gray-200 h-0.5 dark:bg-gray-700"></div>
-    </div>
+
     <div class="mt-3 sm:pe-0 pb-7 border-indigo-500 border-b-2">
       <div class="flex items-center gap-2">
         <i class="fas fa-circle-check text-zinc-500"></i>
-        <h3 class="text-2xl mb-1 font-semibold tracking-wide text-amber-500 dark:text-white">${capitalizeFirstLetter(
-          lec.group_name
-        )}</h3>
-        <span class="ml-2 inline-flex items-center rounded-md bg-yellow-50 px-2 py-1 text-xs font-medium text-yellow-800 ring-1 ring-yellow-600/20 ring-inset ">${
-          lec.group_time == 2 || lec.group_time == 5
-            ? lec.group_time + " - Friday"
-            : (lec.group_time == 8 ? 'Online' : lec.group_time)
-        }</span>
-      </div>
-      
-      <div class="block mt-1 mb-4 text-md font-semibold tracking-wide leading-none text-gray-500 dark:text-gray-500"><i class="fab fa-teamspeak mr-1"></i> Instructor :  ${capitalizeFirstLetter(
-        lec.instructor_name
-      )}</div>
-
-      <time class="block mb-4 text-sm font-normal leading-none text-gray-400 dark:text-gray-500"><i class="fas fa-calendar-check mr-1"></i> Commented on ${
-        lec.latest_comment_date
-      }</time>
-
- 
-      <p class="relative w-full border border-blue-200 bg-blue-50 pl-3 p-2 py-3 rounded-md text-base font-semibold text-gray-500 dark:text-gray-400">
-        <span class="absolute inline-flex items-center justify-center text-sm font-bold text-white bg-blue-500 border-2 border-white rounded-lg -top-4 end-5 px-4 py-1 dark:border-gray-900 tracking-wider">
-          ${ capitalizeFirstLetter(lec.track_name) }
+        <h3 class="text-2xl mb-1 font-semibold tracking-wide text-amber-500 dark:text-white">
+          ${capitalizeFirstLetter(lec.group_name)}
+        </h3>
+        <span class="ml-2 inline-flex items-center rounded-md bg-yellow-50 px-2 py-1 text-xs font-medium text-yellow-800 ring-1 ring-yellow-600/20 ring-inset">
+          ${
+            lec.group_time == 2 || lec.group_time == 5
+              ? lec.group_time + " - Friday"
+              : lec.group_time == 8
+              ? "Online"
+              : lec.group_time
+          }
         </span>
-         ${lec.comment}
-        </p>
+      </div>
+
+      <div class="block mt-1 mb-4 text-md font-semibold tracking-wide leading-none text-gray-500 dark:text-gray-500">
+        <i class="fab fa-teamspeak mr-1"></i> Instructor : ${capitalizeFirstLetter(lec.instructor_name)}
+      </div>
+
+      <time class="block mb-4 text-sm font-normal leading-none text-gray-400 dark:text-gray-500">
+        <i class="fas fa-calendar-check mr-1"></i> Commented on ${lec.latest_comment_date}
+      </time>
+
+      <p class="relative w-full border border-blue-200 bg-blue-50 pl-3 p-2 py-3 rounded-md text-base font-semibold text-gray-500 dark:text-gray-400 h-auto">
+        <span class="absolute inline-flex items-center justify-center text-sm font-bold text-white bg-indigo-500 border-2 border-white rounded-lg -top-4 end-5 px-4 py-1 dark:border-gray-900 tracking-wider">
+          ${capitalizeFirstLetter(lec.track_name)}
+        </span>
+        <span id="${commentId}" class="comment-text">${shortComment}</span>
+        ${
+          isLong
+            ? `<a href="#" data-full="${fullComment}" data-short="${shortComment}" data-target="${commentId}" class="read-more-toggle text-indigo-600 ml-2 text-sm font-normal">Read more</a>`
+            : ''
+        }
+      </p>
     </div>
   </li>
   `;
@@ -296,3 +310,22 @@ function getMetaContent(value) {
 }
 
 
+document.addEventListener('click', function (e) {
+  if (e.target.classList.contains('read-more-toggle')) {
+    e.preventDefault();
+
+    const toggle = e.target;
+    const targetId = toggle.dataset.target;
+    const full = toggle.dataset.full;
+    const short = toggle.dataset.short;
+    const commentSpan = document.getElementById(targetId);
+
+    if (toggle.textContent === 'Read more') {
+      commentSpan.textContent = full;
+      toggle.textContent = 'Read less';
+    } else {
+      commentSpan.textContent = short;
+      toggle.textContent = 'Read more';
+    }
+  }
+});
