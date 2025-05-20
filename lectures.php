@@ -108,6 +108,8 @@ include_once 'Design/includes/navbar.php';
 </div>
 <script src="js/lectures-main.js"></script>
 
+
+
 </body>
 
 </html>
