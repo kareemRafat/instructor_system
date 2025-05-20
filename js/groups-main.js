@@ -150,9 +150,10 @@ function setTable(res , branch = null) {
           ${row.formatted_date ? row.formatted_date : "No date added"}
       </td>           
       <td class="px-6 py-4">
-          <button data-group-id="${
-            row.id
-          }" class="finish-group-btn cursor-pointer border border-gray-300 py-1 px-2 rounded-lg font-medium text-red-600 dark:text-red-500 hover:underline">
+          <a href="?action=edit&group_id=${row.id}" class="cursor-pointer border border-gray-300 py-1 px-2 rounded-lg font-medium text-blue-600 hover:underline mr-2 inline-block mb-2"><i class="fa-solid fa-pen-to-square mr-2"></i>
+            Edit
+          </a>
+          <button data-group-id="${row.id}" class="finish-group-btn cursor-pointer border border-gray-300 py-1 px-2 rounded-lg font-medium text-red-600 dark:text-red-500 hover:underline">
               <i class="fa-regular fa-circle-check mr-2"></i>Finish
           </button>
       </td>
