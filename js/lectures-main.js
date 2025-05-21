@@ -1,15 +1,16 @@
 
-import {getMetaContent , capitalizeFirstLetter } from "./helpers.js";
+import {getMetaContent , capitalizeFirstLetter , wait } from "./helpers.js";
 
 const branch = document.getElementById("branch");
 const instructor = document.getElementById("instructor");
 const lecturesCards = document.getElementById("lecturesCards");
-const lectureForm = document.getElementById("lectureForm");
 const groupTimeSelect = document.getElementById("group-time");
 const timeOptions = document.getElementById("time-options");
-const trackSelect = document.getElementById("tracks");
+const tracks = document.getElementById("tracks");
+const skeleton = document.getElementById("skeleton");
+const arrowWarning = document.getElementById("arrow-warning");
 
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", async () => {
   const branchMeta = getMetaContent("branch");
   const roleMeta = getMetaContent("role");
 
@@ -29,6 +30,7 @@ document.addEventListener("DOMContentLoaded", () => {
     .catch((error) => console.error("Error fetching groups:", error));
 
   if (roleMeta == 'cs') {
+    await wait(1000).then(() => { skeleton.classList.add("hidden") });
     // fetch lectures base on logged user branch
     fetchBranchLectures(branchMeta);
     // fetch tracks when select a branch
@@ -37,14 +39,22 @@ document.addEventListener("DOMContentLoaded", () => {
     showTimeOptions();
     // fetch instructors whitin the selected branch
     fetchInstructors(branchMeta);
+  } else {
+    // if admin and cs-admin
+    skeleton.classList.add("hidden");
+    arrowWarning.classList.remove("hidden");
   }
 });
 
 /** select branch */
-branch.onchange = function () {
+branch.onchange = async function () {
+
+  showLoadingSkeleton();
+  
   if (!branch.value) {
     resetAllWithNoBranch();
     fetchBranchLectures(this.value);
+    await wait(1000).then(() => { skeleton.classList.add("hidden") });
     return;
   }
 
@@ -62,13 +72,14 @@ branch.onchange = function () {
 
   // reset time
   groupTimeSelect.value = "";
+
+  await wait(1000).then(() => { skeleton.classList.add("hidden") });
 };
 
 /** get Tracks */
 async function fetchTracks() {
   let fetchTracks = await fetch(`functions/Tracks/get_tracks.php`);
   let tracksData = await fetchTracks.json();
-
   tracks.innerHTML = "<option value=''>Select Track</option>";
   if (tracksData.data) {
     tracksData.data.forEach((trackResData) => {
@@ -81,7 +92,9 @@ async function fetchTracks() {
 }
 
 /** select lectures by Track and Group */
-tracks.onchange = function () {
+tracks.onchange = async function () {
+  showLoadingSkeleton();
+
   // reset instructor and time when select a track
   document.querySelector("#instructor option:first-child").selected = "true";
   document.querySelector("#group-time option:first-child").selected = "true";
@@ -89,6 +102,7 @@ tracks.onchange = function () {
   // reset groups when select no track
   if (this.value == "") {
     fetchBranchLectures(branch.value);
+    await wait(1000).then(() => { skeleton.classList.add("hidden") });
     return;
   }
 
@@ -96,6 +110,8 @@ tracks.onchange = function () {
   if (branch.value) {
     fetchBranchAndTrackLec(branch.value, this.value);
   }
+
+  await wait(1000).then(() => { skeleton.classList.add("hidden") });
 };
 
 function fetchBranchAndTrackLec(branchId, trackId) {
@@ -121,8 +137,12 @@ function fetchBranchAndTrackLec(branchId, trackId) {
 
 /** select Lectures by Group time */
 groupTimeSelect.onchange = async function () {
+
+  showLoadingSkeleton();
+
   if (this.value == "") {
     fetchBranchLectures(branch.value);
+    await wait(1000).then(() => { skeleton.classList.add("hidden") });
     return;
   }
 
@@ -151,12 +171,17 @@ groupTimeSelect.onchange = async function () {
   } catch (error) {
     console.error("An error occurred:", error);
   }
+  await wait(1000).then(() => { skeleton.classList.add("hidden") });
 };
 
 /** select instructor */
-instructor.onchange = function () {
+instructor.onchange = async function () {
+
+  showLoadingSkeleton();
+
   if (this.value == "") {
     fetchBranchLectures(branch.value);
+    await wait(1000).then(() => { skeleton.classList.add("hidden") });
     return;
   }
 
@@ -179,6 +204,7 @@ instructor.onchange = function () {
 
   // reset time
   groupTimeSelect.value = "";
+  await wait(1000).then(() => { skeleton.classList.add("hidden") });
 };
 
 /** set card */
@@ -218,7 +244,7 @@ function setCard(lec) {
 
  
       <p class="relative w-full border border-blue-200 bg-blue-50 pl-3 p-2 py-3 rounded-md text-base font-semibold text-gray-500 h-[76px] flex">
-        <span class="absolute inline-flex items-center justify-center text-sm font-bold text-white bg-indigo-500 border-2 border-white rounded-lg -top-4 end-5 px-4 py-1 tracking-wider ">
+        <span class="absolute inline-flex items-center justify-center text-sm font-bold text-white bg-blue-500 border-2 border-white rounded-lg -top-4 end-5 px-4 py-1 tracking-wider ">
           ${capitalizeFirstLetter(lec.track_name)}
         </span>
         <span>
@@ -286,6 +312,14 @@ function resetAllWithNoBranch() {
   document.querySelector("#group-time option:first-child").selected = "true";
 
   timeOptions.classList.add("hidden");
+}
+
+/** show Loading Skeletopn */
+function showLoadingSkeleton() {
+  // show skeleton and hide lectures cards and arrow warning
+  skeleton.classList.remove("hidden");
+  arrowWarning.classList.add("hidden");
+  lecturesCards.classList.add("hidden");
 }
 
 

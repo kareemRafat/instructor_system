@@ -11,4 +11,15 @@ function capitalizeFirstLetter(value) {
   return value.charAt(0).toUpperCase() + value.slice(1);
 }
 
-export { getMetaContent, capitalizeFirstLetter };
+/** wait */
+function wait(time) {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve();
+      lecturesCards.classList.remove("hidden");
+    }, time);
+  });
+  
+}
+
+export { getMetaContent, capitalizeFirstLetter , wait  };
