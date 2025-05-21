@@ -32,7 +32,7 @@ if(!isset($_GET['action'])):
 
 ?>
 
-<script src="js/groups-main.js"></script>
+<script type="module" src="js/groups-main.js"></script>
 
 <?php endif; ?>
 

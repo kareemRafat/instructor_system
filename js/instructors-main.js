@@ -1,3 +1,5 @@
+import { capitalizeFirstLetter } from "./helpers.js";
+
 const searchInput = document.getElementById("table-search");
 const tbody = document.querySelector("tbody");
 const addInstructor = document.getElementById("addInstructor");
@@ -132,11 +134,6 @@ function setTable(res) {
       tbody.appendChild(row);
     });
   }
-}
-
-// Helper function to capitalize first letter
-function capitalizeFirstLetter(string) {
-  return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
 function updateInstructorStatusUI(button, isDisabling) {

@@ -76,7 +76,7 @@ $errors = $_SESSION['errors'] ?? [];
 unset($_SESSION['errors']);
 ?>
 
-<script src="js/main.js"></script>
+<script type="module" src="js/main.js"></script>
 
 <?php
 include_once "Design/includes/notFy-footer.php";

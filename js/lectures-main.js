@@ -1,3 +1,6 @@
+
+import {getMetaContent , capitalizeFirstLetter } from "./helpers.js";
+
 const branch = document.getElementById("branch");
 const instructor = document.getElementById("instructor");
 const lecturesCards = document.getElementById("lecturesCards");
@@ -285,15 +288,6 @@ function resetAllWithNoBranch() {
   timeOptions.classList.add("hidden");
 }
 
-/** helper functions */
-function capitalizeFirstLetter(value) {
-  if (typeof value !== "string" || value.length === 0) {
-    return value;
-  }
-  return value.charAt(0).toUpperCase() + value.slice(1);
-}
 
-/** get roles from meta */
-function getMetaContent(value) {
-  return document.querySelector(`meta[name="${value}"]`)?.content || null;
-}
+
+

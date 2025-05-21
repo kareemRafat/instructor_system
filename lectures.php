@@ -102,7 +102,7 @@ include_once 'Design/includes/navbar.php';
     </ol>
 
 </div>
-<script src="js/lectures-main.js"></script>
+<script type="module" src="js/lectures-main.js"></script>
 
 
 

@@ -1,3 +1,5 @@
+import { capitalizeFirstLetter } from "./helpers.js";
+
 const groupSelect = document.getElementById("group");
 const track = document.getElementById("track");
 
@@ -54,11 +56,3 @@ groupSelect.oninput = function () {
     })
     .catch((error) => console.error("Error fetching tracks:", error));
 };
-
-/** helper functions */
-function capitalizeFirstLetter(value) {
-  if (typeof value !== "string" || value.length === 0) {
-    return value;
-  }
-  return value.charAt(0).toUpperCase() + value.slice(1);
-}

@@ -1,3 +1,5 @@
+import { capitalizeFirstLetter } from "./helpers.js";
+
 const searchInput = document.getElementById("table-search");
 const tbody = document.querySelector("tbody");
 // branchSelect const came from the modal in the same page
@@ -163,10 +165,3 @@ function setTable(res, branch = null) {
   });
 }
 
-/** helper functions */
-function capitalizeFirstLetter(value) {
-  if (typeof value !== "string" || value.length === 0) {
-    return value;
-  }
-  return value.charAt(0).toUpperCase() + value.slice(1);
-}
