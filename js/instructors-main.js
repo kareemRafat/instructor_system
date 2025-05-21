@@ -91,7 +91,7 @@ function setTable(res) {
     res.data.forEach((instructor) => {
       const row = document.createElement("tr");
       row.className =
-        "odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600";
+        "odd:bg-white even:bg-gray-50 bg-white border-b border-gray-200 hover:bg-gray-50";
 
       const statusText = instructor.is_active ? "Active" : "Disabled";
       const statusColor = instructor.is_active
@@ -105,7 +105,7 @@ function setTable(res) {
         ? '<i class="fa-solid fa-user-slash mr-1"></i>'
         : '<i class="fa-solid fa-user mr-1"></i>';
       row.innerHTML = `
-                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
                     ${capitalizeFirstLetter(instructor.username)}
                 </th>
                 <td class="px-6 py-4">

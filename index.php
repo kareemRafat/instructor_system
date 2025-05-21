@@ -27,9 +27,8 @@ $errors = $_SESSION['errors'] ?? [];
                     <select id="group" name="group" class="form-select block w-full mt-1 rounded-lg border-gray-300 focus:ring-blue-400 focus:border-blue-400">
                         <option value="">Select Group</option>
                     </select>
-                    <?php
-                    if (isset($errors['group'])) {
-                        echo '<div class="p-2 my-2 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-300" role="alert"> ' .
+                    <?php if (isset($errors['group'])) {
+                        echo '<div class="p-2 my-2 text-sm text-red-800 rounded-lg bg-red-50" role="alert"> ' .
                             $errors['group'] .
                             '</div>';
                     }
@@ -45,22 +44,19 @@ $errors = $_SESSION['errors'] ?? [];
                         <option value="5">MySQL</option>
                         <option value="6">Project</option>
                     </select>
-                    <?php
-                    if (isset($errors['track'])) {
-                        echo '<div class="p-2 my-2 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-300" role="alert"> ' .
+                    <?php if (isset($errors['track'])) {
+                        echo '<div class="p-2 my-2 text-sm text-red-800 rounded-lg bg-red-50" role="alert"> ' .
                             $errors['group'] .
                             '</div>';
                     }
                     ?>
                 </div>
                 <div class="mb-4">
-                    <div class="relative">
-                        <input name="comment" type="text" id="floating_outlined" class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " value="<?= $_SESSION['old']['comment'] ?? '' ?>" />
-                        <label for="floating_outlined" class="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white dark:bg-gray-900 px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1">Comment</label>
+                    <div class="relative"> <input name="comment" type="text" id="floating_outlined" class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " value="<?= $_SESSION['old']['comment'] ?? '' ?>" />
+                        <label for="floating_outlined" class="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1">Comment</label>
                     </div>
-                    <?php
-                    if (isset($errors['comment'])) {
-                        echo '<div class="p-2 my-2 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-300" role="alert"> ' .
+                    <?php if (isset($errors['comment'])) {
+                        echo '<div class="p-2 my-2 text-sm text-red-800 rounded-lg bg-red-50" role="alert"> ' .
                             $errors['comment'] .
                             '</div>';
                     }

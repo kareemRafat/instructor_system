@@ -27,14 +27,14 @@ include_once 'Design/includes/navbar.php';
         <!-- Add Instructor Button -->
         <button id="addInstructor" data-modal-target="crud-modal" data-modal-toggle="crud-modal"
             class="w-full md:w-auto text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 
-        font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+        font-medium rounded-lg text-sm px-5 py-2.5 text-center">
             Add <span class="hidden md:inline-block">Instructor</span>
         </button>
 
         <!-- Search Input -->
         <div class="relative w-full md:flex-1">
             <div class="absolute inset-y-0 left-0 rtl:inset-r-0 rtl:right-0 flex items-center ps-3 pointer-events-none">
-                <svg class="w-5 h-5 text-gray-500 dark:text-gray-400" aria-hidden="true" fill="currentColor"
+                <svg class="w-5 h-5 text-gray-500" aria-hidden="true" fill="currentColor"
                     viewBox="0 0 20 20">
                     <path fill-rule="evenodd"
                         d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
@@ -42,18 +42,15 @@ include_once 'Design/includes/navbar.php';
                 </svg>
             </div>
             <input type="search" id="table-search"
-                class="block w-full p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg 
-            bg-gray-50 focus:ring-blue-500 focus:border-blue-500 
-            dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 
-            dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                class="block w-full p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg            bg-gray-50 focus:ring-blue-500 focus:border-blue-500"
                 placeholder="Search for instructors">
         </div>
     </div>
 
     <!-- table -->
     <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-        <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-            <thead class="text-xs text-gray-700 uppercase bg-gray-200 dark:bg-gray-700 dark:text-gray-400">
+        <table class="w-full text-sm text-left rtl:text-right text-gray-500">
+            <thead class="text-xs text-gray-700 uppercase bg-gray-200">
                 <tr class="text-base">
                     <th scope="col" class="px-6 py-3">
                         Username
@@ -71,8 +68,8 @@ include_once 'Design/includes/navbar.php';
             </thead>
             <tbody class="font-semibold text-base">
                 <?php if ($count == 0) : ?>
-                    <tr class="bg-white dark:bg-gray-800 dark:border-gray-700">
-                        <td colspan="4" class="px-6 py-4 text-gray-500 dark:text-gray-400 font-semibold">
+                    <tr class="bg-white">
+                        <td colspan="4" class="px-6 py-4 text-gray-500 font-semibold">
                             No instructors found
                         </td>
                     </tr>
@@ -81,8 +78,8 @@ include_once 'Design/includes/navbar.php';
                 foreach ($result as $row) :
                 ?>
                     <tr
-                        class="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600">
-                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                        class="odd:bg-white even:bg-gray-50 bg-white border-b border-gray-200 hover:bg-gray-50">
+                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
                             <?= ucwords($row['username']) ?>
                         </th>
                         <td class="px-6 py-4">

@@ -24,7 +24,7 @@ document.addEventListener("DOMContentLoaded", function () {
       const button = e.target.closest(".toggle-status-btn");
       const agentId = button.dataset.agentId;
       console.log(agentId);
-      
+
       const isDisabling = button.textContent.trim() === "Disable";
       const confirmMessage = isDisabling
         ? "Are you sure you want to disable this CS Agent?"
@@ -56,13 +56,17 @@ document.addEventListener("DOMContentLoaded", function () {
           });
       }
     }
-    
+
     // Handle delete button clicks
     if (e.target.closest(".delete-cs-btn")) {
       const button = e.target.closest(".delete-cs-btn");
       const agentId = button.dataset.agentId;
-      
-      if (confirm("Are you sure you want to delete this CS Agent? This action cannot be undone.")) {
+
+      if (
+        confirm(
+          "Are you sure you want to delete this CS Agent? This action cannot be undone."
+        )
+      ) {
         fetch("functions/Customer-service/delete_cs.php", {
           method: "POST",
           headers: {
@@ -77,7 +81,9 @@ document.addEventListener("DOMContentLoaded", function () {
               // Remove the row from the table
               button.closest("tr").remove();
             } else {
-              notyf.error(data.message || "Error deleting Customer service agent");
+              notyf.error(
+                data.message || "Error deleting Customer service agent"
+              );
             }
           })
           .catch((error) => {
@@ -119,16 +125,20 @@ function setTable(res) {
     `;
   }
 
-  if (res.status === "success") { 
+  if (res.status === "success") {
     // the logged in user ROLE
-    const authCSAdmin = res.logged_instructor_role ;
+    const authCSAdmin = res.logged_instructor_role;
     res.data.forEach((instructor) => {
-      const row = document.createElement("tr");      
-      const roleDisabled = instructor.instructor_role === authCSAdmin ? 'disabled' : '';
-      const csAdminIcon = instructor.instructor_role == 'cs-admin' ? ` <i class="fa-solid fa-user-shield ml-3 text-green-700"></i>` : '';
+      const row = document.createElement("tr");
+      const roleDisabled =
+        instructor.instructor_role === authCSAdmin ? "disabled" : "";
+      const csAdminIcon =
+        instructor.instructor_role == "cs-admin"
+          ? ` <i class="fa-solid fa-user-shield ml-3 text-green-700"></i>`
+          : "";
 
       row.className =
-        "odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600";
+        "odd:bg-white even:bg-gray-50 bg-white border-b border-gray-200 hover:bg-gray-50";
 
       const statusText = instructor.is_active ? "Active" : "Disabled";
       const statusColor = instructor.is_active
@@ -142,7 +152,7 @@ function setTable(res) {
         ? '<i class="fa-solid fa-user-slash mr-1"></i>'
         : '<i class="fa-solid fa-user mr-1"></i>';
       row.innerHTML = `
-                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
                     ${capitalizeFirstLetter(instructor.username)}
                     ${csAdminIcon}
                 </th>
@@ -166,8 +176,8 @@ function setTable(res) {
                         ${actionText}
                     </button>
                     <button class="delete-cs-btn text-sm border border-gray-300 py-1 px-2 rounded-lg font-medium text-red-500 hover:underline" data-agent-id="${
-        instructor.id
-      }">
+                      instructor.id
+                    }">
                         <i class="fa-solid fa-trash mr-1"></i> Delete
                     </button>
                 </td>

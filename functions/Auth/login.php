@@ -66,7 +66,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 function errorDiv($errorTxt)
 {
-    return '<div class="text-center p-4 my-4 text-base text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400" role="alert">
+    return '<div class="text-center p-4 my-4 text-base text-red-800 rounded-lg bg-red-50" role="alert">
         <span class="font-medium">' . $errorTxt . '</span>
         </div>';
 }
