@@ -24,6 +24,17 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     })
     .catch((error) => console.error("Error fetching groups:", error));
+
+  if (roleMeta == 'cs') {
+    // fetch lectures base on logged user branch
+    fetchBranchLectures(branchMeta);
+    // fetch tracks when select a branch
+    fetchTracks();
+    // show time options
+    showTimeOptions();
+    // fetch instructors whitin the selected branch
+    fetchInstructors(branchMeta);
+  }
 });
 
 /** select branch */
