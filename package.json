@@ -5,6 +5,10 @@
   },
   "scripts": {
     "watch": " npx @tailwindcss/cli -i ./css/main.css -o ./css/output.css --watch",
-    "build": " npx @tailwindcss/cli -i ./css/main.css -o ./css/output.css --minify"
+    "build": " npx @tailwindcss/cli -i ./css/main.css -o ./css/output.css --minify",
+    "minify": "node minify.js"
+  },
+  "devDependencies": {
+    "terser": "^5.39.2"
   }
 }

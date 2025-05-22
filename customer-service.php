@@ -109,7 +109,7 @@ include_once 'Design/includes/navbar.php';
 <?php include_once 'Design/Modals/insert_customer_service.php'; ?>
 
 <!-- Add this before closing body tag -->
-<script src="js/cs-main.js"></script>
+<script src="dist/cs-main.js"></script>
 
 <?php
 include_once "Design/includes/notFy-footer.php";

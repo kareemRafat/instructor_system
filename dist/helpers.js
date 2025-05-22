@@ -1,0 +1,1 @@
+function getMetaContent(t){return document.querySelector(`meta[name="${t}"]`)?.content||null}function capitalizeFirstLetter(t){return"string"!=typeof t||0===t.length?t:t.charAt(0).toUpperCase()+t.slice(1)}function wait(t){return new Promise((e=>{setTimeout((()=>{e(),lecturesCards.classList.remove("hidden")}),t)}))}export{getMetaContent,capitalizeFirstLetter,wait};
