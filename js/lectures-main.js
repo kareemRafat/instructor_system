@@ -85,7 +85,6 @@ branch.onchange = async function () {
     console.error("Error in branch change handler:", error);
     lecturesCards.classList.remove("hidden");
     lecturesCards.innerHTML = "<p>An error occurred. Please try again.</p>";
-    skeleton.classList.add("hidden");
   }
 };
 
