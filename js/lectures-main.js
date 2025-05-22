@@ -67,10 +67,11 @@ branch.onchange = async function () {
 
     // Run these operations in parallel for better performance
     await Promise.all([
+      fetchBranchLectures(this.value),
       fetchTracks(),
       fetchInstructors(this.value),
-      fetchBranchLectures(this.value),
     ]);
+
 
     // show time options after successful fetches
     showTimeOptions();
