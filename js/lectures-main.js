@@ -4,7 +4,6 @@ const branch = document.getElementById("branch");
 const instructor = document.getElementById("instructor");
 const lecturesCards = document.getElementById("lecturesCards");
 const groupTimeSelect = document.getElementById("group-time");
-const timeOptions = document.querySelectorAll("time-options");
 const tracks = document.getElementById("tracks");
 const skeleton = document.getElementById("skeleton");
 const arrowWarning = document.getElementById("arrow-warning");
@@ -384,15 +383,13 @@ async function fetchInstructors(branchId) {
 
 /** show time options */
 function showTimeOptions() {
-  // document.querySelector("#group-time option:first-child").innerHTML =
-    // "Choose a Time";
-
   const time = [10, 12.30, 3, 6, 8, 2, 5];
+  groupTimeSelect.innerHTML = "<option value=''>Select Group Time</option>";
   time.forEach((time) => {
     const option = document.createElement("option");
     option.value = time;
     option.textContent = time;
-    option.classList.add("time-options", "font-semibold");
+    option.classList.add("font-semibold");
     if (time == 8) {
       option.textContent = "Online";
     } else if (time == 2 || time == 5) {
