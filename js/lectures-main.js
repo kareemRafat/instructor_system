@@ -411,9 +411,7 @@ function resetAllWithNoBranch() {
     "Select Branch First";
   document.querySelector("#group-time option:first-child").selected = "true";
   let allOptions = document.querySelectorAll("#group-time option:not(:first-child)");
-  allOptions.forEach((option) => {
-    option.classList.add("hidden");
-  });
+  allOptions.forEach((option) => option.remove());
 }
 
 /** show Loading Skeleton */
