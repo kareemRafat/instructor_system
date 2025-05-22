@@ -1,4 +1,4 @@
-import {getMetaContent , capitalizeFirstLetter , wait } from "./helpers.js";
+import { getMetaContent, capitalizeFirstLetter, wait } from "./helpers.js";
 
 const branch = document.getElementById("branch");
 const instructor = document.getElementById("instructor");
@@ -13,35 +13,42 @@ document.addEventListener("DOMContentLoaded", async () => {
   const branchMeta = getMetaContent("branch");
   const roleMeta = getMetaContent("role");
 
-  // Fetch branches
-  fetch("functions/Branches/get_branches.php")
-    .then((response) => response.json())
-    .then((res) => {
-      if (res.data) {
-        res.data.forEach((br) => {
-          const option = document.createElement("option");
-          option.value = br.id;
-          option.textContent = br.name;
-          branch.appendChild(option);
-        });
-      }
-    })
-    .catch((error) => console.error("Error fetching groups:", error));
+  try {
+    // Fetch branches
+    const branchResponse = await fetch("functions/Branches/get_branches.php");
+    const branchData = await branchResponse.json();
 
-  if (roleMeta == 'cs') {
-    await wait(1000).then(() => { skeleton.classList.add("hidden") });
-    // fetch lectures base on logged user branch
-    fetchBranchLectures(branchMeta);
-    // fetch tracks when select a branch
-    fetchTracks();
-    // show time options
-    showTimeOptions();
-    // fetch instructors whitin the selected branch
-    fetchInstructors(branchMeta);
-  } else {
-    // if admin and cs-admin
+    if (branchData.data) {
+      branch.innerHTML = '<option value="" selected>Choose a branch</option>';
+      branchData.data.forEach((br) => {
+        const option = document.createElement("option");
+        option.value = br.id;
+        option.textContent = capitalizeFirstLetter(br.name);
+        branch.appendChild(option);
+      });
+    }
+
+    if (roleMeta == "cs") {
+      await wait(1000);
+      skeleton.classList.add("hidden");
+      // fetch lectures base on logged user branch
+      await fetchBranchLectures(branchMeta);
+      // fetch tracks when select a branch
+      await fetchTracks();
+      // show time options
+      showTimeOptions();
+      // fetch instructors whitin the selected branch
+      await fetchInstructors(branchMeta);
+    } else {
+      // if admin and cs-admin
+      skeleton.classList.add("hidden");
+      arrowWarning.classList.remove("hidden");
+    }
+  } catch (error) {
+    console.error("Error during initialization:", error);
     skeleton.classList.add("hidden");
-    arrowWarning.classList.remove("hidden");
+    lecturesCards.innerHTML =
+      "<p>Failed to load initial data. Please refresh the page.</p>";
   }
 });
 
@@ -49,7 +56,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 branch.onchange = async function () {
   try {
     showLoadingSkeleton();
-    
+
     if (!branch.value) {
       resetAllWithNoBranch();
       await fetchBranchLectures(this.value);
@@ -62,7 +69,7 @@ branch.onchange = async function () {
     await Promise.all([
       fetchTracks(),
       fetchInstructors(this.value),
-      fetchBranchLectures(this.value)
+      fetchBranchLectures(this.value),
     ]);
 
     // show time options after successful fetches
@@ -88,7 +95,7 @@ async function fetchTracks() {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
     const tracksData = await response.json();
-    
+
     tracks.innerHTML = "<option value=''>Select Track</option>";
     if (tracksData.data) {
       tracksData.data.forEach((trackResData) => {
@@ -115,7 +122,9 @@ tracks.onchange = async function () {
   // reset groups when select no track
   if (this.value == "") {
     fetchBranchLectures(branch.value);
-    await wait(1000).then(() => { skeleton.classList.add("hidden") });
+    await wait(1000).then(() => {
+      skeleton.classList.add("hidden");
+    });
     return;
   }
 
@@ -124,7 +133,9 @@ tracks.onchange = async function () {
     fetchBranchAndTrackLec(branch.value, this.value);
   }
 
-  await wait(1000).then(() => { skeleton.classList.add("hidden") });
+  await wait(1000).then(() => {
+    skeleton.classList.add("hidden");
+  });
 };
 
 function fetchBranchAndTrackLec(branchId, trackId) {
@@ -150,12 +161,13 @@ function fetchBranchAndTrackLec(branchId, trackId) {
 
 /** select Lectures by Group time */
 groupTimeSelect.onchange = async function () {
-
   showLoadingSkeleton();
 
   if (this.value == "") {
     fetchBranchLectures(branch.value);
-    await wait(1000).then(() => { skeleton.classList.add("hidden") });
+    await wait(1000).then(() => {
+      skeleton.classList.add("hidden");
+    });
     return;
   }
 
@@ -184,17 +196,20 @@ groupTimeSelect.onchange = async function () {
   } catch (error) {
     console.error("An error occurred:", error);
   }
-  await wait(1000).then(() => { skeleton.classList.add("hidden") });
+  await wait(1000).then(() => {
+    skeleton.classList.add("hidden");
+  });
 };
 
 /** select instructor */
 instructor.onchange = async function () {
-
   showLoadingSkeleton();
 
   if (this.value == "") {
     fetchBranchLectures(branch.value);
-    await wait(1000).then(() => { skeleton.classList.add("hidden") });
+    await wait(1000).then(() => {
+      skeleton.classList.add("hidden");
+    });
     return;
   }
 
@@ -217,7 +232,9 @@ instructor.onchange = async function () {
 
   // reset time
   groupTimeSelect.value = "";
-  await wait(1000).then(() => { skeleton.classList.add("hidden") });
+  await wait(1000).then(() => {
+    skeleton.classList.add("hidden");
+  });
 };
 
 /** set card */
@@ -272,12 +289,14 @@ function setCard(lec) {
 /** fetch branch lectures */
 async function fetchBranchLectures(value) {
   try {
-    const response = await fetch(`functions/Lectures/get_lectures.php?branch_id=${value}`);
+    const response = await fetch(
+      `functions/Lectures/get_lectures.php?branch_id=${value}`
+    );
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
     const res = await response.json();
-    
+
     if (res.status === "success") {
       if (res.data && res.data.length > 0) {
         lecturesCards.innerHTML = ""; // Clear previous cards
@@ -289,35 +308,39 @@ async function fetchBranchLectures(value) {
         lecturesCards.innerHTML = `<p><i class="fas fa-arrow-up-long mr-2"></i>Select Branch</p>`;
       }
     } else {
-      throw new Error(res.message || 'Failed to fetch lectures');
+      throw new Error(res.message || "Failed to fetch lectures");
     }
   } catch (error) {
     console.error("Error fetching lectures:", error);
-    lecturesCards.innerHTML = "<p>Failed to load lectures. Please try again.</p>";
+    lecturesCards.innerHTML =
+      "<p>Failed to load lectures. Please try again.</p>";
   }
 }
 
 /** Fetch instructors based on selected branch */
 async function fetchInstructors(branchId) {
   try {
-    const response = await fetch(`functions/Instructors/get_instructors.php?branch_id=${branchId}`);
+    const response = await fetch(
+      `functions/Instructors/get_instructors.php?branch_id=${branchId}`
+    );
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
     const res = await response.json();
-    
+
     instructor.innerHTML = "<option value=''>Choose Instructor</option>";
     if (res.data) {
       res.data.forEach((instructorData) => {
         const option = document.createElement("option");
         option.value = instructorData.id;
-        option.textContent = instructorData.username;
+        option.textContent = capitalizeFirstLetter(instructorData.username);
         instructor.appendChild(option);
       });
     }
   } catch (error) {
     console.error("Error fetching instructors:", error);
-    instructor.innerHTML = "<option value=''>Error loading instructors</option>";
+    instructor.innerHTML =
+      "<option value=''>Error loading instructors</option>";
   }
 }
 
@@ -347,7 +370,3 @@ function showLoadingSkeleton() {
   arrowWarning.classList.add("hidden");
   lecturesCards.classList.add("hidden");
 }
-
-
-
-
