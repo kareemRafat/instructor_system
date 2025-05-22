@@ -4,7 +4,7 @@ const branch = document.getElementById("branch");
 const instructor = document.getElementById("instructor");
 const lecturesCards = document.getElementById("lecturesCards");
 const groupTimeSelect = document.getElementById("group-time");
-const timeOptions = document.getElementById("time-options");
+const timeOptions = document.querySelectorAll("time-options");
 const tracks = document.getElementById("tracks");
 const skeleton = document.getElementById("skeleton");
 const arrowWarning = document.getElementById("arrow-warning");
@@ -71,7 +71,6 @@ branch.onchange = async function () {
       fetchTracks(),
       fetchInstructors(this.value),
     ]);
-
 
     // show time options after successful fetches
     showTimeOptions();
@@ -385,9 +384,22 @@ async function fetchInstructors(branchId) {
 
 /** show time options */
 function showTimeOptions() {
-  document.querySelector("#group-time option:first-child").innerHTML =
-    "Choose a Time";
-  timeOptions.classList.remove("hidden");
+  // document.querySelector("#group-time option:first-child").innerHTML =
+    // "Choose a Time";
+
+  const time = [10, 12.30, 3, 6, 8, 2, 5];
+  time.forEach((time) => {
+    const option = document.createElement("option");
+    option.value = time;
+    option.textContent = time;
+    option.classList.add("time-options", "font-semibold");
+    if (time == 8) {
+      option.textContent = "Online";
+    } else if (time == 2 || time == 5) {
+      option.textContent = `${time} [ Friday ]`;
+    }
+    groupTimeSelect.appendChild(option);
+  });
 }
 
 /** reset other selects when nulling the branches */
@@ -398,8 +410,10 @@ function resetAllWithNoBranch() {
   document.querySelector("#group-time option:first-child").innerHTML =
     "Select Branch First";
   document.querySelector("#group-time option:first-child").selected = "true";
-
-  timeOptions.classList.add("hidden");
+  let allOptions = document.querySelectorAll("#group-time option:not(:first-child)");
+  allOptions.forEach((option) => {
+    option.classList.add("hidden");
+  });
 }
 
 /** show Loading Skeleton */
