@@ -1,4 +1,3 @@
-
 import {getMetaContent , capitalizeFirstLetter , wait } from "./helpers.js";
 
 const branch = document.getElementById("branch");
@@ -48,46 +47,60 @@ document.addEventListener("DOMContentLoaded", async () => {
 
 /** select branch */
 branch.onchange = async function () {
+  try {
+    showLoadingSkeleton();
+    
+    if (!branch.value) {
+      resetAllWithNoBranch();
+      await fetchBranchLectures(this.value);
+      await wait(1000);
+      skeleton.classList.add("hidden");
+      return;
+    }
 
-  showLoadingSkeleton();
-  
-  if (!branch.value) {
-    resetAllWithNoBranch();
-    fetchBranchLectures(this.value);
-    await wait(1000).then(() => { skeleton.classList.add("hidden") });
-    return;
+    // Run these operations in parallel for better performance
+    await Promise.all([
+      fetchTracks(),
+      fetchInstructors(this.value),
+      fetchBranchLectures(this.value)
+    ]);
+
+    // show time options after successful fetches
+    showTimeOptions();
+
+    // reset time
+    groupTimeSelect.value = "";
+
+    await wait(1000);
+    skeleton.classList.add("hidden");
+  } catch (error) {
+    console.error("Error in branch change handler:", error);
+    lecturesCards.innerHTML = "<p>An error occurred. Please try again.</p>";
+    skeleton.classList.add("hidden");
   }
-
-  // fetch tracks when select a branch
-  fetchTracks();
-
-  // show time options
-  showTimeOptions();
-
-  // fetch instructors whitin the selected branch
-  fetchInstructors(this.value);
-
-  // show lectures based on selected branch
-  fetchBranchLectures(this.value);
-
-  // reset time
-  groupTimeSelect.value = "";
-
-  await wait(1000).then(() => { skeleton.classList.add("hidden") });
 };
 
 /** get Tracks */
 async function fetchTracks() {
-  let fetchTracks = await fetch(`functions/Tracks/get_tracks.php`);
-  let tracksData = await fetchTracks.json();
-  tracks.innerHTML = "<option value=''>Select Track</option>";
-  if (tracksData.data) {
-    tracksData.data.forEach((trackResData) => {
-      const option = document.createElement("option");
-      option.value = trackResData.id;
-      option.textContent = capitalizeFirstLetter(trackResData.name);
-      tracks.appendChild(option);
-    });
+  try {
+    const response = await fetch(`functions/Tracks/get_tracks.php`);
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    const tracksData = await response.json();
+    
+    tracks.innerHTML = "<option value=''>Select Track</option>";
+    if (tracksData.data) {
+      tracksData.data.forEach((trackResData) => {
+        const option = document.createElement("option");
+        option.value = trackResData.id;
+        option.textContent = capitalizeFirstLetter(trackResData.name);
+        tracks.appendChild(option);
+      });
+    }
+  } catch (error) {
+    console.error("Error fetching tracks:", error);
+    tracks.innerHTML = "<option value=''>Error loading tracks</option>";
   }
 }
 
@@ -257,42 +270,55 @@ function setCard(lec) {
 }
 
 /** fetch branch lectures */
-function fetchBranchLectures(value) {
-  // get all lectures based on selected branch
-  fetch(`functions/Lectures/get_lectures.php?branch_id=${value}`)
-    .then((response) => response.json())
-    .then((res) => {
-      if (res.status == "success") {
-        if (res.data.length > 0) {
-          lecturesCards.innerHTML = ""; // Clear previous cards
-          res.data.forEach((lec) => {
-            let card = setCard(lec);
-            lecturesCards.innerHTML += card;
-          });
-        } else {
-          lecturesCards.innerHTML = `<p><i class="fas fa-arrow-up-long mr-2"></i>Select Branch</p>`;
-        }
+async function fetchBranchLectures(value) {
+  try {
+    const response = await fetch(`functions/Lectures/get_lectures.php?branch_id=${value}`);
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    const res = await response.json();
+    
+    if (res.status === "success") {
+      if (res.data && res.data.length > 0) {
+        lecturesCards.innerHTML = ""; // Clear previous cards
+        res.data.forEach((lec) => {
+          let card = setCard(lec);
+          lecturesCards.innerHTML += card;
+        });
+      } else {
+        lecturesCards.innerHTML = `<p><i class="fas fa-arrow-up-long mr-2"></i>Select Branch</p>`;
       }
-    })
-    .catch((error) => console.error("Error fetching lectures:", error));
+    } else {
+      throw new Error(res.message || 'Failed to fetch lectures');
+    }
+  } catch (error) {
+    console.error("Error fetching lectures:", error);
+    lecturesCards.innerHTML = "<p>Failed to load lectures. Please try again.</p>";
+  }
 }
 
 /** Fetch instructors based on selected branch */
-function fetchInstructors(branchId) {
-  fetch(`functions/Instructors/get_instructors.php?branch_id=${branchId}`)
-    .then((response) => response.json())
-    .then((res) => {
-      instructor.innerHTML = "<option value=''>Choose Instructor</option>";
-      if (res.data) {
-        res.data.forEach((instructorData) => {
-          const option = document.createElement("option");
-          option.value = instructorData.id;
-          option.textContent = instructorData.username;
-          instructor.appendChild(option);
-        });
-      }
-    })
-    .catch((error) => console.error("Error fetching instructors:", error));
+async function fetchInstructors(branchId) {
+  try {
+    const response = await fetch(`functions/Instructors/get_instructors.php?branch_id=${branchId}`);
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    const res = await response.json();
+    
+    instructor.innerHTML = "<option value=''>Choose Instructor</option>";
+    if (res.data) {
+      res.data.forEach((instructorData) => {
+        const option = document.createElement("option");
+        option.value = instructorData.id;
+        option.textContent = instructorData.username;
+        instructor.appendChild(option);
+      });
+    }
+  } catch (error) {
+    console.error("Error fetching instructors:", error);
+    instructor.innerHTML = "<option value=''>Error loading instructors</option>";
+  }
 }
 
 /** show time options */
