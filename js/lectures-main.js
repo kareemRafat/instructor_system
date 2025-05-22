@@ -113,75 +113,49 @@ async function fetchTracks() {
 
 /** select lectures by Track and Group */
 tracks.onchange = async function () {
-  showLoadingSkeleton();
+  try {
+    showLoadingSkeleton();
 
-  // reset instructor and time when select a track
-  document.querySelector("#instructor option:first-child").selected = "true";
-  document.querySelector("#group-time option:first-child").selected = "true";
+    // reset instructor and time when select a track
+    document.querySelector("#instructor option:first-child").selected = "true";
+    document.querySelector("#group-time option:first-child").selected = "true";
 
-  // reset groups when select no track
-  if (this.value == "") {
-    fetchBranchLectures(branch.value);
-    await wait(1000).then(() => {
+    // reset groups when select no track
+    if (this.value == "") {
+      await fetchBranchLectures(branch.value);
+      await wait(1000);
       skeleton.classList.add("hidden");
-    });
-    return;
-  }
+      lecturesCards.classList.remove("hidden");
+      return;
+    }
 
-  // select track only when there a branch
-  if (branch.value) {
-    fetchBranchAndTrackLec(branch.value, this.value);
-  }
+    // select track only when there a branch
+    if (branch.value) {
+      await fetchBranchAndTrackLec(branch.value, this.value);
+    }
 
-  await wait(1000).then(() => {
+    await wait(1000);
     skeleton.classList.add("hidden");
-  });
+    lecturesCards.classList.remove("hidden");
+  } catch (error) {
+    console.error("Error in track change:", error);
+    lecturesCards.innerHTML =
+      "<p>Failed to load lectures. Please try again.</p>";
+    skeleton.classList.add("hidden");
+    lecturesCards.classList.remove("hidden");
+  }
 };
 
-function fetchBranchAndTrackLec(branchId, trackId) {
-  fetch(
-    `functions/Lectures/get_lectures.php?branch_id=${branchId}&track_id=${trackId}`
-  )
-    .then((response) => response.json())
-    .then((res) => {
-      if (res.status == "success") {
-        if (res.data.length > 0) {
-          lecturesCards.innerHTML = ""; // Clear previous cards
-          res.data.forEach((lec) => {
-            let card = setCard(lec);
-            lecturesCards.innerHTML += card;
-          });
-        } else {
-          lecturesCards.innerHTML = "<p>No lectures found</p>";
-        }
-      }
-    })
-    .catch((error) => console.error("Error fetching lectures:", error));
-}
-
-/** select Lectures by Group time */
-groupTimeSelect.onchange = async function () {
-  showLoadingSkeleton();
-
-  if (this.value == "") {
-    fetchBranchLectures(branch.value);
-    await wait(1000).then(() => {
-      skeleton.classList.add("hidden");
-    });
-    return;
-  }
-
-  let url = "";
-
-  if (branch.value) {
-    url = `functions/Lectures/get_lectures.php?branch_id=${branch.value}&time=${this.value}`;
-  } else {
-    url = `functions/Lectures/get_lectures.php?time=${this.value}`;
-  }
-
+async function fetchBranchAndTrackLec(branchId, trackId) {
   try {
-    let lectures = await fetch(url);
-    let res = await lectures.json();
+    const response = await fetch(
+      `functions/Lectures/get_lectures.php?branch_id=${branchId}&track_id=${trackId}`
+    );
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    const res = await response.json();
+
     if (res.status == "success") {
       if (res.data.length > 0) {
         lecturesCards.innerHTML = ""; // Clear previous cards
@@ -192,49 +166,113 @@ groupTimeSelect.onchange = async function () {
       } else {
         lecturesCards.innerHTML = "<p>No lectures found</p>";
       }
+    } else {
+      throw new Error(res.message || "Failed to fetch lectures");
     }
   } catch (error) {
-    console.error("An error occurred:", error);
+    console.error("Error fetching lectures:", error);
+    lecturesCards.innerHTML =
+      "<p>Failed to load lectures. Please try again.</p>";
   }
-  await wait(1000).then(() => {
+}
+
+/** select Lectures by Group time */
+groupTimeSelect.onchange = async function () {
+  try {
+    showLoadingSkeleton();
+
+    if (this.value == "") {
+      await fetchBranchLectures(branch.value);
+      await wait(1000);
+      skeleton.classList.add("hidden");
+      lecturesCards.classList.remove("hidden");
+      return;
+    }
+
+    let url = "";
+
+    if (branch.value) {
+      url = `functions/Lectures/get_lectures.php?branch_id=${branch.value}&time=${this.value}`;
+    } else {
+      url = `functions/Lectures/get_lectures.php?time=${this.value}`;
+    }
+
+    const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    const res = await response.json();
+
+    if (res.status == "success") {
+      if (res.data.length > 0) {
+        lecturesCards.innerHTML = ""; // Clear previous cards
+        res.data.forEach((lec) => {
+          let card = setCard(lec);
+          lecturesCards.innerHTML += card;
+        });
+      } else {
+        lecturesCards.innerHTML = "<p>No lectures found</p>";
+      }
+    } else {
+      throw new Error(res.message || "Failed to fetch lectures");
+    }
+  } catch (error) {
+    console.error("Error in time change:", error);
+    lecturesCards.innerHTML =
+      "<p>Failed to load lectures. Please try again.</p>";
+  } finally {
+    await wait(1000);
     skeleton.classList.add("hidden");
-  });
+    lecturesCards.classList.remove("hidden");
+  }
 };
 
 /** select instructor */
 instructor.onchange = async function () {
-  showLoadingSkeleton();
+  try {
+    showLoadingSkeleton();
 
-  if (this.value == "") {
-    fetchBranchLectures(branch.value);
-    await wait(1000).then(() => {
+    if (this.value == "") {
+      await fetchBranchLectures(branch.value);
+      await wait(1000);
       skeleton.classList.add("hidden");
-    });
-    return;
-  }
+      lecturesCards.classList.remove("hidden");
+      return;
+    }
 
-  fetch(`functions/Lectures/get_lectures.php?instructor_id=${this.value}`)
-    .then((response) => response.json())
-    .then((res) => {
-      if (res.status == "success") {
-        if (res.data.length > 0) {
-          lecturesCards.innerHTML = ""; // Clear previous cards
-          res.data.forEach((lec) => {
-            let card = setCard(lec);
-            lecturesCards.innerHTML += card;
-          });
-        } else {
-          lecturesCards.innerHTML = "<p>No lectures found</p>";
-        }
+    const response = await fetch(
+      `functions/Lectures/get_lectures.php?instructor_id=${this.value}`
+    );
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    const res = await response.json();
+
+    if (res.status == "success") {
+      if (res.data.length > 0) {
+        lecturesCards.innerHTML = ""; // Clear previous cards
+        res.data.forEach((lec) => {
+          let card = setCard(lec);
+          lecturesCards.innerHTML += card;
+        });
+      } else {
+        lecturesCards.innerHTML = "<p>No lectures found</p>";
       }
-    })
-    .catch((error) => console.error("Error fetching lectures:", error));
+    } else {
+      throw new Error(res.message || "Failed to fetch lectures");
+    }
 
-  // reset time
-  groupTimeSelect.value = "";
-  await wait(1000).then(() => {
+    // reset time
+    groupTimeSelect.value = "";
+  } catch (error) {
+    console.error("Error in instructor change:", error);
+    lecturesCards.innerHTML =
+      "<p>Failed to load lectures. Please try again.</p>";
+  } finally {
+    await wait(1000);
     skeleton.classList.add("hidden");
-  });
+    lecturesCards.classList.remove("hidden");
+  }
 };
 
 /** set card */
@@ -363,10 +401,11 @@ function resetAllWithNoBranch() {
   timeOptions.classList.add("hidden");
 }
 
-/** show Loading Skeletopn */
+/** show Loading Skeleton */
 function showLoadingSkeleton() {
   // show skeleton and hide lectures cards and arrow warning
   skeleton.classList.remove("hidden");
   arrowWarning.classList.add("hidden");
   lecturesCards.classList.add("hidden");
+  lecturesCards.innerHTML = ""; // Clear previous content
 }
