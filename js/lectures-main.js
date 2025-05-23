@@ -299,6 +299,7 @@ function setCard(lec) {
             ? "Online"
             : lec.group_time
         }</span>
+        <span class="ml-2 inline-flex items-center rounded-md bg-indigo-50 px-3 py-1 text-xs font-medium text-indigo-800 ring-1 ring-indigo-600/20 ring-inset ">${lec.group_start_date}</span>
       </div>
       
       <div class="block mt-1 mb-4 text-md font-semibold tracking-wide leading-none text-gray-500"><i class="fab fa-teamspeak mr-1"></i> Instructor :  ${capitalizeFirstLetter(
