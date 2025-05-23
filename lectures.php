@@ -44,7 +44,6 @@ include_once 'Design/includes/navbar.php';
 
 <div class="max-w-7xl mx-auto pt-6 px-6">
     <h1 class="text-3xl font-bold mb-6 text-center text-gray-800">Instructor Lectures</h1>
-
     <div class="flex justify-between items-start md:items-center mb-4 flex-col md:flex-row">
         <h2 class="text-2xl font-semibold text-blue-700 mb-5">
             <i class="fa-solid fa-fire mr-1"></i>
