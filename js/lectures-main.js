@@ -338,7 +338,7 @@ return `
                 </div>
                 <div class="flex items-center gap-3 mb-4 p-3 bg-gray-50 rounded-lg">
                     <div class="w-10 h-10 bg-gradient-to-r bg-cyan-600 rounded-full flex items-center justify-center">
-                        <span class="text-white font-bold text-sm">${lec.instructor_name[0].toUpperCase()}</span>
+                        <span class="text-white font-bold text-lg">${lec.instructor_name[0].toUpperCase()}</span>
                     </div>
                     <div>
                         <div class="text-gray-600 text-xs capitalize tracking-wide">
