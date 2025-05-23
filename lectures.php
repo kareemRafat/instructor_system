@@ -45,11 +45,18 @@ include_once 'Design/includes/navbar.php';
 <div class="max-w-7xl mx-auto pt-6 px-6">
     <h1 class="text-3xl font-bold mb-6 text-center text-gray-800">Instructor Lectures</h1>
 
-    <h2 class="text-2xl font-semibold text-blue-700 mb-5">
-        <i class="fa-solid fa-fire mr-1"></i>
-        <a class="hover:underline" href="https://tinyurl.com/createivo-track" target="_blank">Track</a>
-        <i class="fa-solid fa-circle-arrow-left text-xl ml-5 my-arrow"></i>
-    </h2>
+    <div class="flex justify-between items-start md:items-center mb-4 flex-col md:flex-row">
+        <h2 class="text-2xl font-semibold text-blue-700 mb-5">
+            <i class="fa-solid fa-fire mr-1"></i>
+            <a class="hover:underline" href="https://tinyurl.com/createivo-track" target="_blank">Track</a>
+            <i class="fa-solid fa-circle-arrow-left text-xl ml-5 my-arrow"></i>
+        </h2>
+        <h4 class="flex items-center text-sm font-medium text-gray-900 dark:text-white">
+            <span class="flex items-center text-sm font-medium text-gray-900 dark:text-white me-3"><span class="flex w-2.5 h-2.5 bg-green-500 rounded-full me-1.5 shrink-0"></span>HTML - CSS</span>
+            <span class="flex items-center text-sm font-medium text-gray-900 dark:text-white me-3"><span class="flex w-2.5 h-2.5 bg-cyan-500 rounded-full me-1.5 shrink-0"></span>JavaScript</span>
+            <span class="flex items-center text-sm font-medium text-gray-900 dark:text-white me-3"><span class="flex w-2.5 h-2.5 bg-red-500 rounded-full me-1.5 shrink-0"></span>Php - MySQL - project</span>
+        </h4>
+    </div>
 
     <form id="lectureForm" class="mb-8" action="functions/Lectures/get_lectures.php">
         <!-- Select Row -->

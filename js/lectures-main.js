@@ -276,6 +276,15 @@ instructor.onchange = async function () {
 
 /** set card */
 function setCard(lec) {
+  let indicatorColor = "";
+  let trackName = lec.track_name.toLowerCase();
+  if (trackName == "php"  || trackName.toLowerCase().includes('database') || trackName.includes('project')) {
+    indicatorColor = `bg-red-500`;
+  } else if(trackName == "html" || trackName.includes('css')) {
+    indicatorColor = `bg-green-500`;
+  } else if(trackName.includes('javascript')){
+    indicatorColor = `bg-cyan-500`;
+  }
   return `
   <li class="relative mb-6 flex-shrink-0">   
     <div class="flex items-center">
@@ -301,7 +310,6 @@ function setCard(lec) {
         }</span>
         <span class="ml-2 inline-flex items-center rounded-md bg-indigo-50 px-3 py-1 text-xs font-medium text-indigo-800 ring-1 ring-indigo-600/20 ring-inset ">${lec.group_start_date}</span>
       </div>
-      
       <div class="block mt-1 mb-4 text-md font-semibold tracking-wide leading-none text-gray-500"><i class="fab fa-teamspeak mr-1"></i> Instructor :  ${capitalizeFirstLetter(
         lec.instructor_name
       )}</div>
@@ -310,9 +318,9 @@ function setCard(lec) {
         lec.latest_comment_date
       }</time>
 
- 
       <p class="relative w-full border border-blue-200 bg-blue-50 pl-3 p-2 py-3 rounded-md text-base font-semibold text-gray-500 h-[76px] flex">
         <span class="absolute inline-flex items-center justify-center text-sm font-bold text-white bg-blue-500 border-2 border-white rounded-lg -top-4 end-5 px-4 py-1 tracking-wider ">
+          <span class="flex w-3 h-3 me-3 ${indicatorColor} rounded-full absolute -top-1 -right-4 border-2 border-white"></span>
           ${capitalizeFirstLetter(lec.track_name)}
         </span>
         <span>
