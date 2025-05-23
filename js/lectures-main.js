@@ -361,7 +361,7 @@ return `
                         <span
                             class="bg-gradient-to-r from-blue-500 to-purple-600 text-white px-4 py-1 rounded-full text-sm font-bold shadow-lg relative">${capitalizeFirstLetter(lec.track_name)}
                             <div
-                                class="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full border-2 border-white">
+                                class="absolute -top-1 -right-1 w-3 h-3 ${indicatorColor} rounded-full border-2 border-white">
                             </div>
                         </span>
                     </div>
