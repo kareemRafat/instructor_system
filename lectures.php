@@ -53,7 +53,7 @@ include_once 'Design/includes/navbar.php';
         <h4 class="flex items-center text-sm font-medium text-gray-900 dark:text-white">
             <span class="flex items-center text-sm font-medium text-gray-900 dark:text-white me-3"><span class="flex w-2.5 h-2.5 bg-green-500 rounded-full me-1.5 shrink-0"></span>HTML - CSS</span>
             <span class="flex items-center text-sm font-medium text-gray-900 dark:text-white me-3"><span class="flex w-2.5 h-2.5 bg-cyan-500 rounded-full me-1.5 shrink-0"></span>JavaScript</span>
-            <span class="flex items-center text-sm font-medium text-gray-900 dark:text-white me-3"><span class="flex w-2.5 h-2.5 bg-red-500 rounded-full me-1.5 shrink-0"></span>Php - MySQL - project</span>
+            <span class="flex items-center text-sm font-medium text-gray-900 dark:text-white me-3"><span class="flex w-2.5 h-2.5 bg-red-500 rounded-full me-1.5 shrink-0"></span>Php - MySQL</span>
         </h4>
     </div>
 

@@ -16,7 +16,7 @@ $baseQuery = "SELECT
         `tracks`.name AS track_name,
         instructors.username AS instructor_name,
         DATE_FORMAT(lectures.date, '%M %d-%m-%Y') AS formatted_date,
-        DATE_FORMAT(`groups`.start_date, '%M %d-%m-%Y') AS group_start_date,
+        DATE_FORMAT(`groups`.start_date, '%M %d, %m-%Y') AS group_start_date,
         ROW_NUMBER() OVER (PARTITION BY lectures.group_id ORDER BY lectures.date DESC) AS rn
     FROM lectures 
     JOIN `groups` ON lectures.group_id = `groups`.id 
