@@ -50,10 +50,10 @@ include_once 'Design/includes/navbar.php';
             <a class="hover:underline" href="https://tinyurl.com/createivo-track" target="_blank">Track</a>
             <i class="fa-solid fa-circle-arrow-left text-xl ml-5 my-arrow"></i>
         </h2>
-        <h4 class="flex items-center text-sm font-medium text-gray-900 dark:text-white">
-            <span class="flex items-center text-sm font-medium text-gray-900 dark:text-white me-3"><span class="flex w-2.5 h-2.5 bg-green-500 rounded-full me-1.5 shrink-0"></span>HTML - CSS</span>
-            <span class="flex items-center text-sm font-medium text-gray-900 dark:text-white me-3"><span class="flex w-2.5 h-2.5 bg-cyan-500 rounded-full me-1.5 shrink-0"></span>JavaScript</span>
-            <span class="flex items-center text-sm font-medium text-gray-900 dark:text-white me-3"><span class="flex w-2.5 h-2.5 bg-red-500 rounded-full me-1.5 shrink-0"></span>Php - MySQL</span>
+        <h4 class="flex items-center text-sm font-medium text-gray-900">
+            <span class="flex items-center text-sm font-medium text-gray-900 me-3"><span class="flex w-2.5 h-2.5 bg-green-500 rounded-full me-1.5 shrink-0"></span>HTML - CSS</span>
+            <span class="flex items-center text-sm font-medium text-gray-900 me-3"><span class="flex w-2.5 h-2.5 bg-cyan-500 rounded-full me-1.5 shrink-0"></span>JavaScript</span>
+            <span class="flex items-center text-sm font-medium text-gray-900 me-3"><span class="flex w-2.5 h-2.5 bg-red-500 rounded-full me-1.5 shrink-0"></span>Php - MySQL</span>
         </h4>
     </div>
 
