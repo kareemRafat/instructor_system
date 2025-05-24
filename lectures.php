@@ -109,7 +109,7 @@ include_once 'Design/includes/navbar.php';
 
         <p id="arrow-warning" class="hidden"><i class="fas fa-arrow-up-long mr-2"></i>Select Branch</p>
 
-        <ol id="lecturesCards" class="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-9">
+        <ol id="lecturesCards" class="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-11">
         </ol>
     </div>
 
