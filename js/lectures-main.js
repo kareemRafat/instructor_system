@@ -289,7 +289,7 @@ return `
 <li class="">
     <div class="relative">
         <div
-            class="bg-white rounded-2xl shadow-sm transition-all duration-300 overflow-hidden border border-gray-100">
+            class="bg-white rounded-lg shadow-sm transition-all duration-300 overflow-hidden border border-gray-100">
             <div class="bg-gradient-to-r from-blue-500 to-purple-500 px-6 py-2 traking-wider">
                 <div class="flex items-center justify-between">
                     <div class="flex items-center gap-3">
