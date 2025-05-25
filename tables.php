@@ -1,0 +1,128 @@
+<?php
+include_once 'Helpers/bootstrap.php';
+include_once 'Design/includes/header.php';
+include_once 'Design/includes/navbar.php';
+?>
+
+<?php
+
+// Fetch instructors
+$instructors = [];
+$stmt = $pdo->prepare("SELECT id, username FROM instructors WHERE is_active = 1 AND role IN ('instructor' , 'admin') AND (branch_id = :branch OR :branch IS NULL)");
+$stmt->execute([':branch' => $_GET['branch'] ?? 1 ]);
+$instructors = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+
+// Fetch groups
+$groups = [];
+$stmt = $pdo->prepare("SELECT 
+                        g.name,
+                        g.day,
+                        g.time,
+                        g.branch_id,
+                        DATE_FORMAT(g.start_date, '%d-%m-%Y') AS start,
+                        g.instructor_id 
+                        FROM groups g 
+                        JOIN instructors i ON g.instructor_id = i.id");
+$stmt->execute();
+$groups = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+// Organize groups by instructor, day, and time
+$schedule = [];
+foreach ($groups as $group) {
+    $instructor_id = $group['instructor_id'];
+    $day = $group['day'];
+    $time = $group['time'];
+    $schedule[$instructor_id][$day][$time] = $group['name'];
+    $schedule[$instructor_id][$day]['start'] = $group['start'];
+}
+
+// Time slots and days for the table
+$days = ['saturday', 'sunday', 'monday'];
+$times = ['10.00', '12.30', '3.00', '6.00'];
+?>
+
+
+
+<div class="p-6 bg-gray-50 min-h-screen">
+    <div class="mx-auto">
+        <h1 class="text-3xl font-bold text-center mb-8 text-gray-800">
+            Instructor Schedule
+        </h1>
+
+        <!-- filter -->
+        <div class="mb-5">
+            <!-- branch Dropdown -->
+            <div class="w-full md:flex-1">
+                <form id="branch-form" action="" method="get">
+                    <select name="branch" id="branchSelect"
+                        class="block w-full p-2 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500">
+                        <option value="" selected>Select a Branch</option>
+                    </select>
+                </form>
+            </div>
+        </div>
+        <div class="overflow-x-auto shadow-lg rounded-lg">
+            <table class="w-full bg-white border-collapse">
+                <!-- Table Header -->
+                <thead>
+                    <tr class="bg-blue-600 text-white">
+                        <th class="border border-gray-300 p-4 text-left font-semibold w-32">
+                            Instructor
+                        </th>
+                        <?php foreach ($days as $index => $day): ?>
+                            <th colspan="4" class="border border-gray-300 <?php echo ($index < 2) ? 'border-r-2 border-r-slate-400' : ''; ?> p-4 text-center font-semibold">
+                                <?php echo $day; ?>
+                            </th>
+                        <?php endforeach; ?>
+                    </tr>
+                    <!-- Time slots sub-header -->
+                    <tr class="bg-blue-500 text-white">
+                        <th class="border border-gray-300 p-2"></th>
+                        <?php foreach ($days as $dayIndex => $day): ?>
+                            <?php foreach ($times as $index => $time): ?>
+                                <th class="border border-gray-300 <?php echo ($index === 3 && $dayIndex < 2) ? 'border-r-2 border-r-slate-400' : ''; ?> p-2 text-sm font-medium">
+                                    <?php echo $time; ?>
+                                </th>
+                            <?php endforeach; ?>
+                        <?php endforeach; ?>
+                    </tr>
+                </thead>
+                <!-- Table Body -->
+                <tbody>
+                    <?php foreach ($instructors as $instructor): ?>
+                        <tr class="bg-gray-50 hover:bg-blue-50 transition-colors duration-200">
+                            <td class="border border-gray-300 p-4 font-semibold text-blue-700 bg-blue-100">
+                                <?php echo htmlspecialchars(ucwords($instructor['username'])); ?>
+                            </td>
+                            <?php foreach ($days as $dayIndex => $day): ?>
+                                <?php foreach ($times as $index => $time): ?>
+                                    <td class="border border-gray-300 <?php echo ($index === 3 && $dayIndex < 2) ? 'border-r-2 border-r-slate-400' : ''; ?> p-2 text-center h-16 w-20 hover:bg-yellow-50 cursor-pointer transition-colors duration-150">
+                                        <?php
+                                        // Display group name if exists for this instructor, day, and time
+                                        if (isset($schedule[$instructor['id']][$day][$time])) { ?>
+                                            <div class="flex flex-col items-center">
+                                                <span class="text-blue-500 font-semibold text-base"><?= ucwords($schedule[$instructor['id']][$day][$time]) ?></span>
+                                                <span class="text-sm"><?= $schedule[$instructor['id']][$day]['start'] ?? ''; ?></span>
+                                            </div>
+                                        <?php } else { ?>
+                                            <div class="text-gray-400">
+
+                                            </div>
+
+                                        <?php } ?>
+
+                                    </td>
+                                <?php endforeach; ?>
+                            <?php endforeach; ?>
+                        </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<script type="module" src="dist/tables-main.js"></script>
+</body>
+
+</html>
