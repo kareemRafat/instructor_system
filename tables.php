@@ -40,6 +40,19 @@ foreach ($groups as $group) {
 // Time slots and days for the table
 $days = ['saturday', 'sunday', 'monday'];
 $times = ['10.00', '12.30', '3.00-6.10', '6.00-8.00'];
+
+if (isset($_GET['branch']) AND $_GET['branch'] == 1) {
+    $color = 'bg-blue-500';
+    $text = 'text-blue-700';
+} else if (isset($_GET['branch']) AND $_GET['branch'] == 2) {
+    $color = 'bg-teal-600';
+    $text = 'text-teal-700';
+} else if (isset($_GET['branch']) AND $_GET['branch'] == 3) {
+    $color = 'bg-indigo-500';
+    $text = 'text-indigo-600';
+} else {
+    $color = 'blue'; // Default color
+}
 ?>
 
 
@@ -66,18 +79,18 @@ $times = ['10.00', '12.30', '3.00-6.10', '6.00-8.00'];
             <table class="w-full bg-white border-collapse">
                 <!-- Table Header -->
                 <thead>
-                    <tr class="bg-blue-600 text-white">
+                    <tr class="<?= $color ?> text-white">
                         <th class="border border-gray-300 p-4 text-left font-semibold w-32">
                             Instructor
                         </th>
                         <?php foreach ($days as $index => $day): ?>
                             <th colspan="4" class="border border-gray-300 <?php echo ($index < 2) ? 'border-r-2 border-r-slate-400' : ''; ?> p-4 text-center font-semibold">
-                                <?php echo $day; ?>
+                                <?php echo ucwords($day); ?>
                             </th>
                         <?php endforeach; ?>
                     </tr>
                     <!-- Time slots sub-header -->
-                    <tr class="bg-blue-500 text-white">
+                    <tr class="<?= $color ?> text-white">
                         <th class="border border-gray-300 p-2"></th>
                         <?php foreach ($days as $dayIndex => $day): ?>
                             <?php foreach ($times as $index => $time): ?>
@@ -100,7 +113,7 @@ $times = ['10.00', '12.30', '3.00-6.10', '6.00-8.00'];
                 <tbody>
                     <?php foreach ($instructors as $instructor): ?>
                         <tr class="bg-gray-50 hover:bg-blue-50 transition-colors duration-200">
-                            <td class="border border-gray-300 p-4 font-semibold text-blue-700 bg-blue-100">
+                            <td class="border border-gray-300 p-4 font-semibold <?= $text ?> bg-gray-200">
                                 <?php echo htmlspecialchars(ucwords($instructor['username'])); ?>
                             </td>
                             <?php foreach ($days as $dayIndex => $day): ?>
@@ -115,14 +128,14 @@ $times = ['10.00', '12.30', '3.00-6.10', '6.00-8.00'];
                                                 <div class="flex flex-col items-center gap-1">
                                                     <?php if ($firstSlot) { ?>
                                                         <div>
-                                                            <span class="text-blue-500 font-semibold text-sm"><?= ucwords($schedule[$instructor['id']][$day]['3.00']) ?></span>
-                                                            <span class="text-xs md:block sm:hidden"><?= $schedule[$instructor['id']][$day]['start'] ?? ''; ?></span>
+                                                            <span class="<?= $text ?> font-semibold text-sm"><?= ucwords($schedule[$instructor['id']][$day]['3.00']) ?></span>
+                                                            <span class="text-xs md:block hidden"><?= $schedule[$instructor['id']][$day]['start'] ?? ''; ?></span>
                                                         </div>
                                                     <?php } ?>
                                                     <?php if ($secondSlot) { ?>
                                                         <div>
-                                                            <span class="text-blue-500 font-semibold text-sm"><?= ucwords($schedule[$instructor['id']][$day]['6.10']) ?></span>
-                                                            <span class="text-xs md:block sm:hidden"><?= $schedule[$instructor['id']][$day]['start'] ?? ''; ?></span>
+                                                            <span class="<?= $text ?> font-semibold text-sm"><?= ucwords($schedule[$instructor['id']][$day]['6.10']) ?></span>
+                                                            <span class="text-xs md:block hidden"><?= $schedule[$instructor['id']][$day]['start'] ?? ''; ?></span>
                                                         </div>
                                                     <?php } ?>
                                                 </div>
@@ -134,14 +147,14 @@ $times = ['10.00', '12.30', '3.00-6.10', '6.00-8.00'];
                                                 <div class="flex flex-col items-center gap-1">
                                                     <?php if ($firstSlot) { ?>
                                                         <div>
-                                                            <span class="text-blue-500 font-semibold text-sm"><?= ucwords($schedule[$instructor['id']][$day]['6.00']) ?></span>
-                                                            <span class="text-xs block md:block sm:hidden"><?= $schedule[$instructor['id']][$day]['start'] ?? ''; ?></span>
+                                                            <span class="<?= $text ?> font-semibold text-sm"><?= ucwords($schedule[$instructor['id']][$day]['6.00']) ?></span>
+                                                            <span class="text-xs block md:block hidden"><?= $schedule[$instructor['id']][$day]['start'] ?? ''; ?></span>
                                                         </div>
                                                     <?php } ?>
                                                     <?php if ($secondSlot) { ?>
                                                         <div>
-                                                            <span class="text-blue-500 font-semibold text-sm"><?= ucwords($schedule[$instructor['id']][$day]['8.00']) ?></span>
-                                                            <span class="text-xs block md:block sm:hidden"><?= $schedule[$instructor['id']][$day]['start'] ?? ''; ?></span>
+                                                            <span class="<?= $text ?> font-semibold text-sm"><?= ucwords($schedule[$instructor['id']][$day]['8.00']) ?></span>
+                                                            <span class="text-xs md:block hidden"><?= $schedule[$instructor['id']][$day]['start'] ?? ''; ?></span>
                                                         </div>
                                                     <?php } ?>
                                                 </div>
@@ -150,8 +163,8 @@ $times = ['10.00', '12.30', '3.00-6.10', '6.00-8.00'];
                                             // Original code for other time slots
                                             if (isset($schedule[$instructor['id']][$day][$time])) { ?>
                                                 <div class="flex flex-col items-center">
-                                                    <span class="text-blue-500 font-semibold text-base"><?= ucwords($schedule[$instructor['id']][$day][$time]) ?></span>
-                                                    <span class="text-sm md:block sm:hidden"><?= $schedule[$instructor['id']][$day]['start'] ?? ''; ?></span>
+                                                    <span class="<?= $text ?> font-semibold text-base"><?= ucwords($schedule[$instructor['id']][$day][$time]) ?></span>
+                                                    <span class="text-sm md:block hidden"><?= $schedule[$instructor['id']][$day]['start'] ?? ''; ?></span>
                                                 </div>
                                         <?php }
                                         } ?>
