@@ -22,7 +22,7 @@ $stmt = $pdo->prepare("SELECT
                         g.branch_id,
                         DATE_FORMAT(g.start_date, '%d-%m-%Y') AS start,
                         g.instructor_id 
-                        FROM groups g 
+                        FROM `groups` g 
                         JOIN instructors i ON g.instructor_id = i.id");
 $stmt->execute();
 $groups = $stmt->fetchAll(PDO::FETCH_ASSOC);
