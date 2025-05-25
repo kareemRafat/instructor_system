@@ -14,6 +14,7 @@ try {
                 `groups`.id,
                 `groups`.name AS group_name,
                 `groups`.time AS group_time,
+                `groups`.day AS group_day,
                 instructors.username AS instructor_name,
                 branches.name AS branch_name,
                 DATE_FORMAT(`groups`.start_date, '%d-%m-%Y') AS formatted_date,

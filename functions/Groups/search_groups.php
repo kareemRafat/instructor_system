@@ -7,6 +7,7 @@ if (isset($_GET['search'])) {
         `groups`.id,
         `groups`.name AS group_name,
         `groups`.time AS group_time,
+        `groups`.day AS group_day,
         instructors.username AS instructor_name,
         branches.name AS branch_name,
         DATE_FORMAT(`groups`.start_date, '%d-%m-%Y') AS formatted_date,
@@ -22,7 +23,7 @@ if (isset($_GET['search'])) {
     $stmt = $pdo->prepare($query);
     $stmt->execute([
         ':search' => "%$search%",
-        ':branch_id' => $_GET['branch_id'] ?? Null 
+        ':branch_id' => $_GET['branch_id'] ?? Null
     ]);
     $groups = $stmt->fetchAll(PDO::FETCH_ASSOC);
 

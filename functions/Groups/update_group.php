@@ -13,6 +13,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $group_id = $_POST['group_id'] ?? null;
     $time = $_POST['time'] ?? null;
     $groupTime = $_POST['grouptime'] ?? null;
+    $groupDay = $_POST['groupDay'] ?? null;
     $name = $_POST['name'] ?? null;
     $instructor = $_POST['instructor'] ?? null;
     $branch = $_POST['branch'] ?? null;
@@ -32,12 +33,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     try {
-        $stmt = $pdo->prepare("UPDATE `groups` SET name = :name, branch_id = :branch, instructor_id = :instructor, start_date = :date, time = :groupTime WHERE id = :id");
+        $stmt = $pdo->prepare("UPDATE `groups` SET name = :name, branch_id = :branch, instructor_id = :instructor, start_date = :date, time = :groupTime , day = :groupDay WHERE id = :id");
         $stmt->bindParam(':name', $name);
         $stmt->bindParam(':branch', $branch);
         $stmt->bindParam(':instructor', $instructor);
         $stmt->bindParam(':date', $date);
         $stmt->bindParam(':groupTime', $groupTime);
+        $stmt->bindParam(':groupDay', $groupDay);
         $stmt->bindParam(':id', $group_id);
         $stmt->execute();
 
@@ -66,6 +68,10 @@ function checkErrors($formData, $pdo)
 
     if (empty($formData['date'])) {
         $errors['date'] = "Date is required.";
+    }
+
+    if (empty($formData['groupDay'])) {
+        $errors['groupDay'] = "Day is required.";
     }
 
     if (empty($formData['grouptime'])) {

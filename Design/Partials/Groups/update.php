@@ -4,7 +4,6 @@ $groupId = $_GET['group_id'];
 $group = getGroupById($groupId, $pdo);
 $errors = $_SESSION['errors'] ?? [];
 
-
 function getGroupById($groupId, $pdo)
 {
     $stmt = $pdo->prepare("SELECT * FROM `groups` WHERE id = :id");
@@ -29,8 +28,20 @@ function getGroupById($groupId, $pdo)
     </script>
 
     <div class="grid gap-4 grid-cols-2">
-        <div class="col-span-1"> <label class="block mb-2 text-sm font-medium text-gray-900">Date m-d-y</label>
-            <div class="relative w-full mb-5">
+        <div class="col-span-1">
+            <label for="name" class="block mb-2 text-sm font-medium text-gray-900">Name</label>
+            <input type="hidden" name="old_name" value="<?= $group['name'] ?>">
+            <input type="text" name="name" id="name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" placeholder="Group Name" required="" value="<?= $group['name'] ?>">
+            <?php if (isset($errors['name'])) {
+                echo '<div class="p-2 my-2 text-sm text-red-800 rounded-lg bg-red-50" role="alert"> ' .
+                    $errors['name'] .
+                    '</div>';
+            }
+            ?>
+        </div>
+        <div class="col-span-1">
+            <label class="block mb-2 text-sm font-medium text-gray-900">Date m-d-y</label>
+            <div class="relative w-full mb-2">
                 <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
                     <svg class="w-4 h-4 text-gray-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
                         <path d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z" />
@@ -39,7 +50,8 @@ function getGroupById($groupId, $pdo)
                 <input name="date" datepicker type="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5" placeholder="Select date" value="<?= date('m/d/Y', strtotime($group['start_date'])); ?>">
             </div>
         </div>
-        <div class="col-span-1"> <label for="grouptime" class="block mb-2 text-sm font-medium text-gray-900">Group time</label>
+        <div class="col-span-1">
+            <label for="grouptime" class="block mb-2 text-sm font-medium text-gray-900">Group time</label>
             <select name="grouptime" id="grouptime" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 font-semibold" required>
                 <option value="" selected="">Select Time</option>
                 <option value="10">10</option>
@@ -58,6 +70,22 @@ function getGroupById($groupId, $pdo)
             }
             ?>
         </div>
+        <div class="col-span-1 mb-5">
+            <label for="groupDay" class="block mb-2 text-sm font-medium text-gray-900">Group Day</label>
+            <select name="groupDay" id="groupDay" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5" required>
+                <option value="" selected="">Select Day</option>
+                <option value="saturday">Saturday</option>
+                <option value="sunday">Sunday</option>
+                <option value="monday">Monday</option>
+            </select>
+            <?php
+            if (isset($errors['groupDay'])) {
+                echo '<div class="p-2 my-2 text-sm text-red-800 rounded-lg bg-red-50" role="alert"> ' .
+                    $errors['groupDay'] .
+                    '</div>';
+            }
+            ?>
+        </div>
     </div>
     <?php
     if (isset($errors['date'])) {
@@ -67,16 +95,7 @@ function getGroupById($groupId, $pdo)
     }
     ?>
     <div class="grid gap-4 mb-4 grid-cols-2">
-        <div class="col-span-2"> <label for="name" class="block mb-2 text-sm font-medium text-gray-900">Name</label>
-            <input type="hidden" name="old_name" value="<?= $group['name'] ?>">
-            <input type="text" name="name" id="name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" placeholder="Group Name" required="" value="<?= $group['name'] ?>">
-            <?php if (isset($errors['name'])) {
-                echo '<div class="p-2 my-2 text-sm text-red-800 rounded-lg bg-red-50" role="alert"> ' .
-                    $errors['name'] .
-                    '</div>';
-            }
-            ?>
-        </div>
+
         <div class="col-span-2 sm:col-span-1"> <label for="branch" class="block mb-2 text-sm font-medium text-gray-900">Branch</label>
             <select name="branch" id="branchesSelect" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5">
                 <option value="" selected="">Select branch</option>
@@ -167,6 +186,14 @@ function getGroupById($groupId, $pdo)
     const selectOption = document.querySelectorAll('#grouptime option');
     selectOption.forEach(option => {
         if (option.value == <?= $group['time'] ?>) {
+            option.setAttribute('selected', 'true');
+        }
+    });
+
+    // select the same date as the group date
+    const days = document.querySelectorAll('#groupDay option');
+    days.forEach(option => {
+        if (option.value === `<?= $group['day'] ?>`) {
             option.setAttribute('selected', 'true');
         }
     });

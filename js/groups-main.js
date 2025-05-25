@@ -134,6 +134,9 @@ function setTable(res, branch = null) {
               : row.group_time
           }
       </th>
+      <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
+          ${row.group_day}
+      </th>
       <td class="px-6 py-4">
           ${
             row.instructor_name.charAt(0).toUpperCase() +
@@ -164,4 +167,3 @@ function setTable(res, branch = null) {
     tbody.appendChild(tr);
   });
 }
-

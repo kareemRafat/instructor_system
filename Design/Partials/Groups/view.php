@@ -5,6 +5,7 @@
                         `groups`.id AS group_id,
                         `groups`.name AS group_name,
                         `groups`.time AS group_time,
+                        `groups`.day AS group_day,
                         instructors.username AS instructor_name,
                         branches.name AS branch_name,
                         DATE_FORMAT(`groups`.start_date, '%d-%m-%Y') AS formatted_date,
@@ -62,6 +63,9 @@
                      Time
                  </th>
                  <th scope="col" class="px-6 py-3">
+                     Day
+                 </th>
+                 <th scope="col" class="px-6 py-3">
                      Instructor
                  </th>
                  <th scope="col" class="px-6 py-3">
@@ -93,6 +97,9 @@
                             $row['group_time'] == 2 || $row['group_time'] == 5
                                 ? $row['group_time'] . " - Friday"
                                 : $row['group_time'] ?>
+                     </th>
+                     <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
+                        <?= $row['group_day'] ?>
                      </th>
                      <td class="px-6 py-4">
                          <?= ucwords($row['instructor_name']) ?>
