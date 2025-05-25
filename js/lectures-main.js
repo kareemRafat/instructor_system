@@ -320,7 +320,7 @@ function setCard(lec) {
                 </div>
             </div>
             <div class="p-4">
-                <div class="flex flex-wrap gap-3 mb-4">
+                <div class="flex flex-col md:flex-row items-start flex-wrap gap-3 mb-4">
                     <div class="flex items-center gap-2 bg-amber-50 px-2 py-1 rounded-lg border border-amber-200">
                         <svg class="w-4 h-4 text-amber-600" fill="currentColor" viewBox="0 0 20 20">
                             <path fill-rule="evenodd"

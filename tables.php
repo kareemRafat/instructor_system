@@ -129,13 +129,13 @@ if (isset($_GET['branch']) AND $_GET['branch'] == 1) {
                                                 <div class="flex flex-col items-center gap-1">
                                                     <?php if ($firstSlot) { ?>
                                                         <div>
-                                                            <span class="<?= $text ?> font-semibold text-sm"><?= ucwords($schedule[$instructor['id']][$day]['3.00']) ?></span>
+                                                            <span class="<?= $text ?> font-semibold text-base"><?= ucwords($schedule[$instructor['id']][$day]['3.00']) ?></span>
                                                             <span class="text-xs md:block hidden"><?= $schedule[$instructor['id']][$day]['start'] ?? ''; ?></span>
                                                         </div>
                                                     <?php } ?>
                                                     <?php if ($secondSlot) { ?>
                                                         <div>
-                                                            <span class="<?= $text ?> font-semibold text-sm"><?= ucwords($schedule[$instructor['id']][$day]['6.10']) ?></span>
+                                                            <span class="<?= $text ?> font-semibold text-base"><?= ucwords($schedule[$instructor['id']][$day]['6.10']) ?></span>
                                                             <span class="text-xs md:block hidden"><?= $schedule[$instructor['id']][$day]['start'] ?? ''; ?></span>
                                                         </div>
                                                     <?php } ?>
@@ -148,13 +148,13 @@ if (isset($_GET['branch']) AND $_GET['branch'] == 1) {
                                                 <div class="flex flex-col items-center gap-1">
                                                     <?php if ($firstSlot) { ?>
                                                         <div>
-                                                            <span class="<?= $text ?> font-semibold text-sm"><?= ucwords($schedule[$instructor['id']][$day]['6.00']) ?></span>
-                                                            <span class="text-xs block md:block hidden"><?= $schedule[$instructor['id']][$day]['start'] ?? ''; ?></span>
+                                                            <span class="<?= $text ?> font-semibold text-base"><?= ucwords($schedule[$instructor['id']][$day]['6.00']) ?></span>
+                                                            <span class="text-xs md:block hidden"><?= $schedule[$instructor['id']][$day]['start'] ?? ''; ?></span>
                                                         </div>
                                                     <?php } ?>
                                                     <?php if ($secondSlot) { ?>
                                                         <div>
-                                                            <span class="<?= $text ?> font-semibold text-sm"><?= ucwords($schedule[$instructor['id']][$day]['8.00']) ?></span>
+                                                            <span class="<?= $text ?> font-semibold text-base"><?= ucwords($schedule[$instructor['id']][$day]['8.00']) ?></span>
                                                             <span class="text-xs md:block hidden"><?= $schedule[$instructor['id']][$day]['start'] ?? ''; ?></span>
                                                         </div>
                                                     <?php } ?>
