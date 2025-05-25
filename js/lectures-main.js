@@ -312,7 +312,7 @@ function setCard(lec) {
                         <div class="text-white font-semibold">${
                           lec.group_time == 2 || lec.group_time == 5
                             ? lec.group_time + " - Friday"
-                            : lec.group_time == 8
+                            : lec.group_time == 8 || lec.group_time == 6.10
                             ? "Online"
                             : lec.group_time
                         }</div>
@@ -330,19 +330,16 @@ function setCard(lec) {
                           lec.group_start_date
                         }</span>
                     </div>
-                    <div class="flex items-center gap-2 bg-blue-50 px-3 py-2 rounded-lg border border-blue-200">
-                        <svg class="w-4 h-4 text-blue-600" fill="currentColor" viewBox="0 0 20 20">
-                            <path fill-rule="evenodd"
-                                d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z"
-                                clip-rule="evenodd"></path>
-                        </svg><span class="text-blue-700 font-medium text-sm">${
-                          lec.group_time == 2 || lec.group_time == 5
-                            ? "Friday"
-                            : lec.group_time == 8
-                            ? "Online"
-                            : lec.group_time
+                    <div class="flex items-center gap-2 bg-teal-50 px-2 py-1 rounded-lg border border-teal-200">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 text-teal-500">
+                          <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5m-9-6h.008v.008H12v-.008ZM12 15h.008v.008H12V15Zm0 2.25h.008v.008H12v-.008ZM9.75 15h.008v.008H9.75V15Zm0 2.25h.008v.008H9.75v-.008ZM7.5 15h.008v.008H7.5V15Zm0 2.25h.008v.008H7.5v-.008Zm6.75-4.5h.008v.008h-.008v-.008Zm0 2.25h.008v.008h-.008V15Zm0 2.25h.008v.008h-.008v-.008Zm2.25-4.5h.008v.008H16.5v-.008Zm0 2.25h.008v.008H16.5V15Z" />
+                        </svg>
+
+                        </svg><span class="text-teal-700 font-medium text-sm">End : ${
+                          lec.group_end_date
                         }</span>
                     </div>
+                    
                 </div>
                 <div class="flex items-center gap-3 mb-4 p-3 bg-gray-50 rounded-lg">
                     <div class="w-10 h-10 bg-gradient-to-r bg-cyan-600 rounded-full flex items-center justify-center">
