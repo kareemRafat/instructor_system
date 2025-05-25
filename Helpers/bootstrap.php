@@ -20,8 +20,8 @@ function checkAccess($role)
 
     $accessRules = [
         'admin' => ['*'], // Admin can access all pages
-        'cs' => ['lectures.php','groups.php'],
-        'cs-admin' => ['customer-service.php','lectures.php','groups.php'],
+        'cs' => ['lectures.php','groups.php','tables.php'],
+        'cs-admin' => ['customer-service.php','lectures.php','groups.php','tables.php'],
         'instructor' => ['index.php'], // Instructor can access index.php
     ];
 

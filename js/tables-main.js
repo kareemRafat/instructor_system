@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", function () {
     .then((response) => response.json())
     .then((res) => {
       if (res.status == "success") {
-        branchSelect.innerHTML = `<option value="" selected>Select a Branch</option>`; // Clear previous cards
+        branchSelect.innerHTML = `<option value="1" selected>Select a Branch</option>`; // Clear previous cards
         res.data.forEach((branch) => {
           let option = document.createElement("option");
           option.value = branch.id;
@@ -27,7 +27,4 @@ document.addEventListener("DOMContentLoaded", function () {
 
 branchSelect.onchange = function(){
     branchForm.submit();
-    if (!this.value) {
-        window.location.href = 'tables.php?branch=1';
-    }
 }

@@ -12,7 +12,6 @@ $stmt = $pdo->prepare("SELECT id, username FROM instructors WHERE is_active = 1 
 $stmt->execute([':branch' => $_GET['branch'] ?? 1]);
 $instructors = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-
 // Fetch groups
 $groups = [];
 $stmt = $pdo->prepare("SELECT 
@@ -41,6 +40,7 @@ foreach ($groups as $group) {
 $days = ['saturday', 'sunday', 'monday'];
 $times = ['10.00', '12.30', '3.00-6.10', '6.00-8.00'];
 
+// tables bg and font random color based on branch
 if (isset($_GET['branch']) AND $_GET['branch'] == 1) {
     $color = 'bg-blue-500';
     $text = 'text-blue-700';
@@ -51,7 +51,8 @@ if (isset($_GET['branch']) AND $_GET['branch'] == 1) {
     $color = 'bg-indigo-500';
     $text = 'text-indigo-600';
 } else {
-    $color = 'blue'; // Default color
+    $color = 'bg-blue-500';
+    $text = 'text-blue-700';
 }
 ?>
 
@@ -70,7 +71,7 @@ if (isset($_GET['branch']) AND $_GET['branch'] == 1) {
                 <form id="branch-form" action="" method="get">
                     <select name="branch" id="branchSelect"
                         class="block w-full p-2 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500">
-                        <option value="" selected>Select a Branch</option>
+                        <option value="1" selected>Select a Branch</option>
                     </select>
                 </form>
             </div>
