@@ -9,7 +9,7 @@ include_once 'Design/includes/navbar.php';
 // Fetch instructors
 $instructors = [];
 $stmt = $pdo->prepare("SELECT id, username FROM instructors WHERE is_active = 1 AND role IN ('instructor' , 'admin') AND (branch_id = :branch OR :branch IS NULL)");
-$stmt->execute([':branch' => $_GET['branch'] ?? 1 ]);
+$stmt->execute([':branch' => $_GET['branch'] ?? 1]);
 $instructors = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 
@@ -39,7 +39,7 @@ foreach ($groups as $group) {
 
 // Time slots and days for the table
 $days = ['saturday', 'sunday', 'monday'];
-$times = ['10.00', '12.30', '3.00', '6.00'];
+$times = ['10.00', '12.30', '3.00-6.10', '6.00-8.00'];
 ?>
 
 
@@ -82,7 +82,15 @@ $times = ['10.00', '12.30', '3.00', '6.00'];
                         <?php foreach ($days as $dayIndex => $day): ?>
                             <?php foreach ($times as $index => $time): ?>
                                 <th class="border border-gray-300 <?php echo ($index === 3 && $dayIndex < 2) ? 'border-r-2 border-r-slate-400' : ''; ?> p-2 text-sm font-medium">
-                                    <?php echo $time; ?>
+                                    <?php
+                                    if ($time === '3.00-6.10') {
+                                        echo '3.00';
+                                    } elseif ($time === '6.00-8.00') {
+                                        echo '6.00';
+                                    } else {
+                                        echo $time;
+                                    }
+                                    ?>
                                 </th>
                             <?php endforeach; ?>
                         <?php endforeach; ?>
@@ -99,19 +107,54 @@ $times = ['10.00', '12.30', '3.00', '6.00'];
                                 <?php foreach ($times as $index => $time): ?>
                                     <td class="border border-gray-300 <?php echo ($index === 3 && $dayIndex < 2) ? 'border-r-2 border-r-slate-400' : ''; ?> p-2 text-center h-16 w-20 hover:bg-yellow-50 cursor-pointer transition-colors duration-150">
                                         <?php
-                                        // Display group name if exists for this instructor, day, and time
-                                        if (isset($schedule[$instructor['id']][$day][$time])) { ?>
-                                            <div class="flex flex-col items-center">
-                                                <span class="text-blue-500 font-semibold text-base"><?= ucwords($schedule[$instructor['id']][$day][$time]) ?></span>
-                                                <span class="text-sm"><?= $schedule[$instructor['id']][$day]['start'] ?? ''; ?></span>
-                                            </div>
-                                        <?php } else { ?>
-                                            <div class="text-gray-400">
-
-                                            </div>
-
-                                        <?php } ?>
-
+                                        // For combined time slots
+                                        if ($time === '3.00-6.10') {
+                                            $firstSlot = isset($schedule[$instructor['id']][$day]['3.00']);
+                                            $secondSlot = isset($schedule[$instructor['id']][$day]['6.10']);
+                                            if ($firstSlot || $secondSlot) { ?>
+                                                <div class="flex flex-col items-center gap-1">
+                                                    <?php if ($firstSlot) { ?>
+                                                        <div>
+                                                            <span class="text-blue-500 font-semibold text-sm"><?= ucwords($schedule[$instructor['id']][$day]['3.00']) ?></span>
+                                                            <span class="text-xs md:block sm:hidden"><?= $schedule[$instructor['id']][$day]['start'] ?? ''; ?></span>
+                                                        </div>
+                                                    <?php } ?>
+                                                    <?php if ($secondSlot) { ?>
+                                                        <div>
+                                                            <span class="text-blue-500 font-semibold text-sm"><?= ucwords($schedule[$instructor['id']][$day]['6.10']) ?></span>
+                                                            <span class="text-xs md:block sm:hidden"><?= $schedule[$instructor['id']][$day]['start'] ?? ''; ?></span>
+                                                        </div>
+                                                    <?php } ?>
+                                                </div>
+                                            <?php }
+                                        } elseif ($time === '6.00-8.00') {
+                                            $firstSlot = isset($schedule[$instructor['id']][$day]['6.00']);
+                                            $secondSlot = isset($schedule[$instructor['id']][$day]['8.00']);
+                                            if ($firstSlot || $secondSlot) { ?>
+                                                <div class="flex flex-col items-center gap-1">
+                                                    <?php if ($firstSlot) { ?>
+                                                        <div>
+                                                            <span class="text-blue-500 font-semibold text-sm"><?= ucwords($schedule[$instructor['id']][$day]['6.00']) ?></span>
+                                                            <span class="text-xs block md:block sm:hidden"><?= $schedule[$instructor['id']][$day]['start'] ?? ''; ?></span>
+                                                        </div>
+                                                    <?php } ?>
+                                                    <?php if ($secondSlot) { ?>
+                                                        <div>
+                                                            <span class="text-blue-500 font-semibold text-sm"><?= ucwords($schedule[$instructor['id']][$day]['8.00']) ?></span>
+                                                            <span class="text-xs block md:block sm:hidden"><?= $schedule[$instructor['id']][$day]['start'] ?? ''; ?></span>
+                                                        </div>
+                                                    <?php } ?>
+                                                </div>
+                                            <?php }
+                                        } else {
+                                            // Original code for other time slots
+                                            if (isset($schedule[$instructor['id']][$day][$time])) { ?>
+                                                <div class="flex flex-col items-center">
+                                                    <span class="text-blue-500 font-semibold text-base"><?= ucwords($schedule[$instructor['id']][$day][$time]) ?></span>
+                                                    <span class="text-sm md:block sm:hidden"><?= $schedule[$instructor['id']][$day]['start'] ?? ''; ?></span>
+                                                </div>
+                                        <?php }
+                                        } ?>
                                     </td>
                                 <?php endforeach; ?>
                             <?php endforeach; ?>
