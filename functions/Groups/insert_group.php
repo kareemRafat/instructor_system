@@ -28,6 +28,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $date = $date . ' ' . $time;
     }
 
+    // check if the group time with the same instructor and branch is already exists
+    $stmt = $pdo->prepare("SELECT COUNT(*) FROM `groups` WHERE instructor_id = :instructor AND branch_id = :branch AND time = :groupTime AND day = :groupDay");
+    $stmt->bindParam(':instructor', $instructor);
+    $stmt->bindParam(':branch', $branch);
+    $stmt->bindParam(':groupTime', $groupTime);
+    $stmt->bindParam(':groupDay', $groupDay);
+    $stmt->execute();
+    $count = $stmt->fetchColumn();
+    if ($count > 0) {
+        $_SESSION['errors']['exists'] = "الوقت المحدد لهذه المجموعة متاح بالفعل مع نفس المدرب";
+        header("Location: ../../groups.php");
+        exit();
+    }
+
     try {
         $stmt = $pdo->prepare("INSERT INTO `groups` (name, branch_id, instructor_id, is_active , start_date , time , day) VALUES (:name, :branch, :instructor,  1 , :date , :groupTime , :groupDay )");
         $stmt->bindParam(':name', $name);
@@ -41,7 +55,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $_SESSION['success'] = "Group added successfully";
         header("Location: ../../groups.php");
     } catch (PDOException $e) {
-        $_SESSION['errors'] = $e->getMessage();
+        $_SESSION['errors']= $e->getMessage();
         header("Location: ../../groups.php");
         exit();
     }
