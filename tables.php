@@ -32,8 +32,8 @@ foreach ($groups as $group) {
     $instructor_id = $group['instructor_id'];
     $day = $group['day'];
     $time = $group['time'];
-    $schedule[$instructor_id][$day][$time] = $group['name'];
-    $schedule[$instructor_id][$day]['start'] = $group['start'];
+    $schedule[$instructor_id][$day][$time]['name'] = $group['name'];
+    $schedule[$instructor_id][$day][$time]['start'] = $group['start'];
 }
 
 // Time slots and days for the table
@@ -48,8 +48,8 @@ if (isset($_GET['branch']) AND $_GET['branch'] == 1) {
     $color = 'bg-teal-600';
     $text = 'text-teal-700';
 } else if (isset($_GET['branch']) AND $_GET['branch'] == 3) {
-    $color = 'bg-indigo-500';
-    $text = 'text-indigo-600';
+    $color = 'bg-fuchsia-700';
+    $text = 'text-fuchsia-700';
 } else {
     $color = 'bg-blue-500';
     $text = 'text-blue-700';
@@ -129,14 +129,14 @@ if (isset($_GET['branch']) AND $_GET['branch'] == 1) {
                                                 <div class="flex flex-col items-center gap-1">
                                                     <?php if ($firstSlot) { ?>
                                                         <div>
-                                                            <span class="<?= $text ?> font-semibold text-base"><?= ucwords($schedule[$instructor['id']][$day]['3.00']) ?></span>
-                                                            <span class="text-xs md:block hidden"><?= $schedule[$instructor['id']][$day]['start'] ?? ''; ?></span>
+                                                            <span class="<?= $text ?> font-semibold text-base"><?= ucwords($schedule[$instructor['id']][$day]['3.00']['name']) ?></span>
+                                                            <span class="text-sm md:block hidden font-semibold"><?= $schedule[$instructor['id']][$day]['3.00']['start'] ?? ''; ?></span>
                                                         </div>
                                                     <?php } ?>
                                                     <?php if ($secondSlot) { ?>
                                                         <div>
-                                                            <span class="<?= $text ?> font-semibold text-base"><?= ucwords($schedule[$instructor['id']][$day]['6.10']) ?></span>
-                                                            <span class="text-xs md:block hidden"><?= $schedule[$instructor['id']][$day]['start'] ?? ''; ?></span>
+                                                            <span class="<?= $text ?> font-semibold text-base"><?= ucwords($schedule[$instructor['id']][$day]['6.10']['name']) ?></span>
+                                                            <span class="text-sm md:block hidden font-semibold"><?= $schedule[$instructor['id']][$day]['start'] ?? ''; ?></span>
                                                         </div>
                                                     <?php } ?>
                                                 </div>
@@ -148,14 +148,14 @@ if (isset($_GET['branch']) AND $_GET['branch'] == 1) {
                                                 <div class="flex flex-col items-center gap-1">
                                                     <?php if ($firstSlot) { ?>
                                                         <div>
-                                                            <span class="<?= $text ?> font-semibold text-base"><?= ucwords($schedule[$instructor['id']][$day]['6.00']) ?></span>
-                                                            <span class="text-xs md:block hidden"><?= $schedule[$instructor['id']][$day]['start'] ?? ''; ?></span>
+                                                            <span class="<?= $text ?> font-semibold text-base"><?= ucwords($schedule[$instructor['id']][$day]['6.00']['name']) ?></span>
+                                                            <span class="text-sm md:block hidden font-semibold"><?= $schedule[$instructor['id']][$day]['6.00']['start'] ?? ''; ?></span>
                                                         </div>
                                                     <?php } ?>
                                                     <?php if ($secondSlot) { ?>
                                                         <div>
-                                                            <span class="<?= $text ?> font-semibold text-base"><?= ucwords($schedule[$instructor['id']][$day]['8.00']) ?></span>
-                                                            <span class="text-xs md:block hidden"><?= $schedule[$instructor['id']][$day]['start'] ?? ''; ?></span>
+                                                            <span class="<?= $text ?> font-semibold text-base"><?= ucwords($schedule[$instructor['id']][$day]['8.00']['name']) ?></span>
+                                                            <span class="text-sm md:block hidden font-semibold"><?= $schedule[$instructor['id']][$day]['8.00']['start'] ?? ''; ?></span>
                                                         </div>
                                                     <?php } ?>
                                                 </div>
@@ -164,8 +164,8 @@ if (isset($_GET['branch']) AND $_GET['branch'] == 1) {
                                             // Original code for other time slots
                                             if (isset($schedule[$instructor['id']][$day][$time])) { ?>
                                                 <div class="flex flex-col items-center">
-                                                    <span class="<?= $text ?> font-semibold text-base"><?= ucwords($schedule[$instructor['id']][$day][$time]) ?></span>
-                                                    <span class="text-sm md:block hidden"><?= $schedule[$instructor['id']][$day]['start'] ?? ''; ?></span>
+                                                    <span class="<?= $text ?> font-semibold text-base"><?= ucwords($schedule[$instructor['id']][$day][$time]['name']) ?></span>
+                                                    <span class="text-sm md:block hidden font-semibold"><?= $schedule[$instructor['id']][$day][$time]['start'] ?? ''; ?></span>
                                                 </div>
                                         <?php }
                                         } ?>
