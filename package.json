@@ -4,11 +4,14 @@
     "tailwindcss": "^4.1.7"
   },
   "scripts": {
-    "watch": " npx @tailwindcss/cli -i ./css/main.css -o ./css/output.css --watch",
-    "build": " npx @tailwindcss/cli -i ./css/main.css -o ./css/output.css --minify",
+    "watch": "npx tailwindcss -i ./css/main.css -o ./css/output.css --watch",
+    "build": "npx tailwindcss -i ./css/main.css -o ./css/output.css --minify",
     "minify": "node minify.js"
   },
   "devDependencies": {
-    "terser": "^5.39.2"
+    "terser": "^5.39.2",
+    "autoprefixer": "^10.4.14",
+    "postcss": "^8.4.24",
+    "postcss-cli": "^10.1.0"
   }
 }
