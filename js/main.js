@@ -43,6 +43,14 @@ document.addEventListener("DOMContentLoaded", () => {
 groupSelect.oninput = async function () {
   const groupId = this.value;
 
+  if(!groupId) {
+    // Reset track and dates if no group is selected
+    track.value = 1 ;
+    startDate.innerText = "Group Start Date";
+    endDate.innerText = "Excpected End Date";
+    return;
+  }
+
   try {
     await getGroupTrack(groupId);
     await getGroupInfo(groupId);
