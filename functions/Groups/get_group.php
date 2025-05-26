@@ -15,17 +15,7 @@ try {
                 `groups`.id,
                 `groups`.name  As group_name,
                 DATE_FORMAT(`groups`.start_date, '%M %d, %m-%Y') AS formatted_date,
-                DATE_FORMAT(
-                        DATE_ADD(
-                            `groups`.start_date,
-                            INTERVAL 
-                                CASE 
-                                    WHEN LOWER(`groups`.name) LIKE '%training%' THEN 2 
-                                    ELSE 6 
-                                END MONTH
-                        ),
-                        '%d, %m-%Y'
-                    ) AS group_end_date
+                DATE_FORMAT(DATE_ADD(`groups`.start_date, INTERVAL 6 MONTH), '%d, %m-%Y') AS group_end_date
         FROM `groups` 
         WHERE `groups`.is_active = 1 AND id = :group";
 
