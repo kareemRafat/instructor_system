@@ -67,14 +67,14 @@ if (isset($_GET['branch']) and $_GET['branch'] == 1) {
         <!-- filter -->
         <div class="mb-5">
             <form method="get" id="branchForm" class="flex items-center justify-start md:justify-center gap-4">
-                <ul id="branches-list" class="items-center md:w-1/2 px-7 text-sm font-medium text-gray-900 bg-white  rounded-lg flex gap-4 shadow">
+                <ul id="branches-list" class="flext justify-between items-center lg:w-1/4 md:w-1/2 px-7 text-sm font-medium text-gray-900 bg-white  rounded-lg flex gap-4 shadow">
                     <!-- branch radio buttons -->
                     <?php
                     $branches = $pdo->query("SELECT id, name FROM branches")->fetchAll(PDO::FETCH_ASSOC);
                     foreach ($branches as $branch):
                         $checked = (isset($_GET['branch']) && $_GET['branch'] == $branch['id']) ? 'checked' : '';
                     ?>
-                        <li class="w-full  border-gray-200 sm:border-b-0">
+                        <li class="border-gray-200 sm:border-b-0">
                             <div class="flex items-center">
                                 <input
                                     onclick="branchForm.submit()"
