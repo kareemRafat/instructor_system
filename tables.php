@@ -22,8 +22,11 @@ $stmt = $pdo->prepare("SELECT
                         DATE_FORMAT(g.start_date, '%d-%m-%Y') AS start,
                         g.instructor_id 
                         FROM `groups` g 
-                        JOIN instructors i ON g.instructor_id = i.id");
-$stmt->execute();
+                        JOIN instructors i ON g.instructor_id = i.id
+                        WHERE :branch IS NULL OR g.branch_id = :branch");
+$stmt->execute([
+    ':branch' => $_GET['branch'] ?? 1
+]);
 $groups = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 // Organize groups by instructor, day, and time
@@ -48,8 +51,8 @@ if (isset($_GET['branch']) and $_GET['branch'] == 1) {
     $color = 'bg-teal-600';
     $text = 'text-teal-700';
 } else if (isset($_GET['branch']) and $_GET['branch'] == 3) {
-    $color = 'bg-fuchsia-700';
-    $text = 'text-fuchsia-700';
+    $color = 'bg-purple-500';
+    $text = 'text-purple-700';
 } else {
     $color = 'bg-blue-500';
     $text = 'text-blue-700';
