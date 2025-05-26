@@ -368,7 +368,7 @@ function setCard(lec) {
                 <div class="relative bg-gradient-to-r from-blue-50 to-purple-50 rounded-xl p-4 border border-blue-100 h-[93px]">
                     <div class="absolute -top-3 right-4">
                         <span
-                            class="bg-gradient-to-r from-blue-500 to-purple-600 text-white px-4 py-1 rounded-full text-sm font-bold shadow-lg relative">${capitalizeFirstLetter(
+                            class="bg-gradient-to-r from-blue-500 to-purple-600 text-white px-4 py-1 rounded text-sm font-bold shadow-lg relative">${capitalizeFirstLetter(
                               lec.track_name
                             )}
                             <div
