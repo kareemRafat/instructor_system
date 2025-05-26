@@ -41,13 +41,13 @@ $days = ['saturday', 'sunday', 'monday'];
 $times = ['10.00', '12.30', '3.00-6.10', '6.00-8.00'];
 
 // tables bg and font random color based on branch
-if (isset($_GET['branch']) AND $_GET['branch'] == 1) {
+if (isset($_GET['branch']) and $_GET['branch'] == 1) {
     $color = 'bg-blue-500';
     $text = 'text-blue-700';
-} else if (isset($_GET['branch']) AND $_GET['branch'] == 2) {
+} else if (isset($_GET['branch']) and $_GET['branch'] == 2) {
     $color = 'bg-teal-600';
     $text = 'text-teal-700';
-} else if (isset($_GET['branch']) AND $_GET['branch'] == 3) {
+} else if (isset($_GET['branch']) and $_GET['branch'] == 3) {
     $color = 'bg-fuchsia-700';
     $text = 'text-fuchsia-700';
 } else {
@@ -66,15 +66,36 @@ if (isset($_GET['branch']) AND $_GET['branch'] == 1) {
 
         <!-- filter -->
         <div class="mb-5">
-            <!-- branch Dropdown -->
-            <div class="w-full md:flex-1">
-                <form id="branch-form" action="" method="get">
-                    <select name="branch" id="branchSelect"
-                        class="block w-full p-2 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500">
-                        <option value="1" selected>Select a Branch</option>
-                    </select>
+            <div>
+                <form method="get" id="branchForm">
+                    <h3 class="mb-4 font-semibold text-gray-900">Branches</h3>
+                    <ul id="branches-list" class="items-center md:w-1/3 px-7 text-sm font-medium text-gray-900 bg-white  rounded-lg flex gap-4 shadow">
+                        <!-- branch radio buttons -->
+                        <?php 
+                        $branches = $pdo->query("SELECT id, name FROM branches")->fetchAll(PDO::FETCH_ASSOC); 
+                        foreach ($branches as $branch): 
+                            $checked = (isset($_GET['branch']) && $_GET['branch'] == $branch['id']) ? 'checked' : '';  
+                        ?>
+                        <li class="w-full  border-gray-200 sm:border-b-0">
+                            <div class="flex items-center">
+                                <input 
+                                     onclick="branchForm.submit()" 
+                                     id="list-radio-<?= $branch['id'] ?>" 
+                                     type="radio" 
+                                     <?= $checked ?>
+                                     value="<?= $branch['id'] ?>" 
+                                     name="branch" 
+                                     class="list-radio w-4 h-4 <?= $text ?> bg-gray-100 border-gray-300 focus:ring-blue-500 focus:ring-2">
+                                <label for="list-radio-<?= $branch['id'] ?>" class="w-full py-3 ms-2 text-base font-medium text-gray-900"><?= $branch['name'] ?></label>
+                            </div>
+                        </li>
+                        <?php endforeach; ?>
+                    </ul>
                 </form>
             </div>
+
+
+
         </div>
         <div class="overflow-x-auto shadow-lg rounded-lg">
             <table class="w-full bg-white border-collapse">
