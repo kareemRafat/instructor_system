@@ -82,6 +82,7 @@ async function getGroupInfo(groupId) {
   );
   const res = await response.json();
   if (res.data) {
+    console.log(res.data);
     startDate.innerText = res.data.formatted_date;
     endDate.innerText = `End : ` + res.data.group_end_date;
   }
