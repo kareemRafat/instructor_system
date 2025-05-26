@@ -66,37 +66,32 @@ if (isset($_GET['branch']) and $_GET['branch'] == 1) {
 
         <!-- filter -->
         <div class="mb-5">
-            <div>
-                <form method="get" id="branchForm">
-                    <h3 class="mb-4 font-semibold text-gray-900">Branches</h3>
-                    <ul id="branches-list" class="items-center md:w-1/3 px-7 text-sm font-medium text-gray-900 bg-white  rounded-lg flex gap-4 shadow">
-                        <!-- branch radio buttons -->
-                        <?php 
-                        $branches = $pdo->query("SELECT id, name FROM branches")->fetchAll(PDO::FETCH_ASSOC); 
-                        foreach ($branches as $branch): 
-                            $checked = (isset($_GET['branch']) && $_GET['branch'] == $branch['id']) ? 'checked' : '';  
-                        ?>
+            <form method="get" id="branchForm" class="flex items-center justify-start md:justify-center gap-4">
+                <ul id="branches-list" class="items-center md:w-1/3 px-7 text-sm font-medium text-gray-900 bg-white  rounded-lg flex gap-4 shadow">
+                    <!-- branch radio buttons -->
+                    <?php
+                    $branches = $pdo->query("SELECT id, name FROM branches")->fetchAll(PDO::FETCH_ASSOC);
+                    foreach ($branches as $branch):
+                        $checked = (isset($_GET['branch']) && $_GET['branch'] == $branch['id']) ? 'checked' : '';
+                    ?>
                         <li class="w-full  border-gray-200 sm:border-b-0">
                             <div class="flex items-center">
-                                <input 
-                                     onclick="branchForm.submit()" 
-                                     id="list-radio-<?= $branch['id'] ?>" 
-                                     type="radio" 
-                                     <?= $checked ?>
-                                     value="<?= $branch['id'] ?>" 
-                                     name="branch" 
-                                     class="list-radio w-4 h-4 <?= $text ?> bg-gray-100 border-gray-300 focus:ring-blue-500 focus:ring-2">
+                                <input
+                                    onclick="branchForm.submit()"
+                                    id="list-radio-<?= $branch['id'] ?>"
+                                    type="radio"
+                                    <?= $checked ?>
+                                    value="<?= $branch['id'] ?>"
+                                    name="branch"
+                                    class="list-radio w-4 h-4 <?= $text ?> bg-gray-100 border-gray-300 focus:ring-blue-500 focus:ring-2">
                                 <label for="list-radio-<?= $branch['id'] ?>" class="w-full py-3 ms-2 text-base font-medium text-gray-900"><?= $branch['name'] ?></label>
                             </div>
                         </li>
-                        <?php endforeach; ?>
-                    </ul>
-                </form>
-            </div>
-
-
-
+                    <?php endforeach; ?>
+                </ul>
+            </form>
         </div>
+
         <div class="overflow-x-auto shadow-lg rounded-lg">
             <table class="w-full bg-white border-collapse">
                 <!-- Table Header -->

@@ -1,13 +1,17 @@
+import { getMetaContent } from './helpers.js';
+
 const radios = document.querySelectorAll("input[type='radio']");
+const branchForm = document.getElementById('branchForm');
 
 const urlParams = new URLSearchParams(window.location.search);
 
-console.log(urlParams.get('branch'));
-
 if (!urlParams.get('branch')) {
   radios.forEach((radio) => {
-    if (radio.value == 1) {
+    if (radio.value == getMetaContent('branch')) {
       radio.checked = true;
     }
   })
+  branchForm.submit();
 }
+
+
