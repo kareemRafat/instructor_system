@@ -15,7 +15,9 @@ document.addEventListener("DOMContentLoaded", () => {
           const option = document.createElement("option");
           option.value = group.id;
           option.textContent = capitalizeFirstLetter(group.name);
-          groupSelect.append(option);
+          if(!group.name.toLowerCase().includes('training')) {
+            groupSelect.append(option);
+          }
         });
       }
     })
@@ -82,7 +84,6 @@ async function getGroupInfo(groupId) {
   );
   const res = await response.json();
   if (res.data) {
-    console.log(res.data);
     startDate.innerText = res.data.formatted_date;
     endDate.innerText = `End : ` + res.data.group_end_date;
   }
