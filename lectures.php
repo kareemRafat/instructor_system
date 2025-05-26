@@ -5,6 +5,7 @@ include_once 'Design/includes/navbar.php';
 ?>
 
 <style>
+
     .my-arrow {
         transition: 1s;
         animation: moving 1s alternate 8;
