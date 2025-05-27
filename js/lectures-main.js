@@ -294,7 +294,7 @@ function setCard(lec) {
     <div class="relative">
         <div
             class="bg-white rounded-lg shadow-sm transition-all duration-300 overflow-hidden border border-gray-100">
-            <div class="bg-gradient-to-r from-blue-500 to-purple-500 px-6 py-2 traking-wider">
+            <div class="card-header px-6 py-2 traking-wider">
                 <div class="flex items-center justify-between">
                     <div class="flex items-center gap-3">
                         <div class="w-9 h-9 bg-white/10 rounded-full flex items-center justify-center">
@@ -365,10 +365,10 @@ function setCard(lec) {
                         }</span>
                     </div>
                 </div>
-                <div class="relative bg-gradient-to-r from-blue-50 to-purple-50 rounded-xl p-4 border border-blue-100 h-[93px]">
+                <div class="relative comment-background rounded-xl p-4 border border-blue-100 h-[93px]">
                     <div class="absolute -top-3 right-4">
                         <span
-                            class="bg-gradient-to-r from-blue-500 to-purple-600 text-white px-4 py-1 rounded text-sm font-bold shadow-lg relative">${capitalizeFirstLetter(
+                            class="track-name text-white px-4 py-1 rounded text-sm font-bold shadow-lg relative">${capitalizeFirstLetter(
                               lec.track_name
                             )}
                             <div

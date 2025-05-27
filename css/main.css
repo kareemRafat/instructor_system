@@ -10,3 +10,11 @@
 .notyf__ripple {
   width: 700px !important;
 }
+
+.card-header , .track-name {
+  background-image: linear-gradient(to right, #3b82f6, #9333ea);
+}
+
+.comment-background {
+  background-image: linear-gradient(to right, #eff6ff, #f5f3ff);
+}
