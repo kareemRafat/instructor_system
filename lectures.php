@@ -26,6 +26,10 @@ include_once 'Design/includes/navbar.php';
             opacity: 1;
         }
     }
+
+    .group-name , .group-time{
+        font-family: "Poetsen One", sans-serif;
+    }
 </style>
 
 <script>

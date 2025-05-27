@@ -303,13 +303,13 @@ function setCard(lec) {
                             </svg>
                         </div>
                         <div>
-                            <h2 class="group-name text-xl tracking-wider text-white">${capitalizeFirstLetter(
+                            <h2 class="group-name text-lg tracking-wider text-gray-100">${capitalizeFirstLetter(
                               lec.group_name
                             )}</h2>
                         </div>
                     </div>
                     <div class="text-right pr-6">
-                        <div class="text-white text-lg font-semibold">${
+                        <div class="group-time text-white text-lg">${
                           lec.group_time == 2 || lec.group_time == 5
                             ? lec.group_time + " - Friday"
                             : lec.group_time == 8 || lec.group_time == 6.10
