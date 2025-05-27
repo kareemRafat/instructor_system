@@ -24,7 +24,7 @@ $errors = $_SESSION['errors'] ?? [];
                 </script>
                 <div class="mb-6">
                     <label for="group" class="block text-sm font-medium text-gray-700 mb-2">Group</label>
-                    <select id="group" name="group" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                    <select id="group" name="group" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
                         <option value="">Select Group</option>
                     </select>
                     <?php if (isset($errors['group'])) {
@@ -65,15 +65,8 @@ $errors = $_SESSION['errors'] ?? [];
                     ?>
                 </div>
                 <div class="mb-6">
-                    <div class="relative">
-                        <input name="comment" type="text" id="floating_outlined"
-                            class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                            placeholder=" "
-                            value="<?= $_SESSION['old']['comment'] ?? '' ?>" />
-                        <label for="floating_outlined" class="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1">Comment</label>
-                    </div>
-                    
-
+                    <label for="message" class="block mb-2 text-sm font-medium text-gray-900">Comment</label>
+                    <textarea name="comment" id="message" rows="2" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" placeholder="Write your comment here ..."></textarea>
                     <?php if (isset($errors['comment'])) {
                         echo '<div class="p-2 my-2 text-sm text-red-800 rounded-lg bg-red-50" role="alert"> ' .
                             $errors['comment'] .
@@ -81,7 +74,7 @@ $errors = $_SESSION['errors'] ?? [];
                     }
                     ?>
                 </div>
-                <button type="submit" class="w-full px-6 py-3 text-white bg-blue-500 rounded-lg hover:bg-blue-600 focus:ring-4 focus:ring-blue-300 transition duration-200 font-medium shadow-sm">Submit</button>
+                <button type="submit" class="w-full px-6 py-3 text-white bg-blue-600 rounded-lg hover:bg-blue-600 focus:ring-4 focus:ring-blue-300 transition duration-200 font-medium shadow-sm">Submit</button>
             </form>
         </div>
         <div class="w-full max-w-md mt-3 text-xl text-blue-600 text-right">

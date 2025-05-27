@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "watch": "npx tailwindcss -i ./css/main.css -o ./css/output.css --watch",
-    "build": "npx tailwindcss -i ./css/main.css -o ./css/output.css --minify",
+    "watch": "tailwindcss -i ./css/main.css -o ./css/output.css --watch",
+    "build": "tailwindcss -i ./css/main.css -o ./css/output.css --minify",
     "minify": "node minify.js"
   },
   "keywords": [],
@@ -18,11 +18,11 @@
     "terser": "^5.39.2"
   },
   "browserslist": [
-    "Chrome 109",
+    "Chrome >= 109",
     "> 0.5%",
     "last 2 versions",
     "Firefox ESR",
-    "not dead",
-    "IE 11"
+    "firefox >= 115",
+    "not dead"
   ]
 }

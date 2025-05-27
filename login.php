@@ -16,7 +16,8 @@ if (isset($_SESSION['user_id'])) {
   <title>Login</title>
   <!-- Tailwind CSS CDN -->
   <link href="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.css" rel="stylesheet" />
-
+  <!-- tailwind cli output -->
+  <link rel="stylesheet" href="css/output.css">
   <!-- Flowbite CDN -->
   <script src="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js"></script>
 </head>

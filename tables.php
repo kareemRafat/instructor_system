@@ -86,7 +86,7 @@ if (isset($_GET['branch']) and $_GET['branch'] == 1) {
                                     <?= $checked ?>
                                     value="<?= $branch['id'] ?>"
                                     name="branch"
-                                    class="list-radio w-4 h-4 <?= $text ?> bg-gray-100 border-gray-300 focus:ring-blue-500 focus:ring-2">
+                                    class="list-radio w-4 h-4 <?= $text ?> bg-gray-100 border-gray-300 border">
                                 <label for="list-radio-<?= $branch['id'] ?>" class="w-full py-3 ms-2 text-base font-medium text-gray-900"><?= $branch['name'] ?></label>
                             </div>
                         </li>

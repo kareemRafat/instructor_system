@@ -294,9 +294,9 @@ function setCard(lec) {
     <div class="relative">
         <div
             class="bg-white rounded-lg shadow-sm transition-all duration-300 overflow-hidden border border-gray-100">
-            <div class="card-header px-6 py-2 traking-wider">
+            <div class="card-header py-2 traking-wider">
                 <div class="flex items-center justify-between">
-                    <div class="flex items-center gap-3">
+                    <div class="flex items-center gap-3 ml-4">
                         <div class="w-9 h-9 bg-white/10 rounded-full flex items-center justify-center">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6 text-white">
                               <path fill-rule="evenodd" d="M2.25 6a3 3 0 0 1 3-3h13.5a3 3 0 0 1 3 3v12a3 3 0 0 1-3 3H5.25a3 3 0 0 1-3-3V6Zm3.97.97a.75.75 0 0 1 1.06 0l2.25 2.25a.75.75 0 0 1 0 1.06l-2.25 2.25a.75.75 0 0 1-1.06-1.06l1.72-1.72-1.72-1.72a.75.75 0 0 1 0-1.06Zm4.28 4.28a.75.75 0 0 0 0 1.5h3a.75.75 0 0 0 0-1.5h-3Z" clip-rule="evenodd" />
@@ -308,8 +308,8 @@ function setCard(lec) {
                             )}</h2>
                         </div>
                     </div>
-                    <div class="text-right">
-                        <div class="text-white font-semibold">${
+                    <div class="text-right pr-6">
+                        <div class="text-white text-lg font-semibold">${
                           lec.group_time == 2 || lec.group_time == 5
                             ? lec.group_time + " - Friday"
                             : lec.group_time == 8 || lec.group_time == 6.10
