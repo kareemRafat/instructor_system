@@ -11,16 +11,11 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "dependencies": {
-    "@tailwindcss/cli": "^4.1.7",
-    "tailwindcss": "^4.1.7"
-  },
   "devDependencies": {
-    "terser": "^5.39.2",
     "autoprefixer": "^10.4.14",
     "postcss": "^8.4.24",
-    "postcss-cli": "^10.1.0",
-    "postcss-preset-env": "^9.3.0"
+    "tailwindcss": "^3.3.5",
+    "terser": "^5.39.2"
   },
   "browserslist": [
     "Chrome 109",
