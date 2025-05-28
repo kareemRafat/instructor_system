@@ -30,18 +30,18 @@ if (isset($_SESSION['user_id'])) {
   </style>
 </head>
 
-<body class="bg-gray-50 md:bg-gray-50 flex flex-col items-center justify-center h-screen gap-4">
+<body class="bg-gray-50 md:bg-gray-50 flex flex-col items-center h-screen">
   <!-- mobile image -->
   <div class="w-full max-w-sm rounded-lg p-6 mt-5 md:mt-0 md:p-0">
     <img class="md:hidden" src="images/login2.svg" alt="">
   </div>
-  <div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:items-center md:bg-white md:shadow px-7 h-screen w-full max-w-5xl my-11">
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:items-center md:bg-white md:shadow px-7 h-screen w-full max-w-5xl lg:my-11">
     <!-- img div -->
-    <div class="hidden md:block w-full max-w-md">
-      <img src="images/login.svg" alt="">
+    <div class="hidden md:block w-full max-w-md justify-self-center">
+      <img src="images/Designer.svg" alt="">
     </div>
     <!-- form div -->
-    <div class="w-full max-w-full md:max-w-md bg-gray-50 md:bg-white rounded-lg p-3">
+    <div class="w-full max-w-full md:max-w-md bg-gray-50 md:bg-white rounded-lg py-3">
       <h2 class="text-2xl font-bold text-left md:text-center text-gray-700 mb-2">Login</h2>
       <p class="text-base font-semibold text-left md:text-center text-gray-700 mb-6">Please sign in to Continue</p>
       <form class="max-w-full mx-auto" action="functions/Auth/login.php" method="POST">
@@ -57,7 +57,7 @@ if (isset($_SESSION['user_id'])) {
           </div>
           <label for="remember" class="ms-2 text-sm font-medium text-gray-900">Remember me</label>
         </div>
-        <button type="submit" class="w-full text-white bg-zinc-700 md:bg-blue-500 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-3 text-center">Submit</button>
+        <button type="submit" class="w-full text-white bg-zinc-800 md:bg-blue-500 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-3 text-center">Submit</button>
       </form>
 
       <div>

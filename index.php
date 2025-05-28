@@ -72,7 +72,7 @@ $errors = $_SESSION['errors'] ?? [];
                     }
                     ?>
                 </div>
-                <button type="submit" class="w-full px-6 py-3 text-white bg-zinc-600 md:bg-blue-600 rounded-lg hover:bg-blue-600 focus:ring-4 focus:ring-blue-300 transition duration-200 font-medium shadow-sm">Submit</button>
+                <button type="submit" class="w-full px-6 py-3 text-white bg-zinc-800 md:bg-blue-600 rounded-lg hover:bg-blue-600 focus:ring-4 focus:ring-blue-300 transition duration-200 font-medium shadow-sm">Submit</button>
             </form>
         </div>
         <div class="w-full max-w-md mr-11 md:mr-0 mt-3 text-xl text-blue-600 text-right">

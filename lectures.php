@@ -29,7 +29,7 @@ include_once 'Design/includes/navbar.php';
 
     @font-face {
         font-family: header-font;
-        src: url(fonts/Aller_Std_Bd.ttf) format('opentype');
+        src: url(fonts/Inter_18pt-Bold.ttf) format('opentype');
     }
 
     .group-name , .group-time{
