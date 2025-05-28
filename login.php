@@ -32,10 +32,10 @@ if (isset($_SESSION['user_id'])) {
 
 <body class="bg-gray-50 md:bg-gray-50 flex flex-col items-center justify-center h-screen gap-4">
   <!-- mobile image -->
-  <div class="w-full max-w-sm rounded-lg p-6 md:p-0">
+  <div class="w-full max-w-sm rounded-lg p-6 mt-5 md:mt-0 md:p-0">
     <img class="md:hidden" src="images/login2.svg" alt="">
   </div>
-  <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-center md:bg-white md:shadow px-7 h-screen w-full max-w-5xl my-11">
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:items-center md:bg-white md:shadow px-7 h-screen w-full max-w-5xl my-11">
     <!-- img div -->
     <div class="hidden md:block w-full max-w-md">
       <img src="images/login.svg" alt="">
