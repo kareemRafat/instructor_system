@@ -7,14 +7,12 @@ $errors = $_SESSION['errors'] ?? [];
 
 ?>
 
-<div class="max-w-7xl mx-auto pt-6 px-6">
-    <h1 class="text-3xl font-bold mb-6 text-center tracking-wide text-blue-500">
-        <?= ucwords(USERNAME) ?>
-    </h1>
+<div class="max-w-7xl mx-auto md:pt-6 md:px-6">
     <!-- card -->
-    <div class="flex flex-col items-center justify-center my-8 text">
-        <div class="w-full max-w-md bg-white rounded-lg shadow-md p-6">
-            <h2 class="text-2xl font-bold text-center text-gray-700 mb-4">Groups</h2>
+    <div class="flex flex-col items-center justify-center md:my-8 text">
+        <div class="w-full max-w-full md:max-w-md bg-white rounded-lg md:shadow-md p-6">
+            <h2 class="text-2xl font-bold text-center text-gray-700 mb-4">
+                <span class="underline underline-offset-5 decoration-8 decoration-blue-400"><?= ucwords(USERNAME) ?>'s</span> Groups</h2>
             <form action="functions/Lectures/insert_lecture.php" method="POST" class="space-y-6">
                 <input type="hidden" name="date" id="currentDate">
                 <script>
@@ -74,12 +72,12 @@ $errors = $_SESSION['errors'] ?? [];
                     }
                     ?>
                 </div>
-                <button type="submit" class="w-full px-6 py-3 text-white bg-blue-600 rounded-lg hover:bg-blue-600 focus:ring-4 focus:ring-blue-300 transition duration-200 font-medium shadow-sm">Submit</button>
+                <button type="submit" class="w-full px-6 py-3 text-white bg-zinc-600 md:bg-blue-600 rounded-lg hover:bg-blue-600 focus:ring-4 focus:ring-blue-300 transition duration-200 font-medium shadow-sm">Submit</button>
             </form>
         </div>
-        <div class="w-full max-w-md mt-3 text-xl text-blue-600 text-right">
+        <div class="w-full max-w-md mr-11 md:mr-0 mt-3 text-xl text-blue-600 text-right">
             <i class="fa-solid fa-fire mr-1"></i>
-            <a class="hover:underline" href="https://tinyurl.com/createivo-track" target="_blank">Track</a>
+            <a class="hover:underline font-semibold" href="https://tinyurl.com/createivo-track" target="_blank">Track</a>
         </div>
     </div>
 </div>

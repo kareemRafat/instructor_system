@@ -30,18 +30,18 @@ if (isset($_SESSION['user_id'])) {
   </style>
 </head>
 
-<body class="bg-gray-50 md:bg-gray-50 flex flex-col items-center justify-center h-screen gap-4 md:bg-[url()] bg-cover">
+<body class="bg-gray-50 md:bg-gray-50 flex flex-col items-center justify-center h-screen gap-4">
+  <!-- mobile image -->
   <div class="w-full max-w-sm rounded-lg p-6 md:p-0">
-    <!-- <h1 class="mb-4 hidden md:block text-center text-3xl tracking-wider text-blue-900 md:text-white">Createivo <span class="underline decoration-8 decoration-blue-400">Instructors</span></h1> -->
     <img class="md:hidden" src="images/login2.svg" alt="">
   </div>
   <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-center md:bg-white md:shadow px-7 h-screen w-full max-w-5xl my-11">
     <!-- img div -->
     <div class="hidden md:block w-full max-w-md">
-      <img src="images/login1.svg" alt="">
+      <img src="images/login.svg" alt="">
     </div>
     <!-- form div -->
-    <div class="w-full max-w-full md:max-w-md bg-gray-50 md:bg-white rounded-lg p-6">
+    <div class="w-full max-w-full md:max-w-md bg-gray-50 md:bg-white rounded-lg p-3">
       <h2 class="text-2xl font-bold text-left md:text-center text-gray-700 mb-2">Login</h2>
       <p class="text-base font-semibold text-left md:text-center text-gray-700 mb-6">Please sign in to Continue</p>
       <form class="max-w-full mx-auto" action="functions/Auth/login.php" method="POST">
