@@ -19,11 +19,12 @@ $stmt = $pdo->prepare("SELECT
                         g.day,
                         g.time,
                         g.branch_id,
+                        g.is_active,
                         DATE_FORMAT(g.start_date, '%d-%m-%Y') AS start,
                         g.instructor_id 
                         FROM `groups` g 
                         JOIN instructors i ON g.instructor_id = i.id
-                        WHERE :branch IS NULL OR g.branch_id = :branch");
+                        WHERE (:branch IS NULL OR g.branch_id = :branch) AND g.is_active = 1");
 $stmt->execute([
     ':branch' => $_GET['branch'] ?? 1
 ]);
