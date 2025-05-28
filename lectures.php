@@ -27,8 +27,13 @@ include_once 'Design/includes/navbar.php';
         }
     }
 
+    @font-face {
+        font-family: header-font;
+        src: url(fonts/Aller_Std_Bd.ttf) format('opentype');
+    }
+
     .group-name , .group-time{
-        font-family: "Poetsen One", sans-serif;
+        font-family: header-font;
     }
 </style>
 

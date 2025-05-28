@@ -46,8 +46,8 @@ $times = ['10.00', '12.30', '3.00-6.10', '6.00-8.00'];
 
 // tables bg and font random color based on branch
 if (isset($_GET['branch']) and $_GET['branch'] == 1) {
-    $color = 'bg-blue-500';
-    $text = 'text-blue-700';
+    $color = 'bg-blue-600';
+    $text = 'text-blue-800';
 } else if (isset($_GET['branch']) and $_GET['branch'] == 2) {
     $color = 'bg-teal-600';
     $text = 'text-teal-700';
@@ -55,8 +55,8 @@ if (isset($_GET['branch']) and $_GET['branch'] == 1) {
     $color = 'bg-purple-500';
     $text = 'text-purple-700';
 } else {
-    $color = 'bg-blue-500';
-    $text = 'text-blue-700';
+    $color = 'bg-blue-600';
+    $text = 'text-blue-800';
 }
 ?>
 
