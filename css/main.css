@@ -23,7 +23,11 @@
   width: 700px !important;
 }
 
-.card-header , .track-name {
+.card-header{
+  background-image : linear-gradient(to right, #58606b, #2558ab);
+}
+
+.track-name {
   background-image: linear-gradient(to right, #3b82f6, #9333ea);
 }
 
