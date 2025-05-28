@@ -3,8 +3,20 @@
 @tailwind utilities;
 
 .notyf__toast {
-  @apply sm:mt-6 md:mt-1 ;
+  margin-top: 0.5rem; /* default (mt-2) */
   max-width: fit-content !important;
+}
+
+@media (min-width: 640px) {
+  .notyf__toast {
+    margin-top: 1.5rem; /* sm:mt-6 */
+  }
+}
+
+@media (min-width: 768px) {
+  .notyf__toast {
+    margin-top: 0.25rem; /* md:mt-1 */
+  }
 }
 
 .notyf__ripple {
