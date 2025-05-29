@@ -53,7 +53,7 @@ if (isset($_SESSION['user_id'])) {
         </div>
         <div class="flex items-start mb-5">
           <div class="flex items-center h-5">
-            <input id="remember" name="remember" type="checkbox" class="w-4 h-4 text-zinc-600 md:text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-gray-300 md:focus:ring-blue-500 focus:ring-2" />
+            <input id="remember" name="remember" type="checkbox" class="w-4 h-4 text-zinc-600 md:text-blue-600 bg-gray-100 border border-gray-300 rounded-sm focus:ring-gray-300 md:focus:ring-blue-500 focus:ring-2" />
           </div>
           <label for="remember" class="ms-2 text-sm font-medium text-gray-900">Remember me</label>
         </div>
