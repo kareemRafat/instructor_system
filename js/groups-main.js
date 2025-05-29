@@ -1,7 +1,8 @@
-import { capitalizeFirstLetter } from "./helpers.js";
+import { capitalizeFirstLetter , getQueryString } from "./helpers.js";
 
 const searchInput = document.getElementById("table-search");
 const tbody = document.querySelector("tbody");
+const page = getQueryString('page');
 // branchSelect const came from the modal in the same page
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -26,15 +27,15 @@ document.addEventListener("DOMContentLoaded", function () {
     const searchValue = this.value.trim();
     let url = "";
 
-    // check if the branch selected or not
+    // check if the branch selected or not - add page number to the url
     if (branchSelect.value) {
       url = `functions/Groups/search_groups.php?search=${encodeURIComponent(
         searchValue
-      )}&branch_id=${encodeURIComponent(branchSelect.value)}`;
+      )}&branch_id=${encodeURIComponent(branchSelect.value)}${page ? `&page=${encodeURIComponent(page)}` : ''}`;
     } else {
       url = `functions/Groups/search_groups.php?search=${encodeURIComponent(
         searchValue
-      )}`;
+      )}${page ? `&page=${encodeURIComponent(page)}` : ''}`;
     }
 
     fetch(url)

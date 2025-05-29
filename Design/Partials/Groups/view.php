@@ -1,9 +1,9 @@
  <?php
     // Fetch all groups from the database
     require_once "Database/connect.php";
-    
-    if(isset($_GET['page']) && is_numeric($_GET['page'])) {
-        $pageNum = ($_GET['page'] - 1) * 10; // Assuming 10 items per page
+    $groupPerPage = 3; // Number of items per page
+    if (isset($_GET['page']) && is_numeric($_GET['page'])) {
+        $pageNum = ($_GET['page'] - 1) * $groupPerPage; // Assuming 10 items per page
     } else {
         $pageNum = 0; // Default to the first page
     }
@@ -21,18 +21,25 @@
                 JOIN instructors ON `groups`.instructor_id = instructors.id 
                 JOIN branches ON `groups`.branch_id = branches.id
                 WHERE `groups`.is_active = 1
+                -- AND (:search IS NULL OR `groups`.name LIKE CONCAT('%', :search, '%'))
+                AND (:branch IS NULL OR branches.id = :branch)
                 ORDER BY `groups`.start_date DESC
-                LIMIT 10 OFFSET $pageNum"; // Adjust LIMIT and OFFSET as needed for pagination
+                LIMIT $groupPerPage OFFSET $pageNum"; // Adjust LIMIT and OFFSET as needed for pagination
 
     $stmt = $pdo->prepare($query);
-    $stmt->execute();
+    $stmt->execute([
+        ':search' => isset($_GET['search']) ? $_GET['search'] : null,
+        ':branch' => isset($_GET['branch']) ? $_GET['branch'] : null
+    ]);
     $count = $stmt->rowCount();
     $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
     // get count
-    $countQuery = "SELECT COUNT(*) AS total FROM `groups` WHERE is_active = 1";
+    $countQuery = "SELECT COUNT(*) AS total FROM `groups` WHERE is_active = 1 AND (:branch IS NULL OR `groups`.branch_id = :branch)";
     $countStmt = $pdo->prepare($countQuery);
-    $countStmt->execute();
+    $countStmt->execute([
+        ':branch' => isset($_GET['branch']) ? $_GET['branch'] : null
+    ]);
     $totalCount = $countStmt->fetch(PDO::FETCH_ASSOC)['total'];
 
     ?>
@@ -95,7 +102,7 @@
          </thead>
          <tbody class="font-semibold text-base">
              <?php if ($count == 0) : ?> <tr class="bg-white">
-                     <td colspan="6" class="px-6 py-4 text-gray-500 font-semibold">
+                     <td colspan="7" class="px-6 py-4 text-gray-500 font-semibold">
                          No Groups found
                      </td>
                  </tr>
@@ -143,12 +150,14 @@
                  <a href="#" class="flex items-center justify-center px-3 h-8 ms-0 leading-tight text-gray-500 bg-white border border-e-0 border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">Previous</a>
              </li>
              <?php
-                for ($i = 1; $i < $totalCount / 5; $i++):
+                for ($i = 1; $i < ceil($totalCount / $groupPerPage) + 1; $i++):
                 ?>
                  <li>
-                     <a href="?page=<?= $i ?>" 
-                     aria-current="page"
-                     class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"><?= $i ?></a>
+                     <a href=""
+                         aria-current="page"
+                         id="page-num"
+                         data-page="<?= $i ?>"
+                         class="page-num flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"><?= $i ?></a>
                  </li>
              <?php endfor; ?>
              <li>

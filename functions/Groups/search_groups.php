@@ -18,7 +18,8 @@ if (isset($_GET['search'])) {
     WHERE `groups`.is_active = 1 
     AND `groups`.name LIKE :search
     AND (:branch_id IS NULL OR `groups`.branch_id = :branch_id)
-    ORDER BY `groups`.start_date DESC";
+    ORDER BY `groups`.start_date DESC
+    LIMIT 3 ";
 
     $stmt = $pdo->prepare($query);
     $stmt->execute([
