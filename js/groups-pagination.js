@@ -59,6 +59,4 @@ window.addEventListener("load", () => {
 
   // Set input values based on query params
   branchSelect.value = branch;
-  //   searchInput.value = search;
-  console.log(`Loaded with: branch=${branch}, page=${page}`);
 });

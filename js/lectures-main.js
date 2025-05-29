@@ -303,7 +303,7 @@ function setCard(lec) {
                             </svg>
                         </div>
                         <div>
-                            <h2 class="group-name text-xl tracking-wider text-gray-100">${capitalizeFirstLetter(
+                            <h2 class="group-name text-lg tracking-wider text-gray-100">${capitalizeFirstLetter(
                               lec.group_name
                             )}</h2>
                         </div>
