@@ -3,6 +3,7 @@ import { capitalizeFirstLetter , getQueryString } from "./helpers.js";
 const searchInput = document.getElementById("table-search");
 const tbody = document.querySelector("tbody");
 const page = getQueryString('page');
+const pageList = document.getElementById('page-list');
 // branchSelect const came from the modal in the same page
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -27,6 +28,12 @@ document.addEventListener("DOMContentLoaded", function () {
     const searchValue = this.value.trim();
     let url = "";
 
+    if(!searchValue) { 
+      pageList.classList.remove('hidden');
+    } else {
+      pageList.classList.add('hidden');
+    }
+
     // check if the branch selected or not - add page number to the url
     if (branchSelect.value) {
       url = `functions/Groups/search_groups.php?search=${encodeURIComponent(
@@ -44,6 +51,8 @@ document.addEventListener("DOMContentLoaded", function () {
         setTable(data);
       })
       .catch((error) => console.error("Error:", error));
+
+      
   });
 
   // Handle finish button clicks
