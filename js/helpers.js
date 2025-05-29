@@ -25,7 +25,7 @@ function wait(time) {
 /** query string get */
 function getQueryString(key) {
   const params = new URLSearchParams(window.location.search);
-  return params.get(key) || null;
+  return params.get(key);
 }
 
 /** query string set */

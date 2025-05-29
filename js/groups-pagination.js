@@ -1,62 +1,50 @@
-import { getQueryString } from "./helpers.js";
+import { getQueryString  } from "./helpers.js";
+
+const branchSelect = document.getElementById("branchSelect");
 
 // Function to update query strings and reload the page
 function updateQueryString(key, value) {
-  const url = new URL(window.location);
+  const url = new URL(window.location); // keeps existing params like 'branch'
   if (value) {
-    url.searchParams.set(key, value); // Set or update the query param
+    url.searchParams.set(key, value);
   } else {
-    removeQueryString(key); // Remove param if value is empty
+    url.searchParams.delete(key);
   }
-  // Reload the page with the updated URL
   window.location = url;
 }
 
-function removeQueryString(key) {
-  const url = new URL(window.location.href);
-  url.searchParams.delete(key);
-  window.history.replaceState({}, '', url);
-}
-
-// Function to handle pagination
 function goToPage(page) {
-  updateQueryString("page", page);
+  updateQueryString("page", page); // will preserve 'branch' if it exists
 }
 
-// Event listeners for inputs
+// Event listener for select dropdown
 branchSelect.addEventListener("change", (e) => {
   const selectedBranch = e.target.value;
 
-  // Remove 'page' from query string regardless of branch selection
-  removeQueryString("page");
+  // Remove 'page' from query string when changing branch
+  const url = new URL(window.location);
+  url.searchParams.delete("page");
 
   if (selectedBranch) {
-    // Update 'branch' query string with the selected value
-    updateQueryString("branch", selectedBranch);
+    url.searchParams.set("branch", selectedBranch);
   } else {
-    // Reset to base URL if no branch is selected
-    window.location = window.location.pathname;
+    url.searchParams.delete("branch");
   }
+
+  window.location = url;
 });
 
+// Pagination click
 const pageNum = document.querySelectorAll(".page-num");
+const next = document.querySelector(".page-num-next");
+
 pageNum.forEach((page) => {
   page.addEventListener("click", (e) => {
     e.preventDefault();
     const page = e.target.dataset.page;
     if (page) {
-      goToPage(page);
+      goToPage(page); // branch is preserved automatically
     }
   });
 });
 
-// Initialize: Load query params on page load
-window.addEventListener("load", () => {
-  const params = new URLSearchParams(window.location.search);
-  const branch = params.get("branch") || "";
-  //   const search = params.get('search') || '';
-  const page = params.get("page") || "1";
-
-  // Set input values based on query params
-  branchSelect.value = branch;
-});

@@ -3,8 +3,10 @@ import { capitalizeFirstLetter , getQueryString } from "./helpers.js";
 const searchInput = document.getElementById("table-search");
 const tbody = document.querySelector("tbody");
 const page = getQueryString('page');
+const branchVal = getQueryString('branch');
 const pageList = document.getElementById('page-list');
 // branchSelect const came from the modal in the same page
+
 
 document.addEventListener("DOMContentLoaded", function () {
   // get branches when page loaded
@@ -17,6 +19,9 @@ document.addEventListener("DOMContentLoaded", function () {
           let option = document.createElement("option");
           option.value = branch.id;
           option.textContent = capitalizeFirstLetter(branch.name);
+          if (option.value == branchVal) {
+            option.selected = true ;
+          }
           branchSelect.appendChild(option);
         });
       }
@@ -35,10 +40,11 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     // check if the branch selected or not - add page number to the url
-    if (branchSelect.value) {
+
+    if (branchVal) {  
       url = `functions/Groups/search_groups.php?search=${encodeURIComponent(
         searchValue
-      )}&branch_id=${encodeURIComponent(branchSelect.value)}${page ? `&page=${encodeURIComponent(page)}` : ''}`;
+      )}&branch_id=${encodeURIComponent(branchVal)}${page ? `&page=${encodeURIComponent(page)}` : ''}`;
     } else {
       url = `functions/Groups/search_groups.php?search=${encodeURIComponent(
         searchValue
@@ -51,8 +57,6 @@ document.addEventListener("DOMContentLoaded", function () {
         setTable(data);
       })
       .catch((error) => console.error("Error:", error));
-
-      
   });
 
   // Handle finish button clicks
