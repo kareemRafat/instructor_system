@@ -1,7 +1,7 @@
  <?php
     // Fetch all groups from the database
     require_once "Database/connect.php";
-    $groupPerPage = 3; // Number of items per page
+    $groupPerPage = 10 ; // Number of items per page
     if (isset($_GET['page']) && is_numeric($_GET['page'])) {
         $pageNum = ($_GET['page'] - 1) * $groupPerPage; // Assuming 10 items per page
     } else {
@@ -144,7 +144,15 @@
              <?php endforeach; ?>
          </tbody>
      </table>
-     <nav aria-label="Page navigation example" class="flex justify-center m-4">
+     <nav aria-label="Page navigation example" class="flex justify-between m-4">
+        <div>
+            Showing 
+            <?= $pageNum + 1 ?> 
+            to 
+            <?= isset($_GET['page']) ? min($pageNum + $groupPerPage, $totalCount) : '' ?>
+            of
+            <?= $totalCount ?> entries
+        </div>
          <ul class="inline-flex -space-x-px text-sm">
              <li>
                  <a href="#" class="flex items-center justify-center px-3 h-8 ms-0 leading-tight text-gray-500 bg-white border border-e-0 border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">Previous</a>

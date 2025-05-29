@@ -19,7 +19,7 @@ if (isset($_GET['search'])) {
     AND `groups`.name LIKE :search
     AND (:branch_id IS NULL OR `groups`.branch_id = :branch_id)
     ORDER BY `groups`.start_date DESC
-    LIMIT 3 ";
+    LIMIT 10 ";
 
     $stmt = $pdo->prepare($query);
     $stmt->execute([

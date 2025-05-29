@@ -57,14 +57,6 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     }
   });
-
-  /** show branch lectures functionality */
-  branchSelect.onchange = function () {
-    // empty search input
-    searchInput.value = "";
-
-    fetchGroups(this.value, this.selectedOptions[0].text);
-  };
 });
 
 /** Finish a group */
@@ -97,7 +89,7 @@ function finishGroup(groupId, button) {
     });
 }
 
-/** fetch branch lectures for table */
+/** xx fetch branch lectures for table */
 function fetchGroups(value, branch) {
   // get all groups based on selected branch
   fetch(`functions/Groups/get_groups.php?branch_id=${value}`)
@@ -115,7 +107,7 @@ function setTable(res, branch = null) {
   if (res.data.length == 0) {
     tbody.innerHTML = `
         <tr>
-          <td class="px-6 py-4 font-bold" colspan="5"> No Group Found </td>
+          <td class="px-6 py-4 font-bold bg-white" colspan="7"> No Group Found </td>
         </tr>
     `;
   }
