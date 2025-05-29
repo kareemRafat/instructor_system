@@ -144,7 +144,7 @@
              <?php endforeach; ?>
          </tbody>
      </table>
-     <nav aria-label="Page navigation example" class="flex justify-between m-4">
+     <!-- <nav aria-label="Page navigation example" class="flex justify-between m-4">
         <div>
             Showing 
             <?= $pageNum + 1 ?> 
@@ -155,7 +155,11 @@
         </div>
          <ul id="page-list" class="inline-flex -space-x-px text-sm">
              <li>
-                 <a href="#" class="flex items-center justify-center px-3 h-8 ms-0 leading-tight text-gray-500 bg-white border border-e-0 border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">Previous</a>
+                <a href="?page=<?= (isset($_GET['page']) && intval($_GET['page']) > 1) ? intval($_GET['page']) - 1 : 1 ?>"
+                    class="flex items-center justify-center px-3 h-8 ms-0 leading-tight text-gray-500 border border-e-0 border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700
+                    <?= (!isset($_GET['page']) || intval($_GET['page']) <= 1) ? 'pointer-events-none bg-red-100 opacity-50' : '' ?>">
+                    Previous
+                </a>
              </li>
              <?php
                 for ($i = 1; $i < ceil($totalCount / $groupPerPage) + 1; $i++):
@@ -169,8 +173,14 @@
                  </li>
              <?php endfor; ?>
              <li>
-                 <a href="#" class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">Next</a>
+                <a href="?page=<?= isset($_GET['page']) ? (intval($_GET['page']) + 1) : 2 ?>"
+                    class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700
+                    <?= (isset($_GET['page']) ? intval($_GET['page']) : 1) >= ceil($totalCount / $groupPerPage) ? 'pointer-events-none bg-red-100 opacity-50' : '' ?>">
+                    Next
+                </a>
              </li>
          </ul>
-     </nav>
+     </nav> -->
+
+     <?php include "pagination.php"; ?>
  </div>
