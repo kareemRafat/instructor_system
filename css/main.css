@@ -24,7 +24,9 @@
 }
 
 .card-header{
-  background-image : linear-gradient(to right, #082644, #2558ab);
+  /* background-image : linear-gradient(to right, #082644, #2558ab); */
+  background-image: url(../images/background.jpg);
+  background-size: cover;
 }
 
 .track-name {
