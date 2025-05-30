@@ -41,7 +41,7 @@ if (isset($_SESSION['user_id'])) {
       <img src="images/Designer.svg" alt="">
     </div>
     <!-- form div -->
-    <div class="w-full max-w-full md:max-w-md bg-gray-50 md:bg-white rounded-lg py-3 md:my-11">
+    <div class="w-full max-w-full md:max-w-md bg-gray-50 md:bg-white rounded-lg py-3 md:my-20">
       <h2 class="text-2xl font-bold text-left md:text-center text-gray-700 mb-2">Login</h2>
       <p class="text-base font-semibold text-left md:text-center text-gray-700 mb-6">Please sign in to Continue</p>
       <form class="max-w-full mx-auto" action="functions/Auth/login.php" method="POST">
