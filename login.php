@@ -30,18 +30,18 @@ if (isset($_SESSION['user_id'])) {
   </style>
 </head>
 
-<body class="bg-gray-50 md:bg-gray-50 flex flex-col items-center h-screen">
+<body class="bg-gray-50 md:bg-gray-50 flex flex-col items-center h-screen md:justify-center">
   <!-- mobile image -->
   <div class="w-full max-w-sm rounded-lg p-6 mt-5 md:mt-0 md:p-0">
     <img class="md:hidden" src="images/login2.svg" alt="">
   </div>
-  <div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:items-center md:bg-white md:shadow px-7 w-full max-w-5xl lg:my-10 rounded-lg">
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:items-center md:bg-white md:shadow px-7 w-full max-w-5xl rounded-lg">
     <!-- img div -->
     <div class="hidden md:block w-full max-w-md justify-self-center">
       <img src="images/Designer.svg" alt="">
     </div>
     <!-- form div -->
-    <div class="w-full max-w-full md:max-w-md bg-gray-50 md:bg-white rounded-lg py-3 md:mb-11">
+    <div class="w-full max-w-full md:max-w-md bg-gray-50 md:bg-white rounded-lg py-3 md:my-11">
       <h2 class="text-2xl font-bold text-left md:text-center text-gray-700 mb-2">Login</h2>
       <p class="text-base font-semibold text-left md:text-center text-gray-700 mb-6">Please sign in to Continue</p>
       <form class="max-w-full mx-auto" action="functions/Auth/login.php" method="POST">
