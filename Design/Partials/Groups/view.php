@@ -203,10 +203,10 @@
         $dayName = strtolower($dayName);
 
         $colors = [
-            'saturday' => 'bg-orange-100 text-orange-600',
-            'sunday' => 'bg-blue-100 text-blue-700',
-            'monday' => 'bg-pink-100 text-pink-700',
-            'default' => 'bg-orange-100 text-orange-700'
+            'saturday' => 'bg-orange-100 text-orange-600 border border-orange-600',
+            'sunday' => 'bg-blue-100 text-blue-700 border border-blue-600',
+            'monday' => 'bg-pink-100 text-pink-700 border border-pink-600',
+            'default' => 'bg-zinc-100 text-zinc-700 border border-zinc-600'
         ];
 
         return $colors[$dayName] ?? $colors['default'];
