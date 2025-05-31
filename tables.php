@@ -156,7 +156,7 @@ if (isset($_GET['branch']) and $_GET['branch'] == 1) {
                                                     <?php if ($secondSlot) { ?>
                                                         <div>
                                                             <span class="<?= $text ?> font-semibold text-base"><?= ucwords($schedule[$instructor['id']][$day]['6.10']['name']) ?></span>
-                                                            <span class="text-sm md:block hidden font-semibold"><?= $schedule[$instructor['id']][$day]['start'] ?? ''; ?></span>
+                                                            <span class="text-sm md:block hidden font-semibold"><?= $schedule[$instructor['id']][$day]['6.10']['start'] ?? ''; ?></span>
                                                         </div>
                                                     <?php } ?>
                                                 </div>
