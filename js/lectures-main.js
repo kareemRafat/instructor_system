@@ -313,7 +313,7 @@ function setCard(lec) {
                           lec.group_time == 2 || lec.group_time == 5
                             ? lec.group_time + " - Friday"
                             : lec.group_time == 8 || lec.group_time == 6.1
-                            ? "Online"
+                            ?  'Online ' + Math.floor(lec.group_time)          
                             : lec.group_time
                         }</div>
                     </div>
@@ -449,15 +449,15 @@ async function fetchInstructors(branchId) {
 
 /** show time options */
 function showTimeOptions() {
-  const time = [10, 12.3, 3, 6, 8, 2, 5];
+  const time = [10, 12.3, 3, 6, 6.10 , 8, 2, 5];
   groupTimeSelect.innerHTML = "<option value=''>Select Group Time</option>";
   time.forEach((time) => {
     const option = document.createElement("option");
     option.value = time;
     option.textContent = time;
     option.classList.add("font-semibold");
-    if (time == 8) {
-      option.textContent = "Online";
+    if (time == 8 || time == 6.10) {
+      option.textContent = `Online ${time.toFixed(0)}`;
     } else if (time == 2 || time == 5) {
       option.textContent = `${time} [ Friday ]`;
     }

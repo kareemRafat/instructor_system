@@ -140,10 +140,18 @@
                          <?= ucwords($row['group_name']) ?>
                      </th>
                      <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
-                         <?=
-                            $row['group_time'] == 2 || $row['group_time'] == 5
-                                ? $row['group_time'] . " - Friday"
-                                : $row['group_time'] ?>
+                         <?php
+                            if ($row['group_time'] == 2 || $row['group_time'] == 5) {
+                                echo $row['group_time'] . " - Friday";
+                            } elseif ($row['group_time'] == 6.10 || $row['group_time'] == 8) {
+                                echo "Online " . number_format((int)$row['group_time']);
+                            } else {
+                                echo $row['group_time'] ;
+                            }
+                            
+                                
+                                
+                        ?>
                      </th>
                      <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
                          <span class="<?= dayBadgeColor($row['group_day']) ?> text-sm font-medium me-2 px-2.5 py-1.5 rounded-md"><?= $row['group_day'] ?></span>
