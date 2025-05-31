@@ -1,5 +1,5 @@
-<nav aria-label="Page navigation example" class="flex justify-between m-4">
-    <div>
+<nav aria-label="Page navigation example" class="flex flex-col md:flex-row md:justify-between m-4">
+    <div class=" mb-5 md:mb-0">
         Showing
         <?= $pageNum + 1 ?>
         to
