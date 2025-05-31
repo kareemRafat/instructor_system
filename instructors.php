@@ -28,7 +28,7 @@ include_once 'Design/includes/navbar.php';
         <button id="addInstructor" data-modal-target="crud-modal" data-modal-toggle="crud-modal"
             class="w-full md:w-auto text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 
         font-medium rounded-lg text-sm px-5 py-2.5 text-center">
-            Add <span class="hidden md:inline-block">Instructor</span>
+            Add Instructor
         </button>
 
         <!-- Search Input -->

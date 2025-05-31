@@ -1,3 +1,16 @@
+<?php
+
+// get count for pagination
+$countQuery = "SELECT COUNT(*) AS total FROM `groups` WHERE is_active = 1 AND (:branch IS NULL OR `groups`.branch_id = :branch)";
+$countStmt = $pdo->prepare($countQuery);
+$countStmt->execute([
+    ':branch' => isset($_GET['branch']) ? $_GET['branch'] : null
+]);
+$totalCount = $countStmt->fetch(PDO::FETCH_ASSOC)['total'];
+
+?>
+
+
 <nav aria-label="Page navigation example" class="flex flex-col md:flex-row md:justify-between m-4">
     <div class=" mb-5 md:mb-0">
         Showing

@@ -1,12 +1,12 @@
-import { capitalizeFirstLetter , getQueryString } from "./helpers.js";
+import { capitalizeFirstLetter, getQueryString , globalWait } from "./helpers.js";
 
 const searchInput = document.getElementById("table-search");
 const tbody = document.querySelector("tbody");
-const page = getQueryString('page');
-const branchVal = getQueryString('branch');
-const pageList = document.getElementById('page-list');
+const page = getQueryString("page");
+const branchVal = getQueryString("branch");
+const pageList = document.getElementById("page-list");
+const instructorSelect = document.getElementById("instructor-select");
 // branchSelect const came from the modal in the same page
-
 
 document.addEventListener("DOMContentLoaded", function () {
   // get branches when page loaded
@@ -20,7 +20,7 @@ document.addEventListener("DOMContentLoaded", function () {
           option.value = branch.id;
           option.textContent = capitalizeFirstLetter(branch.name);
           if (option.value == branchVal) {
-            option.selected = true ;
+            option.selected = true;
           }
           branchSelect.appendChild(option);
         });
@@ -28,27 +28,65 @@ document.addEventListener("DOMContentLoaded", function () {
     })
     .catch((error) => console.error("Error fetching lectures:", error));
 
+  // get groups total count when page load
+  groupsTotalCount(getQueryString("branch"));
+
+  // when page load get instructors based on branch
+  fetchInstructors(branchVal);
+
+  /** instructor select */
+  instructorSelect.addEventListener("change", function () {
+    const instructorId = this.value;
+    // toggle pagination
+    if (!instructorId) {
+      pageList.classList.remove("hidden");
+    } else {
+      pageList.classList.add("hidden");
+    }
+
+    let url = "";
+
+    if (instructorId) {
+      url = `functions/Groups/get_groups.php?instructor_id=${encodeURIComponent(
+        instructorId
+      )}&branch_id=${branchVal}`;
+    } else {
+      url = `functions/Groups/get_groups.php?branch_id=${branchVal}`;
+    }
+
+    fetch(url)
+      .then((response) => response.json())
+      .then((data) => {
+        setTable(data);
+      })
+      .catch((error) => console.error("Error:", error));
+  });
+
   /** search functionality */
   searchInput.addEventListener("input", function () {
     const searchValue = this.value.trim();
+
+    // reset instructor
+    fetchInstructors(branchVal);
+
     let url = "";
 
-    if(!searchValue) { 
-      pageList.classList.remove('hidden');
+    if (!searchValue) {
+      pageList.classList.remove("hidden");
     } else {
-      pageList.classList.add('hidden');
+      pageList.classList.add("hidden");
     }
 
-    // check if the branch selected or not - add page number to the url
-
-    if (branchVal) {  
+    if (branchVal) {
       url = `functions/Groups/search_groups.php?search=${encodeURIComponent(
         searchValue
-      )}&branch_id=${encodeURIComponent(branchVal)}${page ? `&page=${encodeURIComponent(page)}` : ''}`;
+      )}&branch_id=${encodeURIComponent(branchVal)}${
+        page ? `&page=${encodeURIComponent(page)}` : ""
+      }`;
     } else {
       url = `functions/Groups/search_groups.php?search=${encodeURIComponent(
         searchValue
-      )}${page ? `&page=${encodeURIComponent(page)}` : ''}`;
+      )}${page ? `&page=${encodeURIComponent(page)}` : ""}`;
     }
 
     fetch(url)
@@ -102,17 +140,6 @@ function finishGroup(groupId, button) {
     });
 }
 
-/** xx fetch branch lectures for table */
-function fetchGroups(value, branch) {
-  // get all groups based on selected branch
-  fetch(`functions/Groups/get_groups.php?branch_id=${value}`)
-    .then((response) => response.json())
-    .then((data) => {
-      setTable(data, branch);
-    })
-    .catch((error) => console.error("Error fetching lectures:", error));
-}
-
 /** setTable */
 function setTable(res, branch = null) {
   tbody.innerHTML = ""; // Clear current table content
@@ -141,15 +168,21 @@ function setTable(res, branch = null) {
           }
       </th>
       <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
-          ${row.group_day}
-      </th>
+      <span class="${dayBadgeColor(
+        row.group_day
+      )} text-sm font-medium me-2 px-2.5 py-1.5 rounded-md">${
+      row.group_day
+    }</span></th>
       <td class="px-6 py-4">
+      <span class="w-2 h-2 ${
+        branchIndicator(row.branch_name)["bgColor"]
+      } inline-block mr-2"></span>
           ${
             row.instructor_name.charAt(0).toUpperCase() +
             row.instructor_name.slice(1)
           }
       </td>
-      <td class="px-6 py-4">
+      <td class="px-6 py-4 ${branchIndicator(row.branch_name)["textColor"]}">
           ${row.branch_name.charAt(0).toUpperCase() + row.branch_name.slice(1)}
       </td> 
       <td class="px-6 py-4">
@@ -172,4 +205,91 @@ function setTable(res, branch = null) {
 
     tbody.appendChild(tr);
   });
+}
+
+/** Fetch instructors based on selected branch */
+async function fetchInstructors(branchId) {
+  try {
+    const response = await fetch(
+      `functions/Instructors/get_instructors.php?branch_id=${branchId}`
+    );
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    const res = await response.json();
+
+    instructorSelect.innerHTML = !branchId
+      ? "<option value=''>Select Branch First</option>"
+      : "<option value=''>Choose Instructor</option>";
+
+    if (res.data) {
+      res.data.forEach((instructorData) => {
+        const option = document.createElement("option");
+        option.value = instructorData.id;
+        option.textContent = capitalizeFirstLetter(instructorData.username);
+        instructorSelect.appendChild(option);
+      });
+    }
+  } catch (error) {
+    console.error("Error fetching instructors:", error);
+    instructorSelect.innerHTML =
+      "<option value=''>Error loading instructors</option>";
+  }
+}
+
+/** branch indicator color */
+function branchIndicator(branchName) {
+  branchName = branchName.toLowerCase();
+
+  const bgColors = {
+    tanta: "bg-teal-600",
+    mansoura: "bg-blue-600",
+    zagazig: "bg-purple-500",
+    default: "bg-orange-600",
+  };
+
+  const textColors = {
+    tanta: "text-teal-600",
+    mansoura: "text-blue-700",
+    zagazig: "text-purple-700",
+    default: "text-orange-700",
+  };
+
+  const bgClass = bgColors[branchName] || bgColors["default"];
+  const textClass = textColors[branchName] || textColors["default"];
+
+  return {
+    bgColor: bgClass,
+    textColor: textClass,
+  };
+}
+
+/** day badge color */
+function dayBadgeColor(dayName) {
+  dayName = dayName.toLowerCase();
+
+  const colors = {
+    saturday: "bg-orange-100 text-orange-600",
+    sunday: "bg-blue-100 text-blue-700",
+    monday: "bg-pink-100 text-pink-700",
+    default: "bg-orange-100 text-orange-700",
+  };
+
+  return colors[dayName] || colors["default"];
+}
+
+/** get gropus total count */
+async function groupsTotalCount(branch , instructor = null) {
+  await globalWait(1000);
+
+  const url = `functions/Groups/get_groups_count.php?branch_id=${encodeURIComponent(
+    branch
+  )}`;
+
+  fetch(url)
+    .then((response) => response.json())
+    .then((data) => {
+      document.querySelector(".total-inst-count").innerText = data;
+    })
+    .catch((error) => console.error("Error:", error));
 }

@@ -23,6 +23,11 @@
   width: 700px !important;
 }
 
+@font-face {
+    font-family: header-font;
+    src: url(../fonts/Inter_18pt-Bold.ttf) format('opentype');
+}
+
 .card-header{
   /* background-image : linear-gradient(to right, #082644, #2558ab); */
   background-image: url(../images/background.jpg);
@@ -35,4 +40,8 @@
 
 .comment-background {
   background-image: linear-gradient(to right, #eff6ff, #f5f3ff);
+}
+
+.table-header-count {
+  font-family: header-font;
 }

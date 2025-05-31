@@ -312,7 +312,7 @@ function setCard(lec) {
                         <div class="group-time text-white text-lg">${
                           lec.group_time == 2 || lec.group_time == 5
                             ? lec.group_time + " - Friday"
-                            : lec.group_time == 8 || lec.group_time == 6.10
+                            : lec.group_time == 8 || lec.group_time == 6.1
                             ? "Online"
                             : lec.group_time
                         }</div>

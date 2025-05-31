@@ -23,10 +23,14 @@ try {
         JOIN instructors ON `groups`.instructor_id = instructors.id 
         JOIN branches ON `groups`.branch_id = branches.id
         WHERE `groups`.is_active = 1 AND (:branch = '' OR branches.id = :branch)
+        AND (:instructor IS NULL OR instructors.id = :instructor)
         ORDER BY `groups`.start_date DESC";
 
         $stmt = $pdo->prepare($query);
-        $stmt->execute([':branch' => $_GET['branch_id']]);
+        $stmt->execute([
+            ':branch' => $_GET['branch_id'],
+            ':instructor' => $_GET['instructor_id'] ?? null ,
+        ]);
         $groups = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
         header('Content-Type: application/json');

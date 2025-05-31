@@ -22,6 +22,16 @@ function wait(time) {
   
 }
 
+/** wait */
+function globalWait(time) {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve();
+    }, time);
+  });
+  
+}
+
 /** query string get */
 function getQueryString(key) {
   const params = new URLSearchParams(window.location.search);
@@ -36,8 +46,7 @@ function setQueryString(key, value) {
   } else {
     url.searchParams.delete(key); // Remove param if value is empty
   }
-  // Reload the page with the updated URL
-  // window.location = url;
+  // window.history.pushState({}, '', url.toString());
 }
 
-export { getMetaContent, capitalizeFirstLetter , wait , getQueryString, setQueryString };
+export { getMetaContent, capitalizeFirstLetter , wait , getQueryString, setQueryString , globalWait };

@@ -26,12 +26,7 @@ include_once 'Design/includes/navbar.php';
             opacity: 1;
         }
     }
-
-    @font-face {
-        font-family: header-font;
-        src: url(fonts/Inter_18pt-Bold.ttf) format('opentype');
-    }
-
+    
     .group-name , .group-time{
         font-family: header-font;
     }
