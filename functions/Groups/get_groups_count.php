@@ -15,8 +15,7 @@ $countQuery = "SELECT
                 FROM `groups` AS g 
                 WHERE is_active = 1 
                 AND (:branch IS NULL OR g.branch_id = :branch) 
-                AND (:instructor IS NULL OR g.instructor_id = :instructor)
-                ";
+                AND (:instructor IS NULL OR g.instructor_id = :instructor)";
 
 $countStmt = $pdo->prepare($countQuery);
 $countStmt->execute([

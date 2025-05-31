@@ -23,9 +23,6 @@ include_once 'Design/includes/navbar.php';
 <?php
 // Main modal -->
 
-
-
-
 if(!isset($_GET['action'])):
 
     include_once 'Design/Modals/insert_group.php';

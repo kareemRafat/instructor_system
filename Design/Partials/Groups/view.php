@@ -212,6 +212,4 @@
         return $colors[$dayName] ?? $colors['default'];
     }
 
-
-
     ?>
