@@ -73,7 +73,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // reset instructor
     fetchInstructors(branchVal);
-    //! groupsTotalCount(branchVal);
+    groupsTotalCount(branchVal);
 
     let url = "";
 
@@ -275,10 +275,10 @@ function dayBadgeColor(dayName) {
   dayName = dayName.toLowerCase();
 
   const colors = {
-    saturday: "bg-orange-100 text-orange-600",
-    sunday: "bg-blue-100 text-blue-700",
-    monday: "bg-pink-100 text-pink-700",
-    default: "bg-orange-100 text-orange-700",
+    'saturday' : 'bg-orange-100 text-orange-600 border border-orange-300',
+    'sunday' : 'bg-blue-100 text-blue-700 border border-blue-300',
+    'monday' : 'bg-pink-100 text-pink-700 border border-pink-300',
+    'default' : 'bg-zinc-100 text-zinc-700 border border-zinc-300'
   };
 
   return colors[dayName] || colors["default"];
@@ -312,11 +312,13 @@ async function groupsTotalCount(branch , instructor = null , instructorName = nu
     .then((response) => response.json())
     .then((data) => {
       document.querySelector(".total-inst-count").innerText = data;
+      document.querySelector(".table-header-count").classList.add('hidden') ;
+      document.querySelector(".total-group").classList.remove('hidden') ;
 
       if (instructorName) {
         document.querySelector(".table-header-count").innerText = instructorName + "'s Groups Count " + data ;
-        document.querySelector(".table-header-count").classList.add('total-inst-count' , 'text-zinc-700') ;
-
+        document.querySelector(".table-header-count").classList.remove('hidden') ;
+        document.querySelector(".total-group").classList.add('hidden') ;
       }
     })
     .catch((error) => console.error("Error:", error));

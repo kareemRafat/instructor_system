@@ -15,12 +15,14 @@ $countQuery = "SELECT
                 FROM `groups` AS g 
                 WHERE is_active = 1 
                 AND (:branch IS NULL OR g.branch_id = :branch) 
-                AND (:instructor IS NULL OR g.instructor_id = :instructor)";
+                AND (:instructor IS NULL OR g.instructor_id = :instructor)
+                AND (:search IS NULL OR g.name LIKE '%:search%') ";
 
 $countStmt = $pdo->prepare($countQuery);
 $countStmt->execute([
     ':branch' => $_GET['branch_id'] ?? null,
-    ':instructor' => $_GET['instructor_id'] ?? null
+    ':instructor' => $_GET['instructor_id'] ?? null ,
+    ':search' => $_GET['search'] ?? null ,
 ]);
 
 $totalCount = $countStmt->fetch(PDO::FETCH_ASSOC)['total'];
