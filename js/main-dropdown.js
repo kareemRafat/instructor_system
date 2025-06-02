@@ -4,6 +4,7 @@ const commentInput = document.getElementById("comment-input");
 const list = document.getElementById("lecture-list");
 const searchClear = document.getElementById('clear-search');
 let optionItem = null ;
+let tackValue = null ;
 
 function filterLectures() {
   const query = commentInput.value.toLowerCase();
@@ -18,12 +19,12 @@ function filterLectures() {
     }
   });
   list.style.display = hasMatch ? "block" : "none";
+
+  // show clear search btn
+  searchClear.classList.remove('hidden');
 }
 
 commentInput.addEventListener("input", filterLectures);
-commentInput.addEventListener('keyup' , function(){
-  searchClear.classList.remove('hidden');
-})
 
 function selectLecture() {
   commentInput.value = this.innerText;
@@ -49,6 +50,9 @@ commentInput.addEventListener("blur", hideListDelayed);
 searchClear.addEventListener('click' , function(){
   commentInput.value = '';
   this.classList.add('hidden');
+  // when clear search icon return track lectures to li
+  insertListItems(tackValue);
+  
 })
 
 // track array
@@ -144,28 +148,35 @@ const courseContent = [
 
 /** get track name */
 track.oninput = function (e) {
-  let value = e.target.options[e.target.selectedIndex].text.toLowerCase();
+  tackValue = e.target.options[e.target.selectedIndex].text.toLowerCase();
 
   if (!this.value) {
     commentInput.value = '';
     list.innerHTML = `<li class="text-left px-3 py-1 text-gray-500 font-semibold cursor-default">Select Track First</li>`;
   }
 
-  /** add courseContent to comment select */
-  courseContent.forEach((content) => {
-    if (content.track.toLowerCase() == value) {
-      listItems(content, value);
-    }
-  });
+  insertListItems(tackValue);
 
   resetListScroll();
+ 
+};
+
+/** loop through course content */
+function insertListItems(val) {
+  /** add courseContent to comment select */
+  courseContent.forEach((content) => {
+    if (content.track.toLowerCase() == val) {
+      listItems(content, val);
+    }
+  });
 
   // add click listener to every li in comment to choose when click
   optionItem.forEach(item => {
     item.addEventListener('click' , selectLecture);
   })
-   
-};
+
+   list.style.display = "none";
+}
 
 /** list items */
 function listItems(content, value) {
