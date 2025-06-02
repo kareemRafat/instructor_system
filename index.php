@@ -80,6 +80,7 @@ $errors = $_SESSION['errors'] ?? [];
           <div class="relative">
             <input type="text"
               id="comment-input"
+              readonly
               name="comment"
               autocomplete="off"
               class="block w-full appearance-none p-2.5 pr-10 text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 placeholder:text-gray-900"
@@ -98,12 +99,13 @@ $errors = $_SESSION['errors'] ?? [];
               </svg>
             </div>
           </div>
-          <ul id="lecture-list"
-            style="-webkit-overflow-scrolling: touch"
-            class="absolute bottom-0 z-10 mt-1 w-full bg-white border border-gray-300 rounded-md shadow-md hidden max-h-48 overflow-y-auto">
-            <li class="text-left px-3 py-1 text-gray-500 font-semibold cursor-default">Select Track First</li>
-          </ul>
         </div>
+
+        <!-- Move the ul outside the relative div -->
+        <ul id="lecture-list" class="hidden fixed inset-0 z-50 bg-white overflow-y-auto flex flex-col p-8">
+          <button class="close-btn absolute top-4 right-4 text-3xl text-blue-600 cursor-pointer" id="close-lecture-list" aria-label="Close">&times;</button>
+          <li class="text-left px-3 py-1 text-gray-500 font-semibold cursor-default">Select Track First</li>
+        </ul>
 
         <?php if (isset($errors['comment'])) {
           echo '<div class="p-2 my-2 text-sm text-red-800 rounded-lg bg-red-50" role="alert"> ' .
@@ -131,6 +133,15 @@ unset($_SESSION['errors']);
 <?php
 include_once "Design/includes/notFy-footer.php";
 ?>
+
+<script>
+  document.getElementById('comment-input').addEventListener('focus', function() {
+    document.getElementById('lecture-list').classList.remove('hidden');
+  });
+  document.getElementById('close-lecture-list').addEventListener('click', function() {
+    document.getElementById('lecture-list').classList.add('hidden');
+  });
+</script>
 
 </body>
 
