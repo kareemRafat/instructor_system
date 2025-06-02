@@ -102,8 +102,8 @@ $errors = $_SESSION['errors'] ?? [];
         </div>
 
         <!-- Move the ul outside the relative div -->
-        <ul id="lecture-list" class="hidden fixed inset-0 z-50 bg-white overflow-y-auto flex flex-col p-8">
-          <button class="close-btn absolute top-4 right-4 text-3xl text-blue-600 cursor-pointer" id="close-lecture-list" aria-label="Close">&times;</button>
+        <ul id="lecture-list" style="margin: 0;" class="hidden fixed inset-0 z-50 bg-white overflow-y-auto flex flex-col p-8 h-full">
+          <button type="button" class="close-btn absolute top-4 right-4 text-3xl text-blue-600 cursor-pointer" id="close-lecture-list" aria-label="Close">&times;</button>
           <li class="text-left px-3 py-1 text-gray-500 font-semibold cursor-default">Select Track First</li>
         </ul>
 
