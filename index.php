@@ -81,6 +81,7 @@ $errors = $_SESSION['errors'] ?? [];
             <input type="text"
               id="comment-input"
               name="comment"
+              autocomplete="off"
               class="block w-full appearance-none p-2.5 pr-10 text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 placeholder:text-gray-900"
               placeholder="Search for Lectures">
 
