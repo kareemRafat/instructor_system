@@ -107,9 +107,14 @@ $errors = $_SESSION['errors'] ?? [];
               md:bg-white
               md:overflow-y-auto
               md:hidden
-              fixed inset-0 md:inset-auto z-50 bg-white overflow-y-auto flex flex-col p-8 max-h-full
-              md:flex-none md:p-0
+              fixed inset-0 md:inset-auto z-50 bg-white overflow-y-auto
+              flex flex-col p-8 max-h-full
+              md:p-0
+              md:justify-between
+              justify-center
             ">
+            <!-- close button -->
+            <button type="button" class="close-btn fixed top-7 right-5 text-3xl text-blue-600 cursor-pointer" id="close-lecture-list" aria-label="Close">&times;</button>
             <li class="text-left px-3 py-1 text-gray-500 font-semibold cursor-default">Select Track First</li>
           </ul>
 

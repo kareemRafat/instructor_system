@@ -2,9 +2,9 @@ import { capitalizeFirstLetter } from "./helpers.js";
 
 const commentInput = document.getElementById("comment-input");
 const list = document.getElementById("lecture-list");
-const searchClear = document.getElementById('clear-search');
-let optionItem = null ;
-let tackValue = null ;
+const searchClear = document.getElementById("clear-search");
+let optionItem = null;
+let tackValue = null;
 
 function filterLectures() {
   const query = commentInput.value.toLowerCase();
@@ -21,7 +21,7 @@ function filterLectures() {
   list.style.display = hasMatch ? "block" : "none";
 
   // show clear search btn
-  searchClear.classList.remove('hidden');
+  searchClear.classList.remove("hidden");
 }
 
 commentInput.addEventListener("input", filterLectures);
@@ -29,7 +29,7 @@ commentInput.addEventListener("input", filterLectures);
 function selectLecture() {
   commentInput.value = this.innerText;
   list.style.display = "none";
-  searchClear.classList.remove('hidden');
+  searchClear.classList.remove("hidden");
 }
 
 function showList() {
@@ -37,7 +37,7 @@ function showList() {
   setTimeout(() => {
     list.scrollTop = 0;
   }, 50); // slight delay to ensure rendering on mobile
-  document.body.classList.add('scroll-lock'); // lock
+  document.body.classList.add("scroll-lock"); // lock
 }
 
 commentInput.addEventListener("focus", showList);
@@ -45,20 +45,19 @@ commentInput.addEventListener("click", showList);
 
 function hideListDelayed() {
   setTimeout(() => {
-    list.style.display = "none"
-    document.body.classList.remove('scroll-lock');
+    list.style.display = "none";
+    document.body.classList.remove("scroll-lock");
   }, 200);
 }
 
 commentInput.addEventListener("blur", hideListDelayed);
 
-searchClear.addEventListener('click' , function(){
-  commentInput.value = '';
-  this.classList.add('hidden');
+searchClear.addEventListener("click", function () {
+  commentInput.value = "";
+  this.classList.add("hidden");
   // when clear search icon return track lectures to li
   insertListItems(tackValue);
-  
-})
+});
 
 // track array
 const courseContent = [
@@ -156,14 +155,13 @@ track.oninput = function (e) {
   tackValue = e.target.options[e.target.selectedIndex].text.toLowerCase();
 
   if (!this.value) {
-    commentInput.value = '';
+    commentInput.value = "";
     list.innerHTML = `<li class="text-left px-3 py-1 text-gray-500 font-semibold cursor-default">Select Track First</li>`;
   }
 
   insertListItems(tackValue);
 
   resetListScroll();
- 
 };
 
 /** loop through course content */
@@ -176,12 +174,12 @@ function insertListItems(val) {
   });
 
   // add click listener to every li in comment to choose when click
-  optionItem.forEach(item => {
-    item.addEventListener('click' , selectLecture);
-  })
+  optionItem.forEach((item) => {
+    item.addEventListener("click", selectLecture);
+  });
 
-   list.style.display = "none";
-   document.body.classList.remove('scroll-lock');
+  list.style.display = "none";
+  document.body.classList.remove("scroll-lock");
 }
 
 /** list items */
@@ -208,7 +206,7 @@ function listItems(content, value) {
   } else {
     for (let i = 0; i < content.lectures[value].length; i++) {
       let subTrack = content.lectures[value][i];
-      
+
       option += `
         <li class="option-li p-2 hover:bg-blue-600 hover:text-white cursor-pointer">${capitalizeFirstLetter(
           subTrack
@@ -217,19 +215,24 @@ function listItems(content, value) {
     }
   }
   list.style.display = "block";
+  option += `
+    <button type="button" class="close-btn absolute block md:hidden top-8 right-5 text-3xl text-blue-600 cursor-pointer" id="close-lecture-list" aria-label="Close"><svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" viewBox="0 0 24 24">
+  <path fill-rule="evenodd" d="M2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10S2 17.523 2 12Zm7.707-3.707a1 1 0 0 0-1.414 1.414L10.586 12l-2.293 2.293a1 1 0 1 0 1.414 1.414L12 13.414l2.293 2.293a1 1 0 0 0 1.414-1.414L13.414 12l2.293-2.293a1 1 0 0 0-1.414-1.414L12 10.586 9.707 8.293Z" clip-rule="evenodd"/>
+</svg>
+</button>
+  `;
   list.innerHTML += option;
 
-  optionItem = document.querySelectorAll('.option-li');
+  optionItem = document.querySelectorAll(".option-li");
 }
 
 /** reset comment list scroll  */
-function resetListScroll(){
-  list.style.display = "block"; 
+function resetListScroll() {
+  list.style.display = "block";
   list.scrollTop = 0;
   list.style.display = "none";
-  document.body.classList.remove('scroll-lock');
+  document.body.classList.remove("scroll-lock");
 }
-
 
 /** prevent scrolling the hole page when list is open */
 // list.addEventListener("touchmove", function (e) {
@@ -248,10 +251,14 @@ function resetListScroll(){
 //   }
 // }, { passive: false });
 
-list.addEventListener('touchmove', function (e) {
-  const isScrollable = list.scrollHeight > list.clientHeight;
+list.addEventListener(
+  "touchmove",
+  function (e) {
+    const isScrollable = list.scrollHeight > list.clientHeight;
 
-  if (!isScrollable) {
-    e.preventDefault(); // prevent scroll if not scrollable
-  }
-}, { passive: false });
+    if (!isScrollable) {
+      e.preventDefault(); // prevent scroll if not scrollable
+    }
+  },
+  { passive: false }
+);
