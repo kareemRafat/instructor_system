@@ -94,15 +94,7 @@ $errors = $_SESSION['errors'] ?? [];
 
           <ul id="lecture-list" dir="rtl"
             class="absolute z-10 mt-1 w-full bg-white border border-gray-300 rounded-md shadow-md hidden max-h-40 overflow-auto">
-            <!-- Group 1 -->
-            <li class="px-3 py-1 text-gray-500 font-semibold cursor-default">المستوى الأول</li>
-            <li class="p-2 hover:bg-gray-100 cursor-pointer" onclick="selectLecture(this)">محاضرة 1 - HTML</li>
-            <li class="p-2 hover:bg-gray-100 cursor-pointer" onclick="selectLecture(this)">محاضرة 2 - CSS</li>
-
-            <!-- Group 2 -->
-            <li class="px-3 py-1 text-gray-500 font-semibold cursor-default mt-2">المستوى الثاني</li>
-            <li class="p-2 hover:bg-gray-100 cursor-pointer" onclick="selectLecture(this)">محاضرة 1 - JavaScript</li>
-            <li class="p-2 hover:bg-gray-100 cursor-pointer" onclick="selectLecture(this)">محاضرة 2 - DOM</li>
+             <li class="text-left px-3 py-1 text-gray-500 font-semibold cursor-default">Please Select Track First</li>
           </ul>
         </div>
 
@@ -120,8 +112,8 @@ $errors = $_SESSION['errors'] ?? [];
 unset($_SESSION['errors']);
 ?>
 
-<script type="module" src="dist/main.js"></script>
-<script src="js/lectures-dropdown.js"></script>
+<script type="module" src="js/main.js"></script>
+<script src="js/main-dropdown.js"></script>
 
 <?php
 include_once "Design/includes/notFy-footer.php";

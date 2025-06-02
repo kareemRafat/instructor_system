@@ -41,7 +41,6 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 /** Fetch tracks based on selected group */
-
 groupSelect.oninput = async function () {
   const groupId = this.value;
 
