@@ -49,6 +49,7 @@ $errors = $_SESSION['errors'] ?? [];
         <div class="mb-6">
           <label for="track" class="block text-sm font-medium text-gray-700 mb-2">Track</label>
           <select id="track" name="track" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+            <option value="">Select Track</option>
             <option value="1">HTML</option>
             <option value="2">CSS</option>
             <option value="3">JavaScript</option>
@@ -58,46 +59,50 @@ $errors = $_SESSION['errors'] ?? [];
           </select>
           <?php if (isset($errors['track'])) {
             echo '<div class="p-2 my-2 text-sm text-red-800 rounded-lg bg-red-50" role="alert"> ' .
-              $errors['group'] .
+              $errors['track'] .
               '</div>';
           }
           ?>
         </div>
-        <div class="mb-6">
+        <!-- <div class="mb-6">
           <label for="message" class="block mb-2 text-sm font-medium text-gray-900">Comment</label>
-          <textarea name="comment" id="message" rows="2" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" placeholder="Write your comment here ..."></textarea>
-          <?php if (isset($errors['comment'])) {
+          <textarea name="comment-test" id="message" rows="2" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" placeholder="Write your comment here ..."></textarea>
+          <?php if (isset($errors['comment-test'])) {
             echo '<div class="p-2 my-2 text-sm text-red-800 rounded-lg bg-red-50" role="alert"> ' .
-              $errors['comment'] .
+              $errors['comment-test'] .
               '</div>';
           }
           ?>
-        </div>
+        </div> -->
         <!-- dropdown list for lectures with search -->
         <div class="relative w-full">
-          <input type="text"
-            id="lecture-input"
-            name="track_place"
-            class="block w-full appearance-none p-2.5 pr-10 text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500"
-            placeholder="Search for Lecture"
-            oninput="filterLectures()"
-            onfocus="showList()"
-            onblur="hideListDelayed()">
+          <label class="block mb-2 text-sm font-medium text-gray-900">Comment</label>
+          <div class="relative">
+            <input type="text"
+              id="lecture-input"
+              name="comment"
+              class="block w-full appearance-none p-2.5 pr-10 text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 placeholder:text-gray-900"
+              placeholder="Search for Lectures">
 
-          <!-- Arrow Icon -->
-          <div class="pointer-events-none absolute inset-y-0 right-2 flex items-center font-bold">
-            <svg class="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" stroke-width="4" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
-            </svg>
+            <!-- Arrow Icon -->
+            <div class="pointer-events-none absolute inset-y-0  right-2 flex items-center font-bold">
+              <svg class="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" stroke-width="4" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+              </svg>
+            </div>
           </div>
-
-
-          <ul id="lecture-list" dir="rtl"
+          <ul id="lecture-list"
             class="absolute z-10 mt-1 w-full bg-white border border-gray-300 rounded-md shadow-md hidden max-h-40 overflow-auto">
-             <li class="text-left px-3 py-1 text-gray-500 font-semibold cursor-default">Please Select Track First</li>
+            <li class="text-left px-3 py-1 text-gray-500 font-semibold cursor-default">Select Track First</li>
           </ul>
         </div>
 
+        <?php if (isset($errors['comment'])) {
+          echo '<div class="p-2 my-2 text-sm text-red-800 rounded-lg bg-red-50" role="alert"> ' .
+            $errors['comment'] .
+            '</div>';
+        }
+        ?>
         <button type="submit" class="w-full px-6 py-3 text-white bg-zinc-800 md:bg-blue-600 rounded-lg hover:bg-blue-600 focus:ring-4 focus:ring-blue-300 transition duration-200 font-medium shadow-sm">Submit</button>
       </form>
     </div>
@@ -112,8 +117,8 @@ $errors = $_SESSION['errors'] ?? [];
 unset($_SESSION['errors']);
 ?>
 
-<script type="module" src="js/main.js"></script>
-<script src="js/main-dropdown.js"></script>
+<script type="module" src="dist/main.js"></script>
+<script type="module" src="dist/main-dropdown.js"></script>
 
 <?php
 include_once "Design/includes/notFy-footer.php";

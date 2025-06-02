@@ -7,9 +7,7 @@ if (!isset($_SESSION['user_id'])) {
     exit('You are not logged in!');
 }
 
-echo "<pre>";
-print_r($_POST);
-die();
+
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 

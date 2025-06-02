@@ -2,6 +2,7 @@ import { capitalizeFirstLetter } from "./helpers.js";
 
 const groupSelect = document.getElementById("group");
 const track = document.getElementById("track");
+const list = document.getElementById("lecture-list");
 const startDate = document.getElementById("start-date");
 const endDate = document.getElementById("end-date");
 
@@ -27,7 +28,7 @@ document.addEventListener("DOMContentLoaded", () => {
   fetch("functions/Tracks/get_tracks.php")
     .then((response) => response.json())
     .then((res) => {
-      track.innerHTML = "";
+      track.innerHTML = `<option value="">Select Track</option>`;
       if (res.data) {
         res.data.forEach((trk) => {
           const option = document.createElement("option");
@@ -43,10 +44,10 @@ document.addEventListener("DOMContentLoaded", () => {
 /** Fetch tracks based on selected group */
 groupSelect.oninput = async function () {
   const groupId = this.value;
-
   if(!groupId) {
-    // Reset track and dates if no group is selected
-    track.value = 1 ;
+    // Reset track , list and dates if no group is selected
+    track.value = '' ;
+    list.innerHTML = `<li class="text-left px-3 py-1 text-gray-500 font-semibold cursor-default">Select Track First</li>`;
     startDate.innerText = "Group Start Date";
     endDate.innerText = "Excpected End Date";
     return;
@@ -58,6 +59,8 @@ groupSelect.oninput = async function () {
   } catch (error) {
     console.error("Error fetching tracks:", error);
   }
+
+  resetListScroll();
 };
 
 /** when select group autoselect the track */
@@ -71,12 +74,14 @@ async function getGroupTrack(groupId) {
       `#track option[value="${res.data.track_id}"]`
     );
     opt.selected = true;
-  } else {
-    document.querySelector(`#track option[value="1"]`).selected = true;
+
+    // Trigger change event manually
+    track.dispatchEvent(new Event("input", { bubbles: true }));
+
   }
 }
 
-/** get group info */
+/** get start and end date group info */
 async function getGroupInfo(groupId) {
   const response = await fetch(
     `functions/Groups/get_group.php?group_id=${groupId}`
@@ -86,4 +91,11 @@ async function getGroupInfo(groupId) {
     startDate.innerText = res.data.formatted_date;
     endDate.innerText = `End : ` + res.data.group_end_date;
   }
+}
+
+/** reset comment list scroll  */
+function resetListScroll(){
+  list.style.display = "block"; 
+  list.scrollTop = 0;
+  list.style.display = "none";
 }
