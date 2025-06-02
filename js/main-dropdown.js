@@ -102,7 +102,7 @@ const courseContent = [
         "12 - JavaScript multi selector - jQuery and cdn",
       ],
       bootstrap: [
-        "13 - libraries and bootstrap task",
+        "13 - Libraries",
         "14 - media query and Bootstrap intro - components",
         "15 - grid system",
       ],
@@ -119,10 +119,10 @@ const courseContent = [
       php: [
         "1 - PHP intro - functions",
         "2 - PHP array",
-        "3 - PHP file system",
+        " PHP file system",
         "4 - Requests - PHP form",
         "5 - PHP session - cookies",
-        "6 - OOP into",
+        "6 - OOP intro",
         "7 - OOP inheritance , abstract and static",
         "8 - OOP trait - interface - api",
       ],

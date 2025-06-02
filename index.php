@@ -80,7 +80,6 @@ $errors = $_SESSION['errors'] ?? [];
           <div class="relative">
             <input type="text"
               id="comment-input"
-              readonly
               name="comment"
               autocomplete="off"
               class="block w-full appearance-none p-2.5 pr-10 text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 placeholder:text-gray-900"
@@ -99,13 +98,22 @@ $errors = $_SESSION['errors'] ?? [];
               </svg>
             </div>
           </div>
-        </div>
+          <!-- small list -->
+          <ul id="lecture-list"
+            style="-webkit-overflow-scrolling: touch; margin: 0;"
+            class="
+              hidden
+              md:absolute md:bottom-0 md:mt-1 md:w-full md:h-64 md:max-h-64 md:border md:border-gray-300 md:rounded-md md:shadow-md
+              md:bg-white
+              md:overflow-y-auto
+              md:hidden
+              fixed inset-0 z-50 bg-white overflow-y-auto flex flex-col p-8 h-full
+              md:flex-none md:p-0
+            ">
+            <li class="text-left px-3 py-1 text-gray-500 font-semibold cursor-default">Select Track First</li>
+          </ul>
 
-        <!-- Move the ul outside the relative div -->
-        <ul id="lecture-list" style="margin: 0;" class="hidden fixed inset-0 z-50 bg-white overflow-y-auto flex flex-col p-8 h-full">
-          <button type="button" class="close-btn absolute top-4 right-4 text-3xl text-blue-600 cursor-pointer" id="close-lecture-list" aria-label="Close">&times;</button>
-          <li class="text-left px-3 py-1 text-gray-500 font-semibold cursor-default">Select Track First</li>
-        </ul>
+        </div>
 
         <?php if (isset($errors['comment'])) {
           echo '<div class="p-2 my-2 text-sm text-red-800 rounded-lg bg-red-50" role="alert"> ' .
@@ -134,15 +142,4 @@ unset($_SESSION['errors']);
 include_once "Design/includes/notFy-footer.php";
 ?>
 
-<script>
-  document.getElementById('comment-input').addEventListener('focus', function() {
-    document.getElementById('lecture-list').classList.remove('hidden');
-  });
-  document.getElementById('close-lecture-list').addEventListener('click', function() {
-    document.getElementById('lecture-list').classList.add('hidden');
-  });
-</script>
-
 </body>
-
-</html>
