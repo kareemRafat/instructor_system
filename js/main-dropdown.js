@@ -232,6 +232,26 @@ function resetListScroll(){
 
 
 /** prevent scrolling the hole page when list is open */
-list.addEventListener("touchmove", function (e) {
-  e.stopPropagation();
-}, { passive: true });
+// list.addEventListener("touchmove", function (e) {
+//   e.stopPropagation();
+//   e.preventDefault();
+// }, { passive: true });
+
+list.addEventListener('touchstart', function (e) {
+  const top = list.scrollTop === 0;
+  const bottom = list.scrollHeight - list.scrollTop === list.clientHeight;
+
+  if (top) {
+    list.scrollTop = 1; // push down 1px
+  } else if (bottom) {
+    list.scrollTop -= 1; // push up 1px
+  }
+}, { passive: false });
+
+list.addEventListener('touchmove', function (e) {
+  const isScrollable = list.scrollHeight > list.clientHeight;
+
+  if (!isScrollable) {
+    e.preventDefault(); // prevent scroll if not scrollable
+  }
+}, { passive: false });
