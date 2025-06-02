@@ -48,6 +48,7 @@
 
 
 /* index page slimselect2 styles */
+
 .ss-main {
   background-color: rgb(249 250 251) !important;
   border: 1px solid rgb(209 213 219) !important;
@@ -73,6 +74,7 @@
   border: 1px solid rgb(209 213 219) !important;
   border-radius: 0.5rem !important;
   box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1) !important;
+  -webkit-overflow-scrolling: touch; /* smooth scroll on iOS */
 }
 
 .ss-option.ss-selected {

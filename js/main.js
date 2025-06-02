@@ -168,5 +168,15 @@ function populateLectures(trackValue) {
       searchText: "No Results",
       searchHighlight: true,
     },
+    events: {
+      beforeOpen: () => {        
+        // Optional: force body scroll
+        document.body.style.overflow = "auto";
+      },
+      beforeClose: () => {
+        // Restore if needed
+        document.body.style.overflow = "";
+      },
+    },
   });
 }
