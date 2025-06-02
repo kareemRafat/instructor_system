@@ -222,3 +222,9 @@ function resetListScroll(){
   list.scrollTop = 0;
   list.style.display = "none";
 }
+
+
+/** prevent scrolling the hole page when list is open */
+list.addEventListener("touchmove", function (e) {
+  e.stopPropagation();
+}, { passive: true });
