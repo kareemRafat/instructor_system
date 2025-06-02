@@ -129,9 +129,9 @@ const courseContent = [
     },
   },
   {
-    track: "MySQL",
+    track: "database",
     lectures: {
-      mysql: [
+      database: [
         "1 - SQL intro - relations",
         "2 - Create - Read",
         "3 - Insert - Update - Delete",
