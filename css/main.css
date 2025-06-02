@@ -49,4 +49,5 @@
 /* to scroll add lectures list */
 .scroll-lock {
   overflow: hidden !important;
+  background-color: red;
 }
