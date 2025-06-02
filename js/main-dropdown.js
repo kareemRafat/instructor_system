@@ -1,65 +1,3 @@
-import { capitalizeFirstLetter } from "./helpers.js";
-
-const commentInput = document.getElementById("comment-input");
-const list = document.getElementById("lecture-list");
-const searchClear = document.getElementById("clear-search");
-let optionItem = null;
-let tackValue = null;
-
-function filterLectures() {
-  const query = commentInput.value.toLowerCase();
-  const items = list.querySelectorAll("li");
-  let hasMatch = false;
-  items.forEach((item) => {
-    if (item.textContent.toLowerCase().includes(query)) {
-      item.style.display = "block";
-      hasMatch = true;
-    } else {
-      item.style.display = "none";
-    }
-  });
-  list.style.display = hasMatch ? "block" : "none";
-
-  // show clear search btn
-  searchClear.classList.remove("hidden");
-}
-
-commentInput.addEventListener("input", filterLectures);
-
-function selectLecture() {
-  commentInput.value = this.innerText;
-  list.style.display = "none";
-  searchClear.classList.remove("hidden");
-}
-
-function showList() {
-  list.style.display = "block";
-  setTimeout(() => {
-    list.scrollTop = 0;
-  }, 50); // slight delay to ensure rendering on mobile
-  document.body.classList.add("scroll-lock"); // lock
-}
-
-commentInput.addEventListener("focus", showList);
-commentInput.addEventListener("click", showList);
-
-function hideListDelayed() {
-  setTimeout(() => {
-    list.style.display = "none";
-    document.body.classList.remove("scroll-lock");
-  }, 200);
-}
-
-commentInput.addEventListener("blur", hideListDelayed);
-
-searchClear.addEventListener("click", function () {
-  commentInput.value = "";
-  this.classList.add("hidden");
-  // when clear search icon return track lectures to li
-  insertListItems(tackValue);
-});
-
-// track array
 const courseContent = [
   {
     track: "HTML",
@@ -150,115 +88,82 @@ const courseContent = [
   },
 ];
 
-/** get track name */
-track.oninput = function (e) {
-  tackValue = e.target.options[e.target.selectedIndex].text.toLowerCase();
+// Function to populate the select element with options
+function populateLectures(trackValue) {
+  const commentSelect = document.getElementById("comment-input");
 
-  if (!this.value) {
-    commentInput.value = "";
-    list.innerHTML = `<li class="text-left px-3 py-1 text-gray-500 font-semibold cursor-default">Select Track First</li>`;
+  // Destroy existing SlimSelect instance if it exists
+  if (window.slimSelect) {
+    window.slimSelect.destroy();
   }
 
-  insertListItems(tackValue);
-
-  resetListScroll();
-};
-
-/** loop through course content */
-function insertListItems(val) {
-  /** add courseContent to comment select */
-  courseContent.forEach((content) => {
-    if (content.track.toLowerCase() == val) {
-      listItems(content, val);
-    }
-  });
-
-  // add click listener to every li in comment to choose when click
-  optionItem.forEach((item) => {
-    item.addEventListener("click", selectLecture);
-  });
-
-  list.style.display = "none";
-  document.body.classList.remove("scroll-lock");
-}
-
-/** list items */
-function listItems(content, value) {
-  list.innerHTML = "";
-
-  let option = "";
-  let trackName = Object.keys(content.lectures);
-
-  if (trackName.length > 1) {
-    for (let i = 0; i < trackName.length; i++) {
-      const subTrack = content.lectures[trackName[i]];
-      // optgroup like
-      option += `<li class="px-3 py-1.5 text-zinc-500 bg-gray-100 font-semibold cursor-default">${capitalizeFirstLetter(
-        trackName[i]
-      )}</li>`;
-      // option like
-      subTrack.forEach((sub) => {
-        option += `<li class="option-li p-2 hover:bg-blue-600 hover:text-white cursor-pointer">
-          ${capitalizeFirstLetter(sub)}
-        </li>`;
-      });
-    }
+  if (!trackValue) {
+      commentSelect.innerHTML = '<option value="">Select Track First</option>';
   } else {
-    for (let i = 0; i < content.lectures[value].length; i++) {
-      let subTrack = content.lectures[value][i];
-
-      option += `
-        <li class="option-li p-2 hover:bg-blue-600 hover:text-white cursor-pointer">${capitalizeFirstLetter(
-          subTrack
-        )}</li>
-      `;
-    }
+      commentSelect.innerHTML = '<option value="">Search for Lectures</option>';
   }
-  list.style.display = "block";
-  option += `
-    <button type="button" class="close-btn absolute block md:hidden top-8 right-5 text-3xl text-blue-600 cursor-pointer" id="close-lecture-list" aria-label="Close"><svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" viewBox="0 0 24 24">
-  <path fill-rule="evenodd" d="M2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10S2 17.523 2 12Zm7.707-3.707a1 1 0 0 0-1.414 1.414L10.586 12l-2.293 2.293a1 1 0 1 0 1.414 1.414L12 13.414l2.293 2.293a1 1 0 0 0 1.414-1.414L13.414 12l2.293-2.293a1 1 0 0 0-1.414-1.414L12 10.586 9.707 8.293Z" clip-rule="evenodd"/>
-</svg>
-</button>
-  `;
-  list.innerHTML += option;
+  
 
-  optionItem = document.querySelectorAll(".option-li");
+  // Find the selected track in courseContent
+  const selectedTrack = courseContent.find((item) => {
+    const trackMap = {
+      1: "HTML",
+      2: "CSS",
+      3: "JavaScript",
+      4: "PHP",
+      5: "database",
+      6: "Project",
+    };
+    return item.track === trackMap[trackValue];
+  });
+
+  if (!selectedTrack) return;
+
+  // Get all lecture categories for the selected track
+  const lectureCategories = Object.keys(selectedTrack.lectures);
+
+  // If there's only one category, don't use optgroup
+  if (lectureCategories.length === 1) {
+    const lectures = selectedTrack.lectures[lectureCategories[0]];
+    lectures.forEach((lecture, index) => {
+      const option = document.createElement("option");
+      option.value = lecture;
+      option.textContent = lecture;
+      commentSelect.appendChild(option);
+    });
+  } else {
+    // If multiple categories, use optgroup
+    lectureCategories.forEach((category) => {
+      const optgroup = document.createElement("optgroup");
+      optgroup.label = category;
+
+      selectedTrack.lectures[category].forEach((lecture) => {
+        const option = document.createElement("option");
+        option.value = lecture;
+        option.textContent = lecture;
+        optgroup.appendChild(option);
+      });
+
+      commentSelect.appendChild(optgroup);
+    });
+  }
+
+  // Store the SlimSelect instance globally so we can destroy it later
+  window.slimSelect = new SlimSelect({
+    select: "#comment-input",
+    settings: {
+      placeholderText: "Search for Lectures",
+      allowDeselect: true,
+      closeOnSelect: true,
+      showSearch: true,
+      searchPlaceholder: "Search Lectures...",
+      searchText: "No Results",
+      searchHighlight: true,
+    },
+  });
 }
 
-/** reset comment list scroll  */
-function resetListScroll() {
-  list.style.display = "block";
-  list.scrollTop = 0;
-  list.style.display = "none";
-  document.body.classList.remove("scroll-lock");
-}
-
-/** prevent scrolling the hole page when list is open */
-// list.addEventListener("touchmove", function (e) {
-//   e.stopPropagation();
-//   e.preventDefault();
-// }, { passive: true });
-
-// list.addEventListener('touchstart', function (e) {
-//   const top = list.scrollTop === 0;
-//   const bottom = list.scrollHeight - list.scrollTop === list.clientHeight;
-
-//   if (top) {
-//     list.scrollTop = 1; // push down 1px
-//   } else if (bottom) {
-//     list.scrollTop -= 1; // push up 1px
-//   }
-// }, { passive: false });
-
-list.addEventListener(
-  "touchmove",
-  function (e) {
-    const isScrollable = list.scrollHeight > list.clientHeight;
-
-    if (!isScrollable) {
-      e.preventDefault(); // prevent scroll if not scrollable
-    }
-  },
-  { passive: false }
-);
+// Add event listener to track select
+document.getElementById("track").addEventListener("change", function () {
+  populateLectures(this.value);
+});

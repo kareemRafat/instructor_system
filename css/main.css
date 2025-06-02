@@ -46,7 +46,35 @@
   font-family: header-font;
 }
 
-/* to scroll add lectures list */
-.scroll-lock {
-  overflow: hidden !important;
+
+/* index page slimselect2 styles */
+.ss-main {
+  background-color: rgb(249 250 251) !important;
+  border: 1px solid rgb(209 213 219) !important;
+  border-radius: 0.5rem !important;
+  padding: 0.625rem !important;
+}
+
+.ss-content .ss-search input:focus {
+   box-shadow:none !important;
+}
+
+.ss-main:focus-within {
+  box-shadow: none !important;
+}
+.ss-main .ss-single-selected {
+  padding: 0 !important;
+  height: auto !important;
+}
+.ss-main .ss-single-selected .ss-arrow {
+  margin: 0 !important;
+}
+.ss-content {
+  border: 1px solid rgb(209 213 219) !important;
+  border-radius: 0.5rem !important;
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1) !important;
+}
+
+.ss-option.ss-selected {
+  display: none !important;
 }

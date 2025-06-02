@@ -3,6 +3,10 @@ include_once 'Helpers/bootstrap.php';
 include_once 'Design/includes/header.php';
 include_once 'Design/includes/navbar.php';
 
+// Add SlimSelect CDN links
+echo '<link href="https://cdn.jsdelivr.net/npm/slim-select@2.8.1/dist/slimselect.min.css" rel="stylesheet">';
+echo '<script src="https://cdn.jsdelivr.net/npm/slim-select@2.8.1/dist/slimselect.min.js"></script>';
+
 $errors = $_SESSION['errors'] ?? [];
 
 ?>
@@ -78,46 +82,10 @@ $errors = $_SESSION['errors'] ?? [];
         <div class="relative w-full">
           <label class="block mb-2 text-sm font-medium text-gray-900">Comment</label>
           <div class="relative">
-            <input type="text"
-              id="comment-input"
-              name="comment"
-              autocomplete="off"
-              class="block w-full appearance-none p-2.5 pr-10 text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 placeholder:text-gray-900"
-              placeholder="Search for Lectures">
-
-            <!-- Arrow Icon -->
-            <div class="pointer-events-none absolute inset-y-0  right-2 flex items-center font-bold">
-              <svg class="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" stroke-width="4" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
-              </svg>
-            </div>
-            <!-- search close icon -->
-            <div id="clear-search" class="hidden cursor-pointer text-blue-500 absolute inset-y-0 right-8 flex items-center font-bold">
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="4" stroke="currentColor" class="size-4">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
-              </svg>
-            </div>
+            <select id="comment-input" name="comment" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+              <option value="">Select Track First</option>
+            </select>
           </div>
-          <!-- small list -->
-          <ul id="lecture-list"
-            style="-webkit-overflow-scrolling: touch; margin: 0;"
-            class="
-              hidden
-              md:absolute md:bottom-0 md:mt-1 md:w-full md:max-h-48  md:border md:border-gray-300 md:rounded-md md:shadow-md
-              md:bg-white
-              md:overflow-y-auto
-              md:hidden
-              fixed inset-0 md:inset-auto z-50 bg-white overflow-y-auto
-              flex flex-col p-8 max-h-full
-              md:p-0
-              md:justify-between
-              justify-center
-            ">
-            <!-- close button -->
-            <button type="button" class="close-btn fixed top-7 right-5 text-3xl text-blue-600 cursor-pointer" id="close-lecture-list" aria-label="Close">&times;</button>
-            <li class="text-left px-3 py-1 text-gray-500 font-semibold cursor-default">Select Track First</li>
-          </ul>
-
         </div>
 
         <?php if (isset($errors['comment'])) {
@@ -142,6 +110,7 @@ unset($_SESSION['errors']);
 
 <script type="module" src="dist/main.js"></script>
 <script type="module" src="dist/main-dropdown.js"></script>
+
 
 <?php
 include_once "Design/includes/notFy-footer.php";
