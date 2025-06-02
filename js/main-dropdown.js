@@ -1,11 +1,12 @@
 import { capitalizeFirstLetter } from "./helpers.js";
 
-const input = document.getElementById("lecture-input");
+const commentInput = document.getElementById("comment-input");
 const list = document.getElementById("lecture-list");
+const searchClear = document.getElementById('clear-search');
 let optionItem = null ;
 
 function filterLectures() {
-  const query = input.value.toLowerCase();
+  const query = commentInput.value.toLowerCase();
   const items = list.querySelectorAll("li");
   let hasMatch = false;
   items.forEach((item) => {
@@ -19,11 +20,15 @@ function filterLectures() {
   list.style.display = hasMatch ? "block" : "none";
 }
 
-input.addEventListener("input", filterLectures);
+commentInput.addEventListener("input", filterLectures);
+commentInput.addEventListener('keyup' , function(){
+  searchClear.classList.remove('hidden');
+})
 
 function selectLecture() {
-  input.value = this.innerText;
+  commentInput.value = this.innerText;
   list.style.display = "none";
+  searchClear.classList.remove('hidden');
 }
 
 function showList() {
@@ -33,13 +38,18 @@ function showList() {
   }, 50); // slight delay to ensure rendering on mobile
 }
 
-input.addEventListener("focus", showList);
+commentInput.addEventListener("focus", showList);
 
 function hideListDelayed() {
   setTimeout(() => (list.style.display = "none"), 200);
 }
 
-input.addEventListener("blur", hideListDelayed);
+commentInput.addEventListener("blur", hideListDelayed);
+
+searchClear.addEventListener('click' , function(){
+  commentInput.value = '';
+  this.classList.add('hidden');
+})
 
 // track array
 const courseContent = [
@@ -48,7 +58,7 @@ const courseContent = [
     lectures: {
       html: [
         "1 - HTML intro and tags to link or image",
-        "2 - HTML 5 & table - iframe - video - audio - table",
+        "2 - HTML 5 table - video - audio",
         "3 - HTML form & meta tags",
       ],
     },
@@ -71,20 +81,20 @@ const courseContent = [
       javascript: [
         "1 - JavaScript intro",
         "2 - JavaScript Functions",
-        "3 - JavaScript builtIn function && if condition",
+        "3 - JavaScript bi function & if",
         "4 - JavaScript Date - Loops - Switch",
         "5 - JavaScript intro - Dom - selectors - events",
         "6 - JavaScript Get - set",
-        "7 - JavaScript Add and Remove elements - Css styles - Classes",
+        "7 - JavaScript Elements - Css styles - Classes",
         "8 - JavaScript Array",
         "9 - JavaScript EcmaScript",
         "10 - JavaScript object",
         "11 - JavaScript nested ES object",
-        "12 - JavaScript multi selector in js - jquery and cdn",
+        "12 - JavaScript multi selector - jQuery and cdn",
       ],
       bootstrap: [
         "13 - libraries and bootstrap task",
-        "14 - media query and Bootstrap intro and components",
+        "14 - media query and Bootstrap intro - components",
         "15 - grid system",
       ],
       vuejs: [
@@ -137,7 +147,7 @@ track.oninput = function (e) {
   let value = e.target.options[e.target.selectedIndex].text.toLowerCase();
 
   if (!this.value) {
-    input.value = '';
+    commentInput.value = '';
     list.innerHTML = `<li class="text-left px-3 py-1 text-gray-500 font-semibold cursor-default">Select Track First</li>`;
   }
 
@@ -181,7 +191,6 @@ function listItems(content, value) {
   } else {
     for (let i = 0; i < content.lectures[value].length; i++) {
       let subTrack = content.lectures[value][i];
-      console.log(capitalizeFirstLetter(subTrack));
       
       option += `
         <li class="option-li p-2 hover:bg-blue-600 hover:text-white cursor-pointer">${capitalizeFirstLetter(
@@ -190,6 +199,7 @@ function listItems(content, value) {
       `;
     }
   }
+  list.style.display = "block";
   list.innerHTML += option;
 
   optionItem = document.querySelectorAll('.option-li');

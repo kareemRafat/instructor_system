@@ -79,7 +79,7 @@ $errors = $_SESSION['errors'] ?? [];
           <label class="block mb-2 text-sm font-medium text-gray-900">Comment</label>
           <div class="relative">
             <input type="text"
-              id="lecture-input"
+              id="comment-input"
               name="comment"
               class="block w-full appearance-none p-2.5 pr-10 text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 placeholder:text-gray-900"
               placeholder="Search for Lectures">
@@ -90,10 +90,16 @@ $errors = $_SESSION['errors'] ?? [];
                 <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
               </svg>
             </div>
+            <!-- search close icon -->
+            <div id="clear-search" class="hidden cursor-pointer text-blue-500 absolute inset-y-0 right-8 flex items-center font-bold">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="4" stroke="currentColor" class="size-4">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+              </svg>
+            </div>
           </div>
           <ul id="lecture-list"
             style="-webkit-overflow-scrolling: touch"
-            class="absolute z-10 mt-1 w-full bg-white border border-gray-300 rounded-md shadow-md hidden max-h-64 overflow-y-auto">
+            class="absolute z-10 mt-1 w-full bg-white border border-gray-300 rounded-md shadow-md hidden max-h-48 overflow-y-auto">
             <li class="text-left px-3 py-1 text-gray-500 font-semibold cursor-default">Select Track First</li>
           </ul>
         </div>
