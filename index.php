@@ -92,7 +92,8 @@ $errors = $_SESSION['errors'] ?? [];
             </div>
           </div>
           <ul id="lecture-list"
-            class="absolute z-10 mt-1 w-full bg-white border border-gray-300 rounded-md shadow-md hidden max-h-40 overflow-auto">
+            style="-webkit-overflow-scrolling: touch"
+            class="absolute z-10 mt-1 w-full bg-white border border-gray-300 rounded-md shadow-md hidden max-h-64 overflow-y-auto">
             <li class="text-left px-3 py-1 text-gray-500 font-semibold cursor-default">Select Track First</li>
           </ul>
         </div>

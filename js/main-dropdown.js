@@ -2,6 +2,7 @@ import { capitalizeFirstLetter } from "./helpers.js";
 
 const input = document.getElementById("lecture-input");
 const list = document.getElementById("lecture-list");
+let optionItem = null ;
 
 function filterLectures() {
   const query = input.value.toLowerCase();
@@ -20,13 +21,16 @@ function filterLectures() {
 
 input.addEventListener("input", filterLectures);
 
-function selectLecture(el) {
-  input.value = el.textContent;
+function selectLecture() {
+  input.value = this.innerText;
   list.style.display = "none";
 }
 
 function showList() {
   list.style.display = "block";
+  setTimeout(() => {
+    list.scrollTop = 0;
+  }, 50); // slight delay to ensure rendering on mobile
 }
 
 input.addEventListener("focus", showList);
@@ -133,6 +137,7 @@ track.oninput = function (e) {
   let value = e.target.options[e.target.selectedIndex].text.toLowerCase();
 
   if (!this.value) {
+    input.value = '';
     list.innerHTML = `<li class="text-left px-3 py-1 text-gray-500 font-semibold cursor-default">Select Track First</li>`;
   }
 
@@ -144,6 +149,11 @@ track.oninput = function (e) {
   });
 
   resetListScroll();
+
+  // add click listener to every li in comment to choose when click
+  optionItem.forEach(item => {
+    item.addEventListener('click' , selectLecture);
+  })
    
 };
 
@@ -163,7 +173,7 @@ function listItems(content, value) {
       )}</li>`;
       // option like
       subTrack.forEach((sub) => {
-        option += `<li class="p-2 hover:bg-blue-600 hover:text-white cursor-pointer" onclick="selectLecture(this)">
+        option += `<li class="option-li p-2 hover:bg-blue-600 hover:text-white cursor-pointer">
           ${capitalizeFirstLetter(sub)}
         </li>`;
       });
@@ -174,13 +184,15 @@ function listItems(content, value) {
       console.log(capitalizeFirstLetter(subTrack));
       
       option += `
-        <li class="p-2 hover:bg-blue-600 hover:text-white cursor-pointer" onclick="selectLecture(this)">${capitalizeFirstLetter(
+        <li class="option-li p-2 hover:bg-blue-600 hover:text-white cursor-pointer">${capitalizeFirstLetter(
           subTrack
         )}</li>
       `;
     }
   }
   list.innerHTML += option;
+
+  optionItem = document.querySelectorAll('.option-li');
 }
 
 /** reset comment list scroll  */
