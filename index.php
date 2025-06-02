@@ -109,7 +109,6 @@ unset($_SESSION['errors']);
 ?>
 
 <script type="module" src="dist/main.js"></script>
-<script type="module" src="dist/main-dropdown.js"></script>
 
 
 <?php

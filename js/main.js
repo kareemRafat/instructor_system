@@ -1,8 +1,8 @@
 import { capitalizeFirstLetter } from "./helpers.js";
+import { courseContent } from "./course-content.js";
 
 const groupSelect = document.getElementById("group");
 const track = document.getElementById("track");
-const list = document.getElementById("lecture-list");
 const startDate = document.getElementById("start-date");
 const endDate = document.getElementById("end-date");
 
@@ -16,7 +16,7 @@ document.addEventListener("DOMContentLoaded", () => {
           const option = document.createElement("option");
           option.value = group.id;
           option.textContent = capitalizeFirstLetter(group.name);
-          if(!group.name.toLowerCase().includes('training')) {
+          if (!group.name.toLowerCase().includes("training")) {
             groupSelect.append(option);
           }
         });
@@ -41,15 +41,20 @@ document.addEventListener("DOMContentLoaded", () => {
     .catch((error) => console.error("Error fetching groups:", error));
 });
 
+/** populate lectures in the comment slimselect   */
+track.addEventListener("change", function () {
+  populateLectures(this.value);
+});
+
 /** Fetch tracks based on selected group */
 groupSelect.oninput = async function () {
   const groupId = this.value;
-  if(!groupId) {
-    // Reset track , list and dates if no group is selected
-    track.value = '' ;
-    list.innerHTML = `<li class="text-left px-3 py-1 text-gray-500 font-semibold cursor-default">Select Track First</li>`;
+  if (!groupId) {
+    // Reset track , dates if no group is selected
+    track.value = "";
     startDate.innerText = "Group Start Date";
     endDate.innerText = "Excpected End Date";
+    populateLectures(null); // reset comment box
     return;
   }
 
@@ -59,8 +64,6 @@ groupSelect.oninput = async function () {
   } catch (error) {
     console.error("Error fetching tracks:", error);
   }
-
-  resetListScroll();
 };
 
 /** when select group autoselect the track */
@@ -75,9 +78,10 @@ async function getGroupTrack(groupId) {
     );
     opt.selected = true;
 
-    // Trigger change event manually
-    track.dispatchEvent(new Event("input", { bubbles: true }));
-
+    // Trigger change event manually to populate lectrues in comment select box
+    track.value = res.data.track_id;
+    const event = new Event("change", { bubbles: true });
+    track.dispatchEvent(event);
   }
 }
 
@@ -93,9 +97,76 @@ async function getGroupInfo(groupId) {
   }
 }
 
-/** reset comment list scroll  */
-function resetListScroll(){
-  list.style.display = "block"; 
-  list.scrollTop = 0;
-  list.style.display = "none";
+/** Function to populate the select element with options */
+function populateLectures(trackValue) {
+  const commentSelect = document.getElementById("comment-input");
+
+  // Destroy existing SlimSelect instance if it exists
+  if (window.slimSelect) {
+    window.slimSelect.destroy();
+  }
+
+  if (!trackValue) {
+    commentSelect.innerHTML = '<option value="">Select Track First</option>';
+  } else {
+    commentSelect.innerHTML = '<option value="">Search for Lectures</option>';
+  }
+
+  // Find the selected track in courseContent
+  const selectedTrack = courseContent.find((item) => {
+    const trackMap = {
+      1: "HTML",
+      2: "CSS",
+      3: "JavaScript",
+      4: "PHP",
+      5: "database",
+      6: "Project",
+    };
+    return item.track === trackMap[trackValue];
+  });
+
+  if (!selectedTrack) return;
+
+  // Get all lecture categories for the selected track
+  const lectureCategories = Object.keys(selectedTrack.lectures);
+
+  // If there's only one category, don't use optgroup
+  if (lectureCategories.length === 1) {
+    const lectures = selectedTrack.lectures[lectureCategories[0]];
+    lectures.forEach((lecture, index) => {
+      const option = document.createElement("option");
+      option.value = lecture;
+      option.textContent = lecture;
+      commentSelect.appendChild(option);
+    });
+  } else {
+    // If multiple categories, use optgroup
+    lectureCategories.forEach((category) => {
+      const optgroup = document.createElement("optgroup");
+      optgroup.label = category;
+
+      selectedTrack.lectures[category].forEach((lecture) => {
+        const option = document.createElement("option");
+        option.value = lecture;
+        option.textContent = lecture;
+        optgroup.appendChild(option);
+      });
+
+      commentSelect.appendChild(optgroup);
+    });
+  }
+
+  // Store the SlimSelect instance globally so we can destroy it later
+  window.slimSelect = new SlimSelect({
+    select: "#comment-input",
+    settings: {
+      placeholderText: "Search for Lectures",
+      allowDeselect: true,
+      closeOnSelect: true,
+      showSearch: true,
+      searchPlaceholder: "Search Lectures...",
+      searchText: "No Results",
+      searchHighlight: true,
+    },
+  });
 }
