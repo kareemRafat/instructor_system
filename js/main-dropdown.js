@@ -37,15 +37,16 @@ function showList() {
   setTimeout(() => {
     list.scrollTop = 0;
   }, 50); // slight delay to ensure rendering on mobile
-  document.body.style.overflow = 'hidden';
+  document.body.classList.add('scroll-lock'); // lock
 }
 
 commentInput.addEventListener("focus", showList);
+commentInput.addEventListener("click", showList);
 
 function hideListDelayed() {
   setTimeout(() => {
     list.style.display = "none"
-    document.body.style.overflow = '';
+    document.body.classList.remove('scroll-lock');
   }, 200);
 }
 
@@ -180,7 +181,7 @@ function insertListItems(val) {
   })
 
    list.style.display = "none";
-   document.body.style.overflow = '';
+   document.body.classList.remove('scroll-lock');
 }
 
 /** list items */
@@ -226,7 +227,7 @@ function resetListScroll(){
   list.style.display = "block"; 
   list.scrollTop = 0;
   list.style.display = "none";
-  document.body.style.overflow = '';
+  document.body.classList.remove('scroll-lock');
 }
 
 

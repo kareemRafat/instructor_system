@@ -45,3 +45,8 @@
 .table-header-count {
   font-family: header-font;
 }
+
+/* to scroll add lectures list */
+.scroll-lock {
+  overflow: hidden !important;
+}
