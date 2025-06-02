@@ -103,11 +103,11 @@ $errors = $_SESSION['errors'] ?? [];
             style="-webkit-overflow-scrolling: touch; margin: 0;"
             class="
               hidden
-              md:absolute md:bottom-0 md:mt-1 md:w-full md:h-64 md:max-h-64 md:border md:border-gray-300 md:rounded-md md:shadow-md
+              md:absolute md:bottom-0 md:mt-1 md:w-full md:max-h-48  md:border md:border-gray-300 md:rounded-md md:shadow-md
               md:bg-white
               md:overflow-y-auto
               md:hidden
-              fixed inset-0 z-50 bg-white overflow-y-auto flex flex-col p-8 h-full
+              fixed inset-0 md:inset-auto z-50 bg-white overflow-y-auto flex flex-col p-8 max-h-full
               md:flex-none md:p-0
             ">
             <li class="text-left px-3 py-1 text-gray-500 font-semibold cursor-default">Select Track First</li>
