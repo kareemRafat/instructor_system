@@ -68,16 +68,6 @@ $errors = $_SESSION['errors'] ?? [];
           }
           ?>
         </div>
-        <!-- <div class="mb-6">
-          <label for="message" class="block mb-2 text-sm font-medium text-gray-900">Comment</label>
-          <textarea name="comment-test" id="message" rows="2" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" placeholder="Write your comment here ..."></textarea>
-          <?php if (isset($errors['comment-test'])) {
-            echo '<div class="p-2 my-2 text-sm text-red-800 rounded-lg bg-red-50" role="alert"> ' .
-              $errors['comment-test'] .
-              '</div>';
-          }
-          ?>
-        </div> -->
         <!-- dropdown list for lectures with search -->
         <div class="relative w-full">
           <label class="block mb-2 text-sm font-medium text-gray-900">Comment</label>
