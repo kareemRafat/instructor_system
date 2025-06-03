@@ -67,7 +67,10 @@
                      Start Date
                  </th>
                  <th scope="col" class="px-6 py-3">
-                    End Date
+                     End Date
+                 </th>
+                 <th scope="col" class="px-6 py-3">
+                     Branch
                  </th>
              </tr>
          </thead>
@@ -99,7 +102,7 @@
                          <span class="<?= dayBadgeColor($row['group_day']) ?> text-sm font-medium me-2 px-2.5 py-1.5 rounded-md"><?= $row['group_day'] ?></span>
                      </th>
                      <td class="px-6 py-4 text-sky-600 capitalize">
-                         <?php 
+                         <?php
                             $groupId = $row['group_id'];
                             $getTrack = "SELECT 
                                             *
@@ -109,7 +112,7 @@
                             $stmt = $pdo->prepare($getTrack);
                             $stmt->execute([':group' => $groupId]);
                             echo $stmt->fetch(PDO::FETCH_ASSOC)['name'] ?? 'Not Updated';
-                         ?>
+                            ?>
                      </td>
                      <td class="px-6 py-4">
                          <span class="text-rose-700"><?= $row['month'] ?></span>
@@ -121,6 +124,9 @@
                          <br>
                          <?= $row['group_end_date'] ?? 'No date added' ?>
                      </td>
+                     <td class="px-6 py-4 <?= branchIndicator($row['branch_name'])['textColor'] ?>">
+                         <?= ucwords($row['branch_name']) ?>
+                     </td>
                  </tr>
              <?php endforeach; ?>
          </tbody>
@@ -130,6 +136,32 @@
 
 
  <?php
+    // branch indicator color
+    function branchIndicator($branch_name)
+    {
+        $branch_name = strtolower($branch_name);
+        $bgColors = [
+            'tanta' => 'bg-teal-600',
+            'mansoura' => 'bg-blue-600',
+            'zagazig' => 'bg-purple-500',
+            'default' => 'bg-orange-600'
+        ];
+
+        $textColors = [
+            'tanta' => 'text-teal-600',
+            'mansoura' => 'text-blue-700',
+            'zagazig' => 'text-purple-700',
+            'default' => 'text-orange-700'
+        ];
+
+        $bgClass = $bgColors[$branch_name] ?? $bgColors['default'];
+        $textClass = $textColors[$branch_name] ?? $textColors['default'];
+
+        return [
+            'bgColor' => $bgClass,
+            'textColor' => $textClass
+        ];
+    }
     function dayBadgeColor($dayName)
     {
         $dayName = strtolower($dayName);
