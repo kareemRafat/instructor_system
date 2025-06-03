@@ -195,9 +195,14 @@ function setTable(res, branch = null) {
           ${row.branch_name.charAt(0).toUpperCase() + row.branch_name.slice(1)}
       </td> 
       <td class="px-6 py-4">
-          <span class="block">${row.month}</span>
+          <span class="block text-rose-700">${row.month}</span>
           ${row.formatted_date ? row.formatted_date : "No date added"}
-      </td>           
+      </td>     
+      <td class="px-6 py-4">
+          <span class="text-purple-700">${row.group_end_month}</span>
+          <br>
+          ${row.group_end_date}
+      </td>      
       <td class="px-6 py-4">
           <a href="?action=edit&group_id=${
             row.id

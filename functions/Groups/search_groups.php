@@ -11,7 +11,21 @@ if (isset($_GET['search'])) {
         instructors.username AS instructor_name,
         branches.name AS branch_name,
         DATE_FORMAT(`groups`.start_date, '%d-%m-%Y') AS formatted_date,
-        DATE_FORMAT(`groups`.start_date, '%M') AS month
+        DATE_FORMAT(`groups`.start_date, '%M') AS month,
+        DATE_FORMAT(
+            DATE_ADD(
+                DATE_ADD(`groups`.start_date, INTERVAL 5 MONTH),
+                INTERVAL 2 WEEK
+            ),
+            '%d, %m-%Y'
+            ) AS group_end_date,
+        DATE_FORMAT(
+            DATE_ADD(
+                DATE_ADD(`groups`.start_date, INTERVAL 5 MONTH),
+                INTERVAL 2 WEEK
+            ),
+            '%M'
+            ) AS group_end_month
     FROM `groups` 
     JOIN instructors ON `groups`.instructor_id = instructors.id 
     JOIN branches ON `groups`.branch_id = branches.id
@@ -57,7 +71,7 @@ if (isset($_GET['search'])) {
     // Combine group info with track name
     $final = [];
     foreach ($groups as $gr) {
-        $gr['track'] = $trackMap[$gr['id']] ?? null;
+        $gr['track'] = $trackMap[$gr['id']] ?? 'Not Updated';
         $final[] = $gr;
     }
 
