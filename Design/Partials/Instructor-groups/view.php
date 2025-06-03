@@ -61,6 +61,9 @@
                      Day
                  </th>
                  <th scope="col" class="px-6 py-3">
+                     Track
+                 </th>
+                 <th scope="col" class="px-6 py-3">
                      Start Date
                  </th>
                  <th scope="col" class="px-6 py-3">
@@ -95,6 +98,19 @@
                      <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
                          <span class="<?= dayBadgeColor($row['group_day']) ?> text-sm font-medium me-2 px-2.5 py-1.5 rounded-md"><?= $row['group_day'] ?></span>
                      </th>
+                     <td class="px-6 py-4 text-sky-600 capitalize">
+                         <?php 
+                            $groupId = $row['group_id'];
+                            $getTrack = "SELECT 
+                                            *
+                                            FROM lectures AS l 
+                                            JOIN tracks AS t ON t.id =  l.track_id
+                                            WHERE group_id = :group ORDER BY date DESC LIMIT 1";
+                            $stmt = $pdo->prepare($getTrack);
+                            $stmt->execute([':group' => $groupId]);
+                            echo $stmt->fetch(PDO::FETCH_ASSOC)['name'] ?? 'Not Updated';
+                         ?>
+                     </td>
                      <td class="px-6 py-4">
                          <span class="text-rose-700"><?= $row['month'] ?></span>
                          <br>

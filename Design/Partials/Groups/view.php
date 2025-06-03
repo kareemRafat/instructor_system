@@ -16,7 +16,21 @@
                         instructors.username AS instructor_name,
                         branches.name AS branch_name,
                         DATE_FORMAT(`groups`.start_date, '%d-%m-%Y') AS formatted_date,
-                        DATE_FORMAT(`groups`.start_date, '%M') AS month
+                        DATE_FORMAT(`groups`.start_date, '%M') AS month,
+                        DATE_FORMAT(
+                            DATE_ADD(
+                                DATE_ADD(`groups`.start_date, INTERVAL 5 MONTH),
+                                INTERVAL 2 WEEK
+                            ),
+                            '%d, %m-%Y'
+                            ) AS group_end_date,
+                        DATE_FORMAT(
+                            DATE_ADD(
+                                DATE_ADD(`groups`.start_date, INTERVAL 5 MONTH),
+                                INTERVAL 2 WEEK
+                            ),
+                            '%M'
+                            ) AS group_end_month
                 FROM `groups` 
                 JOIN instructors ON `groups`.instructor_id = instructors.id 
                 JOIN branches ON `groups`.branch_id = branches.id
@@ -102,7 +116,7 @@
      <table class="w-full text-sm text-left rtl:text-right text-gray-500">
          <thead class="text-xs text-gray-700 uppercase bg-gray-200">
              <tr class="text-base">
-                 <th scope="col" class="px-6 py-3">
+                 <th scope="col" class="px-6 py-3 w-10">
                      Group
                  </th>
                  <th scope="col" class="px-6 py-3">
@@ -124,6 +138,9 @@
                      Start Date
                  </th>
                  <th scope="col" class="px-6 py-3">
+                    End Date
+                 </th>
+                 <th scope="col" class="px-6 py-3">
                      <span>Action</span>
                  </th>
              </tr>
@@ -138,7 +155,7 @@
              <?php
                 foreach ($result as $row) :
                 ?> <tr class="odd:bg-white even:bg-gray-50 bg-white border-b border-gray-200 hover:bg-gray-50">
-                     <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
+                     <th scope="row" class="px-6 py-4 w-10 font-medium text-gray-900 whitespace-nowrap">
                          <?= ucwords($row['group_name']) ?>
                      </th>
                      <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
@@ -176,9 +193,14 @@
                          <?= ucwords($row['branch_name']) ?>
                      </td>
                      <td class="px-6 py-4">
-                         <?= $row['month'] ?>
+                         <span class="text-rose-700"><?= $row['month'] ?></span>
                          <br>
                          <?= $row['formatted_date'] ?? 'No date added' ?>
+                     </td>
+                     <td class="px-6 py-4">
+                         <span class="text-purple-700"><?= $row['group_end_month'] ?></span>
+                         <br>
+                         <?= $row['group_end_date'] ?? 'No date added' ?>
                      </td>
                      <td class="px-6 py-4">
                          <a href="?action=edit&group_id=<?= $row['group_id'] ?>" class="cursor-pointer border border-gray-300 py-1 px-2 rounded-lg font-medium text-blue-600 hover:underline mr-2 inline-block mb-2 text-center"><i class="fa-solid fa-pen-to-square mr-2"></i>

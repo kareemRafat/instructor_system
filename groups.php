@@ -5,7 +5,7 @@ include_once 'Design/includes/navbar.php';
 
 ?>
 
-<div class="min-h-screen max-w-7xl mx-auto p-6 pb-20">
+<div class="min-h-screen max-w-8xl mx-auto p-6 pb-20">
     <h1 class="text-3xl font-bold mb-6 text-center text-gray-800">Groups</h1>
    
     <!-- include partials -->
