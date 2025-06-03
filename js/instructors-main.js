@@ -64,17 +64,34 @@ addInstructor.onclick = function () {
   fetch("functions/Branches/get_branches.php")
     .then((response) => response.json())
     .then((res) => {
-      if (res.status == "success") {
-        branchesSelect.innerHTML = `<option value="" selected>Choose a Branch</option>`; // Clear previous cards
+      if (res.status === "success") {
+        const branchesContainer = document.getElementById("branchesContainer");
+        branchesContainer.innerHTML = ""; // Clear previous checkboxes
+
         res.data.forEach((branch) => {
-          let option = document.createElement("option");
-          option.value = branch.id;
-          option.textContent = capitalizeFirstLetter(branch.name);
-          branchesSelect.appendChild(option);
+          const label = document.createElement("label");
+          label.className =
+            "flex items-center space-x-2 bg-gray-50 border border-gray-300 rounded-lg px-4 py-2 cursor-pointer hover:bg-gray-100";
+
+          const checkbox = document.createElement("input");
+          checkbox.type = "checkbox";
+          checkbox.name = "branch_ids[]";
+          checkbox.value = branch.id;
+          checkbox.className =
+            "text-blue-600 focus:ring-blue-500 border-gray-300 rounded border";
+
+          const span = document.createElement("span");
+          span.className = "text-gray-900 text-sm";
+          span.textContent = capitalizeFirstLetter(branch.name);
+
+          label.appendChild(checkbox);
+          label.appendChild(span);
+
+          branchesContainer.appendChild(label);
         });
       }
     })
-    .catch((error) => console.error("Error fetching lectures:", error));
+    .catch((error) => console.error("Error fetching branches:", error));
 };
 
 // Function to update the table with search results

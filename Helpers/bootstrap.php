@@ -31,23 +31,42 @@ function checkAccess($role)
         }
     }
 
-    header("location: ../login.php");
+    // header("location: ../login.php");
     return false;
 }
 
 // fetch user information
 $user_id = $_SESSION['user_id'];
-$query = "SELECT username , role , branch_id FROM instructors WHERE id = :id";
+
+
+$query = "
+    SELECT i.username, i.role, b.id AS branch_id, b.name AS branch_name
+    FROM instructors i
+    JOIN branch_instructor bi ON i.id = bi.instructor_id
+    JOIN branches b ON b.id = bi.branch_id
+    WHERE i.id = :id
+";
 $stmt = $pdo->prepare($query);
-$stmt->bindParam(':id', $user_id);
-$stmt->execute();
-$result = $stmt->fetch(PDO::FETCH_ASSOC);
+$stmt->execute([':id' => $_SESSION['user_id']]);
+$results = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-// make branch and role sessions for [Functions pages]
-$_SESSION['branch'] = $result['branch_id'];
-$_SESSION['role'] = $result['role'];
+$userInfo = [
+    'username' => $results[0]['username'],
+    'role' => $results[0]['role'],
+];
 
-// make constants for branch and role for [Design pages]
-define('ROLE', $result['role']);
-define('USERNAME', $result['username']);
-define('BRANCH', $result['branch_id']);
+$branches = array_map(function ($row) {
+    return [
+        'id' => $row['branch_id'],
+        'name' => $row['branch_name'],
+    ];
+}, $results);
+
+// Save user role and branches in session
+$_SESSION['role'] = $userInfo['role'];
+$_SESSION['branches'] = $branches;
+
+// Constants
+define('ROLE', $userInfo['role']);
+define('USERNAME', $userInfo['username']);
+define('BRANCH', $branches[0]['id'] ?? null); // First branch, optional

@@ -7,15 +7,21 @@ include_once 'Design/includes/navbar.php';
     <h1 class="text-3xl font-bold mb-6 text-center text-gray-800">Instructors</h1>
     <?php
     // Fetch all instructors from the database
-    $query = "SELECT 
-                    instructors.id,
-                    instructors.username,
-                    instructors.is_active,
-                    branches.name as branch_name
-                FROM instructors 
-                LEFT JOIN branches ON instructors.branch_id = branches.id
-                WHERE role IN ('instructor' , 'admin') 
-                ORDER BY instructors.is_active DESC";
+    $query = "
+        SELECT 
+            i.id,
+            i.username,
+            i.is_active,
+            i.role,
+            b.name AS branch_name,
+            GROUP_CONCAT(b.name SEPARATOR ', ') AS branches
+        FROM instructors i
+        JOIN branch_instructor bi ON i.id = bi.instructor_id
+        JOIN branches b ON b.id = bi.branch_id
+        WHERE i.role IN ('instructor', 'admin')
+        GROUP BY i.id, i.username, i.is_active, i.role
+        ORDER BY i.is_active DESC, i.username ASC
+    ";
 
     $stmt = $pdo->prepare($query);
     $stmt->execute();
@@ -42,7 +48,7 @@ include_once 'Design/includes/navbar.php';
                 </svg>
             </div>
             <input type="search" id="table-search"
-                class="block w-full p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg            bg-gray-50 focus:ring-blue-500 focus:border-blue-500"
+                class="block w-full p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500"
                 placeholder="Search for instructors">
         </div>
     </div>
@@ -83,7 +89,7 @@ include_once 'Design/includes/navbar.php';
                             <?= ucwords($row['username']) ?>
                         </th>
                         <td class="px-6 py-4">
-                            <?= ucwords($row['branch_name'] ?? 'Not Assigned') ?>
+                            <?= ucwords($row['branches'] ?? 'Not Assigned') ?>
                         </td>
                         <td class="px-6 py-4">
                             <span
@@ -109,7 +115,7 @@ include_once 'Design/includes/navbar.php';
 <?php include_once 'Design/Modals/insert_instructor.php'; ?>
 
 <!-- Add this before closing body tag -->
-<script type="module" src="dist/instructors-main.js"></script>
+<script type="module" src="js/instructors-main.js"></script>
 
 <?php
 include_once "Design/includes/notFy-footer.php";

@@ -26,14 +26,14 @@ try {
     echo json_encode(['status' => 'error', 'message' => $e->getMessage()]);
 }
 
-
 /** fetch Branches based on ROLES */
 function fetchBranchesOnRoles($is_admin) {
     if ($is_admin) {
-        return "SELECT * FROM branches";
+        return "SELECT id, name FROM branches ORDER BY name ASC";
     } else {
-        return "SELECT * FROM branches WHERE id = :branch";
+        return  "SELECT id, name FROM branches WHERE id = :branch ORDER BY name ASC";
     }
+
 }
 
 /** execute params based on ROLES */

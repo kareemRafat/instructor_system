@@ -2,7 +2,7 @@
 session_start();
 
 if (isset($_SESSION['user_id'])) {
-  redirectBasedOnRole($_SESSION['role']);
+  // redirectBasedOnRole($_SESSION['role']);
 }
 
 ?>

@@ -16,7 +16,6 @@
     <?php if (isset($_SESSION['success'])): ?>
         notyf.success(`<?= $_SESSION['success'] ?>`);
     <?php endif; ?>
-
     // error toaster
     <?php if (isset($_SESSION['errors'])): ?>
     <?php foreach ($_SESSION['errors'] as $error): ?>

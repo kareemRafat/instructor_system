@@ -10,15 +10,18 @@ include_once 'Design/includes/navbar.php';
     // Fetch all instructors from the database
     require_once 'Database/connect.php';
     $query = "SELECT 
-                    instructors.id,
-                    instructors.username,
-                    instructors.is_active,
-                    instructors.role AS instructor_role,
-                    branches.name as branch_name
-                FROM instructors 
-                LEFT JOIN branches ON instructors.branch_id = branches.id
+                    i.id,
+                    i.username,
+                    i.is_active,
+                    i.role,
+                    b.name AS branch_name,
+                    GROUP_CONCAT(b.name SEPARATOR ', ') AS branches
+                FROM instructors i
+                JOIN branch_instructor bi ON i.id = bi.instructor_id
+                JOIN branches b ON b.id = bi.branch_id
                 WHERE role IN ('cs' , 'cs-admin')
-                ORDER BY instructors.is_active DESC";
+                GROUP BY i.id, i.username, i.is_active, i.role
+                ORDER BY i.is_active DESC, i.username ASC";
 
     $stmt = $pdo->prepare($query);
     $stmt->execute();
@@ -74,7 +77,7 @@ include_once 'Design/includes/navbar.php';
                         class="odd:bg-white even:bg-gray-50 bg-white border-b border-gray-200 hover:bg-gray-50">
                         <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
                             <?= ucwords($row['username']) ?>
-                            <?php if ($row['instructor_role'] == 'cs-admin'): ?>
+                            <?php if ($row['role'] == 'cs-admin'): ?>
                                 <i class="fa-solid fa-user-shield ml-3 text-green-700"></i>
                             <?php endif; ?>
                         </th>
@@ -87,13 +90,13 @@ include_once 'Design/includes/navbar.php';
                             </span>
                         </td>
                         <td class="px-6 py-4">
-                            <button <?= $row['instructor_role'] === ROLE ? 'disabled' : '' ?>
+                            <button <?= $row['role'] === ROLE ? 'disabled' : '' ?>
                                 class="toggle-status-btn cursor-pointer text-sm border border-gray-300 py-1 px-2 rounded-lg <?= $row['is_active'] ? 'text-red-600' : 'text-green-600' ?> hover:underline disabled:border-gray-200 disabled:bg-gray-50 disabled:text-gray-500 disabled:shadow-none disabled:cursor-not-allowed disabled:hover:no-underline mr-2"
                                 data-agent-id="<?= $row['id'] ?>">
                                 <?= $row['is_active'] ? '<i class="fa-solid fa-user-slash mr-1"></i>' : '<i class="fa-solid fa-user mr-1"></i>' ?>
                                 <?= $row['is_active'] ? 'Disable' : 'Enable' ?>
                             </button>
-                            <button <?= $row['instructor_role'] === ROLE ? 'disabled' : '' ?>
+                            <button <?= $row['role'] === ROLE ? 'disabled' : '' ?>
                                 class="delete-cs-btn cursor-pointer text-sm border border-gray-300 py-1 px-2 rounded-lg text-red-600 hover:underline disabled:border-gray-200 disabled:bg-gray-50 disabled:text-gray-500 disabled:shadow-none disabled:cursor-not-allowed disabled:hover:no-underline"
                                 data-agent-id="<?= $row['id'] ?>">
                                 <i class="fa-solid fa-trash mr-1"></i>Delete
@@ -109,7 +112,7 @@ include_once 'Design/includes/navbar.php';
 <?php include_once 'Design/Modals/insert_customer_service.php'; ?>
 
 <!-- Add this before closing body tag -->
-<script src="dist/cs-main.js"></script>
+<script src="js/cs-main.js"></script>
 
 <?php
 include_once "Design/includes/notFy-footer.php";
