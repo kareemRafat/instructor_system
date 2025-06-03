@@ -22,7 +22,7 @@ function checkAccess($role)
         'admin' => ['*'], // Admin can access all pages
         'cs' => ['lectures.php','groups.php','tables.php'],
         'cs-admin' => ['customer-service.php','lectures.php','groups.php','tables.php'],
-        'instructor' => ['index.php'], // Instructor can access index.php
+        'instructor' => ['index.php','instructor-groups.php'], // Instructor can access index.php
     ];
 
     if (isset($accessRules[$role])) {

@@ -82,6 +82,10 @@ $pageName = basename($_SERVER['PHP_SELF']);
                 if (ROLE === 'admin' or ROLE === 'instructor') {
                 ?>
                     <li>
+                        <a href="instructor-groups.php"
+                            class=" <?= $pageName == 'instructor-groups.php' ? 'text-blue-600' : '' ?> block py-2 px-3 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0">My Groups</a>
+                    </li>
+                    <li>
                         <a href="index.php"
                             class=" <?= $pageName == 'index.php' ? 'text-blue-600' : '' ?> block py-2 px-3 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0">Add
                             Lecture</a>
