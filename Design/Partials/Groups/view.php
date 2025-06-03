@@ -21,7 +21,6 @@
                 JOIN instructors ON `groups`.instructor_id = instructors.id 
                 JOIN branches ON `groups`.branch_id = branches.id
                 WHERE `groups`.is_active = 1
-                -- AND (:search IS NULL OR `groups`.name LIKE CONCAT('%', :search, '%'))
                 AND (:branch IS NULL OR branches.id = :branch)
                 ORDER BY `groups`.start_date DESC
                 LIMIT $groupPerPage OFFSET $pageNum"; // Adjust LIMIT and OFFSET as needed for pagination
@@ -113,6 +112,9 @@
                      Day
                  </th>
                  <th scope="col" class="px-6 py-3">
+                     Track
+                 </th>
+                 <th scope="col" class="px-6 py-3">
                      Instructor
                  </th>
                  <th scope="col" class="px-6 py-3">
@@ -146,16 +148,26 @@
                             } elseif ($row['group_time'] == 6.10 || $row['group_time'] == 8) {
                                 echo "Online " . number_format((int)$row['group_time']);
                             } else {
-                                echo $row['group_time'] ;
+                                echo $row['group_time'];
                             }
-                            
-                                
-                                
                         ?>
                      </th>
                      <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
                          <span class="<?= dayBadgeColor($row['group_day']) ?> text-sm font-medium me-2 px-2.5 py-1.5 rounded-md"><?= $row['group_day'] ?></span>
                      </th>
+                     <td class="px-6 py-4 text-sky-600 capitalize">
+                         <?php 
+                            $groupId = $row['group_id'];
+                            $getTrack = "SELECT 
+                                            *
+                                            FROM lectures AS l 
+                                            JOIN tracks AS t ON t.id =  l.track_id
+                                            WHERE group_id = :group ORDER BY date DESC LIMIT 1";
+                            $stmt = $pdo->prepare($getTrack);
+                            $stmt->execute([':group' => $groupId]);
+                            echo $stmt->fetch(PDO::FETCH_ASSOC)['name'] ?? 'Not Updated';
+                         ?>
+                     </td>
                      <td class="px-6 py-4">
                          <span class="w-2 h-2 <?= branchIndicator($row['branch_name'])['bgColor'] ?> inline-block mr-2"></span>
                          <?= ucwords($row['instructor_name']) ?>

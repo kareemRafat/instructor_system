@@ -179,6 +179,9 @@ function setTable(res, branch = null) {
       )} text-sm font-medium me-2 px-2.5 py-1.5 rounded-md">${
       row.group_day
     }</span></th>
+      <td class="px-6 py-4 text-sky-600 capitalize">
+        ${capitalizeFirstLetter(row.track)}
+      </td>
       <td class="px-6 py-4">
       <span class="w-2 h-2 ${
         branchIndicator(row.branch_name)["bgColor"]

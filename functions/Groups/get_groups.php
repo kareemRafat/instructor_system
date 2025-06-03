@@ -29,12 +29,46 @@ try {
         $stmt = $pdo->prepare($query);
         $stmt->execute([
             ':branch' => $_GET['branch_id'],
-            ':instructor' => $_GET['instructor_id'] ?? null ,
+            ':instructor' => $_GET['instructor_id'] ?? null,
         ]);
         $groups = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
+        // get groups ids
+        $groupsIds = array_map(fn($group) => $group['id'], $groups);
+        $groupsIds = implode(',', $groupsIds);
+
+
+        // get track
+        $getTrack = "SELECT *
+                        FROM (
+                            SELECT 
+                                l.group_id as lecGroupId,
+                                t.name as track_name,
+                                ROW_NUMBER() OVER (PARTITION BY l.group_id ORDER BY l.date DESC) as rn
+                            FROM lectures AS l
+                            JOIN tracks AS t ON t.id = l.track_id
+                            WHERE l.group_id IN ($groupsIds)
+                        ) AS sub
+                        WHERE rn = 1";
+        $stmt = $pdo->prepare($getTrack);
+        $stmt->execute();
+        $groupsWithTrack = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        // Index track results by group ID
+        $trackMap = [];
+        foreach ($groupsWithTrack as $trackRow) {
+            $trackMap[$trackRow['lecGroupId']] = $trackRow['track_name'];
+        }
+
+        // Combine group info with track name
+        $final = [];
+        foreach ($groups as $gr) {
+            $gr['track'] = $trackMap[$gr['id']] ?? null;
+            $final[] = $gr;
+        }
+
         header('Content-Type: application/json');
-        echo json_encode(['status' => 'success', 'data' => $groups]);
+        echo json_encode(['status' => 'success', 'data' => $final]);
     } else {
 
         // Query to fetch all groups

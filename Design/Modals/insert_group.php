@@ -19,6 +19,9 @@
                     </button>
                 </div>
                 <!-- Modal body -->
+                <div class="bg-rose-700 text-white font-semibold text-md p-2 text-center" dir="rtl">
+                    تسمية جروب التدريب يجب ان تحتوي على كلمة Training
+                </div>
                 <form class="p-4 md:p-5" action="functions/Groups/insert_group.php" method="POST">
                     <input type="hidden" name="time" id="currentTime">
                     <script>
