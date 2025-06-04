@@ -306,7 +306,7 @@ async function groupsTotalCount(branch , instructor = null , instructorName = nu
              <span class="sr-only">Loading...</span>
          </div>
   `
-  await globalWait(1000);
+  await globalWait(500);
 
   let url = `functions/Groups/get_groups_count.php`;
 
@@ -322,8 +322,11 @@ async function groupsTotalCount(branch , instructor = null , instructorName = nu
       document.querySelector(".total-inst-count").innerText = data;
       document.querySelector(".table-header-count").classList.add('hidden') ;
       document.querySelector(".total-group").classList.remove('hidden') ;
-
-      if (instructorName) {
+            
+      // when choose empty option
+      if (!instructor) {
+        document.querySelector(".table-header-count").innerText = "Groups Count " + data ;
+      } else if (instructorName) {
         document.querySelector(".table-header-count").innerText = instructorName + "'s Groups Count " + data ;
         document.querySelector(".table-header-count").classList.remove('hidden') ;
         document.querySelector(".total-group").classList.add('hidden') ;
