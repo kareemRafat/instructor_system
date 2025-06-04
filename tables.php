@@ -8,23 +8,27 @@ include_once 'Design/includes/navbar.php';
 
 // Fetch instructors
 $instructors = [];
-$stmt = $pdo->prepare("SELECT id, username FROM instructors WHERE is_active = 1 AND role IN ('instructor' , 'admin') AND (branch_id = :branch OR :branch IS NULL)");
+$stmt = $pdo->prepare("SELECT i.id, i.username
+                        FROM instructors i
+                        JOIN branch_instructor bi ON bi.instructor_id = i.id
+                        WHERE bi.branch_id = :branch AND i.is_active = 1 AND i.role IN ('instructor', 'admin')");
 $stmt->execute([':branch' => $_GET['branch'] ?? 1]);
 $instructors = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 // Fetch groups
 $groups = [];
 $stmt = $pdo->prepare("SELECT 
-                        g.name,
-                        g.day,
-                        g.time,
-                        g.branch_id,
-                        g.is_active,
-                        DATE_FORMAT(g.start_date, '%d-%m-%Y') AS start,
-                        g.instructor_id 
-                        FROM `groups` g 
+                            g.name,
+                            g.day,
+                            g.time,
+                            g.branch_id,
+                            g.is_active,
+                            DATE_FORMAT(g.start_date, '%d-%m-%Y') AS start,
+                            g.instructor_id 
+                        FROM groups g
                         JOIN instructors i ON g.instructor_id = i.id
-                        WHERE (:branch IS NULL OR g.branch_id = :branch) AND g.is_active = 1");
+                        JOIN branch_instructor bi ON bi.instructor_id = i.id
+                        WHERE bi.branch_id = :branch AND g.is_active = 1 AND g.branch_id = :branch");
 $stmt->execute([
     ':branch' => $_GET['branch'] ?? 1
 ]);
@@ -58,6 +62,9 @@ if (isset($_GET['branch']) and $_GET['branch'] == 1) {
     $color = 'bg-blue-600';
     $text = 'text-blue-800';
 }
+
+$rowHoverColors = ['hover:bg-blue-50','hover:bg-orange-50', 'hover:bg-green-50', 'hover:bg-yellow-50', 'hover:bg-purple-50', 'hover:bg-pink-50' ];
+
 ?>
 
 
@@ -132,10 +139,11 @@ if (isset($_GET['branch']) and $_GET['branch'] == 1) {
                 </thead>
                 <!-- Table Body -->
                 <tbody>
-                    <?php foreach ($instructors as $instructor): ?>
-                        <tr class="bg-gray-50 hover:bg-blue-50 transition-colors duration-200">
+                    <?php foreach ($instructors as $index => $instructor): ?>
+                        <?php $hoverColor = $rowHoverColors[$index % count($rowHoverColors)]; ?>
+                        <tr class="bg-gray-50 <?= $hoverColor ?> transition-colors duration-200">
                             <td class="border border-gray-300 p-4 font-semibold <?= $text ?> bg-gray-200">
-                                <?php echo htmlspecialchars(ucwords($instructor['username'])); ?>
+                                <?= htmlspecialchars(ucwords($instructor['username'])) ?>
                             </td>
                             <?php foreach ($days as $dayIndex => $day): ?>
                                 <?php foreach ($times as $index => $time): ?>
