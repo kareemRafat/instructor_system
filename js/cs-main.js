@@ -61,6 +61,7 @@ document.addEventListener("DOMContentLoaded", function () {
     if (e.target.closest(".delete-cs-btn")) {
       const button = e.target.closest(".delete-cs-btn");
       const agentId = button.dataset.agentId;
+      const branchId = button.dataset.branchId;
 
       if (
         confirm(
@@ -72,7 +73,7 @@ document.addEventListener("DOMContentLoaded", function () {
           headers: {
             "Content-Type": "application/x-www-form-urlencoded",
           },
-          body: `cs_id=${agentId}`,
+          body: `cs_id=${agentId},branch=${branchId}`,
         })
           .then((response) => response.json())
           .then((data) => {
@@ -133,7 +134,7 @@ function setTable(res) {
       const roleDisabled =
         instructor.instructor_role === authCSAdmin ? "disabled" : "";
       const csAdminIcon =
-        instructor.instructor_role == "cs-admin"
+        instructor.role == "cs-admin"
           ? ` <i class="fa-solid fa-user-shield ml-3 text-green-700"></i>`
           : "";
 
@@ -157,9 +158,10 @@ function setTable(res) {
                     ${csAdminIcon}
                 </th>
                 <td class="px-6 py-4">
+                
                     ${
-                      instructor.branch_name
-                        ? capitalizeFirstLetter(instructor.branch_name)
+                      instructor.branch_names
+                        ? capitalizeFirstLetter(instructor.branch_names)
                         : "Not Assigned"
                     }
                 </td>

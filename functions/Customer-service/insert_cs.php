@@ -20,19 +20,38 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Hash password
         $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
+        $pdo->beginTransaction();
+        
         // Insert new instructor
-        $query = "INSERT INTO instructors (username, password, is_active , role , branch_id) VALUES (:username, :password, 1 , :role, :branch)";
+        $query = "INSERT INTO instructors (username, password, is_active , role) VALUES (:username, :password, 1 , :role)";
         $stmt = $pdo->prepare($query);
         $stmt->execute([
             ':username' => $username,
             ':password' => $hashedPassword,
-            ':branch' => $branch,
             ':role' => $role,
         ]);
+
+        // Get the new instructor ID
+        $instructorId = $pdo->lastInsertId();
+
+        // Insert into pivot table
+        $pivotQuery = "INSERT INTO branch_instructor (instructor_id, branch_id) VALUES (:instructor_id, :branch_id)";
+        $pivotStmt = $pdo->prepare($pivotQuery);
+
+        $pivotStmt->execute([
+            ':instructor_id' => $instructorId,
+            ':branch_id' => $branch
+        ]);
+
+        // Commit transaction if both queries succeeded
+        $pdo->commit();
 
         $_SESSION['success'] = "Customer Service Agent Added Successfully";
         header('Location: ../../customer-service.php');
     } catch (Exception $e) {
+        // Roll back transaction if any error occurs
+        $pdo->rollBack();
+
         echo $e->getMessage();
         $_SESSION['errors'] = $e->getMessage();
         header('Location: ../../customer-service.php');
@@ -74,7 +93,7 @@ function checkErrors($formData, $pdo): bool
     }
 
     if (!empty($errors)) {
-        $_SESSION['old'] = $_POST ;
+        $_SESSION['old'] = $_POST;
         $_SESSION['errors'] = $errors;
         return false;
     }

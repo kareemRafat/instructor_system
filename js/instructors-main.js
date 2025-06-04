@@ -95,9 +95,9 @@ addInstructor.onclick = function () {
 };
 
 // Function to update the table with search results
-function setTable(res) {
+function setTable(res) {  
   tbody.innerHTML = "";
-
+  
   if (res.data.length == 0) {
     tbody.innerHTML = `
         <tr>
@@ -129,8 +129,8 @@ function setTable(res) {
                 </th>
                 <td class="px-6 py-4">
                     ${
-                      instructor.branch_name
-                        ? capitalizeFirstLetter(instructor.branch_name)
+                      instructor.branch_names
+                        ? capitalizeFirstLetter(instructor.branch_names)
                         : "Not Assigned"
                     }
                 </td>

@@ -19,6 +19,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Hash password
         $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
+        $pdo->beginTransaction();
+
         // Insert new instructor
         $query = "INSERT INTO instructors (username, password, is_active , role ) VALUES (:username, :password, 1 , 'instructor')";
         $stmt = $pdo->prepare($query);
@@ -41,9 +43,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             ]);
         }
 
+        // Commit transaction if both queries succeeded
+        $pdo->commit();
+
         $_SESSION['success'] = "Instructor added successfully";
         header('Location: ../../instructors.php');
     } catch (Exception $e) {
+        // Roll back transaction if any error occurs
+        $pdo->rollBack();
+
         echo $e->getMessage();
         $_SESSION['errors'] = $e->getMessage();
         header('Location: ../../instructors.php');
