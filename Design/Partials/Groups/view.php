@@ -8,35 +8,30 @@
         $pageNum = 0; // Default to the first page
     }
 
+
     $query = "SELECT 
-                        `groups`.id AS group_id,
-                        `groups`.name AS group_name,
-                        `groups`.time AS group_time,
-                        `groups`.day AS group_day,
-                        instructors.username AS instructor_name,
-                        branches.name AS branch_name,
-                        DATE_FORMAT(`groups`.start_date, '%d-%m-%Y') AS formatted_date,
-                        DATE_FORMAT(`groups`.start_date, '%M') AS month,
-                        DATE_FORMAT(
-                            DATE_ADD(
-                                DATE_ADD(`groups`.start_date, INTERVAL 5 MONTH),
-                                INTERVAL 2 WEEK
-                            ),
-                            '%d, %m-%Y'
-                            ) AS group_end_date,
-                        DATE_FORMAT(
-                            DATE_ADD(
-                                DATE_ADD(`groups`.start_date, INTERVAL 5 MONTH),
-                                INTERVAL 2 WEEK
-                            ),
-                            '%M'
-                            ) AS group_end_month
-                FROM `groups` 
-                JOIN instructors ON `groups`.instructor_id = instructors.id 
-                JOIN branches ON `groups`.branch_id = branches.id
-                WHERE `groups`.is_active = 1
-                AND (:branch IS NULL OR branches.id = :branch)
-                ORDER BY `groups`.start_date DESC
+                    g.id AS group_id,
+                    g.name AS group_name,
+                    g.time AS group_time,
+                    g.day AS group_day,
+                    i.username AS instructor_name,
+                    b.name AS branch_name,
+                    DATE_FORMAT(g.start_date, '%d-%m-%Y') AS formatted_date,
+                    DATE_FORMAT(g.start_date, '%M') AS month,
+                    DATE_FORMAT(
+                        DATE_ADD(DATE_ADD(g.start_date, INTERVAL 5 MONTH), INTERVAL 2 WEEK),
+                        '%d, %m-%Y'
+                    ) AS group_end_date,
+                    DATE_FORMAT(
+                        DATE_ADD(DATE_ADD(g.start_date, INTERVAL 5 MONTH), INTERVAL 2 WEEK),
+                        '%M'
+                    ) AS group_end_month
+                FROM `groups` g
+                JOIN instructors i ON g.instructor_id = i.id
+                JOIN branches b ON g.branch_id = b.id
+                WHERE g.is_active = 1
+                AND (:branch IS NULL OR g.branch_id = :branch)
+                ORDER BY g.start_date DESC
                 LIMIT $groupPerPage OFFSET $pageNum"; // Adjust LIMIT and OFFSET as needed for pagination
 
     $stmt = $pdo->prepare($query);
@@ -138,7 +133,7 @@
                      Start Date
                  </th>
                  <th scope="col" class="px-6 py-3">
-                    End Date
+                     End Date
                  </th>
                  <th scope="col" class="px-6 py-3">
                      <span>Action</span>
@@ -167,13 +162,13 @@
                             } else {
                                 echo $row['group_time'];
                             }
-                        ?>
+                            ?>
                      </th>
                      <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
                          <span class="<?= dayBadgeColor($row['group_day']) ?> text-sm font-medium me-2 px-2.5 py-1.5 rounded-md"><?= $row['group_day'] ?></span>
                      </th>
                      <td class="px-6 py-4 text-sky-600 capitalize">
-                         <?php 
+                         <?php
                             $groupId = $row['group_id'];
                             $getTrack = "SELECT 
                                             *
@@ -183,7 +178,7 @@
                             $stmt = $pdo->prepare($getTrack);
                             $stmt->execute([':group' => $groupId]);
                             echo $stmt->fetch(PDO::FETCH_ASSOC)['name'] ?? 'Not Updated';
-                         ?>
+                            ?>
                      </td>
                      <td class="px-6 py-4">
                          <span class="w-2 h-2 <?= branchIndicator($row['branch_name'])['bgColor'] ?> inline-block mr-2"></span>

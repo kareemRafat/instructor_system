@@ -153,7 +153,7 @@ function setTable(res, branch = null) {
   if (res.data.length == 0) {
     tbody.innerHTML = `
         <tr>
-          <td class="px-6 py-4 font-bold bg-white" colspan="7"> No Group Found </td>
+          <td class="px-6 py-4 font-bold bg-white" colspan="9"> No Group Found </td>
         </tr>
     `;
   }

@@ -51,22 +51,29 @@ try {
         $groupsIds = array_map(fn($group) => $group['id'], $groups);
         $groupsIds = implode(',', $groupsIds);
 
-
         // get track
-        $getTrack = "SELECT *
-                        FROM (
-                            SELECT 
-                                l.group_id as lecGroupId,
-                                t.name as track_name,
-                                ROW_NUMBER() OVER (PARTITION BY l.group_id ORDER BY l.date DESC) as rn
-                            FROM lectures AS l
-                            JOIN tracks AS t ON t.id = l.track_id
-                            WHERE l.group_id IN ($groupsIds)
-                        ) AS sub
-                        WHERE rn = 1";
-        $stmt = $pdo->prepare($getTrack);
-        $stmt->execute();
-        $groupsWithTrack = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        if (empty($groupsIdsArray)) {
+            $groupsWithTrack = [];
+        } else {
+            // Prepare placeholders for binding
+            $placeholders = implode(',', array_fill(0, count($groupsIdsArray), '?'));
+
+            $getTrack = "SELECT *
+                    FROM (
+                        SELECT 
+                            l.group_id as lecGroupId,
+                            t.name as track_name,
+                            ROW_NUMBER() OVER (PARTITION BY l.group_id ORDER BY l.date DESC) as rn
+                        FROM lectures AS l
+                        JOIN tracks AS t ON t.id = l.track_id
+                        WHERE l.group_id IN ($placeholders)
+                    ) AS sub 
+                WHERE rn = 1";
+
+            $stmt = $pdo->prepare($getTrack);
+            $stmt->execute($groupsIdsArray);
+            $groupsWithTrack = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        }
 
         // Index track results by group ID
         $trackMap = [];
