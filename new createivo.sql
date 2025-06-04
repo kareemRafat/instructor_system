@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 04, 2025 at 11:34 PM
+-- Generation Time: Jun 05, 2025 at 12:44 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -166,6 +166,7 @@ CREATE TABLE `lectures` (
   `group_id` int(11) DEFAULT NULL,
   `track_id` int(11) DEFAULT NULL,
   `instructor_id` int(11) NOT NULL,
+  `branch_id` int(11) NOT NULL,
   `comment` text DEFAULT NULL,
   `date` datetime DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -174,26 +175,15 @@ CREATE TABLE `lectures` (
 -- Dumping data for table `lectures`
 --
 
-INSERT INTO `lectures` (`id`, `group_id`, `track_id`, `instructor_id`, `comment`, `date`) VALUES
-(54, 56, 2, 21, 'فاضل محاضرتين في css وابداء المشروع ', '2025-05-20 17:33:04'),
-(55, 38, 3, 1, 'اول محاضرة', '2025-05-20 17:35:38'),
-(56, 57, 3, 21, 'هنبداء المحاضرة الجاية محاضرات المكتبات وال responsive ', '2025-05-20 17:34:41'),
-(57, 58, 4, 21, 'اخر محاضرة ال Form في ال php', '2025-05-20 17:41:38'),
-(58, 43, 4, 23, 'Intro', '2025-05-20 17:47:55'),
-(59, 42, 2, 23, 'المحاضره الخامسة => animation ', '2025-05-20 17:57:22'),
-(60, 41, 2, 23, 'المحاضرة الرابعة => position ', '2025-05-20 17:59:40'),
-(61, 39, 4, 1, 'المحاضرة الاولى', '2025-05-20 19:37:21'),
-(62, 40, 3, 25, 'Vue المحاضرة الاولي ', '2025-05-20 19:39:24'),
-(63, 44, 1, 25, 'Get & Set', '2025-05-20 19:41:31'),
-(64, 45, 4, 25, 'Intro php', '2025-05-20 19:42:53'),
-(65, 46, 5, 25, 'المحاضره التانيه Database', '2025-05-20 19:43:33'),
-(66, 38, 3, 1, 'تكملة المحاضرة الاولى', '2025-05-21 22:17:21'),
-(67, 39, 4, 1, 'المحاضرة الثانية array', '2025-05-21 22:17:35'),
-(68, 47, 4, 22, 'اول محاضرة php', '2025-05-21 22:24:24'),
-(69, 49, 2, 22, 'مشروع css بعد الاجازة ', '2025-05-21 22:26:38'),
-(70, 50, 3, 22, 'تاني محاضرة ', '2025-05-21 22:27:13'),
-(71, 51, 3, 22, 'بداية المكتبات', '2025-05-21 22:30:33'),
-(72, 60, 2, 1, '3 - CSS display - float - position', '2025-06-04 04:03:04');
+INSERT INTO `lectures` (`id`, `group_id`, `track_id`, `instructor_id`, `branch_id`, `comment`, `date`) VALUES
+(78, 38, 3, 1, 1, '1 - JavaScript intro', '2025-06-05 01:34:57'),
+(79, 39, 4, 1, 1, '2 - PHP array', '2025-06-05 01:35:07'),
+(80, 56, 1, 21, 3, '1 - HTML intro and tags to link or image', '2025-06-05 01:35:29'),
+(81, 57, 2, 21, 3, '2 - CSS Margin - padding - fonts', '2025-06-05 01:35:36'),
+(82, 58, 3, 21, 3, '4 - JavaScript Date - Loops - Switch', '2025-06-05 01:35:40'),
+(83, 60, 4, 21, 3, '3 - PHP file system', '2025-06-05 01:35:46'),
+(84, 64, 3, 21, 1, '4 - JavaScript Date - Loops - Switch', '2025-06-05 01:35:50'),
+(85, 64, 5, 21, 1, '2 - Create - Read', '2025-06-05 01:35:56');
 
 -- --------------------------------------------------------
 
@@ -324,7 +314,7 @@ ALTER TABLE `instructors`
 -- AUTO_INCREMENT for table `lectures`
 --
 ALTER TABLE `lectures`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=73;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=86;
 
 --
 -- AUTO_INCREMENT for table `remember_tokens`
@@ -361,7 +351,8 @@ ALTER TABLE `groups`
 --
 ALTER TABLE `lectures`
   ADD CONSTRAINT `lectures_ibfk_1` FOREIGN KEY (`group_id`) REFERENCES `groups` (`id`),
-  ADD CONSTRAINT `lectures_ibfk_2` FOREIGN KEY (`instructor_id`) REFERENCES `instructors` (`id`);
+  ADD CONSTRAINT `lectures_ibfk_2` FOREIGN KEY (`instructor_id`) REFERENCES `instructors` (`id`),
+  ADD CONSTRAINT `lectures_ibfk_3` FOREIGN KEY (`track_id`) REFERENCES `tracks` (`id`);
 
 --
 -- Constraints for table `remember_tokens`

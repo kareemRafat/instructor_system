@@ -163,7 +163,7 @@ function populateLectures(trackValue) {
       placeholderText: "Search for Lectures",
       allowDeselect: true,
       closeOnSelect: true,
-      showSearch: true,
+      showSearch: false,
       searchPlaceholder: "Search Lectures...",
       searchText: "No Results",
       searchHighlight: true,

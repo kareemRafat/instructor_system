@@ -115,7 +115,7 @@ include_once 'Design/includes/navbar.php';
 <?php include_once 'Design/Modals/insert_instructor.php'; ?>
 
 <!-- Add this before closing body tag -->
-<script type="module" src="js/instructors-main.js"></script>
+<script type="module" src="dist/instructors-main.js"></script>
 
 <?php
 include_once "Design/includes/notFy-footer.php";
