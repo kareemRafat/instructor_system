@@ -20,13 +20,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $track = $_POST['track'] ?? null;
     $comment = $_POST['comment'] ?? null;
     $date = $_POST['date'] ?? null;
+    $branch = groupBranchId($pdo,$group);
 
     try {
+        
         // insert New Comment
-        $stmt = $pdo->prepare("INSERT INTO lectures (group_id, track_id, instructor_id, comment , date) VALUES (:group, :track, :instructor,  :comment , :date )");
+        $stmt = $pdo->prepare("INSERT INTO lectures (group_id, track_id, instructor_id, branch_id, comment , date) VALUES (:group, :track, :instructor, :branch , :comment , :date )");
         $stmt->bindParam(':group', $group);
         $stmt->bindParam(':track', $track);
         $stmt->bindParam(':instructor', $_SESSION['user_id'], PDO::PARAM_INT);
+        $stmt->bindParam(':branch', $branch);
         $stmt->bindParam(':comment', $comment);
         $stmt->bindParam(':date', $date);
         $stmt->execute();
@@ -37,6 +40,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $_SESSION['errors'] = $e->getMessage();
         echo "Error: " . $e->getMessage();
     }
+}
+
+/** get branch id of the selected group */
+function groupBranchId($pdo,$group) {
+    $stmt = $pdo->prepare("SELECT 
+                            id , branch_id 
+                        From `groups`
+                        WHERE id = $group
+    ");
+
+    $stmt->execute();
+    return $stmt->fetch(PDO::FETCH_ASSOC)['branch_id'];
 }
 
 /** check errors */

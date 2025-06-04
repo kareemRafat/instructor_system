@@ -48,8 +48,8 @@ try {
         $groups = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
         // get groups ids
-        $groupsIds = array_map(fn($group) => $group['id'], $groups);
-        $groupsIds = implode(',', $groupsIds);
+        $groupsIdsArray = array_map(fn($group) => $group['id'], $groups);
+        $groupsIds = implode(',', $groupsIdsArray);
 
         // get track
         if (empty($groupsIdsArray)) {
@@ -80,7 +80,6 @@ try {
         foreach ($groupsWithTrack as $trackRow) {
             $trackMap[$trackRow['lecGroupId']] = $trackRow['track_name'];
         }
-
         // Combine group info with track name
         $final = [];
         foreach ($groups as $gr) {
