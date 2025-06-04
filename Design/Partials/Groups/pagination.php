@@ -11,7 +11,7 @@ $totalCount = $countStmt->fetch(PDO::FETCH_ASSOC)['total'];
 ?>
 
 
-<nav aria-label="Page navigation example" class="flex flex-col md:flex-row md:justify-between m-4">
+<nav id="page-list" aria-label="Page navigation example" class="flex flex-col md:flex-row md:justify-between m-4">
     <div class=" mb-5 md:mb-0">
         Showing
         <?= $pageNum + 1 ?>
@@ -20,7 +20,7 @@ $totalCount = $countStmt->fetch(PDO::FETCH_ASSOC)['total'];
         of
         <?= $totalCount ?> entries
     </div>
-    <ul id="page-list" class="inline-flex -space-x-px text-sm">
+    <ul class="inline-flex -space-x-px text-sm">
         <li>
             <a href="?<?= isset($_GET['branch']) ? 'branch=' . $_GET['branch'] . '&' : '' ?>page=<?= (isset($_GET['page']) && intval($_GET['page']) > 1) ? intval($_GET['page']) - 1 : 1 ?>"
                 class="flex items-center justify-center px-3 h-8 ms-0 leading-tight text-gray-500 border border-e-0 border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700
