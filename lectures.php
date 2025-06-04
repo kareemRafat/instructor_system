@@ -118,7 +118,7 @@ include_once 'Design/includes/navbar.php';
     </div>
 
 </div>
-<script type="module" src="dist/lectures-main.js"></script>
+<script type="module" src="js/lectures-main.js"></script>
 
 
 

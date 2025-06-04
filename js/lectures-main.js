@@ -228,6 +228,8 @@ groupTimeSelect.onchange = async function () {
 
 /** select instructor */
 instructor.onchange = async function () {
+  const selectedBranch = branch.value ;
+  
   try {
     showLoadingSkeleton();
 
@@ -240,7 +242,7 @@ instructor.onchange = async function () {
     }
 
     const response = await fetch(
-      `functions/Lectures/get_lectures.php?instructor_id=${this.value}`
+      `functions/Lectures/get_lectures.php?instructor_id=${this.value}&branch_id=${selectedBranch}`
     );
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);

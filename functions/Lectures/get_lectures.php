@@ -40,6 +40,11 @@ if (isset($_GET['branch_id'])) {
         $baseQuery .= " AND `groups`.time = :time";
         $params[':time'] = $_GET['time'];
     }
+
+    if (isset($_GET['instructor_id'])) {
+        $baseQuery .= " AND lectures.instructor_id = :instructor";
+        $params[':instructor'] = $_GET['instructor_id'];
+    }
 } elseif (isset($_GET['time'])) {
     $baseQuery .= " AND `groups`.time = :time";
     $params[':time'] = $_GET['time'];
@@ -54,6 +59,7 @@ try {
                 $baseQuery
             )
             SELECT 
+                branch_id,
                 group_id,
                 group_name,
                 group_time,
