@@ -68,7 +68,7 @@ if (isset($_GET['branch']) and $_GET['branch'] == 1) {
     $text = 'text-blue-800';
 }
 
-$rowHoverColors = ['hover:bg-blue-50', 'hover:bg-orange-50', 'hover:bg-green-50', 'hover:bg-yellow-50', 'hover:bg-purple-50', 'hover:bg-pink-50'];
+$rowHoverColors = ['hover:bg-green-50', 'hover:bg-indigo-50', 'hover:bg-orange-50',  'hover:bg-rose-50', 'hover:bg-purple-50', 'hover:bg-blue-50'];
 
 ?>
 

@@ -379,7 +379,7 @@ function setCard(lec) {
                         </span>
                     </div>
                     <div class="mt-2">
-                        <p class="text-gray-700 font-medium" dir="rtl" >${
+                        <p class="text-gray-700 font-medium" dir="ltr" >${
                           lec.comment
                         }</p>
                     </div>
