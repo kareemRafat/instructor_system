@@ -12,8 +12,12 @@ include_once 'Design/includes/navbar.php';
     <?php
      if(!isset($_GET['action'])) {
         include_once 'Design/Partials/Groups/view.php';
-     } else {
+     } elseif($_GET['action'] == 'finished'){
+        include_once 'Design/Partials/Groups/finished_view.php';
+     }  elseif($_GET['action'] == 'edit') {
         include_once 'Design/Partials/Groups/update.php';
+     } else {
+        include_once 'Design/Partials/Groups/not_found.php';
      }
     ?>
 </div>

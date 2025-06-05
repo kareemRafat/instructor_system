@@ -87,7 +87,7 @@
  </div>
 
  <!-- total count -->
- <div class="flex flex-col md:flex-row justify-between">
+ <div class="flex flex-col md:flex-row justify-between items-center">
      <div class="w-full md:w-1/4 my-4 px-2.5 py-1.5 bg-gray-100 border text-base border-gray-300 rounded-md tracking-wider font-medium capitalize text-center ">
          <div class="table-header-count hidden">
          </div>
@@ -105,9 +105,16 @@
              </span>
          </div>
      </div>
-     <a class="w-full md:w-fit my-4 px-7 py-1.5 bg-zinc-600 border text-base border-zinc-900 rounded-md tracking-wider font-medium capitalize text-center text-white" href="groups.php">
-        Reset
-     </a>
+     <div class="w-full md:w-fit my-4 flex flex-col md:flex-row gab-4">
+        <?php if (ROLE == 'admin' || ROLE == 'cs-admin') : ?>
+        <a class="px-7 py-1.5 mr-4 mb-3 md:mb-0 bg-rose-600 w-full  text-base rounded-md tracking-wider font-medium capitalize text-center text-white" href="?action=finished">
+             Finished Groups
+         </a>
+        <?php endif ; ?>
+         <a class="px-7 py-1.5 bg-zinc-600 text-base rounded-md tracking-wider font-medium capitalize text-center text-white" href="groups.php">
+             Reset
+         </a>
+     </div>
  </div>
 
  <!-- table -->
@@ -115,38 +122,38 @@
      <table class="w-full text-sm text-left rtl:text-right text-gray-500">
          <thead class="text-xs text-gray-700 uppercase bg-gray-200">
              <tr class="text-base">
-                 <th scope="col" class="px-6 py-3 w-10">
+                 <th scope="col" class="px-4 py-3 w-10">
                      Group
                  </th>
-                 <th scope="col" class="px-6 py-3">
+                 <th scope="col" class="px-4 py-3">
                      Time
                  </th>
-                 <th scope="col" class="px-6 py-3">
+                 <th scope="col" class="px-4 py-3">
                      Day
                  </th>
-                 <th scope="col" class="px-6 py-3">
+                 <th scope="col" class="px-4 py-3">
                      Track
                  </th>
-                 <th scope="col" class="px-6 py-3">
+                 <th scope="col" class="px-4 py-3">
                      Instructor
                  </th>
-                 <th scope="col" class="px-6 py-3">
+                 <th scope="col" class="px-4 py-3">
                      Branch
                  </th>
-                 <th scope="col" class="px-6 py-3">
+                 <th scope="col" class="px-4 py-3">
                      Start Date
                  </th>
-                 <th scope="col" class="px-6 py-3">
-                     End Date
+                 <th scope="col" class="px-4 py-3">
+                    Expected End
                  </th>
-                 <th scope="col" class="px-6 py-3">
+                 <th scope="col" class="px-4 py-3">
                      <span>Action</span>
                  </th>
              </tr>
          </thead>
          <tbody class="font-semibold text-base">
              <?php if ($count == 0) : ?> <tr class="bg-white">
-                     <td colspan="7" class="px-6 py-4 text-gray-500 font-semibold">
+                     <td colspan="7" class="px-4 py-3.5 text-gray-500 font-semibold">
                          No Groups found
                      </td>
                  </tr>
@@ -154,10 +161,10 @@
              <?php
                 foreach ($result as $row) :
                 ?> <tr class="odd:bg-white even:bg-gray-50 bg-white border-b border-gray-200 hover:bg-gray-50">
-                     <th scope="row" class="px-6 py-4 w-10 font-medium text-gray-900 whitespace-nowrap">
+                     <th scope="row" class="px-4 py-3.5 w-10 font-medium text-gray-900 whitespace-nowrap">
                          <?= ucwords($row['group_name']) ?>
                      </th>
-                     <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
+                     <th scope="row" class="px-4 py-3.5 font-medium text-gray-900 whitespace-nowrap">
                          <?php
                             if ($row['group_time'] == 2 || $row['group_time'] == 5) {
                                 echo $row['group_time'] . " - Friday";
@@ -168,10 +175,10 @@
                             }
                             ?>
                      </th>
-                     <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
+                     <th scope="row" class="px-4 py-3.5 font-medium text-gray-900 whitespace-nowrap">
                          <span class="<?= dayBadgeColor($row['group_day']) ?> text-sm font-medium me-2 px-2.5 py-1.5 rounded-md"><?= $row['group_day'] ?></span>
                      </th>
-                     <td class="px-6 py-4 text-sky-600 capitalize">
+                     <td class="px-4 py-3.5 text-sky-600 capitalize">
                          <?php
                             $groupId = $row['group_id'];
                             $getTrack = "SELECT 
@@ -184,24 +191,24 @@
                             echo $stmt->fetch(PDO::FETCH_ASSOC)['name'] ?? 'Not Updated';
                             ?>
                      </td>
-                     <td class="px-6 py-4">
+                     <td class="px-4 py-3.5">
                          <span class="w-2 h-2 <?= branchIndicator($row['branch_name'])['bgColor'] ?> inline-block mr-2"></span>
                          <?= ucwords($row['instructor_name']) ?>
                      </td>
-                     <td class="px-6 py-4 <?= branchIndicator($row['branch_name'])['textColor'] ?>">
+                     <td class="px-4 py-3.5 <?= branchIndicator($row['branch_name'])['textColor'] ?>">
                          <?= ucwords($row['branch_name']) ?>
                      </td>
-                     <td class="px-6 py-4">
+                     <td class="px-4 py-3.5">
                          <span class="text-rose-700"><?= $row['month'] ?></span>
                          <br>
                          <?= $row['formatted_date'] ?? 'No date added' ?>
                      </td>
-                     <td class="px-6 py-4">
+                     <td class="px-4 py-3.5">
                          <span class="text-purple-700"><?= $row['group_end_month'] ?></span>
                          <br>
                          <?= $row['group_end_date'] ?? 'No date added' ?>
                      </td>
-                     <td class="px-6 py-4">
+                     <td class="px-4 py-3.5">
                          <a href="?action=edit&group_id=<?= $row['group_id'] ?>" class="cursor-pointer border border-gray-300 py-1 px-2 rounded-lg font-medium text-blue-600 hover:underline mr-2 inline-block mb-2 text-center"><i class="fa-solid fa-pen-to-square mr-2"></i>
                              Edit
                          </a>
