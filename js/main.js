@@ -10,17 +10,35 @@ document.addEventListener("DOMContentLoaded", () => {
   // Fetch instructor Groups
   fetch("functions/Groups/get_groups.php")
     .then((response) => response.json())
-    .then((res) => {
-      if (res.data) {
-        res.data.forEach((group) => {
-          const option = document.createElement("option");
-          option.value = group.id;
-          option.textContent = capitalizeFirstLetter(group.name);
-          if (!group.name.toLowerCase().includes("training")) {
-            groupSelect.append(option);
-          }
-        });
-      }
+    .then((res) => {      
+      const branches = [...new Set(res.data.map((d) => d["branch_name"]))];
+      branches.forEach((branch) => {
+        const optgroup = document.createElement("optgroup");
+        optgroup.className = 'capitalize text-base font-normal'
+        optgroup.label = branch;
+        if (res.data) {
+          res.data.forEach((group) => {
+            if (res.isMultiBranch) {
+              const option = document.createElement("option");
+              if (group.branch_name == branch) {
+                option.value = group.id;
+                option.textContent = capitalizeFirstLetter(group.name);
+                optgroup.append(option);
+                if (!group.name.toLowerCase().includes("training")) {
+                  groupSelect.append(optgroup);
+                }
+              }
+            } else {
+              const option = document.createElement("option");
+              option.value = group.id;
+              option.textContent = capitalizeFirstLetter(group.name);
+              if (!group.name.toLowerCase().includes("training")) {
+                groupSelect.append(option);
+              }
+            }
+          });
+        }
+      });
     })
     .catch((error) => console.error("Error fetching groups:", error));
 
@@ -169,7 +187,7 @@ function populateLectures(trackValue) {
       searchHighlight: true,
     },
     events: {
-      beforeOpen: () => {        
+      beforeOpen: () => {
         // Optional: force body scroll
         document.body.style.overflow = "auto";
       },

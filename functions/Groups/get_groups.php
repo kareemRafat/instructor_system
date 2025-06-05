@@ -92,14 +92,34 @@ try {
     } else {
 
         // Query to fetch all groups
-        $stmt = $pdo->prepare("SELECT * FROM `groups` WHERE instructor_id = :instructor AND is_active = 1");
+        $stmt = $pdo->prepare("
+                        SELECT 
+                            `groups`.*, 
+                            branches.name AS branch_name
+                        FROM `groups`
+                        JOIN branches ON groups.branch_id = branches.id
+                        WHERE groups.instructor_id = :instructor
+                        AND groups.is_active = 1
+                    ");
         $stmt->bindParam(':instructor', $_SESSION['user_id'], PDO::PARAM_INT);
         $stmt->execute();
         $groups = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
+        // check if instructor has two branches or not 
+        $stmtBranchCount = $pdo->prepare("
+                SELECT COUNT(*) AS branch_count
+                FROM branch_instructor
+                WHERE instructor_id = :instructor
+            ");
+        $stmtBranchCount->bindParam(':instructor', $_SESSION['user_id'], PDO::PARAM_INT);
+        $stmtBranchCount->execute();
+        $resultBranchCount = $stmtBranchCount->fetch(PDO::FETCH_ASSOC);
+
+        $branchCount = $resultBranchCount['branch_count'] >= 2 ;
+        
         // Return JSON response
         header('Content-Type: application/json');
-        echo json_encode(['status' => 'success', 'data' => $groups]);
+        echo json_encode(['status' => 'success', 'data' => $groups, 'isMultiBranch' => $branchCount]);
     }
 } catch (PDOException $e) {
     // Handle database connection or query errors
