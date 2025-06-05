@@ -451,14 +451,14 @@ async function fetchInstructors(branchId) {
 
 /** show time options */
 function showTimeOptions() {
-  const time = [10, 12.3, 3, 6, 6.10 , 8, 2, 5];
+  const time = [10, 12.3, 3, 6 , 4 , 6.10 , 8, 2, 5];
   groupTimeSelect.innerHTML = "<option value=''>Select Group Time</option>";
   time.forEach((time) => {
     const option = document.createElement("option");
     option.value = time;
     option.textContent = time;
     option.classList.add("font-semibold");
-    if (time == 8 || time == 6.10) {
+    if (time == 8 || time == 6.10 || time == 4) {
       option.textContent = `Online ${time.toFixed(0)}`;
     } else if (time == 2 || time == 5) {
       option.textContent = `${time} [ Friday ]`;

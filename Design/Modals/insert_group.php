@@ -61,6 +61,7 @@
                                 <option value="12.30">12.30</option>
                                 <option value="3">3</option>
                                 <option value="6">6</option>
+                                <option value="4">4 - Online</option>
                                 <option value="6.10">6 - Online</option>
                                 <option value="8">8 - Online</option>
                                 <option value="2">2 [ Friday ]</option>

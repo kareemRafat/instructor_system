@@ -44,9 +44,14 @@ foreach ($groups as $group) {
     $schedule[$instructor_id][$day][$time]['start'] = $group['start'];
 }
 
+// echo "<pre>";
+// print_r($schedule);
+// echo "</pre>";
+// die();
+
 // Time slots and days for the table
 $days = ['saturday', 'sunday', 'monday'];
-$times = ['10.00', '12.30', '3.00-6.10', '6.00-8.00'];
+$times = ['10.00', '12.30-4.00', '3.00-6.10', '6.00-8.00'];
 
 // tables bg and font random color based on branch
 if (isset($_GET['branch']) and $_GET['branch'] == 1) {
@@ -63,7 +68,7 @@ if (isset($_GET['branch']) and $_GET['branch'] == 1) {
     $text = 'text-blue-800';
 }
 
-$rowHoverColors = ['hover:bg-blue-50','hover:bg-orange-50', 'hover:bg-green-50', 'hover:bg-yellow-50', 'hover:bg-purple-50', 'hover:bg-pink-50' ];
+$rowHoverColors = ['hover:bg-blue-50', 'hover:bg-orange-50', 'hover:bg-green-50', 'hover:bg-yellow-50', 'hover:bg-purple-50', 'hover:bg-pink-50'];
 
 ?>
 
@@ -124,7 +129,9 @@ $rowHoverColors = ['hover:bg-blue-50','hover:bg-orange-50', 'hover:bg-green-50',
                             <?php foreach ($times as $index => $time): ?>
                                 <th class="border border-gray-300 <?php echo ($index === 3 && $dayIndex < 2) ? 'border-r-2 border-r-slate-400' : ''; ?> p-2 text-sm font-medium">
                                     <?php
-                                    if ($time === '3.00-6.10') {
+                                    if($time === '12.30-4.00'){
+                                        echo '12.30';
+                                    } elseif ($time === '3.00-6.10') {
                                         echo '3.00';
                                     } elseif ($time === '6.00-8.00') {
                                         echo '6.00';
@@ -150,7 +157,26 @@ $rowHoverColors = ['hover:bg-blue-50','hover:bg-orange-50', 'hover:bg-green-50',
                                     <td class="border border-gray-300 <?php echo ($index === 3 && $dayIndex < 2) ? 'border-r-2 border-r-slate-400' : ''; ?> p-2 text-center h-16 w-20 hover:bg-yellow-50 cursor-pointer transition-colors duration-150">
                                         <?php
                                         // For combined time slots
-                                        if ($time === '3.00-6.10') {
+                                        if ($time === '12.30-4.00') {
+                                            $firstSlot = isset($schedule[$instructor['id']][$day]['12.30']);
+                                            $secondSlot = isset($schedule[$instructor['id']][$day]['4.00']);
+                                            if ($firstSlot || $secondSlot) { ?>
+                                                <div class="flex flex-col items-center gap-1">
+                                                    <?php if ($firstSlot) { ?>
+                                                        <div>
+                                                            <span class="<?= $text ?> font-semibold text-base"><?= ucwords($schedule[$instructor['id']][$day]['12.30']['name']) ?></span>
+                                                            <span class="text-sm md:block hidden font-semibold"><?= $schedule[$instructor['id']][$day]['12.30']['start'] ?? ''; ?></span>
+                                                        </div>
+                                                    <?php } ?>
+                                                    <?php if ($secondSlot) { ?>
+                                                        <div>
+                                                            <span class="<?= $text ?> font-semibold text-base"><?= ucwords($schedule[$instructor['id']][$day]['4.00']['name']) ?>(4)</span>
+                                                            <span class="text-sm md:block hidden font-semibold"><?= $schedule[$instructor['id']][$day]['4.00']['start'] ?? ''; ?></span>
+                                                        </div>
+                                                    <?php } ?>
+                                                </div>
+                                            <?php }
+                                        } elseif ($time === '3.00-6.10') {
                                             $firstSlot = isset($schedule[$instructor['id']][$day]['3.00']);
                                             $secondSlot = isset($schedule[$instructor['id']][$day]['6.10']);
                                             if ($firstSlot || $secondSlot) { ?>
@@ -163,7 +189,7 @@ $rowHoverColors = ['hover:bg-blue-50','hover:bg-orange-50', 'hover:bg-green-50',
                                                     <?php } ?>
                                                     <?php if ($secondSlot) { ?>
                                                         <div>
-                                                            <span class="<?= $text ?> font-semibold text-base"><?= ucwords($schedule[$instructor['id']][$day]['6.10']['name']) ?></span>
+                                                            <span class="<?= $text ?> font-semibold text-base"><?= ucwords($schedule[$instructor['id']][$day]['6.10']['name']) ?>(6)</span>
                                                             <span class="text-sm md:block hidden font-semibold"><?= $schedule[$instructor['id']][$day]['6.10']['start'] ?? ''; ?></span>
                                                         </div>
                                                     <?php } ?>
@@ -182,7 +208,7 @@ $rowHoverColors = ['hover:bg-blue-50','hover:bg-orange-50', 'hover:bg-green-50',
                                                     <?php } ?>
                                                     <?php if ($secondSlot) { ?>
                                                         <div>
-                                                            <span class="<?= $text ?> font-semibold text-base"><?= ucwords($schedule[$instructor['id']][$day]['8.00']['name']) ?></span>
+                                                            <span class="<?= $text ?> font-semibold text-base"><?= ucwords($schedule[$instructor['id']][$day]['8.00']['name']) ?>(8)</span>
                                                             <span class="text-sm md:block hidden font-semibold"><?= $schedule[$instructor['id']][$day]['8.00']['start'] ?? ''; ?></span>
                                                         </div>
                                                     <?php } ?>
