@@ -70,6 +70,8 @@ if (isset($_GET['branch']) and $_GET['branch'] == 1) {
 
 $rowHoverColors = ['hover:bg-green-50', 'hover:bg-indigo-50', 'hover:bg-orange-50',  'hover:bg-rose-50', 'hover:bg-purple-50', 'hover:bg-blue-50'];
 
+$cellHoverColor = ['hover:bg-green-100', 'hover:bg-indigo-100', 'hover:bg-orange-100',  'hover:bg-rose-100', 'hover:bg-purple-100', 'hover:bg-blue-100'];
+
 ?>
 
 
@@ -148,13 +150,14 @@ $rowHoverColors = ['hover:bg-green-50', 'hover:bg-indigo-50', 'hover:bg-orange-5
                 <tbody>
                     <?php foreach ($instructors as $index => $instructor): ?>
                         <?php $hoverColor = $rowHoverColors[$index % count($rowHoverColors)]; ?>
+                        <?php $tdHoverColor = $cellHoverColor[$index % count($cellHoverColor)]; ?>
                         <tr class="bg-gray-50 <?= $hoverColor ?> transition-colors duration-200">
                             <td class="border border-gray-300 p-4 font-semibold <?= $text ?> bg-gray-200">
                                 <?= htmlspecialchars(ucwords($instructor['username'])) ?>
                             </td>
                             <?php foreach ($days as $dayIndex => $day): ?>
                                 <?php foreach ($times as $index => $time): ?>
-                                    <td class="border border-gray-300 <?php echo ($index === 3 && $dayIndex < 2) ? 'border-r-2 border-r-slate-400' : ''; ?> p-2 text-center h-16 w-20 hover:bg-yellow-50 cursor-pointer transition-colors duration-150">
+                                    <td class="border border-gray-300 <?php echo ($index === 3 && $dayIndex < 2) ? 'border-r-2 border-r-slate-400' : ''; ?> p-2 text-center h-16 w-20 <?= $tdHoverColor ?> cursor-pointer transition-colors duration-150">
                                         <?php
                                         // For combined time slots
                                         if ($time === '12.30-4.00') {
