@@ -25,7 +25,7 @@ $stmt = $pdo->prepare("SELECT
                             g.is_active,
                             DATE_FORMAT(g.start_date, '%d-%m-%Y') AS start,
                             g.instructor_id 
-                        FROM groups g
+                        FROM `groups` g
                         JOIN instructors i ON g.instructor_id = i.id
                         JOIN branch_instructor bi ON bi.instructor_id = i.id
                         WHERE bi.branch_id = :branch AND g.is_active = 1 AND g.branch_id = :branch");
