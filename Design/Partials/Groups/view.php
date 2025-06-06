@@ -87,8 +87,8 @@
  </div>
 
  <!-- total count -->
- <div class="flex flex-col md:flex-row justify-between items-center">
-     <div class="w-full md:w-1/4 my-4 px-2.5 py-1.5 bg-gray-100 border text-base border-gray-300 rounded-md tracking-wider font-medium capitalize text-center ">
+ <div class="flex flex-col md:flex-row justify-between items-center gap-4">
+     <div class="w-full my-4 px-2.5 py-1.5 bg-gray-100 border text-base border-gray-300 rounded-md tracking-wider font-medium capitalize text-center ">
          <div class="table-header-count hidden">
          </div>
          <div class="total-group">
@@ -105,13 +105,13 @@
              </span>
          </div>
      </div>
-     <div class="w-full md:w-fit my-4 flex flex-col md:flex-row gab-4">
+     <div class="w-full my-4 flex flex-col md:flex-row justify-end gap-4">
         <?php if (ROLE == 'admin' || ROLE == 'cs-admin') : ?>
-        <a class="px-7 py-1.5 mr-4 mb-3 md:mb-0 bg-rose-600 w-full  text-base rounded-md tracking-wider font-medium capitalize text-center text-white" href="?action=finished">
+        <a class="px-4 py-1.5 mb-3 md:mb-0 bg-rose-600 text-base rounded-md tracking-wider font-medium capitalize text-center text-white" href="?action=finished">
              Finished Groups
          </a>
         <?php endif ; ?>
-         <a class="px-7 py-1.5 bg-zinc-600 text-base rounded-md tracking-wider font-medium capitalize text-center text-white" href="groups.php">
+         <a class="px-5 py-1.5 bg-zinc-600 text-base rounded-md tracking-wider font-medium capitalize text-center text-white" href="groups.php">
              Reset
          </a>
      </div>
