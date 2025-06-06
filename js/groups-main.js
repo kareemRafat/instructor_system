@@ -153,7 +153,7 @@ function setTable(res, branch = null) {
   if (res.data.length == 0) {
     tbody.innerHTML = `
         <tr>
-          <td class="px-6 py-4 font-bold bg-white" colspan="9"> No Group Found </td>
+          <td class="px-6 py-3.5 font-bold bg-white" colspan="9"> No Group Found </td>
         </tr>
     `;
   }
@@ -163,26 +163,26 @@ function setTable(res, branch = null) {
     tr.className = "bg-white border-b border-gray-200 hover:bg-gray-50";
 
     tr.innerHTML = `
-      <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
+      <th scope="row" class="px-6 py-3.5 font-medium text-gray-900 whitespace-nowrap">
           ${row.group_name.charAt(0).toUpperCase() + row.group_name.slice(1)}
       </th>
-      <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
+      <th scope="row" class="px-6 py-3.5 font-medium text-gray-900 whitespace-nowrap">
           ${
             row.group_time == 2 || row.group_time == 5
               ? `${row.group_time} - Friday`
               : row.group_time
           }
       </th>
-      <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
+      <th scope="row" class="px-6 py-3.5 font-medium text-gray-900 whitespace-nowrap">
       <span class="${dayBadgeColor(
         row.group_day
       )} text-sm font-medium me-2 px-2.5 py-1.5 rounded-md">${
       row.group_day
     }</span></th>
-      <td class="px-6 py-4 text-sky-600 capitalize">
+      <td class="px-6 py-3.5 text-sky-600 capitalize">
         ${capitalizeFirstLetter(row.track)}
       </td>
-      <td class="px-6 py-4">
+      <td class="px-6 py-3.5">
       <span class="w-2 h-2 ${
         branchIndicator(row.branch_name)["bgColor"]
       } inline-block mr-2"></span>
@@ -191,19 +191,19 @@ function setTable(res, branch = null) {
             row.instructor_name.slice(1)
           }
       </td>
-      <td class="px-6 py-4 ${branchIndicator(row.branch_name)["textColor"]}">
+      <td class="px-6 py-3.5 ${branchIndicator(row.branch_name)["textColor"]}">
           ${row.branch_name.charAt(0).toUpperCase() + row.branch_name.slice(1)}
       </td> 
-      <td class="px-6 py-4">
+      <td class="px-6 py-3.5">
           <span class="block text-rose-700">${row.month}</span>
           ${row.formatted_date ? row.formatted_date : "No date added"}
       </td>     
-      <td class="px-6 py-4">
+      <td class="px-6 py-3.5">
           <span class="text-purple-700">${row.group_end_month}</span>
           <br>
           ${row.group_end_date}
       </td>      
-      <td class="px-6 py-4">
+      <td class="px-6 py-3.5">
           <a href="?action=edit&group_id=${
             row.id
           }" class="cursor-pointer border border-gray-300 py-1 px-2 rounded-lg font-medium text-blue-600 hover:underline mr-2 inline-block mb-2"><i class="fa-solid fa-pen-to-square mr-2"></i>
