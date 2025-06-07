@@ -31,8 +31,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             ]);
         }
 
-
-
         // Insert new instructor
         $query = "UPDATE instructors SET username = :username WHERE id = $id";
         $stmt = $pdo->prepare($query);

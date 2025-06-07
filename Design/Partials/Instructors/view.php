@@ -1,4 +1,3 @@
-<h1 class="text-3xl font-bold mb-6 text-center text-gray-800">Instructors</h1>
 <?php
 // Fetch all instructors from the database
 $query = "

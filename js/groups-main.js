@@ -166,7 +166,8 @@ function setTable(res, branch = null) {
       <th scope="row" class="px-6 py-3.5 font-medium text-gray-900 whitespace-nowrap">
           ${row.group_name.charAt(0).toUpperCase() + row.group_name.slice(1)}
       </th>
-      <th scope="row" class="px-6 py-3.5 font-medium text-gray-900 whitespace-nowrap">
+      <th scope="row" class="px-6 py-3.5 font-medium text-pink-900 whitespace-nowrap">
+      <i class="fa-solid fa-clock mr-1.5"></i>
           ${
             row.group_time == 2 || row.group_time == 5
               ? `${row.group_time} - Friday`
@@ -192,7 +193,12 @@ function setTable(res, branch = null) {
           }
       </td>
       <td class="px-6 py-3.5 ${branchIndicator(row.branch_name)["textColor"]}">
+        <div class="flex flex-row justify-start items-center">
+          <svg class=" w-5 h-5 mr-1.5  md:inline " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+              <path fill-rule="evenodd" d="M12 2c-.791 0-1.55.314-2.11.874l-.893.893a.985.985 0 0 1-.696.288H7.04A2.984 2.984 0 0 0 4.055 7.04v1.262a.986.986 0 0 1-.288.696l-.893.893a2.984 2.984 0 0 0 0 4.22l.893.893a.985.985 0 0 1 .288.696v1.262a2.984 2.984 0 0 0 2.984 2.984h1.262c.261 0 .512.104.696.288l.893.893a2.984 2.984 0 0 0 4.22 0l.893-.893a.985.985 0 0 1 .696-.288h1.262a2.984 2.984 0 0 0 2.984-2.984V15.7c0-.261.104-.512.288-.696l.893-.893a2.984 2.984 0 0 0 0-4.22l-.893-.893a.985.985 0 0 1-.288-.696V7.04a2.984 2.984 0 0 0-2.984-2.984h-1.262a.985.985 0 0 1-.696-.288l-.893-.893A2.984 2.984 0 0 0 12 2Zm3.683 7.73a1 1 0 1 0-1.414-1.413l-4.253 4.253-1.277-1.277a1 1 0 0 0-1.415 1.414l1.985 1.984a1 1 0 0 0 1.414 0l4.96-4.96Z" clip-rule="evenodd" />
+          </svg>
           ${row.branch_name.charAt(0).toUpperCase() + row.branch_name.slice(1)}
+        </div>
       </td> 
       <td class="px-6 py-3.5">
           <span class="block text-rose-700">${row.month}</span>

@@ -88,7 +88,8 @@
                      <th scope="row" class="px-4 py-3.5 w-10 font-medium text-gray-900 whitespace-nowrap">
                          <?= ucwords($row['group_name']) ?>
                      </th>
-                     <th scope="row" class="px-4 py-3.5 font-medium text-gray-900 whitespace-nowrap">
+                     <th scope="row" class="px-4 py-3.5 font-medium text-pink-900 whitespace-nowrap">
+                        <i class="fa-solid fa-clock mr-1.5"></i>
                          <?php
                             if ($row['group_time'] == 2 || $row['group_time'] == 5) {
                                 echo $row['group_time'] . " - Friday";
