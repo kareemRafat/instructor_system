@@ -6,15 +6,28 @@ include_once 'Design/includes/navbar.php';
 <div class="min-h-screen max-w-7xl mx-auto p-6 pb-20">
     <?php 
 
-        include_once("Design/Partials/Instructors/view.php");
+        if(!isset($_GET['action'])) {
+            include_once("Design/Partials/Instructors/view.php");
+        } elseif($_GET['action'] == 'edit') {
+            include_once("Design/Partials/Instructors/edit.php");
+        } else {
+             include_once("Design/Partials/Instructors/not_found.php");
+        }
 
     ?>
 </div>
 
-<?php include_once 'Design/Modals/insert_instructor.php'; ?>
+<?php 
+if(!isset($_GET['action'])):
+
+    include_once 'Design/Modals/insert_instructor.php'; 
+
+?>
 
 <!-- Add this before closing body tag -->
 <script type="module" src="dist/instructors-main.js"></script>
+
+<?php endif ; ?>
 
 <?php
 include_once "Design/includes/notFy-footer.php";

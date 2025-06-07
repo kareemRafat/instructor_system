@@ -15,7 +15,7 @@ include_once 'Design/includes/navbar.php';
      } elseif($_GET['action'] == 'finished'){
         include_once 'Design/Partials/Groups/finished_view.php';
      }  elseif($_GET['action'] == 'edit') {
-        include_once 'Design/Partials/Groups/update.php';
+        include_once 'Design/Partials/Groups/edit.php';
      } else {
         include_once 'Design/Partials/Groups/not_found.php';
      }

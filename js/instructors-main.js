@@ -40,6 +40,8 @@ document.addEventListener("DOMContentLoaded", function () {
         })
           .then((response) => response.json())
           .then((data) => {
+            console.log(data);
+            
             if (data.status === "success") {
               // Refresh the table data
               notyf.success("Instructor Updated successfully");
@@ -165,9 +167,9 @@ function updateInstructorStatusUI(button, isDisabling) {
     : '<i class="fa-solid fa-user-slash mr-1"></i>';
 
   // Update the status text and styles
-  const statusSpan = button.closest("tr").querySelector("td span");
+  const statusSpan = button.closest("tr").querySelector("td .isactive-span");
   statusSpan.textContent = statusText;
-  statusSpan.className = `inline-flex items-center rounded-md px-2 py-1 text-xs font-medium ring-1 ring-inset ${statusColor}`;
+  statusSpan.className = `isactive-span inline-flex items-center rounded-md px-2 py-1 text-xs font-medium ring-1 ring-inset ${statusColor}`;
 
   // Update the button text, icon, and styles
   button.innerHTML = `${actionIcon} ${actionText}`;

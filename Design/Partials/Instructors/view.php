@@ -82,7 +82,7 @@ $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
                         <?= ucwords($row['username']) ?>
                     </th>
-                    <td class="pr-6 py-4 flex flex-col md:flex-row justify-start items-start">
+                    <td class="pr-6 py-4 md:flex  md:flex-row md:justify-start">
                         <?php
                         if (isset($row['branches'])) {
                             $branchArray = explode(', ', $row['branches']);
@@ -100,16 +100,16 @@ $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     </td>
                     <td class="px-6 py-4">
                         <span
-                            class="inline-flex items-center rounded-md px-2 py-1 text-xs font-medium ring-1 ring-inset <?= $row['is_active'] ? 'text-green-700 bg-green-50 ring-green-600/20' : 'text-red-700 bg-red-50 ring-red-600/20' ?>">
+                            class="isactive-span inline-flex items-center rounded-md px-2 py-1 text-xs font-medium ring-1 ring-inset <?= $row['is_active'] ? 'text-green-700 bg-green-50 ring-green-600/20' : 'text-red-700 bg-red-50 ring-red-600/20' ?>">
                             <?= $row['is_active'] ? 'Active' : 'Disabled' ?>
                         </span>
                     </td>
                     <td class="px-4 py-3.5">
-                        <a href="" class="cursor-pointer border border-gray-300 py-0.5 px-2 rounded-lg font-medium text-blue-600 hover:underline mr-2 inline-block mb-2 text-center"><i class="fa-solid fa-pen-to-square mr-2"></i>
+                        <a href="?action=edit&instructor_id=<?= $row['id'] ?>" class="cursor-pointer border border-gray-300 py-0.5 px-2 rounded-lg font-medium text-blue-600 hover:underline mr-2 inline-block mb-2 text-center"><i class="fa-solid fa-pen-to-square mr-2"></i>
                             Edit
                         </a>
-                        <button
-                            class="cursor-pointer text-sm border border-gray-300 py-1 px-2 rounded-lg <?= $row['is_active'] ? 'text-red-600' : 'text-green-600' ?> hover:underline"
+                        <button type="button"
+                            class="toggle-status-btn cursor-pointer text-sm border border-gray-300 py-1 px-2 rounded-lg <?= $row['is_active'] ? 'text-red-600' : 'text-green-600' ?> hover:underline"
                             data-instructor-id="<?= $row['id'] ?>">
                             <?= $row['is_active'] ? '<i class="fa-solid fa-user-slash mr-1"></i>' : '<i class="fa-solid fa-user mr-1"></i>' ?>
                             <?= $row['is_active'] ? 'Disable' : 'Enable' ?>
