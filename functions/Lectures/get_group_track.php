@@ -2,7 +2,7 @@
 
 session_start();
 
-if(!isset($_SESSION['user_id'])) {
+if (!isset($_SESSION['user_id'])) {
     header("Location: ../../login.php");
     exit('You are not logged in!');
 }
@@ -17,7 +17,7 @@ try {
     $groupTrack = $stmt->fetch(PDO::FETCH_ASSOC);
 
     header('Content-Type: application/json');
-    echo json_encode(['status' => 'success', 'data' => $groupTrack]);
+    echo json_encode(['status' => 'success', 'data' => $groupTrack, 'empty' => !$groupTrack]);
 } catch (PDOException $e) {
     header('Content-Type: application/json');
     echo json_encode(['status' => 'error', 'message' => $e->getMessage()]);

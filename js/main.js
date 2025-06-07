@@ -90,6 +90,11 @@ async function getGroupTrack(groupId) {
     `functions/Lectures/get_group_track.php?group_id=${groupId}`
   );
   const res = await response.json();
+
+  if(res.empty) {
+    track.value = "";
+  }
+
   if (res.data) {
     let opt = document.querySelector(
       `#track option[value="${res.data.track_id}"]`
