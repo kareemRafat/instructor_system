@@ -63,7 +63,7 @@ if (isset($_GET['branch']) and $_GET['branch'] == 1) {
 } else if (isset($_GET['branch']) and $_GET['branch'] == 3) {
     $color = 'bg-[#5F4B8B]';
     $text = 'text-violet-800';
-} else {
+} else if (isset($_GET['branch']) and $_GET['branch'] == 4) {
     $color = 'bg-blue-600';
     $text = 'text-blue-800';
 }
@@ -114,7 +114,7 @@ $cellHoverColor = ['hover:bg-green-100', 'hover:bg-indigo-100', 'hover:bg-orange
             <table class="w-full bg-white border-collapse">
                 <!-- Table Header -->
                 <thead>
-                    <tr class="<?= $color ?> text-white">
+                    <tr class="<?= $color ?> bg-[#1b5180] text-white">
                         <th class="border border-gray-300 p-4 text-left font-semibold w-32">
                             Instructor
                         </th>
