@@ -14,7 +14,7 @@ include_once 'Design/includes/navbar.php';
                     i.username,
                     i.is_active,
                     i.role,
-                    b.name AS branch_name,
+                    MIN(b.name) AS branch_name,
                     GROUP_CONCAT(b.name SEPARATOR ', ') AS branches
                 FROM instructors i
                 JOIN branch_instructor bi ON i.id = bi.instructor_id

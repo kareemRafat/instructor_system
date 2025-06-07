@@ -209,7 +209,7 @@
                          <?= $row['group_end_date'] ?? 'No date added' ?>
                      </td>
                      <td class="px-4 py-3.5">
-                         <a href="?action=edit&group_id=<?= $row['group_id'] ?>" class="cursor-pointer border border-gray-300 py-1 px-2 rounded-lg font-medium text-blue-600 hover:underline mr-2 inline-block mb-2 text-center"><i class="fa-solid fa-pen-to-square mr-2"></i>
+                         <a href="?action=edit&group_id=<?= $row['group_id'] ?>" class="cursor-pointer border border-gray-300 py-0.5 px-2 rounded-lg font-medium text-blue-600 hover:underline mr-2 inline-block mb-2 text-center"><i class="fa-solid fa-pen-to-square mr-2"></i>
                              Edit
                          </a>
                          <button data-group-id="<?= $row['group_id'] ?>" class="finish-group-btn cursor-pointer border border-gray-300 py-1 px-2 rounded-lg font-medium text-red-600 hover:underline"><i class="fa-regular fa-circle-check mr-2"></i>Finish
