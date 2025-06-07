@@ -31,7 +31,7 @@
     ?>
 <div class="py-5 flex justify-between items-center">
 
-    <div class="bg-zinc-200 text-zinc-800 w-1/2 md:w-1/4 py-2.5 p-4 font-semibold text-base capitalize rounded-lg tracking-wider">
+    <div class="bg-zinc-100 border text-zinc-800 w-3/5 md:w-1/4 py-2.5 p-4 font-semibold text-base capitalize rounded-lg tracking-wider">
         Finished Groups
     </div>
 

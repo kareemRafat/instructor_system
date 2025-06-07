@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 05, 2025 at 12:44 AM
+-- Generation Time: Jun 07, 2025 at 05:05 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -59,19 +59,15 @@ CREATE TABLE `branch_instructor` (
 
 INSERT INTO `branch_instructor` (`instructor_id`, `branch_id`) VALUES
 (1, 1),
-(21, 3),
-(24, 1),
-(23, 1),
 (20, 2),
-(25, 1),
+(21, 1),
+(21, 3),
 (22, 2),
-(1, 2),
-(18, 2),
+(23, 1),
+(24, 1),
+(25, 1),
 (26, 1),
-(27, 2),
-(27, 3),
-(30, 1),
-(21, 1);
+(35, 2);
 
 -- --------------------------------------------------------
 
@@ -101,7 +97,7 @@ INSERT INTO `groups` (`id`, `name`, `time`, `day`, `instructor_id`, `branch_id`,
 (40, 'ram', 10.00, 'saturday', 25, 1, 1, '2025-01-28 22:01:08', NULL),
 (41, 'window Online', 8.00, 'saturday', 23, 1, 1, '2025-04-22 21:59:52', NULL),
 (42, 'Transition', 10.00, 'sunday', 23, 1, 1, '2025-04-13 22:00:16', NULL),
-(43, 'null', 12.30, 'monday', 23, 1, 1, '2025-01-30 22:00:46', NULL),
+(43, 'null', 12.30, 'monday', 23, 1, 0, '2025-01-30 22:00:46', '2025-06-06 03:53:40'),
 (44, 'Scope Online', 8.00, 'sunday', 25, 1, 1, '2025-02-23 22:00:28', NULL),
 (45, 'For Online', 6.10, 'monday', 25, 1, 1, '2025-01-30 12:37:44', NULL),
 (46, 'Fire Online', 8.00, 'monday', 25, 1, 1, '2024-12-12 22:01:17', NULL),
@@ -118,11 +114,9 @@ INSERT INTO `groups` (`id`, `name`, `time`, `day`, `instructor_id`, `branch_id`,
 (57, 'laravel', 12.30, 'saturday', 21, 3, 1, '2025-02-25 17:21:54', NULL),
 (58, 'orchid', 3.00, 'sunday', 21, 3, 1, '2025-01-15 22:04:08', NULL),
 (59, 'training_first', 12.30, 'saturday', 1, 1, 0, '2025-01-21 00:58:14', '2025-05-28 17:37:42'),
-(60, 'dddddddddds', 10.00, 'sunday', 21, 3, 1, '2025-06-24 04:02:09', NULL),
-(61, 'aaaaaaa', 12.30, 'saturday', 24, 1, 1, '2025-06-18 23:58:15', NULL),
-(62, 'script', 6.00, 'sunday', 27, 3, 1, '2025-07-12 00:12:32', NULL),
-(63, 'my script 2 ', 3.00, 'sunday', 27, 2, 1, '2025-07-12 00:13:01', NULL),
-(64, 'char', 3.00, 'monday', 21, 1, 1, '2025-02-20 00:23:25', NULL);
+(68, 'char', 3.00, 'monday', 21, 1, 1, '2025-02-20 01:43:21', NULL),
+(69, 'position', 6.00, 'monday', 21, 1, 1, '2025-04-07 01:44:16', NULL),
+(70, 'dwq', 3.00, 'saturday', 21, 1, 0, '2025-07-05 03:51:37', '2025-06-06 03:53:21');
 
 -- --------------------------------------------------------
 
@@ -144,7 +138,6 @@ CREATE TABLE `instructors` (
 
 INSERT INTO `instructors` (`id`, `username`, `password`, `is_active`, `role`) VALUES
 (1, 'kareem', '$2y$10$HtisKuRB1rUWCrToSZ5D6OPBBEO9/deo.Z81s/lov5WYpnK0BLbuK', 1, 'admin'),
-(18, 'hala', '$2y$10$raObV2IWuaJG8lw2aje9.e3bDuaTOe2fZWMtWnaxA71voVOigKlvm', 1, 'cs-admin'),
 (20, 'magdy', '$2y$10$YxtR.0hIeFiU7HVA6VA58ut8rS1JRxfcs6UiStjw5h8SVurHe3BfK', 1, 'instructor'),
 (21, 'assim', '$2y$10$HtisKuRB1rUWCrToSZ5D6OPBBEO9/deo.Z81s/lov5WYpnK0BLbuK', 1, 'instructor'),
 (22, 'sobhy', '$2y$10$GfeeCg1ZDtcCAAl9F5El9OVW0aq8cEo/6JjmYp.Q9jAgLKYFY.66.', 1, 'instructor'),
@@ -152,8 +145,7 @@ INSERT INTO `instructors` (`id`, `username`, `password`, `is_active`, `role`) VA
 (24, 'atef', '$2y$10$KvZFCg5xjavM5OylP5rI2u4oKXs/AVhys/o8QI4.IlxmeHKfffFcy', 1, 'instructor'),
 (25, 'nora', '$2y$10$wj/e5nJpNBupGoq.GNVDqOL0tEgEUYhf0taBmnRUFgDYSsixDVMoa', 1, 'instructor'),
 (26, 'hend', '$2y$10$2zxlynA9kkULE3ZTRzJh6./QOSy7HFZt4R3Thy2T1nDhnvcVzcMiS', 1, 'cs'),
-(27, 'Eman', '$2y$10$3uwzCw5k/uT9W/hC1mEWd.wFjxdbXgNQRKZq/W3lJNXmlA6tRZqdy', 1, 'instructor'),
-(30, 'aya', '$2y$10$TO51VoYVmkxxrfu698.QgOtjhhq9ot11fRN9T3nK.GX0NIiM4RNly', 1, 'cs');
+(35, 'hala', '$2y$10$NRomNEsfyOGs24Yp1Ny7he9zTB4A8XqLbwvLyFzqcJ4kNwAtbF7RS', 1, 'cs-admin');
 
 -- --------------------------------------------------------
 
@@ -176,14 +168,23 @@ CREATE TABLE `lectures` (
 --
 
 INSERT INTO `lectures` (`id`, `group_id`, `track_id`, `instructor_id`, `branch_id`, `comment`, `date`) VALUES
-(78, 38, 3, 1, 1, '1 - JavaScript intro', '2025-06-05 01:34:57'),
-(79, 39, 4, 1, 1, '2 - PHP array', '2025-06-05 01:35:07'),
-(80, 56, 1, 21, 3, '1 - HTML intro and tags to link or image', '2025-06-05 01:35:29'),
-(81, 57, 2, 21, 3, '2 - CSS Margin - padding - fonts', '2025-06-05 01:35:36'),
-(82, 58, 3, 21, 3, '4 - JavaScript Date - Loops - Switch', '2025-06-05 01:35:40'),
-(83, 60, 4, 21, 3, '3 - PHP file system', '2025-06-05 01:35:46'),
-(84, 64, 3, 21, 1, '4 - JavaScript Date - Loops - Switch', '2025-06-05 01:35:50'),
-(85, 64, 5, 21, 1, '2 - Create - Read', '2025-06-05 01:35:56');
+(54, 56, 2, 21, 3, 'فاضل محاضرتين في css وابداء المشروع ', '2025-05-20 17:33:04'),
+(55, 38, 3, 1, 1, 'اول محاضرة', '2025-05-20 17:35:38'),
+(56, 57, 3, 21, 3, 'هنبداء المحاضرة الجاية محاضرات المكتبات وال responsive ', '2025-05-20 17:34:41'),
+(57, 58, 4, 21, 3, 'اخر محاضرة ال Form في ال php', '2025-05-20 17:41:38'),
+(59, 42, 2, 23, 1, 'المحاضره الخامسة => animation ', '2025-05-20 17:57:22'),
+(60, 41, 2, 23, 1, 'المحاضرة الرابعة => position ', '2025-05-20 17:59:40'),
+(61, 39, 4, 1, 1, 'المحاضرة الاولى', '2025-05-20 19:37:21'),
+(62, 40, 3, 25, 1, 'Vue المحاضرة الاولي ', '2025-05-20 19:39:24'),
+(63, 44, 1, 25, 1, 'Get & Set', '2025-05-20 19:41:31'),
+(64, 45, 4, 25, 1, 'Intro php', '2025-05-20 19:42:53'),
+(65, 46, 5, 25, 1, 'المحاضره التانيه Database', '2025-05-20 19:43:33'),
+(66, 38, 3, 1, 1, 'تكملة المحاضرة الاولى', '2025-05-21 22:17:21'),
+(67, 39, 4, 1, 1, 'المحاضرة الثانية array', '2025-05-21 22:17:35'),
+(68, 47, 4, 22, 2, 'اول محاضرة php', '2025-05-21 22:24:24'),
+(69, 49, 2, 22, 2, 'مشروع css بعد الاجازة ', '2025-05-21 22:26:38'),
+(70, 50, 3, 22, 2, 'تاني محاضرة ', '2025-05-21 22:27:13'),
+(71, 51, 3, 22, 2, 'بداية المكتبات', '2025-05-21 22:30:33');
 
 -- --------------------------------------------------------
 
@@ -204,7 +205,6 @@ CREATE TABLE `remember_tokens` (
 
 INSERT INTO `remember_tokens` (`id`, `instructor_id`, `token`, `expiry`) VALUES
 (24, 23, '8fb2f0524b78c4306920aa6eae9206eeb07a7e6ac122e9e907374ba751a50862', '2025-06-19 14:47:55'),
-(36, 18, '41753f220165166908b3af27cd601cbbb9d9d3c49a7b1d1f8d50d06258413d64', '2025-06-20 13:46:39'),
 (54, 23, '9f804e1858981673d989f58f6c95a6617ccbbd10f7d38c281fb222dd1b9e19e7', '2025-06-23 13:01:47');
 
 -- --------------------------------------------------------
@@ -244,7 +244,7 @@ ALTER TABLE `branches`
 -- Indexes for table `branch_instructor`
 --
 ALTER TABLE `branch_instructor`
-  ADD KEY `instructor_id` (`instructor_id`),
+  ADD PRIMARY KEY (`instructor_id`,`branch_id`),
   ADD KEY `branch_id` (`branch_id`);
 
 --
@@ -271,7 +271,8 @@ ALTER TABLE `lectures`
   ADD KEY `group_id` (`group_id`),
   ADD KEY `track_id` (`track_id`),
   ADD KEY `instructor_id` (`instructor_id`),
-  ADD KEY `idx_lectures_group_date` (`group_id`,`date`);
+  ADD KEY `idx_lectures_group_date` (`group_id`,`date`),
+  ADD KEY `branch_id` (`branch_id`);
 
 --
 -- Indexes for table `remember_tokens`
@@ -302,19 +303,19 @@ ALTER TABLE `branches`
 -- AUTO_INCREMENT for table `groups`
 --
 ALTER TABLE `groups`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=65;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=71;
 
 --
 -- AUTO_INCREMENT for table `instructors`
 --
 ALTER TABLE `instructors`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
 
 --
 -- AUTO_INCREMENT for table `lectures`
 --
 ALTER TABLE `lectures`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=86;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=87;
 
 --
 -- AUTO_INCREMENT for table `remember_tokens`
@@ -352,13 +353,14 @@ ALTER TABLE `groups`
 ALTER TABLE `lectures`
   ADD CONSTRAINT `lectures_ibfk_1` FOREIGN KEY (`group_id`) REFERENCES `groups` (`id`),
   ADD CONSTRAINT `lectures_ibfk_2` FOREIGN KEY (`instructor_id`) REFERENCES `instructors` (`id`),
-  ADD CONSTRAINT `lectures_ibfk_3` FOREIGN KEY (`track_id`) REFERENCES `tracks` (`id`);
+  ADD CONSTRAINT `lectures_ibfk_3` FOREIGN KEY (`track_id`) REFERENCES `tracks` (`id`),
+  ADD CONSTRAINT `lectures_ibfk_4` FOREIGN KEY (`branch_id`) REFERENCES `branches` (`id`);
 
 --
 -- Constraints for table `remember_tokens`
 --
 ALTER TABLE `remember_tokens`
-  ADD CONSTRAINT `remember_tokens_ibfk_1` FOREIGN KEY (`instructor_id`) REFERENCES `instructors` (`id`);
+  ADD CONSTRAINT `remember_tokens_ibfk_1` FOREIGN KEY (`instructor_id`) REFERENCES `instructors` (`id`) ON DELETE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
