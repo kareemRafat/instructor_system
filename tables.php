@@ -44,11 +44,6 @@ foreach ($groups as $group) {
     $schedule[$instructor_id][$day][$time]['start'] = $group['start'];
 }
 
-// echo "<pre>";
-// print_r($schedule);
-// echo "</pre>";
-// die();
-
 // Time slots and days for the table
 $days = ['saturday', 'sunday', 'monday'];
 $times = ['10.00', '12.30-4.00', '3.00-6.10', '6.00-8.00'];
@@ -111,7 +106,7 @@ $cellHoverColor = ['hover:bg-green-100', 'hover:bg-indigo-100', 'hover:bg-orange
         </div>
 
         <div class="overflow-x-auto shadow-lg rounded-lg">
-            <table class="w-full bg-white border-collapse">
+            <table class="w-full border-collapse">
                 <!-- Table Header -->
                 <thead>
                     <tr class="<?= $color ?> bg-[#1b5180] text-white">
@@ -125,7 +120,7 @@ $cellHoverColor = ['hover:bg-green-100', 'hover:bg-indigo-100', 'hover:bg-orange
                         <?php endforeach; ?>
                     </tr>
                     <!-- Time slots sub-header -->
-                    <tr class="<?= $color ?> text-white">
+                    <tr class="<?= $color ?> bg-[#1b5180] text-white">
                         <th class="border border-gray-300 p-2"></th>
                         <?php foreach ($days as $dayIndex => $day): ?>
                             <?php foreach ($times as $index => $time): ?>
@@ -151,13 +146,13 @@ $cellHoverColor = ['hover:bg-green-100', 'hover:bg-indigo-100', 'hover:bg-orange
                     <?php foreach ($instructors as $index => $instructor): ?>
                         <?php $hoverColor = $rowHoverColors[$index % count($rowHoverColors)]; ?>
                         <?php $tdHoverColor = $cellHoverColor[$index % count($cellHoverColor)]; ?>
-                        <tr class="bg-gray-50 <?= $hoverColor ?> transition-colors duration-200">
+                        <tr class="bg-gray-50 <?= $hoverColor ?> transition-colors duration-300">
                             <td class="border border-gray-300 p-4 font-semibold <?= $text ?> bg-gray-200">
                                 <?= htmlspecialchars(ucwords($instructor['username'])) ?>
                             </td>
                             <?php foreach ($days as $dayIndex => $day): ?>
                                 <?php foreach ($times as $index => $time): ?>
-                                    <td class="border border-gray-300 <?php echo ($index === 3 && $dayIndex < 2) ? 'border-r-2 border-r-slate-400' : ''; ?> p-2 text-center h-16 w-20 <?= $tdHoverColor ?> cursor-pointer transition-colors duration-150">
+                                    <td class="border border-gray-300 <?php echo ($index === 3 && $dayIndex < 2) ? 'border-r-2 border-r-slate-400' : ''; ?> p-2 text-center h-16 w-20 <?= $tdHoverColor ?> cursor-pointer transition-colors duration-300">
                                         <?php
                                         // For combined time slots
                                         if ($time === '12.30-4.00') {

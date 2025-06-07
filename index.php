@@ -105,4 +105,12 @@ unset($_SESSION['errors']);
 include_once "Design/includes/notFy-footer.php";
 ?>
 
+<script>
+  // Prevent back navigation
+  history.pushState(null, null, location.href);
+  window.onpopstate = function() {
+    history.go(1);
+  };
+</script>
+
 </body>

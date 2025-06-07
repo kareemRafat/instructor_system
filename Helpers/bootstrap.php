@@ -2,6 +2,8 @@
 
 session_start();
 
+
+
 require_once __DIR__ . "/../Database/connect.php";
 require_once __DIR__ . '/../functions/Auth/auth_helper.php';
 

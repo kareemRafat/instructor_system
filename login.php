@@ -1,8 +1,12 @@
 <?php
+header("Cache-Control: no-cache, no-store, must-revalidate"); // HTTP 1.1
+header("Pragma: no-cache"); // HTTP 1.0
+header("Expires: 0"); // Proxies
+
 session_start();
 
 if (isset($_SESSION['user_id'])) {
-  // redirectBasedOnRole($_SESSION['role']);
+  redirectBasedOnRole($_SESSION['role']);
 }
 
 ?>
@@ -13,6 +17,9 @@ if (isset($_SESSION['user_id'])) {
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="shortcut icon" href="icon/sah.png" type="image/x-icon">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
   <title>Login</title>
   <!-- Tailwind CSS CDN -->
   <link href="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.css" rel="stylesheet" />
@@ -85,7 +92,6 @@ function redirectBasedOnRole($role): void
   } elseif ($role == 'cs' or $role == 'cs-admin') {
     header("Location: ../../lectures.php");
   }
-
   exit();
 }
 
