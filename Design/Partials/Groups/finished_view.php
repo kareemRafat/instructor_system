@@ -11,11 +11,12 @@
                     b.name AS branch_name,
                     DATE_FORMAT(g.start_date, '%d-%m-%Y') AS formatted_date,
                     DATE_FORMAT(g.start_date, '%M') AS month,
-                    DATE_FORMAT(g.finish_date, '%d-%m-%Y') AS group_end_date,
-                    DATE_FORMAT(g.finish_date, '%M') AS group_end_month
+                    DATE_FORMAT(bonus.finish_date, '%d-%m-%Y') AS group_end_date,
+                    DATE_FORMAT(bonus.finish_date, '%M') AS group_end_month
                 FROM `groups` g
                 JOIN instructors i ON g.instructor_id = i.id
                 JOIN branches b ON g.branch_id = b.id
+                JOIN bonus ON bonus.group_id = g.id
                 WHERE g.is_active = 0
                 AND (:branch IS NULL OR g.branch_id = :branch)
                 ORDER BY g.start_date DESC";
