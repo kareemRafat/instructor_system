@@ -39,10 +39,6 @@ try {
         }
         $organizedData[$branch][$instructor][] = $row;
     }
-
-    // echo "<pre>";
-    // print_r($organizedData);
-    // die();
 } catch (PDOException $e) {
     echo "<pre>";
     print_r($e);
@@ -70,7 +66,7 @@ try {
     <?php else: ?>
         <?php foreach ($organizedData as $branch => $instructors): ?>
             <div class="relative overflow-x-auto">
-                <div class="bg-gray-200 p-3 w-full mb-5 rounded-md text-gray-700 font-semibold text-base">
+                <div class="<?= headerColor($branch) ?> p-3 w-full mb-5 rounded-md text-white font-semibold text-base">
                     <?= htmlspecialchars($branch) ?>
                 </div>
                 <?php foreach ($instructors as $instructor => $groups): ?>
@@ -93,9 +89,9 @@ try {
                         </thead>
                         <tbody>
                             <?php foreach ($groups as $group): ?>
-                                <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200">
-                                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                        <?= htmlspecialchars($group['group_name']) ?>
+                                <tr class="bg-white <?= $group['percentage'] < 20 ? 'bg-green-100 text-green-600 font-semibold' : 'font-normal' ?> border-b border-gray-200">
+                                    <th scope="row" class="px-6 py-4  text-gray-900 whitespace-nowrap dark:text-white">
+                                        <?= ucwords(htmlspecialchars($group['group_name'])) ?>
                                     </th>
                                     <td class="px-6 py-4">
                                         <?= htmlspecialchars($group['total_students']) ?>
@@ -118,3 +114,18 @@ try {
 
 <script type="module" src="js/bonus.js"></script>
 </div>
+
+<?php 
+
+    function headerColor($branchName) {
+        $branchName = strtolower($branchName);
+        if ($branchName == 'mansoura') {
+            return "bg-[#1b5180]";
+        } elseif ($branchName == 'tanta'){
+            return "bg-teal-800";
+        } elseif ($branchName == 'zagazig'){
+            return "bg-[#5F4B8B]";
+        }
+    }
+
+?>

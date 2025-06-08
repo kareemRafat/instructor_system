@@ -73,8 +73,8 @@ function checkErrors($formData, $pdo)
         $errors['group_id'] = "group_id is required.";
     }
 
-    if (empty($formData['finist_date'])) {
-        $errors['finist_date'] = "finist_date is required.";
+    if (empty($formData['finish_date'])) {
+        $errors['finish_date'] = "finish_date is required.";
     }
 
     if (empty($formData['total_students'])) {
