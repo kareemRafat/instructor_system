@@ -72,7 +72,7 @@
                      Verified End Date
                  </th>
                  <th scope="col" class="px-4 py-3">
-                     <span>Action</span>
+                     <span>Has Bonus</span>
                  </th>
              </tr>
          </thead>
@@ -137,6 +137,7 @@
                      <td class="px-4 py-3.5">
                          <!-- <button data-group-id="<?= $row['group_id'] ?>" class="finish-group-btn cursor-pointer border border-gray-300 py-1 px-2 rounded-lg font-medium text-red-600 hover:underline"><i class="fa-regular fa-circle-check mr-2"></i>Finish
                          </button> -->
+                         Yes OR NOT -----------
                      </td>
                  </tr>
              <?php endforeach; ?>
