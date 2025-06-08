@@ -20,7 +20,7 @@ function getGroupById($groupId, $pdo)
 
 <form class="p-4 md:p-5" action="functions/Groups/finish_group.php" method="POST">
     <input type="hidden" name="group_id" value="<?= $group['id'] ?>">
-    <input type="hidden" name="finist_date" id="currentDate">
+    <input type="hidden" name="finish_date" id="currentDate">
     <script>
         const now = new Date();
         const date = now.toLocaleString("sv-SE").replace("T", " "); // 'YYYY-MM-DD HH:mm:ss'

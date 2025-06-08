@@ -15,7 +15,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     $group_id = $_POST['group_id'] ?? null;
-    $finist_date = $_POST['finist_date'] ?? null;
+    $finish_date = $_POST['finist_date'] ?? null;
     $total_students = $_POST['total_students'] ?? null;
     $unpaid_students = $_POST['unpaid_students'] ?? null;
 
@@ -25,7 +25,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $pdo->beginTransaction();
 
             // Update group to set is_active to 0 and set finish_date
-            $stmt = $pdo->prepare("UPDATE `groups` SET is_active = 0 , finish_date = '$finist_date' WHERE id = :group_id");
+            $stmt = $pdo->prepare("UPDATE `groups` SET is_active = 0 WHERE id = :group_id");
             $stmt->bindParam(':group_id', $group_id);
             $stmt->execute();
 
@@ -37,11 +37,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // check if group exists in bonus table
             if (!checkGroupExists($pdo, $group_id)) {
                 // insert in bonus table
-                $stmtBonus = $pdo->prepare("INSERT INTO `bonus` (group_id , total_students , unpaid_students) VALUES (:group_id , :total , :unpaid )");
+                $stmtBonus = $pdo->prepare("INSERT INTO `bonus` (group_id , total_students , unpaid_students , finish_date) VALUES (:group_id , :total , :unpaid , :finish_date )");
                 $stmtBonus->execute([
                     ':group_id' => $group_id,
                     ':total' => $total_students,
-                    ':unpaid' => $unpaid_students
+                    ':unpaid' => $unpaid_students,
+                    ':finish_date' => $finish_date
                 ]);
             }
 
@@ -51,9 +52,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             header('location: ../../groups.php');
         } catch (PDOException $e) {
             // Roll back transaction if any error occurs
+            echo"<pre>";
+            print_r($e);
             $pdo->rollBack();
 
-            header('location: ../../groups.php');
+            // header('location: ../../groups.php');
         }
     } else {
         header('Content-Type: application/json');
