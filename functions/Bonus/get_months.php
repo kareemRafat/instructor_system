@@ -12,9 +12,8 @@ if (!isset($_SESSION['user_id'])) {
 
 try {
 
-    $queryMonth = "SELECT 
-                    bonus.group_id,
-                    DATE_FORMAT(`bonus`.finish_date, '%M') AS month, 
+    $queryMonth = "SELECT DISTINCT  
+                    MONTHNAME(`bonus`.finish_date) AS month, 
                     DATE_FORMAT(`bonus`.finish_date, '%Y') AS year
                     FROM bonus
                     ORDER BY bonus.finish_date DESC";

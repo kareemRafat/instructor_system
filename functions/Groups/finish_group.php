@@ -15,9 +15,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     $group_id = $_POST['group_id'] ?? null;
-    $finish_date = $_POST['finist_date'] ?? null;
+    $finish_date = $_POST['finish_date'] ?? null;
     $total_students = $_POST['total_students'] ?? null;
     $unpaid_students = $_POST['unpaid_students'] ?? null;
+
+
 
     if ($group_id) {
         try {

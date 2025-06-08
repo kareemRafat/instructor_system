@@ -6,25 +6,44 @@ include_once 'Design/includes/navbar.php';
 
 try {
 
+    $selectedMonth = $_GET['month'] ?? date('F');
+    $selectedYear = $_GET['year'] ?? date('Y');
+
     // get groups data
     $query = "SELECT 
-                b.name AS branch_name,
-                i.username AS instructor_username,
-                g.name AS group_name,
-                bo.total_students,
-                bo.unpaid_students,
-                ROUND((bo.unpaid_students / bo.total_students * 100), 2) AS percentage
-            FROM 
-                bonus bo
-                INNER JOIN groups g ON bo.group_id = g.id
-                INNER JOIN branches b ON g.branch_id = b.id
-                INNER JOIN instructors i ON g.instructor_id = i.id
-                INNER JOIN branch_instructor bi ON i.id = bi.instructor_id AND b.id = bi.branch_id
-            ORDER BY 
-                b.name, i.username, g.name";
+                    b.name AS branch_name,
+                    i.username AS instructor_username,
+                    g.name AS group_name,
+                    bo.total_students,
+                    bo.unpaid_students,
+                    ROUND((bo.unpaid_students / NULLIF(bo.total_students, 0) * 100), 2) AS percentage
+                FROM 
+                    bonus bo
+                    INNER JOIN groups g ON bo.group_id = g.id
+                    INNER JOIN branches b ON g.branch_id = b.id
+                    INNER JOIN instructors i ON g.instructor_id = i.id
+                    INNER JOIN branch_instructor bi ON i.id = bi.instructor_id AND b.id = bi.branch_id";
+
+    $whereClauses = [];
+    $params = [];
+
+    if ($selectedMonth) {
+        $whereClauses[] = "MONTHNAME(bo.finish_date) = :month";
+        $params[':month'] = $selectedMonth;
+    }
+    if ($selectedYear) {
+        $whereClauses[] = "YEAR(bo.finish_date) = :year";
+        $params[':year'] = $selectedYear;
+    }
+    if (!empty($whereClauses)) {
+        $query .= " WHERE " . implode(" AND ", $whereClauses);
+    }
+
+    $query .= " ORDER BY b.name, i.username, g.name";
+
 
     $stmt = $pdo->prepare($query);
-    $stmt->execute();
+    $stmt->execute($params);
     $bonusData = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
     $organizedData = [];
@@ -40,7 +59,6 @@ try {
         $organizedData[$branch][$instructor][] = $row;
     }
 } catch (PDOException $e) {
-    echo "<pre>";
     print_r($e);
 }
 
@@ -62,7 +80,11 @@ try {
 
     <!-- Display data by branch and instructor -->
     <?php if (empty($organizedData)): ?>
-        <p class="text-center text-gray-600">No bonus data available<?= $selectedMonth ? " for $selectedMonth" : '' ?>.</p>
+        <p class="text-left text-gray-600 font-semibold">No bonus data available
+            <span class="font-bold"><?= $selectedMonth ? " for $selectedMonth" : '' ?>.</span>
+            year
+            <span class="font-bold"><?= $selectedYear ? " $selectedYear" : '' ?>.</span>
+        </p>
     <?php else: ?>
         <?php foreach ($organizedData as $branch => $instructors): ?>
             <div class="relative overflow-x-auto">
@@ -115,17 +137,18 @@ try {
 <script type="module" src="js/bonus.js"></script>
 </div>
 
-<?php 
+<?php
 
-    function headerColor($branchName) {
-        $branchName = strtolower($branchName);
-        if ($branchName == 'mansoura') {
-            return "bg-[#1b5180]";
-        } elseif ($branchName == 'tanta'){
-            return "bg-teal-800";
-        } elseif ($branchName == 'zagazig'){
-            return "bg-[#5F4B8B]";
-        }
+function headerColor($branchName)
+{
+    $branchName = strtolower($branchName);
+    if ($branchName == 'mansoura') {
+        return "bg-[#1b5180]";
+    } elseif ($branchName == 'tanta') {
+        return "bg-teal-800";
+    } elseif ($branchName == 'zagazig') {
+        return "bg-[#5F4B8B]";
     }
+}
 
 ?>
