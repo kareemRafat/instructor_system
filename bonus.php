@@ -86,51 +86,63 @@ try {
             <span class="font-bold"><?= $selectedYear ? " $selectedYear" : '' ?>.</span>
         </p>
     <?php else: ?>
-        <?php foreach ($organizedData as $branch => $instructors): ?>
-            <div class="relative overflow-x-auto">
-                <div class="<?= headerColor($branch) ?> p-3 w-full mb-5 rounded-md text-white font-semibold text-base">
-                    <?= htmlspecialchars($branch) ?>
-                </div>
+      
+        <div>
+            <h1 class="mb-10 text-xl font-bold leading-none tracking-tight text-gray-900 md:text-xl lg:text-xl">Bonus data For <span class="text-blue-600"><?= $selectedMonth ?></span>  year
+            <span class="font-bold text-blue-600"><?= $selectedYear ? " $selectedYear" : '' ?>.</span> </h1>
+        </div>
+        <div class="relative overflow-x-auto grid grid-cols-1 md:grid-cols-2 gap-4">
+            <?php foreach ($organizedData as $branch => $instructors): ?>
                 <?php foreach ($instructors as $instructor => $groups): ?>
-                    <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 mb-4">
-                        <thead class="text-xs text-gray-700 uppercase bg-gray-200">
-                            <tr>
-                                <th scope="col" class="px-6 py-3 font-semibold text-base">
-                                    <?= htmlspecialchars($instructor) ?>
-                                </th>
-                                <th scope="col" class="px-6 py-3">
-                                    Total Students
-                                </th>
-                                <th scope="col" class="px-6 py-3">
-                                    Unpaid Students
-                                </th>
-                                <th scope="col" class="px-6 py-3">
-                                    Percentage
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php foreach ($groups as $group): ?>
-                                <tr class="bg-white <?= $group['percentage'] < 20 ? 'bg-green-100 text-green-600 font-semibold' : 'font-normal' ?> border-b border-gray-200">
-                                    <th scope="row" class="px-6 py-4  text-gray-900 whitespace-nowrap dark:text-white">
-                                        <?= ucwords(htmlspecialchars($group['group_name'])) ?>
+                    <div class="overflow-x-auto">
+                        <div class="<?= headerColor($branch) ?> p-3 w-full mb-5 rounded-md text-white font-semibold text-base">
+                            <?= htmlspecialchars($branch) ?>
+                        </div>
+                        <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 mb-4">
+                            <thead class="text-xs text-gray-700 uppercase bg-gray-200">
+                                <tr>
+                                    <th scope="col" class="px-6 py-3 font-semibold text-base">
+                                        <?= htmlspecialchars($instructor) ?>
                                     </th>
-                                    <td class="px-6 py-4">
-                                        <?= htmlspecialchars($group['total_students']) ?>
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        <?= htmlspecialchars($group['unpaid_students']) ?>
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        <?= htmlspecialchars($group['percentage']) ?>%
-                                    </td>
+                                    <th scope="col" class="px-6 py-3">
+                                        Total Students
+                                    </th>
+                                    <th scope="col" class="px-6 py-3">
+                                        Unpaid Students
+                                    </th>
+                                    <th scope="col" class="px-6 py-3">
+                                        Percentage
+                                    </th>
                                 </tr>
-                            <?php endforeach; ?>
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                                <?php foreach ($groups as $group): ?>
+                                    <tr class="bg-white <?= $group['percentage'] < 20 ? 'bg-green-100 text-green-600 font-semibold' : 'font-normal' ?> border-b border-gray-200">
+                                        <th scope="row" class="px-6 py-4  text-gray-900 whitespace-nowrap dark:text-white">
+                                            <span class="hidden md:inline-block">
+                                                <?= ucwords(htmlspecialchars($group['group_name'])) ?>
+                                            </span>
+                                            <span class="inline-block md:hidden">
+                                                <?= breakTwoWordPhrase(ucwords(htmlspecialchars($group['group_name']))) ?>
+                                            </span>
+                                        </th>
+                                        <td class="px-6 py-4">
+                                            <?= htmlspecialchars($group['total_students']) ?>
+                                        </td>
+                                        <td class="px-6 py-4">
+                                            <?= htmlspecialchars($group['unpaid_students']) ?>
+                                        </td>
+                                        <td class="px-6 py-4">
+                                            <?= htmlspecialchars($group['percentage']) ?>%
+                                        </td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            </tbody>
+                        </table>
+                    </div>
                 <?php endforeach; ?>
-            </div>
-        <?php endforeach; ?>
+            <?php endforeach; ?>
+        </div>
     <?php endif; ?>
 </div>
 
@@ -151,4 +163,12 @@ function headerColor($branchName)
     }
 }
 
+function breakTwoWordPhrase($text)
+{
+    $parts = explode(' ', trim($text));
+    if (count($parts) === 2) {
+        return implode('<br>', $parts);
+    }
+    return $text; // Return original text if not exactly two words
+}
 ?>
