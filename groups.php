@@ -16,6 +16,8 @@ include_once 'Design/includes/navbar.php';
         include_once 'Design/Partials/Groups/finished_view.php';
      }  elseif($_GET['action'] == 'edit') {
         include_once 'Design/Partials/Groups/edit.php';
+     } elseif($_GET['action'] == 'finish_group') {
+        include_once 'Design/Partials/Groups/finish_action.php';
      } else {
         include_once 'Design/Partials/Groups/not_found.php';
      }

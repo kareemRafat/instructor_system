@@ -27,6 +27,10 @@ function getGroupById($groupId, $pdo)
         document.getElementById('currentTime').value = nowTime;
     </script>
 
+    <div>
+        <h1 class="mb-10 text-3xl font-extrabold leading-none tracking-tight text-gray-900 md:text-4xl lg:text-5xl">Edit <span class="text-blue-600"><?= $group['name'] ?></span> Group </h1>
+    </div>
+
     <div class="grid gap-4 grid-cols-2">
         <div class="col-span-1">
             <label for="name" class="block mb-2 text-sm font-medium text-gray-900">Name</label>

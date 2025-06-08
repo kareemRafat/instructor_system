@@ -105,6 +105,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Handle finish button clicks
   tbody.addEventListener("click", function (e) {
+    /* 
     if (e.target.closest(".finish-group-btn")) {
       const button = e.target.closest(".finish-group-btn");
       const groupId = button.dataset.groupId;
@@ -113,6 +114,7 @@ document.addEventListener("DOMContentLoaded", function () {
         finishGroup(groupId, button);
       }
     }
+    */
   });
 });
 

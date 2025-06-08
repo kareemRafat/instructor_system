@@ -32,6 +32,11 @@ function getBranches($pdo)
     </a>
 </div>
 
+
+<div>
+    <h1 class="mb-10 text-3xl font-extrabold leading-none tracking-tight text-gray-900 md:text-4xl lg:text-5xl">Edit <span class="text-blue-600"><?= $instructor[0]['username'] ?></span>'s info </h1>
+</div>
+
 <form class="p-4 md:p-5" action="functions/Instructors/update_instructor.php" method="POST">
     <input type="hidden" name="id" value="<?= $instructor[0]['id'] ?>">
     <div class="grid gap-4 mb-4">
@@ -58,7 +63,7 @@ function getBranches($pdo)
             <div class="grid grid-cols-2 md:grid-cols-3 gap-2" id="branchesContainer">
                 <!-- getBranches($pdo) -->
                 <?php
-                $instBranch = array_map(fn($instbr) => $instbr['branch_id'] , $instructor);
+                $instBranch = array_map(fn($instbr) => $instbr['branch_id'], $instructor);
                 $branches = getBranches($pdo);
                 $count = count($branches);
                 $isOdd = $count % 2 !== 0;
@@ -71,11 +76,11 @@ function getBranches($pdo)
                     <div class="<?= $fullWidth ? 'col-span-2' : 'col-span-1' ?> md:col-span-1">
                         <label
                             class="flex items-center space-x-2 bg-gray-50 border border-gray-300 rounded-lg px-4 py-2 cursor-pointer hover:bg-gray-100">
-                            <input 
-                                type="checkbox" 
-                                name="branch_ids[]" 
-                                <?= in_array($branch['id'] ,$instBranch) ? 'checked' : '' ?>
-                                value="<?= $branch['id'] ?>" 
+                            <input
+                                type="checkbox"
+                                name="branch_ids[]"
+                                <?= in_array($branch['id'], $instBranch) ? 'checked' : '' ?>
+                                value="<?= $branch['id'] ?>"
                                 class="text-blue-600 focus:ring-blue-500 border-gray-300 rounded border">
                             <span class="text-gray-900 text-sm"><?= $branch['name'] ?></span>
                         </label>
