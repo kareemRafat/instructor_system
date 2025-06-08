@@ -86,10 +86,11 @@ try {
             <span class="font-bold"><?= $selectedYear ? " $selectedYear" : '' ?>.</span>
         </p>
     <?php else: ?>
-      
+
         <div>
-            <h1 class="mb-10 text-xl font-bold leading-none tracking-tight text-gray-900 md:text-xl lg:text-xl">Bonus data For <span class="text-blue-600"><?= $selectedMonth ?></span>  year
-            <span class="font-bold text-blue-600"><?= $selectedYear ? " $selectedYear" : '' ?>.</span> </h1>
+            <h1 class="mb-10 text-xl font-bold leading-none tracking-tight text-gray-900 md:text-xl lg:text-xl">Bonus data For <span class="text-blue-600"><?= $selectedMonth ?></span> year
+                <span class="font-bold text-blue-600"><?= $selectedYear ? " $selectedYear" : '' ?>.</span>
+            </h1>
         </div>
         <div class="relative overflow-x-auto grid grid-cols-1 md:grid-cols-2 gap-4">
             <?php foreach ($organizedData as $branch => $instructors): ?>
@@ -98,20 +99,21 @@ try {
                         <div class="<?= headerColor($branch) ?> p-3 w-full mb-5 rounded-md text-white font-semibold text-base">
                             <?= htmlspecialchars($branch) ?>
                         </div>
-                        <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 mb-4">
+                        <table class="w-[80%] md:w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 mb-4">
                             <thead class="text-xs text-gray-700 uppercase bg-gray-200">
                                 <tr>
                                     <th scope="col" class="px-6 py-3 font-semibold text-base">
                                         <?= htmlspecialchars($instructor) ?>
                                     </th>
                                     <th scope="col" class="px-6 py-3">
-                                        Total Students
+                                        Total <span class="hidden md:inline-block">Students</span>
                                     </th>
                                     <th scope="col" class="px-6 py-3">
-                                        Unpaid Students
+                                        Unpaid <span class="hidden md:inline-block">Students</span>
                                     </th>
                                     <th scope="col" class="px-6 py-3">
-                                        Percentage
+                                        <span class="inline-block md:hidden">%</span>
+                                        <span class="hidden md:inline-block">Percentage</span>
                                     </th>
                                 </tr>
                             </thead>
