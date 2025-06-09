@@ -38,7 +38,13 @@ if(!isset($_GET['action'])):
 <script type="module" src="dist/groups-main.js"></script>
 <script type="module" src="dist/groups-pagination.js"></script>
 
+<?php else : ?>
+
+   <script type="module" src="js/fini_groups-main.js"></script>
+
 <?php endif; ?>
+
+
 
 <?php
 include_once "Design/includes/notFy-footer.php";

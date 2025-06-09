@@ -88,7 +88,10 @@
 
  <!-- total count -->
  <div class="flex flex-col md:flex-row justify-between items-center gap-4">
-     <div class="w-full my-4 px-2.5 py-1.5 bg-gray-100 border text-base border-gray-300 rounded-md tracking-wider font-medium capitalize text-center ">
+     <div class="w-full">
+         <h1 class="text-2xl font-extrabold leading-none tracking-tight text-gray-900 ">All <span class="text-blue-600">Groups</span></h1>
+     </div>
+     <div class="w-full md:w-[50%] mt-4 md:my-4 px-2.5 py-1.5 bg-gray-100 border text-base border-gray-300 rounded-md tracking-wider font-medium capitalize text-center ">
          <div class="table-header-count hidden">
          </div>
          <div class="total-group">
@@ -105,18 +108,19 @@
              </span>
          </div>
      </div>
+
      <div class="w-full my-4 flex flex-col md:flex-row justify-end gap-4">
          <?php if (ROLE == 'admin' || ROLE == 'cs-admin') : ?>
              <a class="px-4 py-1.5 mb-3 md:mb-0 bg-rose-600 text-base rounded-md tracking-wider font-medium capitalize text-center text-white" href="?action=finished">
                  Finished Groups
              </a>
          <?php endif; ?>
-         <p class="text-white bg-blue-600 border border-gray-200 rounded-lg shadow-md text-base px-3 py-1"><a href="groups.php" class="inline-flex items-center font-medium hover:underline">
-                 <svg class="w-4 h-4 me-2 rotate-90 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
-                     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h12m0 0L9 1m4 4L9 9" />
-                 </svg>
-                 Reset
-             </a></p>
+         <a href="groups.php" class="px-4 py-1.5 mb-3 md:mb-0 bg-blue-600 text-base rounded-md tracking-wider font-medium capitalize text-center text-white inline-flex items-center hover:underline justify-center">
+             <svg class="w-4 h-4 me-2 rotate-90" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
+                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h12m0 0L9 1m4 4L9 9" />
+             </svg>
+             Reset
+         </a>
      </div>
  </div>
 

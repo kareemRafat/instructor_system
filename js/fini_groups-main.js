@@ -1,12 +1,15 @@
-import { capitalizeFirstLetter, getQueryString , globalWait } from "./helpers.js";
+import {
+  capitalizeFirstLetter,
+  getQueryString,
+  globalWait,
+} from "./helpers.js";
 
-const searchInput = document.getElementById("table-search");
 const tbody = document.querySelector("tbody");
 const page = getQueryString("page");
 const branchVal = getQueryString("branch");
 const pageList = document.getElementById("page-list");
 const instructorSelect = document.getElementById("instructor-select");
-// branchSelect const came from the modal in the same page
+const branchSelect = document.getElementById("branchSelect");
 
 document.addEventListener("DOMContentLoaded", function () {
   // get branches when page loaded
@@ -28,9 +31,6 @@ document.addEventListener("DOMContentLoaded", function () {
     })
     .catch((error) => console.error("Error fetching lectures:", error));
 
-  // get groups total count when page load
-  groupsTotalCount(getQueryString("branch"));
-
   // when page load get instructors based on branch
   fetchInstructors(branchVal);
 
@@ -39,24 +39,14 @@ document.addEventListener("DOMContentLoaded", function () {
     const instructorId = this.value;
     const instructorName = this.selectedOptions[0]?.text;
 
-    // get total groups to the instructor
-    groupsTotalCount(branchVal , instructorId ,instructorName )
-
-    // toggle pagination
-    if (!instructorId) {
-      pageList.classList.remove("hidden");
-    } else {
-      pageList.classList.add("hidden");
-    }
-
     let url = "";
 
     if (instructorId) {
-      url = `functions/Groups/get_groups.php?instructor_id=${encodeURIComponent(
+      url = `functions/Groups/get_finished_groups.php?instructor_id=${encodeURIComponent(
         instructorId
       )}&branch_id=${branchVal}`;
     } else {
-      url = `functions/Groups/get_groups.php?branch_id=${branchVal}`;
+      url = `functions/Groups/get_finished_groups.php?branch_id=${branchVal}`;
     }
 
     fetch(url)
@@ -67,72 +57,24 @@ document.addEventListener("DOMContentLoaded", function () {
       .catch((error) => console.error("Error:", error));
   });
 
-  /** search functionality */
-  searchInput.addEventListener("input", function () {
-    const searchValue = this.value.trim();
+  // Event listener for select dropdown
+  branchSelect.addEventListener("change", (e) => {
+    const selectedBranch = e.target.value;
 
-    // reset instructor
-    fetchInstructors(branchVal);
-    groupsTotalCount(branchVal);
+    // Remove 'page' from query string when changing branch
+    const url = new URL(window.location);
+    url.searchParams.delete("page");
 
-    let url = "";
-
-    if (!searchValue) {
-      pageList.classList.remove("hidden");
+    if (selectedBranch) {
+      url.searchParams.set("branch", selectedBranch);
     } else {
-      pageList.classList.add("hidden");
+      url.searchParams.delete("branch");
     }
 
-    if (branchVal) {
-      url = `functions/Groups/search_groups.php?search=${encodeURIComponent(
-        searchValue
-      )}&branch_id=${encodeURIComponent(branchVal)}${
-        page ? `&page=${encodeURIComponent(page)}` : ""
-      }`;
-    } else {
-      url = `functions/Groups/search_groups.php?search=${encodeURIComponent(
-        searchValue
-      )}${page ? `&page=${encodeURIComponent(page)}` : ""}`;
-    }
-
-    fetch(url)
-      .then((response) => response.json())
-      .then((data) => {
-        setTable(data);
-      })
-      .catch((error) => console.error("Error:", error));
+    window.location = url;
   });
+
 });
-
-/** Finish a group */
-function finishGroup(groupId, button) {
-  const formData = new FormData();
-
-  const now = new Date();
-  const datetime = now.toLocaleString("sv-SE").replace("T", " "); // 'YYYY-MM-DD HH:mm:ss'
-
-  formData.append("group_id", groupId);
-  formData.append("finist_date", datetime);
-
-  fetch("functions/Groups/finish_group.php", {
-    method: "POST",
-    body: formData,
-  })
-    .then((response) => response.json())
-    .then((data) => {
-      if (data.status === "success") {
-        // Remove the row from the table
-        const row = button.closest("tr");
-        row.remove();
-        notyf.success("Group Finished Successfully");
-      } else {
-        alert("Error: " + data.message);
-      }
-    })
-    .catch((error) => {
-      alert("An error occurred while finishing the group");
-    });
-}
 
 /** setTable */
 function setTable(res, branch = null) {
@@ -147,6 +89,15 @@ function setTable(res, branch = null) {
   }
 
   res.data.forEach((row) => {
+    console.log(row);
+    
+    let hasBonus = null ;
+    if(row.has_bonus) {
+      hasBonus = `<i class="fa-solid fa-square-check text-green-600 mr-2"></i> <span class="text-green-600">Has Bonus`;
+    }else {
+      hasBonus = `<i class="fa-solid fa-square-xmark text-red-600 mr-2"></i> No Bonus Granted`
+    }
+
     const tr = document.createElement("tr");
     tr.className = "bg-white border-b border-gray-200 hover:bg-gray-50";
 
@@ -197,17 +148,8 @@ function setTable(res, branch = null) {
           <br>
           ${row.group_end_date}
       </td>      
-      <td class="px-6 py-3.5">
-          <a href="?action=edit&group_id=${
-            row.id
-          }" class="cursor-pointer border border-gray-300 py-1 px-2 rounded-lg font-medium text-blue-600 hover:underline mr-2 inline-block mb-2"><i class="fa-solid fa-pen-to-square mr-2"></i>
-            Edit
-          </a>
-          <button data-group-id="${
-            row.id
-          }" class="finish-group-btn cursor-pointer border border-gray-300 py-1 px-2 rounded-lg font-medium text-red-600 hover:underline">
-              <i class="fa-regular fa-circle-check mr-2"></i>Finish
-          </button>
+      <td class="px-4 py-3.5">
+          ${hasBonus}
       </td>
   `;
 
@@ -277,54 +219,11 @@ function dayBadgeColor(dayName) {
   dayName = dayName.toLowerCase();
 
   const colors = {
-    'saturday' : 'bg-orange-100 text-orange-600 border border-orange-300',
-    'sunday' : 'bg-blue-100 text-blue-700 border border-blue-300',
-    'monday' : 'bg-pink-100 text-pink-700 border border-pink-300',
-    'default' : 'bg-zinc-100 text-zinc-700 border border-zinc-300'
+    saturday: "bg-orange-100 text-orange-600 border border-orange-300",
+    sunday: "bg-blue-100 text-blue-700 border border-blue-300",
+    monday: "bg-pink-100 text-pink-700 border border-pink-300",
+    default: "bg-zinc-100 text-zinc-700 border border-zinc-300",
   };
 
   return colors[dayName] || colors["default"];
-}
-
-/** get gropus total count */
-async function groupsTotalCount(branch , instructor = null , instructorName = null) {
-  
-  const instructorTotal = document.querySelector('.total-inst-count');
-
-  instructorTotal.innerHTML = `
-    <div role="status" class="inline-block">
-             <svg aria-hidden="true" class="inline w-4 h-4 text-gray-400 animate-spin fill-blue-800" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
-                 <path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="currentColor" />
-                 <path d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z" fill="currentFill" />
-             </svg>
-             <span class="sr-only">Loading...</span>
-         </div>
-  `
-  await globalWait(500);
-
-  let url = `functions/Groups/get_groups_count.php`;
-
-  if(instructor) {
-    url += `?branch_id=${encodeURIComponent(branch)}&instructor_id=${encodeURIComponent(instructor)}`
-  } else if(branch) {
-    url += `?branch_id=${encodeURIComponent(branch)}`
-  }
-
-  fetch(url)
-    .then((response) => response.json())
-    .then((data) => {
-      document.querySelector(".total-inst-count").innerText = data;
-      document.querySelector(".table-header-count").classList.add('hidden') ;
-      document.querySelector(".total-group").classList.remove('hidden') ;
-            
-      // when choose empty option
-      if (!instructor) {
-        document.querySelector(".table-header-count").innerText = "Groups Count " + data ;
-      } else if (instructorName) {
-        document.querySelector(".table-header-count").innerText = instructorName + "'s Groups Count " + data ;
-        document.querySelector(".table-header-count").classList.remove('hidden') ;
-        document.querySelector(".total-group").classList.add('hidden') ;
-      }
-    })
-    .catch((error) => console.error("Error:", error));
 }

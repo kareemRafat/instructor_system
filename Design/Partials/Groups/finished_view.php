@@ -31,17 +31,46 @@
     $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
     ?>
-<div class="py-5 flex justify-between items-center">
 
-    <div class="bg-zinc-100 border text-zinc-800 w-3/5 md:w-1/4 py-2.5 p-4 font-semibold text-base capitalize rounded-lg tracking-wider">
-        Finished Groups
+ <div class="flex flex-col md:flex-row md:items-center mb-7 gap-4">
+     <!-- Country Dropdown -->
+     <div class="w-full md:flex-1">
+         <label for="branchSelect" class="block mb-2 text-sm font-medium text-gray-900">Branch</label>
+         <select id="branchSelect"
+             class="block w-full p-2 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500">
+             <option selected>Select a Branch</option>
+         </select>
+     </div>
+
+     <div class="w-full md:flex-1">
+         <label for="instructor-select" class="block mb-2 text-sm font-medium text-gray-900">Instructor</label>
+         <select id="instructor-select"
+             class="block w-full p-2 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500">
+             <option value="" selected>Choose Instructor</option>
+         </select>
+     </div>
+ </div>
+
+
+ <div class="py-5 flex flex-col md:flex-row justify-between items-center gap-4">
+
+     <div class="w-full">
+        <h1 class="text-2xl font-extrabold leading-none tracking-tight text-gray-900">Finished <span class="text-red-600">Groups</span>  </h1>
     </div>
 
-    <a href="groups.php" class="text-white inline-flex items-center bg-orange-400 hover:bg-amber-600 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
-        <i class="fas fa-backward me-2"></i>
-        Back
-    </a>
-</div>
+     <div class="flex flex-col md:flex-row justify-end items-center gap-4 w-full">
+         <a class="w-full md:w-fit px-4 py-1.5 mb-0 bg-green-600 text-base rounded-md tracking-wider font-medium capitalize text-center text-white" href="groups.php">
+             Groups
+         </a>
+         <a href="groups.php?action=finished" class="w-full md:w-fit px-4 py-1.5 mb-3 md:mb-0 bg-blue-600 text-base rounded-md tracking-wider font-medium capitalize text-center text-white inline-flex items-center hover:underline justify-center">
+             <svg class="w-4 h-4 me-2 rotate-90" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
+                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h12m0 0L9 1m4 4L9 9" />
+             </svg>
+             Reset
+         </a>
+     </div>
+ </div>
+
 
  <!-- table -->
  <div class="relative overflow-x-auto shadow-md sm:rounded-lg mb-10">
@@ -91,7 +120,7 @@
                          <?= ucwords($row['group_name']) ?>
                      </th>
                      <th scope="row" class="px-4 py-3.5 font-medium text-pink-900 whitespace-nowrap">
-                        <i class="fa-solid fa-clock mr-1.5"></i>
+                         <i class="fa-solid fa-clock mr-1.5"></i>
                          <?php
                             if ($row['group_time'] == 2 || $row['group_time'] == 5) {
                                 echo $row['group_time'] . " - Friday";
@@ -136,12 +165,10 @@
                          <?= $row['group_end_date'] ?? 'No date added' ?>
                      </td>
                      <td class="px-4 py-3.5">
-                         <!-- <button data-group-id="<?= $row['group_id'] ?>" class="finish-group-btn cursor-pointer border border-gray-300 py-1 px-2 rounded-lg font-medium text-red-600 hover:underline"><i class="fa-regular fa-circle-check mr-2"></i>Finish
-                         </button> -->
-                         <?= 
-                            $row['has_bonus'] 
-                            ? '<i class="fa-solid fa-square-check text-green-600 mr-2"></i> Has Bonus' 
-                            : '<i class="fa-solid fa-square-xmark text-red-600 mr-2"></i> No Bonus Granted' ?>
+                         <?=
+                            $row['has_bonus']
+                                ? '<i class="fa-solid fa-square-check text-green-600 mr-2"></i> <span class="text-green-600">Has Bonus'
+                                : '<i class="fa-solid fa-square-xmark text-red-600 mr-2"></i> No Bonus Granted' ?>
                      </td>
                  </tr>
              <?php endforeach; ?>
