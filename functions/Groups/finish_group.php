@@ -19,15 +19,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $total_students = $_POST['total_students'] ?? null;
     $unpaid_students = $_POST['unpaid_students'] ?? null;
 
-
+    $hasBonus = ( ($unpaid_students / $total_students) * 100 ) < 20 ;
 
     if ($group_id) {
         try {
             // Start transaction
             $pdo->beginTransaction();
 
-            // Update group to set is_active to 0 and set finish_date
-            $stmt = $pdo->prepare("UPDATE `groups` SET is_active = 0 WHERE id = :group_id");
+            // Update group to set is_active to 0
+            $stmt = $pdo->prepare("UPDATE `groups` SET is_active = 0 , has_bonus = '$hasBonus' WHERE id = :group_id");
             $stmt->bindParam(':group_id', $group_id);
             $stmt->execute();
 
@@ -50,15 +50,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             // Commit transaction if both queries succeeded
             $pdo->commit();
-
+            $_SESSION['success'] = 'Group Finish successfully';
             header('location: ../../groups.php');
         } catch (PDOException $e) {
             // Roll back transaction if any error occurs
-            echo"<pre>";
-            print_r($e);
             $pdo->rollBack();
-
-            // header('location: ../../groups.php');
+            $_SESSION['errors']['finish'] = 'Something went Wrong';
+            header('location: ../../groups.php');
         }
     } else {
         header('Content-Type: application/json');

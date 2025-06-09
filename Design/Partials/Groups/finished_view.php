@@ -7,6 +7,7 @@
                     g.name AS group_name,
                     g.time AS group_time,
                     g.day AS group_day,
+                    g.has_bonus AS has_bonus,
                     i.username AS instructor_name,
                     b.name AS branch_name,
                     DATE_FORMAT(g.start_date, '%d-%m-%Y') AS formatted_date,
@@ -19,7 +20,7 @@
                 JOIN bonus ON bonus.group_id = g.id
                 WHERE g.is_active = 0
                 AND (:branch IS NULL OR g.branch_id = :branch)
-                ORDER BY g.start_date DESC";
+                ORDER BY bonus.finish_date DESC";
 
     $stmt = $pdo->prepare($query);
     $stmt->execute([
@@ -137,7 +138,10 @@
                      <td class="px-4 py-3.5">
                          <!-- <button data-group-id="<?= $row['group_id'] ?>" class="finish-group-btn cursor-pointer border border-gray-300 py-1 px-2 rounded-lg font-medium text-red-600 hover:underline"><i class="fa-regular fa-circle-check mr-2"></i>Finish
                          </button> -->
-                         Yes OR NOT -----------
+                         <?= 
+                            $row['has_bonus'] 
+                            ? '<i class="fa-solid fa-square-check text-green-600 mr-2"></i> Has Bonus' 
+                            : '<i class="fa-solid fa-square-xmark text-red-600 mr-2"></i> No Bonus Granted' ?>
                      </td>
                  </tr>
              <?php endforeach; ?>

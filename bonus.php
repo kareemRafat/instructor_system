@@ -159,7 +159,7 @@ try {
                                             <?= htmlspecialchars($group['unpaid_students']) ?>
                                         </td>
                                         <td class="px-4 py-4">
-                                            <?= htmlspecialchars($group['percentage']) ?>%
+                                            <?= floor(htmlspecialchars($group['percentage'])) ?>%
                                         </td>
                                     </tr>
                                 <?php endforeach; ?>
