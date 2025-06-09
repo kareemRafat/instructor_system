@@ -95,23 +95,26 @@ try {
         </p>
     <?php else: ?>
 
-        <div>
-            <h1 class="mb-10 text-xl font-bold leading-none tracking-tight text-gray-900 md:text-xl lg:text-xl">Bonus data For <span class="text-blue-600"><?= ucwords($selectedMonth) ?></span> year
+        <div class="flex justify-between items-center mb-5">
+            <h1 class="text-xl font-bold leading-none tracking-tight text-gray-900 md:text-xl lg:text-xl">Bonus data For <span class="text-blue-600"><?= ucwords($selectedMonth) ?></span> year
                 <span class="font-bold text-blue-600"><?= $selectedYear ? " $selectedYear" : '' ?>.</span>
             </h1>
+            <p class="text-white bg-blue-600 border border-gray-200 rounded-lg shadow-md text-base px-3 py-1"><a href="bonus.php" class="inline-flex items-center font-medium hover:underline">
+                    <svg class="w-4 h-4 me-2 rotate-90 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h12m0 0L9 1m4 4L9 9" />
+                    </svg>
+                    Reset
+                </a></p>
         </div>
         <div class="relative overflow-x-auto grid grid-cols-1 md:grid-cols-2 gap-4">
             <?php foreach ($organizedData as $branch => $instructors): ?>
-
                 <div class="overflow-x-auto">
                     <div class="<?= headerColor($branch) ?> p-3 w-full mb-5 rounded-md text-white font-semibold text-base flex justify-between">
                         <?= htmlspecialchars($branch) ?>
-
-
                         <span class="flex flex-row items-center text-white">
                             <?php if ($totalBonusLec) { ?>
                                 <span class="font-bold"><?= count($totalBonusLec[$branch]['percentages']) ?></span>
-                                <svg class="ml-2 w-5 h-5 text-white dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                                <svg class="ml-2 w-5 h-5 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
                                     <path d="M7.833 2c-.507 0-.98.216-1.318.576A1.92 1.92 0 0 0 6 3.89V21a1 1 0 0 0 1.625.78L12 18.28l4.375 3.5A1 1 0 0 0 18 21V3.889c0-.481-.178-.954-.515-1.313A1.808 1.808 0 0 0 16.167 2H7.833Z" />
                                 </svg>
                             <?php } else { ?>
@@ -119,7 +122,7 @@ try {
                             <?php } ?>
                         </span>
                     </div>
-                    <table class="w-full md:w-[80%] lg:w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 mb-4">
+                    <table class="w-full md:w-[80%] lg:w-full text-sm text-left rtl:text-right text-gray-500  mb-4">
                         <?php foreach ($instructors as $instructor => $groups): ?>
                             <thead class="text-xs text-gray-700 uppercase bg-gray-200">
                                 <tr>
@@ -140,8 +143,8 @@ try {
                             </thead>
                             <tbody class="border-b-2 border-gray-400">
                                 <?php foreach ($groups as $group): ?>
-                                    <tr class="bg-white <?= $group['percentage'] < 20 ? 'bg-green-200 text-green-600 font-bold' : 'font-semibold' ?> border-b border-gray-200">
-                                        <th scope="row" class="px-4 py-4  text-gray-900 whitespace-nowrap dark:text-white">
+                                    <tr class="bg-white <?= $group['percentage'] < 20 ? ' bg-green-100 text-green-600 font-bold' : 'font-semibold' ?> border-b border-gray-200">
+                                        <th scope="row" class="px-4 py-4  text-gray-900 whitespace-nowrap">
                                             <span class="hidden md:inline-block">
                                                 <?= ucwords(htmlspecialchars($group['group_name'])) ?>
                                             </span>

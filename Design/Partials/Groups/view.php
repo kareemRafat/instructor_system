@@ -111,9 +111,12 @@
                  Finished Groups
              </a>
          <?php endif; ?>
-         <a class="px-5 py-1.5 bg-zinc-600 text-base rounded-md tracking-wider font-medium capitalize text-center text-white" href="groups.php">
-             Reset
-         </a>
+         <p class="text-white bg-blue-600 border border-gray-200 rounded-lg shadow-md text-base px-3 py-1"><a href="groups.php" class="inline-flex items-center font-medium hover:underline">
+                 <svg class="w-4 h-4 me-2 rotate-90 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
+                     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h12m0 0L9 1m4 4L9 9" />
+                 </svg>
+                 Reset
+             </a></p>
      </div>
  </div>
 
@@ -165,7 +168,7 @@
                          <?= ucwords($row['group_name']) ?>
                      </th>
                      <th scope="row" class="px-4 py-3.5 font-medium text-pink-900 whitespace-nowrap">
-                        <i class="fa-solid fa-clock mr-1.5"></i>
+                         <i class="fa-solid fa-clock mr-1.5"></i>
                          <?php
                             if ($row['group_time'] == 2 || $row['group_time'] == 5) {
                                 echo $row['group_time'] . " - Friday";
@@ -221,8 +224,8 @@
                          <!-- <button data-group-id="<?= $row['group_id'] ?>" class="finish-group-btn cursor-pointer border border-gray-300 py-1 px-2 rounded-lg font-medium text-red-600 hover:underline"><i class="fa-regular fa-circle-check mr-2"></i>Finish
                          </button> -->
                          <a href="?action=finish_group&group_id=<?= $row['group_id'] ?>" class="cursor-pointer border border-gray-300 py-1 px-2 rounded-lg font-medium text-red-600 hover:underline">
-                            <i class="fa-regular fa-circle-check mr-1.5"></i>
-                            Finish
+                             <i class="fa-regular fa-circle-check mr-1.5"></i>
+                             Finish
                          </a>
                      </td>
                  </tr>

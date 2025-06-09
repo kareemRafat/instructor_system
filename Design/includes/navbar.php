@@ -56,7 +56,12 @@ $pageName = basename($_SERVER['PHP_SELF']);
                         </ul>
                     </div>
                 </li>
-
+                <?php if (ROLE == 'admin' or ROLE == 'owner') { ?>
+                    <li>
+                        <a href="bonus.php"
+                            class=" <?= $pageName == 'bonus.php' ? 'text-blue-600' : '' ?> block py-2 px-3 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0">Bonus</a>
+                    </li>
+                <?php } ?>
                 <?php
                 if (ROLE === 'admin' or ROLE === 'cs-admin' or ROLE === 'cs') {
                 ?>
