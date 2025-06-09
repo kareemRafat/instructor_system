@@ -94,15 +94,16 @@ try {
         </div>
         <div class="relative overflow-x-auto grid grid-cols-1 md:grid-cols-2 gap-4">
             <?php foreach ($organizedData as $branch => $instructors): ?>
-                <?php foreach ($instructors as $instructor => $groups): ?>
-                    <div class="overflow-x-auto">
-                        <div class="<?= headerColor($branch) ?> p-3 w-full mb-5 rounded-md text-white font-semibold text-base">
-                            <?= htmlspecialchars($branch) ?>
-                        </div>
-                        <table class="w-[80%] md:w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 mb-4">
+
+                <div class="overflow-x-auto">
+                    <div class="<?= headerColor($branch) ?> p-3 w-full mb-5 rounded-md text-white font-semibold text-base">
+                        <?= htmlspecialchars($branch) ?>
+                    </div>
+                    <table class="w-[80%] md:w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 mb-4">
+                        <?php foreach ($instructors as $instructor => $groups): ?>
                             <thead class="text-xs text-gray-700 uppercase bg-gray-200">
                                 <tr>
-                                    <th scope="col" class="px-6 py-3 font-semibold text-base">
+                                    <th scope="col" class="px-6 py-3 font-bold text-lg underline underline-offset-4 decoration-2 tracking-wider">
                                         <?= htmlspecialchars($instructor) ?>
                                     </th>
                                     <th scope="col" class="px-6 py-3">
@@ -117,9 +118,9 @@ try {
                                     </th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody class="border-b-2 border-gray-400">
                                 <?php foreach ($groups as $group): ?>
-                                    <tr class="bg-white <?= $group['percentage'] < 20 ? 'bg-green-100 text-green-600 font-semibold' : 'font-normal' ?> border-b border-gray-200">
+                                    <tr class="bg-white <?= $group['percentage'] < 20 ? 'bg-green-200 text-green-600 font-bold' : 'font-semibold' ?> border-b border-gray-200">
                                         <th scope="row" class="px-6 py-4  text-gray-900 whitespace-nowrap dark:text-white">
                                             <span class="hidden md:inline-block">
                                                 <?= ucwords(htmlspecialchars($group['group_name'])) ?>
@@ -140,9 +141,9 @@ try {
                                     </tr>
                                 <?php endforeach; ?>
                             </tbody>
-                        </table>
-                    </div>
-                <?php endforeach; ?>
+                        <?php endforeach; ?>
+                    </table>
+                </div>
             <?php endforeach; ?>
         </div>
     <?php endif; ?>
