@@ -14,9 +14,10 @@ try {
 
     $queryMonth = "SELECT DISTINCT  
                     MONTHNAME(`bonus`.finish_date) AS month, 
-                    DATE_FORMAT(`bonus`.finish_date, '%Y') AS year
+                    YEAR(`bonus`.finish_date) AS year
                     FROM bonus
-                    ORDER BY bonus.finish_date DESC";
+                    ORDER BY bonus.finish_date DESC
+                    LIMIT 10";
     $stmtMonth = $pdo->prepare($queryMonth);
     $stmtMonth->execute();
     $dates = $stmtMonth->fetchAll(PDO::FETCH_ASSOC);

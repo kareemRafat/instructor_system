@@ -4,6 +4,11 @@ include_once 'Design/includes/header.php';
 include_once 'Design/includes/navbar.php';
 
 
+// Add SlimSelect CDN links
+echo '<link href="https://cdn.jsdelivr.net/npm/slim-select@2.8.1/dist/slimselect.min.css" rel="stylesheet">';
+echo '<script src="https://cdn.jsdelivr.net/npm/slim-select@2.8.1/dist/slimselect.min.js"></script>';
+
+
 try {
 
     $selectedMonth = $_GET['month'] ?? date('F');
@@ -47,6 +52,7 @@ try {
     $bonusData = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
     $organizedData = [];
+    $totalBonusLec = [];
     foreach ($bonusData as $row) {
         $branch = $row['branch_name'];
         $instructor = $row['instructor_username'];
@@ -57,9 +63,12 @@ try {
             $organizedData[$branch][$instructor] = [];
         }
         $organizedData[$branch][$instructor][] = $row;
+        if ($row['percentage'] < 20) {
+            $totalBonusLec[$branch]['percentages'][] = $row['percentage'];
+        }
     }
 } catch (PDOException $e) {
-    print_r($e);
+    print_r($e->getMessage());
 }
 
 ?>
@@ -73,7 +82,6 @@ try {
             <label for="month-select" class="block mb-2 text-sm font-medium text-gray-900">Month</label>
             <select id="month-select"
                 class="block w-full p-2 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500">
-                <option selected>Select a Month</option>
             </select>
         </div>
     </div>
@@ -83,12 +91,12 @@ try {
         <p class="text-left text-gray-600 font-semibold">No bonus data available
             <span class="font-bold"><?= $selectedMonth ? " for $selectedMonth" : '' ?>.</span>
             year
-            <span class="font-bold"><?= $selectedYear ? " $selectedYear" : '' ?>.</span>
+            <span class="font-bold"><?= $selectedYear ? " $selectedYear" : '' ?>. yet</span>
         </p>
     <?php else: ?>
 
         <div>
-            <h1 class="mb-10 text-xl font-bold leading-none tracking-tight text-gray-900 md:text-xl lg:text-xl">Bonus data For <span class="text-blue-600"><?= $selectedMonth ?></span> year
+            <h1 class="mb-10 text-xl font-bold leading-none tracking-tight text-gray-900 md:text-xl lg:text-xl">Bonus data For <span class="text-blue-600"><?= ucwords($selectedMonth) ?></span> year
                 <span class="font-bold text-blue-600"><?= $selectedYear ? " $selectedYear" : '' ?>.</span>
             </h1>
         </div>
@@ -96,23 +104,35 @@ try {
             <?php foreach ($organizedData as $branch => $instructors): ?>
 
                 <div class="overflow-x-auto">
-                    <div class="<?= headerColor($branch) ?> p-3 w-full mb-5 rounded-md text-white font-semibold text-base">
+                    <div class="<?= headerColor($branch) ?> p-3 w-full mb-5 rounded-md text-white font-semibold text-base flex justify-between">
                         <?= htmlspecialchars($branch) ?>
+
+
+                        <span class="flex flex-row items-center text-white">
+                            <?php if ($totalBonusLec) { ?>
+                                <span class="font-bold"><?= count($totalBonusLec[$branch]['percentages']) ?></span>
+                                <svg class="ml-2 w-5 h-5 text-white dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M7.833 2c-.507 0-.98.216-1.318.576A1.92 1.92 0 0 0 6 3.89V21a1 1 0 0 0 1.625.78L12 18.28l4.375 3.5A1 1 0 0 0 18 21V3.889c0-.481-.178-.954-.515-1.313A1.808 1.808 0 0 0 16.167 2H7.833Z" />
+                                </svg>
+                            <?php } else { ?>
+                                <span> No bonus </span>
+                            <?php } ?>
+                        </span>
                     </div>
                     <table class="w-[80%] md:w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 mb-4">
                         <?php foreach ($instructors as $instructor => $groups): ?>
                             <thead class="text-xs text-gray-700 uppercase bg-gray-200">
                                 <tr>
-                                    <th scope="col" class="px-6 py-3 font-bold text-lg underline underline-offset-4 decoration-2 tracking-wider">
+                                    <th scope="col" class="px-6 py-2 font-bold text-lg underline underline-offset-4 decoration-2 tracking-wider">
                                         <?= htmlspecialchars($instructor) ?>
                                     </th>
-                                    <th scope="col" class="px-6 py-3">
+                                    <th scope="col" class="px-6 py-2">
                                         Total <span class="hidden md:inline-block">Students</span>
                                     </th>
-                                    <th scope="col" class="px-6 py-3">
+                                    <th scope="col" class="px-6 py-2">
                                         Unpaid <span class="hidden md:inline-block">Students</span>
                                     </th>
-                                    <th scope="col" class="px-6 py-3">
+                                    <th scope="col" class="px-6 py-2">
                                         <span class="inline-block md:hidden">%</span>
                                         <span class="hidden md:inline-block">Percentage</span>
                                     </th>
@@ -149,7 +169,7 @@ try {
     <?php endif; ?>
 </div>
 
-<script type="module" src="js/bonus.js"></script>
+<script type="module" src="dist/bonus.js"></script>
 </div>
 
 <?php
