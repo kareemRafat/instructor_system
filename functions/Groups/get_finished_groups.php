@@ -21,7 +21,7 @@ try {
                 DATE_FORMAT(`groups`.start_date, '%d-%m-%Y') AS formatted_date,
                 DATE_FORMAT(`groups`.start_date, '%M') AS month,
                 DATE_FORMAT(bonus.finish_date, '%d-%m-%Y') AS group_end_date,
-                DATE_FORMAT(bonus.finish_date, '%M') AS group_end_month
+                MONTHNAME(bonus.finish_date) AS group_end_month
         FROM `groups` 
         JOIN instructors ON `groups`.instructor_id = instructors.id 
         JOIN branches ON `groups`.branch_id = branches.id

@@ -143,7 +143,7 @@ try {
                             </thead>
                             <tbody class="border-b-2 border-gray-400">
                                 <?php foreach ($groups as $group): ?>
-                                    <tr class="bg-white <?= $group['percentage'] < 20 ? ' bg-green-100 text-green-600 font-bold' : 'font-semibold' ?> border-b border-gray-200">
+                                    <tr class="<?= $group['percentage'] < 20 ? ' bg-green-100 text-green-600 font-bold ' : ' bg-white font-semibold' ?> border-b border-gray-200">
                                         <th scope="row" class="px-4 py-4  text-gray-900 whitespace-nowrap">
                                             <span class="hidden md:inline-block">
                                                 <?= ucwords(htmlspecialchars($group['group_name'])) ?>

@@ -89,7 +89,7 @@
  <!-- total count -->
  <div class="flex flex-col md:flex-row justify-between items-center gap-4">
      <div class="w-full">
-         <h1 class="text-2xl font-extrabold leading-none tracking-tight text-gray-900 ">All <span class="text-blue-600">Groups</span></h1>
+         <h1 class="text-2xl font-extrabold leading-none text-gray-900 ">Active <span class="text-blue-600">Groups</span></h1>
      </div>
      <div class="w-full md:w-[50%] mt-4 md:my-4 px-2.5 py-1.5 bg-gray-100 border text-base border-gray-300 rounded-md tracking-wider font-medium capitalize text-center ">
          <div class="table-header-count hidden">
