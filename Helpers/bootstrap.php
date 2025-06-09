@@ -21,7 +21,8 @@ function checkAccess($role)
     $currentPage = basename($_SERVER['PHP_SELF']);
 
     $accessRules = [
-        'admin' => ['*'], // Admin can access all pages
+        'admin' => ['*'], // Admin can access all pages,
+        'owner' => ['*'],
         'cs' => ['lectures.php','groups.php','tables.php'],
         'cs-admin' => ['customer-service.php','lectures.php','groups.php','tables.php'],
         'instructor' => ['index.php','instructor-groups.php'], // Instructor can access index.php
