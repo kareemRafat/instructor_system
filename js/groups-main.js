@@ -70,13 +70,14 @@ document.addEventListener("DOMContentLoaded", function () {
   /** search functionality */
   searchInput.addEventListener("input", function () {
     const searchValue = this.value.trim();
-
+  
     // reset instructor
     fetchInstructors(branchVal);
     groupsTotalCount(branchVal);
 
     let url = "";
 
+    // pagination
     if (!searchValue) {
       pageList.classList.remove("hidden");
     } else {

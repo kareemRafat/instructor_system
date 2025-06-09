@@ -5,33 +5,32 @@ if (isset($_GET['search'])) {
     $search = $_GET['search'];
     $branchId = $_GET['branch_id'] ?? null;
 
-    $query = "
-        SELECT 
-            g.id,
-            g.name AS group_name,
-            g.time AS group_time,
-            g.day AS group_day,
-            i.username AS instructor_name,
-            b.name AS branch_name,
-            DATE_FORMAT(g.start_date, '%d-%m-%Y') AS formatted_date,
-            DATE_FORMAT(g.start_date, '%M') AS month,
-            DATE_FORMAT(
-                DATE_ADD(DATE_ADD(g.start_date, INTERVAL 5 MONTH), INTERVAL 2 WEEK),
-                '%d, %m-%Y'
-            ) AS group_end_date,
-            DATE_FORMAT(
-                DATE_ADD(DATE_ADD(g.start_date, INTERVAL 5 MONTH), INTERVAL 2 WEEK),
-                '%M'
-            ) AS group_end_month
-        FROM `groups` g
-        JOIN instructors i ON g.instructor_id = i.id
-        JOIN branches b ON g.branch_id = b.id
-        " . ($branchId ? "JOIN branch_instructor bi ON bi.instructor_id = i.id" : "") . "
-        WHERE g.is_active = 1
+    $query = "SELECT 
+                g.id,
+                b.id AS branch_id,
+                g.name AS group_name,
+                g.time AS group_time,
+                g.day AS group_day,
+                i.username AS instructor_name,
+                b.name AS branch_name,
+                DATE_FORMAT(g.start_date, '%d-%m-%Y') AS formatted_date,
+                DATE_FORMAT(g.start_date, '%M') AS month,
+                DATE_FORMAT(
+                    DATE_ADD(DATE_ADD(g.start_date, INTERVAL 5 MONTH), INTERVAL 2 WEEK),
+                    '%d, %m-%Y'
+                ) AS group_end_date,
+                DATE_FORMAT(
+                    DATE_ADD(DATE_ADD(g.start_date, INTERVAL 5 MONTH), INTERVAL 2 WEEK),
+                    '%M'
+                ) AS group_end_month
+            FROM `groups` g
+            JOIN instructors i ON g.instructor_id = i.id
+            JOIN branches b ON g.branch_id = b.id
+            WHERE g.is_active = 1
             AND g.name LIKE :search
-            " . ($branchId ? "AND bi.branch_id = :branch_id" : "") . "
-        ORDER BY g.start_date DESC
-        LIMIT 10";
+            " . ($branchId ? "AND g.branch_id = :branch_id" : "") . "
+            ORDER BY g.start_date DESC
+            LIMIT 10";
 
     $stmt = $pdo->prepare($query);
 

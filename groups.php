@@ -24,8 +24,6 @@ include_once 'Design/includes/navbar.php';
     ?>
 </div>
 
-
-
 <?php
 // Main modal -->
 
@@ -40,7 +38,7 @@ if(!isset($_GET['action'])):
 
 <?php else : ?>
 
-   <script type="module" src="js/fini_groups-main.js"></script>
+   <script type="module" src="dist/fini_groups-main.js"></script>
 
 <?php endif; ?>
 

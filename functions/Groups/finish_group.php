@@ -19,6 +19,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $total_students = $_POST['total_students'] ?? null;
     $unpaid_students = $_POST['unpaid_students'] ?? null;
 
+    if ($finish_date) {
+        $finish_date = date('Y-m-d', strtotime($finish_date));
+        $time = date('H:i:s');
+        $finish_date = $finish_date . ' ' . $time;
+    }
+
     $hasBonus = ( ($unpaid_students / $total_students) * 100 ) < 20 ;
 
     if ($group_id) {
