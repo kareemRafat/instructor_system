@@ -119,20 +119,20 @@ try {
                             <?php } ?>
                         </span>
                     </div>
-                    <table class="w-[80%] md:w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 mb-4">
+                    <table class="w-full md:w-[80%] lg:w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 mb-4">
                         <?php foreach ($instructors as $instructor => $groups): ?>
                             <thead class="text-xs text-gray-700 uppercase bg-gray-200">
                                 <tr>
-                                    <th scope="col" class="px-6 py-2 font-bold text-lg underline underline-offset-4 decoration-2 tracking-wider">
+                                    <th scope="col" class="px-4 py-2 font-bold text-lg underline underline-offset-4 decoration-2 tracking-wider">
                                         <?= htmlspecialchars($instructor) ?>
                                     </th>
-                                    <th scope="col" class="px-6 py-2">
+                                    <th scope="col" class="px-4 py-2">
                                         Total <span class="hidden md:inline-block">Students</span>
                                     </th>
-                                    <th scope="col" class="px-6 py-2">
+                                    <th scope="col" class="px-4 py-2">
                                         Unpaid <span class="hidden md:inline-block">Students</span>
                                     </th>
-                                    <th scope="col" class="px-6 py-2">
+                                    <th scope="col" class="px-4 py-2">
                                         <span class="inline-block md:hidden">%</span>
                                         <span class="hidden md:inline-block">Percentage</span>
                                     </th>
@@ -141,7 +141,7 @@ try {
                             <tbody class="border-b-2 border-gray-400">
                                 <?php foreach ($groups as $group): ?>
                                     <tr class="bg-white <?= $group['percentage'] < 20 ? 'bg-green-200 text-green-600 font-bold' : 'font-semibold' ?> border-b border-gray-200">
-                                        <th scope="row" class="px-6 py-4  text-gray-900 whitespace-nowrap dark:text-white">
+                                        <th scope="row" class="px-4 py-4  text-gray-900 whitespace-nowrap dark:text-white">
                                             <span class="hidden md:inline-block">
                                                 <?= ucwords(htmlspecialchars($group['group_name'])) ?>
                                             </span>
@@ -149,13 +149,13 @@ try {
                                                 <?= breakTwoWordPhrase(ucwords(htmlspecialchars($group['group_name']))) ?>
                                             </span>
                                         </th>
-                                        <td class="px-6 py-4">
+                                        <td class="px-4 py-4">
                                             <?= htmlspecialchars($group['total_students']) ?>
                                         </td>
-                                        <td class="px-6 py-4">
+                                        <td class="px-4 py-4">
                                             <?= htmlspecialchars($group['unpaid_students']) ?>
                                         </td>
-                                        <td class="px-6 py-4">
+                                        <td class="px-4 py-4">
                                             <?= htmlspecialchars($group['percentage']) ?>%
                                         </td>
                                     </tr>
