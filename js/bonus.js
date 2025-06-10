@@ -39,6 +39,8 @@ async function getMonths() {
         }
         monthSelect.appendChild(option);
       });
+    }else {
+        monthSelect.innerHTML += "<option value=''>No Bonus available yet</option>";
     }
   } catch (error) {
     console.error("Error fetching dates:", error);
