@@ -122,7 +122,7 @@ try {
                             <?php } ?>
                         </span>
                     </div>
-                    <table class="w-full md:w-[80%] lg:w-full text-sm text-left rtl:text-right text-gray-500  mb-4">
+                    <table class="w-full lg:w-[80%] lg:w-full text-sm text-left rtl:text-right text-gray-500  mb-4">
                         <?php foreach ($instructors as $instructor => $groups): ?>
                             <thead class="text-xs text-gray-700 uppercase bg-gray-200">
                                 <tr>
