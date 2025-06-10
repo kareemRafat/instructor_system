@@ -28,9 +28,9 @@ async function getMonths() {
     const month = await response.json();
 
     monthSelect.innerHTML = "<option value=''>Select a Month</option>";
-
+    
     if (month.data && month.data.length > 1) {
-      month.data.forEach((resData) => {
+      month.data?.forEach((resData) => {
         const option = document.createElement("option");
         option.value = `${resData.month.toLowerCase()} - ${resData.year}`;
         option.textContent = `${resData.month} - ${resData.year}`;
