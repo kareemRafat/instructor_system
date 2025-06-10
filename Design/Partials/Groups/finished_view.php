@@ -108,7 +108,7 @@
          </thead>
         <tbody id="groupsTableBody" class="font-semibold text-base">
              <?php if ($count == 0) : ?> <tr class="bg-white">
-                     <td colspan="7" class="px-4 py-3.5 text-gray-500 font-semibold">
+                     <td colspan="9" class="px-4 py-3.5 text-gray-500 font-semibold">
                          No Groups found
                      </td>
                  </tr>
@@ -227,6 +227,7 @@
 
     ?>
 
+<!-- simple js pagination -->
 <script>
     document.addEventListener("DOMContentLoaded", function () {
         const rowsPerPage = 10;
