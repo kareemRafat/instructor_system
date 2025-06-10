@@ -87,7 +87,7 @@ function checkErrors($formData, $pdo)
         $errors['total_students'] = "Total group Students count is required.";
     }
 
-    if (empty($formData['unpaid_students'])) {
+    if (!isset($formData['unpaid_students']) || $formData['unpaid_students'] === '') {
         $errors['unpaid_students'] = "Unpaid Group Students count is required.";
     }
 

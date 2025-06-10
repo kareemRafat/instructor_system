@@ -81,7 +81,10 @@ include_once 'Design/includes/navbar.php';
                                 <i class="fa-solid fa-user-shield ml-3 text-green-700"></i>
                             <?php endif; ?>
                         </th>
-                        <td class="px-6 py-4">
+                        <td class="px-6 py-4 <?= branchIndicator($row['branch_name'])['textColor'] ?>">
+                            <svg class=" w-5 h-5 mr-1.5  md:inline " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                                <path fill-rule="evenodd" d="M12 2c-.791 0-1.55.314-2.11.874l-.893.893a.985.985 0 0 1-.696.288H7.04A2.984 2.984 0 0 0 4.055 7.04v1.262a.986.986 0 0 1-.288.696l-.893.893a2.984 2.984 0 0 0 0 4.22l.893.893a.985.985 0 0 1 .288.696v1.262a2.984 2.984 0 0 0 2.984 2.984h1.262c.261 0 .512.104.696.288l.893.893a2.984 2.984 0 0 0 4.22 0l.893-.893a.985.985 0 0 1 .696-.288h1.262a2.984 2.984 0 0 0 2.984-2.984V15.7c0-.261.104-.512.288-.696l.893-.893a2.984 2.984 0 0 0 0-4.22l-.893-.893a.985.985 0 0 1-.288-.696V7.04a2.984 2.984 0 0 0-2.984-2.984h-1.262a.985.985 0 0 1-.696-.288l-.893-.893A2.984 2.984 0 0 0 12 2Zm3.683 7.73a1 1 0 1 0-1.414-1.413l-4.253 4.253-1.277-1.277a1 1 0 0 0-1.415 1.414l1.985 1.984a1 1 0 0 0 1.414 0l4.96-4.96Z" clip-rule="evenodd" />
+                            </svg>
                             <?= ucwords($row['branch_name'] ?? 'Not Assigned') ?>
                         </td>
                         <td class="px-6 py-4"> <span
@@ -121,3 +124,36 @@ include_once "Design/includes/notFy-footer.php";
 </body>
 
 </html>
+
+
+<?php
+
+// branch indicator color
+function branchIndicator($branch_name)
+{
+    $branch_name = strtolower($branch_name);
+    $bgColors = [
+        'tanta' => 'bg-teal-600',
+        'mansoura' => 'bg-blue-600',
+        'zagazig' => 'bg-purple-500',
+        'default' => 'bg-orange-600'
+    ];
+
+    $textColors = [
+        'tanta' => 'text-teal-600',
+        'mansoura' => 'text-blue-700',
+        'zagazig' => 'text-purple-700',
+        'default' => 'text-orange-700'
+    ];
+
+    $bgClass = $bgColors[$branch_name] ?? $bgColors['default'];
+    $textClass = $textColors[$branch_name] ?? $textColors['default'];
+
+    return [
+        'bgColor' => $bgClass,
+        'textColor' => $textClass
+    ];
+}
+
+
+?>

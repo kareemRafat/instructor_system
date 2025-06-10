@@ -122,7 +122,7 @@ try {
                             <?php } ?>
                         </span>
                     </div>
-                    <table class="w-full lg:w-[80%] lg:w-full text-sm text-left rtl:text-right text-gray-500  mb-4">
+                    <table class="w-full text-sm text-left rtl:text-right text-gray-500  mb-4">
                         <?php foreach ($instructors as $instructor => $groups): ?>
                             <thead class="text-xs text-gray-700 uppercase bg-gray-200">
                                 <tr>
@@ -143,7 +143,7 @@ try {
                             </thead>
                             <tbody class="border-b-2 border-gray-400">
                                 <?php foreach ($groups as $group): ?>
-                                    <tr class="<?= $group['percentage'] < 20 ? ' bg-green-100 text-green-600 font-bold ' : ' bg-white font-semibold' ?> border-b border-gray-200">
+                                    <tr class="w-full <?= $group['percentage'] < 20 ? ' bg-green-100 text-green-600 font-bold ' : ' bg-white font-semibold' ?> border-b border-gray-200">
                                         <th scope="row" class="px-4 py-4  text-gray-900 whitespace-nowrap">
                                             <span class="hidden md:inline-block">
                                                 <?= ucwords(htmlspecialchars($group['group_name'])) ?>

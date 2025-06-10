@@ -41,7 +41,10 @@ $pageName = basename($_SERVER['PHP_SELF']);
                             ?>
                                 <li>
                                     <a href="instructors.php"
-                                        class=" <?= $pageName == 'instructors.php' ? 'text-blue-600' : '' ?> block px-4 py-2 hover:bg-gray-100">Instructors</a>
+                                        class=" <?= $pageName == 'instructors.php' ? 'text-blue-600' : '' ?> block px-4 py-2 hover:bg-gray-100">
+                                        <i class="fa-solid fa-person-chalkboard text-blue-700"></i>
+                                        Instructors
+                                    </a>
                                 </li>
                             <?php } ?>
                             <?php
@@ -59,7 +62,10 @@ $pageName = basename($_SERVER['PHP_SELF']);
                 <?php if (ROLE == 'admin' or ROLE == 'owner') { ?>
                     <li>
                         <a href="bonus.php"
-                            class=" <?= $pageName == 'bonus.php' ? 'text-blue-600' : '' ?> block py-2 px-3 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0">Bonus</a>
+                            class=" <?= $pageName == 'bonus.php' ? 'text-blue-600' : '' ?> block py-2 px-3 rounded-sm md:text-center hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0">
+                            <i class="text-blue-700 fa-solid fa-medal"></i>
+                            Bonus
+                        </a>
                     </li>
                 <?php } ?>
                 <?php
@@ -67,11 +73,17 @@ $pageName = basename($_SERVER['PHP_SELF']);
                 ?>
                     <li>
                         <a href="lectures.php"
-                            class=" <?= $pageName == 'lectures.php' ? 'text-blue-600' : '' ?> block py-2 px-3 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0">Lectures</a>
+                            class=" <?= $pageName == 'lectures.php' ? 'text-blue-600' : '' ?> block py-2 px-3 rounded-sm md:text-center hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0">
+                            <i class="text-blue-700 fa-solid fa-code"></i>
+                            Lectures
+                        </a>
                     </li>
                     <li>
                         <a href="tables.php"
-                            class=" <?= $pageName == 'tables.php' ? 'text-blue-600' : '' ?> block py-2 px-3 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0">Tables</a>
+                            class=" <?= $pageName == 'tables.php' ? 'text-blue-600' : '' ?> block py-2 px-3 rounded-sm md:text-center hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0">
+                            <i class="text-blue-700 fa-solid fa-star"></i>
+                            Tables
+                        </a>
                     </li>
                 <?php } ?>
 
@@ -80,7 +92,10 @@ $pageName = basename($_SERVER['PHP_SELF']);
                 ?>
                     <li>
                         <a href="groups.php"
-                            class=" <?= $pageName == 'groups.php' ? 'text-blue-600' : '' ?> block py-2 px-3 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0">Groups</a>
+                            class=" <?= $pageName == 'groups.php' ? 'text-blue-600' : '' ?> block py-2 px-3 rounded-sm md:text-center hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0">
+                            <i class="text-blue-700 fa-solid fa-user-group text-sm"></i>
+                            Groups
+                        </a>
                     </li>
                 <?php } ?>
                 <?php
@@ -88,17 +103,21 @@ $pageName = basename($_SERVER['PHP_SELF']);
                 ?>
                     <li>
                         <a href="instructor-groups.php"
-                            class=" <?= $pageName == 'instructor-groups.php' ? 'text-blue-600' : '' ?> block py-2 px-3 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0">My Groups</a>
+                            class=" <?= $pageName == 'instructor-groups.php' ? 'text-blue-600' : '' ?> block py-2 px-3 rounded-sm md:text-center hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0">
+                            <i class="text-blue-700 fa-solid fa-chalkboard-user"></i>
+                            Groups
+                            </a>
                     </li>
                     <li>
                         <a href="index.php"
-                            class=" <?= $pageName == 'index.php' ? 'text-blue-600' : '' ?> block py-2 px-3 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0">Add
+                            class=" <?= $pageName == 'index.php' ? 'text-blue-600' : '' ?> block py-2 px-3 rounded-sm md:text-center hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0">
+                            <i class="text-blue-700 fa-solid fa-square-check"></i>
                             Lecture</a>
                     </li>
                 <?php } ?>
                 <li>
                     <a href="functions/Auth/logout.php"
-                        class="block py-2 px-3 text-red-700 rounded-sm hover:bg-gray-200 md:hover:bg-transparent md:border-0 md:hover:text-orange-500 md:p-0">Logout</a>
+                        class="block py-2 px-3 text-red-700 rounded-sm md:text-center hover:bg-gray-200 md:hover:bg-transparent md:border-0 md:hover:text-orange-500 md:p-0">Logout</a>
                 </li>
             </ul>
         </div>

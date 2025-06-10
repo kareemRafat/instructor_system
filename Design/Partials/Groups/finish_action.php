@@ -25,8 +25,8 @@ function getGroupById($groupId, $pdo)
         <h1 class="mb-10 text-3xl font-extrabold leading-none tracking-tight text-gray-900 md:text-4xl lg:text-5xl">Finsih <span class="text-blue-600"><?= $group['name'] ?></span> Group </h1>
     </div>
 
-    <div class="grid gap-4 grid-cols-1 md:grid-cols-3 items-end">
-        <div>
+    <div class="grid gap-4 grid-cols-1 md:grid-cols-3">
+        <div class="my-1">
             <label class="block mb-2 text-sm font-medium text-gray-900">End Date</label>
             <div class="relative w-full mb-1">
                 <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">

@@ -36,7 +36,7 @@ if(!isset($_GET['action'])):
 <script type="module" src="dist/groups-main.js"></script>
 <script type="module" src="dist/groups-pagination.js"></script>
 
-<?php else : ?>
+<?php elseif($_GET['action'] == 'finished') : ?>
 
    <script type="module" src="dist/fini_groups-main.js"></script>
 
