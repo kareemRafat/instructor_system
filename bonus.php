@@ -24,7 +24,7 @@ try {
                     ROUND((bo.unpaid_students / NULLIF(bo.total_students, 0) * 100), 2) AS percentage
                 FROM 
                     bonus bo
-                    INNER JOIN groups g ON bo.group_id = g.id
+                    INNER JOIN `groups` g ON bo.group_id = g.id
                     INNER JOIN branches b ON g.branch_id = b.id
                     INNER JOIN instructors i ON g.instructor_id = i.id
                     INNER JOIN branch_instructor bi ON i.id = bi.instructor_id AND b.id = bi.branch_id";
