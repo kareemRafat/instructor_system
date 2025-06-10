@@ -60,7 +60,7 @@
 
      <div class="flex flex-col md:flex-row justify-end items-center gap-4 w-full">
          <a class="w-full md:w-fit px-4 py-1.5 mb-0 bg-green-600 text-base rounded-md tracking-wider font-medium capitalize text-center text-white" href="groups.php">
-             Groups
+            Active Groups
          </a>
          <a href="groups.php?action=finished" class="w-full md:w-fit px-4 py-1.5 mb-3 md:mb-0 bg-blue-600 text-base rounded-md tracking-wider font-medium capitalize text-center text-white inline-flex items-center hover:underline justify-center">
              <svg class="w-4 h-4 me-2 rotate-90" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">

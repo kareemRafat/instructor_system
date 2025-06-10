@@ -95,7 +95,6 @@
         </h1>
      </div>
      
-
      <div class="w-full my-4 flex flex-col md:flex-row justify-end gap-4">
          <?php if (ROLE == 'admin' || ROLE == 'cs-admin') : ?>
              <a class="px-4 py-1.5 mb-3 md:mb-0 bg-rose-600 text-base rounded-md tracking-wider font-medium capitalize text-center text-white" href="?action=finished">
