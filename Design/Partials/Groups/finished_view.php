@@ -106,7 +106,7 @@
                  </th>
              </tr>
          </thead>
-         <tbody class="font-semibold text-base">
+        <tbody id="groupsTableBody" class="font-semibold text-base">
              <?php if ($count == 0) : ?> <tr class="bg-white">
                      <td colspan="7" class="px-4 py-3.5 text-gray-500 font-semibold">
                          No Groups found
@@ -177,6 +177,8 @@
              <?php endforeach; ?>
          </tbody>
      </table>
+     <div id="paginationControls" class="flex justify-end items-center gap-2 text-sm m-4"></div>
+
  </div>
 
 
@@ -224,3 +226,82 @@
     }
 
     ?>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const rowsPerPage = 10;
+        const tableBody = document.getElementById("groupsTableBody");
+        const rows = Array.from(tableBody.querySelectorAll("tr"));
+        const totalPages = Math.ceil(rows.length / rowsPerPage);
+        const paginationControls = document.getElementById("paginationControls");
+
+        let currentPage = 1;
+
+        function renderTablePage(page) {
+            const start = (page - 1) * rowsPerPage;
+            const end = start + rowsPerPage;
+
+            rows.forEach((row, index) => {
+                row.style.display = index >= start && index < end ? "" : "none";
+            });
+        }
+
+        function createPaginationButtons() {
+            paginationControls.innerHTML = "";
+
+            // Prev button
+            const prevBtn = document.createElement("button");
+            prevBtn.textContent = "Prev";
+            prevBtn.disabled = currentPage === 1;
+            prevBtn.className = `px-3 py-1 border rounded-md ${prevBtn.disabled ? "bg-gray-200 text-gray-500 cursor-not-allowed" : "bg-white text-gray-800 hover:bg-gray-100"}`;
+            prevBtn.addEventListener("click", () => {
+                if (currentPage > 1) {
+                    currentPage--;
+                    renderTablePage(currentPage);
+                    createPaginationButtons();
+                }
+            });
+            paginationControls.appendChild(prevBtn);
+
+            // Determine which page numbers to show (10 max at a time)
+            const maxVisiblePages = 10;
+            let startPage = Math.max(1, currentPage - Math.floor(maxVisiblePages / 2));
+            let endPage = startPage + maxVisiblePages - 1;
+
+            if (endPage > totalPages) {
+                endPage = totalPages;
+                startPage = Math.max(1, endPage - maxVisiblePages + 1);
+            }
+
+            for (let i = startPage; i <= endPage; i++) {
+                const btn = document.createElement("button");
+                btn.textContent = i;
+                btn.className = `px-3 py-1 border rounded-md ${i === currentPage ? "bg-blue-600 text-white" : "bg-white text-gray-800 hover:bg-gray-100"}`;
+                btn.addEventListener("click", () => {
+                    currentPage = i;
+                    renderTablePage(currentPage);
+                    createPaginationButtons();
+                });
+                paginationControls.appendChild(btn);
+            }
+
+            // Next button
+            const nextBtn = document.createElement("button");
+            nextBtn.textContent = "Next";
+            nextBtn.disabled = currentPage === totalPages;
+            nextBtn.className = `px-3 py-1 border rounded-md ${nextBtn.disabled ? "bg-gray-200 text-gray-500 cursor-not-allowed" : "bg-white text-gray-800 hover:bg-gray-100"}`;
+            nextBtn.addEventListener("click", () => {
+                if (currentPage < totalPages) {
+                    currentPage++;
+                    renderTablePage(currentPage);
+                    createPaginationButtons();
+                }
+            });
+            paginationControls.appendChild(nextBtn);
+        }
+
+        // Initialize
+        renderTablePage(currentPage);
+        createPaginationButtons();
+    });
+</script>
