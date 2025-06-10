@@ -39,9 +39,7 @@ document.addEventListener("DOMContentLoaded", function () {
           body: `instructor_id=${instructorId}`,
         })
           .then((response) => response.json())
-          .then((data) => {
-            console.log(data);
-            
+          .then((data) => {            
             if (data.status === "success") {
               // Refresh the table data
               notyf.success("Instructor Updated successfully");
@@ -70,10 +68,18 @@ addInstructor.onclick = function () {
         const branchesContainer = document.getElementById("branchesContainer");
         branchesContainer.innerHTML = ""; // Clear previous checkboxes
 
-        res.data.forEach((branch) => {
+        res.data.forEach((branch , index) => {
           const label = document.createElement("label");
-          label.className =
-            "flex items-center space-x-2 bg-gray-50 border border-gray-300 rounded-lg px-4 py-2 cursor-pointer hover:bg-gray-100";
+
+          // the last iteration will width full
+          if (index === res.data.length - 1) {
+            label.className =
+                "col-span-2 md:col-span-1 flex items-center space-x-2 bg-gray-50 border border-gray-300 rounded-lg px-4 py-2 cursor-pointer hover:bg-gray-100";
+          }else {
+            label.className =
+              "col-span-1 flex items-center space-x-2 bg-gray-50 border border-gray-300 rounded-lg px-4 py-2 cursor-pointer hover:bg-gray-100";
+          }
+          
 
           const checkbox = document.createElement("input");
           checkbox.type = "checkbox";

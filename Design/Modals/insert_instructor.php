@@ -41,7 +41,7 @@ $errors = $_SESSION['errors'] ?? [];
                     </div>
                     <div class="col-span-2">
                         <label class="block mb-2 text-sm font-medium text-gray-900">Branches</label>
-                        <div class="grid grid-cols-3 sm:grid-cols-3 gap-2"  id="branchesContainer">
+                        <div class="grid grid-cols-2 md:grid-cols-3 gap-2"  id="branchesContainer">
                            
                         </div>
                         <?php if (isset($errors['branch'])): ?>

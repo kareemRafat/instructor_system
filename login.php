@@ -46,7 +46,7 @@ if (isset($_SESSION['user_id'])) {
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:items-center md:bg-white md:shadow px-7 w-full max-w-5xl rounded-lg">
       <!-- img div -->
       <div class="hidden md:block w-full max-w-md justify-self-center">
-        <img src="images/Designer.svg" alt="">
+        <img src="images/login.svg" alt="">
       </div>
       <!-- form div -->
       <div class="w-full max-w-full md:max-w-md bg-gray-50 md:bg-white rounded-lg py-3 md:my-20">

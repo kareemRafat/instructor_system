@@ -89,25 +89,12 @@
  <!-- total count -->
  <div class="flex flex-col md:flex-row justify-between items-center gap-4">
      <div class="w-full">
-         <h1 class="text-2xl font-extrabold leading-none text-gray-900 ">Active <span class="text-blue-600">Groups</span></h1>
+         <h1 class="text-2xl font-extrabold leading-none text-gray-900 ">Active 
+            <span class="text-blue-600">Groups - </span>
+            <span class="total-inst-count"></span>
+        </h1>
      </div>
-     <div class="w-full md:w-[50%] mt-4 md:my-4 px-2.5 py-1.5 bg-gray-100 border text-base border-gray-300 rounded-md tracking-wider font-medium capitalize text-center ">
-         <div class="table-header-count hidden">
-         </div>
-         <div class="total-group">
-             <span class="total-txt text-gray-700">Total Groups : </span>
-             <span class="total-inst-count tracking-widest text-blue-700">
-                 <!-- spinner -->
-                 <div role="status" class="inline-block">
-                     <svg aria-hidden="true" class="inline w-4 h-4 text-gray-400 animate-spin fill-blue-800" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
-                         <path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="currentColor" />
-                         <path d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z" fill="currentFill" />
-                     </svg>
-                     <span class="sr-only">Loading...</span>
-                 </div>
-             </span>
-         </div>
-     </div>
+     
 
      <div class="w-full my-4 flex flex-col md:flex-row justify-end gap-4">
          <?php if (ROLE == 'admin' || ROLE == 'cs-admin') : ?>
@@ -221,15 +208,13 @@
                          <br>
                          <?= $row['group_end_date'] ?? 'No date added' ?>
                      </td>
-                     <td class="px-4 py-3.5">
-                         <a href="?action=edit&group_id=<?= $row['group_id'] ?>" class="cursor-pointer border border-gray-300 py-0.5 px-2 rounded-lg font-medium text-blue-600 hover:underline mr-2 inline-block mb-2 text-center"><i class="fa-solid fa-pen-to-square mr-2"></i>
-                             Edit
+                     <td class="px-4 py-2 grid grid-cols-1 gap-1">
+                         <a href="?action=edit&group_id=<?= $row['group_id'] ?>" class="cursor-pointer text-center border border-gray-300 py-1 px-2 rounded-lg font-medium text-blue-600 hover:underline"><i class="fa-solid fa-pen-to-square hidden md:inline-block"></i>
+                             <span>Edit</span>
                          </a>
-                         <!-- <button data-group-id="<?= $row['group_id'] ?>" class="finish-group-btn cursor-pointer border border-gray-300 py-1 px-2 rounded-lg font-medium text-red-600 hover:underline"><i class="fa-regular fa-circle-check mr-2"></i>Finish
-                         </button> -->
-                         <a href="?action=finish_group&group_id=<?= $row['group_id'] ?>" class="cursor-pointer border border-gray-300 py-1 px-2 rounded-lg font-medium text-red-600 hover:underline">
-                             <i class="fa-regular fa-circle-check mr-1.5"></i>
-                             Finish
+                         <a href="?action=finish_group&group_id=<?= $row['group_id'] ?>" class=" cursor-pointer text-center border border-gray-300 py-1 px-2 rounded-lg font-medium text-red-600 hover:underline">
+                             <i class="fa-regular fa-circle-check mr-1.5 hidden md:inline-block"></i>
+                             <span>Finish</span>
                          </a>
                      </td>
                  </tr>
