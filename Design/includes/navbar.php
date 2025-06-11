@@ -6,9 +6,16 @@ $pageName = basename($_SERVER['PHP_SELF']);
 
 <!-- navbar -->
 <nav class="bg-white border-gray-200">
-    <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
-        <a href="https://Createivo.com/" class="flex items-center space-x-3 rtl:space-x-reverse">
-            <span class="self-center text-2xl font-semibold whitespace-nowrap">Createivo</span>
+    <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4 gap-4">
+        <a href="index.php" class="flex items-center space-x-3 rtl:space-x-reverse">
+            <span class="flex justify-between self-center text-xl font-semibold whitespace-nowrap">
+                <span class="w-8 h-8 mt-0.5 text-teal-700">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
+                        <path fill-rule="evenodd" d="M2.25 6a3 3 0 0 1 3-3h13.5a3 3 0 0 1 3 3v12a3 3 0 0 1-3 3H5.25a3 3 0 0 1-3-3V6Zm3.97.97a.75.75 0 0 1 1.06 0l2.25 2.25a.75.75 0 0 1 0 1.06l-2.25 2.25a.75.75 0 0 1-1.06-1.06l1.72-1.72-1.72-1.72a.75.75 0 0 1 0-1.06Zm4.28 4.28a.75.75 0 0 0 0 1.5h3a.75.75 0 0 0 0-1.5h-3Z" clip-rule="evenodd" />
+                    </svg>
+                </span>
+                Instructors System
+            </span>
         </a>
         <button data-collapse-toggle="navbar-default" type="button"
             class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200"
@@ -22,7 +29,7 @@ $pageName = basename($_SERVER['PHP_SELF']);
         </button>
         <div class="hidden w-full md:block md:w-auto" id="navbar-default">
             <ul
-                class="font-medium flex flex-col p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0 md:bg-white">
+                class="font-medium flex items-center flex-col p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0 md:bg-white">
                 <li>
                     <a href="#"
                         class="block py-2 px-3 text-white rounded-sm md:bg-transparent md:text-blue-700 md:p-0"
@@ -105,19 +112,22 @@ $pageName = basename($_SERVER['PHP_SELF']);
                         <a href="instructor-groups.php"
                             class=" <?= $pageName == 'instructor-groups.php' ? 'text-blue-600' : '' ?> block py-2 px-3 rounded-sm md:text-center hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0">
                             <i class="text-blue-700 fa-solid fa-chalkboard-user"></i>
-                            Groups
-                            </a>
+                            My Groups
+                        </a>
                     </li>
                     <li>
                         <a href="index.php"
                             class=" <?= $pageName == 'index.php' ? 'text-blue-600' : '' ?> block py-2 px-3 rounded-sm md:text-center hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0">
                             <i class="text-blue-700 fa-solid fa-square-check"></i>
-                            Lecture</a>
+                            Add Lecture</a>
                     </li>
                 <?php } ?>
                 <li>
                     <a href="functions/Auth/logout.php"
-                        class="block py-2 px-3 text-red-700 rounded-sm md:text-center hover:bg-gray-200 md:hover:bg-transparent md:border-0 md:hover:text-orange-500 md:p-0">Logout</a>
+                        class="block py-2 px-3 text-red-700 rounded-sm md:text-center hover:bg-gray-200 md:hover:bg-transparent md:border-0 md:hover:text-orange-500 md:p-0">
+                        <i class="fa-solid fa-right-from-bracket"></i>
+                        Logout
+                    </a>
                 </li>
             </ul>
         </div>
