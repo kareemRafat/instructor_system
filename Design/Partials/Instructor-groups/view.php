@@ -1,12 +1,6 @@
  <?php
     // Fetch all groups from the database
     require_once "Database/connect.php";
-    $groupPerPage = 10; // Number of items per page
-    if (isset($_GET['page']) && is_numeric($_GET['page'])) {
-        $pageNum = ($_GET['page'] - 1) * $groupPerPage; // Assuming 10 items per page
-    } else {
-        $pageNum = 0; // Default to the first page
-    }
 
     $query = "SELECT 
                         `groups`.id AS group_id,
@@ -16,7 +10,7 @@
                         instructors.username AS instructor_name,
                         branches.name AS branch_name,
                         DATE_FORMAT(`groups`.start_date, '%d-%m-%Y') AS formatted_date,
-                        DATE_FORMAT(`groups`.start_date, '%M') AS month,
+                        MONTHNAME(`groups`.start_date) AS month,
                         DATE_FORMAT(
                             DATE_ADD(
                                 DATE_ADD(`groups`.start_date, INTERVAL 5 MONTH),
@@ -36,8 +30,7 @@
                 JOIN branches ON `groups`.branch_id = branches.id
                 WHERE `groups`.is_active = 1
                 AND instructors.id = '{$_SESSION['user_id']}'
-                ORDER BY `groups`.start_date DESC
-                LIMIT $groupPerPage OFFSET $pageNum"; // Adjust LIMIT and OFFSET as needed for pagination
+                ORDER BY `groups`.day ASC";
 
     $stmt = $pdo->prepare($query);
     $stmt->execute();
@@ -82,13 +75,26 @@
                  </tr>
              <?php endif; ?>
              <?php
+                $previousDay = null;
                 foreach ($result as $row) :
-                ?> <tr class="odd:bg-white even:bg-gray-50 bg-white border-b border-gray-200 hover:bg-gray-50">
+                    $currentDay = $row['group_day'];
+                    if ($previousDay !== $currentDay):
+                ?>
+                     <!-- Day Section Header -->
+                     <tr>
+                         <td colspan="7" class="bg-slate-200 text-zinc-800 text-base font-bold px-6 py-1 border-y border-zinc-300">
+                             <?= strtoupper($currentDay) ?>
+                         </td>
+                     </tr>
+                 <?php
+                    endif;
+                    $previousDay = $currentDay;
+                    ?> <tr class="odd:bg-white even:bg-gray-50 bg-white border-b border-gray-200 hover:bg-gray-50">
                      <th scope="row" class="px-6 py-3 font-medium text-gray-900 whitespace-nowrap">
                          <?= ucwords($row['group_name']) ?>
                      </th>
                      <th scope="row" class="px-6 py-3 font-medium text-pink-800 whitespace-nowrap">
-                        <i class="fa-solid fa-clock mr-1.5"></i>
+                         <i class="fa-solid fa-clock mr-1.5"></i>
                          <?php
                             if ($row['group_time'] == 2 || $row['group_time'] == 5) {
                                 echo $row['group_time'] . " - Friday";

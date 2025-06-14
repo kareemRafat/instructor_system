@@ -25,7 +25,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $finish_date = $finish_date . ' ' . $time;
     }
 
-    $hasBonus = ( ($unpaid_students / $total_students) * 100 ) < 20 ;
+    $hasBonus = (($unpaid_students / $total_students) * 100) < 20 ? 1 : 0;
 
     if ($group_id) {
         try {
@@ -33,14 +33,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $pdo->beginTransaction();
 
             // Update group to set is_active to 0
-            $stmt = $pdo->prepare("UPDATE `groups` SET is_active = 0 , has_bonus = '$hasBonus' WHERE id = :group_id");
-            $stmt->bindParam(':group_id', $group_id);
-            $stmt->execute();
+            $stmt = $pdo->prepare("UPDATE `groups` SET is_active = 0 , has_bonus = :hasBonus WHERE id = :group_id");
+            $stmt->execute([
+                ':hasBonus' => $hasBonus,
+                ':group_id' => $group_id
+            ]);
 
             // delete from lectures when the group is finished
             $stmtDel = $pdo->prepare("DELETE FROM lectures WHERE group_id = :group_id");
-            $stmtDel->bindParam(':group_id', $group_id);
-            $stmtDel->execute();
+            $stmtDel->execute([':group_id' => $group_id]);
 
             // check if group exists in bonus table
             if (!checkGroupExists($pdo, $group_id)) {
@@ -61,6 +62,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         } catch (PDOException $e) {
             // Roll back transaction if any error occurs
             $pdo->rollBack();
+
+            echo "<pre>";
+            print_r($e);
+            die();
             $_SESSION['errors']['finish'] = 'Something went Wrong';
             header('location: ../../groups.php');
         }
