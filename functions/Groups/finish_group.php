@@ -96,6 +96,10 @@ function checkErrors($formData, $pdo)
         $errors['unpaid_students'] = "Unpaid Group Students count is required.";
     }
 
+    if($formData['unpaid_students'] > $formData['total_students']) {
+        $errors['unpaid_studentss'] = "يجب ان يكون عدد المتبقين اقل من إجمالي الطلاب ";
+    }
+
     if (!empty($errors)) {
         $_SESSION['old'] = $_POST;
         $_SESSION['errors'] = $errors;

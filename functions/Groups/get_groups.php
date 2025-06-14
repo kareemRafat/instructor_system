@@ -90,7 +90,7 @@ try {
         header('Content-Type: application/json');
         echo json_encode(['status' => 'success', 'data' => $final]);
     } else {
-
+        // this section used in index.php page to get the instructors groups
         // Query to fetch all groups
         $stmt = $pdo->prepare("
                         SELECT 
