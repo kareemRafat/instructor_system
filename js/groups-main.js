@@ -142,7 +142,7 @@ function setTable(res, branch = null) {
   if (res.data.length == 0) {
     tbody.innerHTML = `
         <tr>
-          <td class="px-4 py-3.5 font-bold bg-white" colspan="9"> No Group Found </td>
+          <td class="px-4 py-2 font-bold bg-white" colspan="9"> No Group Found </td>
         </tr>
     `;
   }
@@ -152,10 +152,10 @@ function setTable(res, branch = null) {
     tr.className = "bg-white border-b border-gray-200 hover:bg-gray-50";
 
     tr.innerHTML = `
-      <th scope="row" class="px-4 py-3.5 font-medium text-gray-900 whitespace-nowrap">
+      <th scope="row" class="px-4 py-2 font-medium text-gray-900 whitespace-nowrap">
           ${row.group_name.charAt(0).toUpperCase() + row.group_name.slice(1)}
       </th>
-      <th scope="row" class="px-4 py-3.5 font-medium text-pink-900 whitespace-nowrap">
+      <th scope="row" class="px-4 py-2 font-medium text-pink-900 whitespace-nowrap">
       <i class="fa-solid fa-clock mr-1.5"></i>
           ${
             row.group_time == 2 || row.group_time == 5
@@ -163,16 +163,16 @@ function setTable(res, branch = null) {
               : row.group_time
           }
       </th>
-      <th scope="row" class="px-4 py-3.5 font-medium text-gray-900 whitespace-nowrap">
+      <th scope="row" class="px-4 py-2 font-medium text-gray-900 whitespace-nowrap">
       <span class="${dayBadgeColor(
         row.group_day
       )} text-sm font-medium me-2 px-2.5 py-1.5 rounded-md">${
       row.group_day
     }</span></th>
-      <td class="px-4 py-3.5 text-sky-600 capitalize">
+      <td class="px-4 py-2 text-sky-600 capitalize">
         ${capitalizeFirstLetter(row.track)}
       </td>
-      <td class="px-4 py-3.5">
+      <td class="px-4 py-2">
       <span class="w-2 h-2 ${
         branchIndicator(row.branch_name)["bgColor"]
       } inline-block mr-2"></span>
@@ -181,7 +181,7 @@ function setTable(res, branch = null) {
             row.instructor_name.slice(1)
           }
       </td>
-      <td class="px-4 py-3.5 ${branchIndicator(row.branch_name)["textColor"]}">
+      <td class="px-4 py-2 ${branchIndicator(row.branch_name)["textColor"]}">
         <div class="flex flex-row justify-start items-center">
           <svg class=" w-5 h-5 mr-1.5  md:inline " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
               <path fill-rule="evenodd" d="M12 2c-.791 0-1.55.314-2.11.874l-.893.893a.985.985 0 0 1-.696.288H7.04A2.984 2.984 0 0 0 4.055 7.04v1.262a.986.986 0 0 1-.288.696l-.893.893a2.984 2.984 0 0 0 0 4.22l.893.893a.985.985 0 0 1 .288.696v1.262a2.984 2.984 0 0 0 2.984 2.984h1.262c.261 0 .512.104.696.288l.893.893a2.984 2.984 0 0 0 4.22 0l.893-.893a.985.985 0 0 1 .696-.288h1.262a2.984 2.984 0 0 0 2.984-2.984V15.7c0-.261.104-.512.288-.696l.893-.893a2.984 2.984 0 0 0 0-4.22l-.893-.893a.985.985 0 0 1-.288-.696V7.04a2.984 2.984 0 0 0-2.984-2.984h-1.262a.985.985 0 0 1-.696-.288l-.893-.893A2.984 2.984 0 0 0 12 2Zm3.683 7.73a1 1 0 1 0-1.414-1.413l-4.253 4.253-1.277-1.277a1 1 0 0 0-1.415 1.414l1.985 1.984a1 1 0 0 0 1.414 0l4.96-4.96Z" clip-rule="evenodd" />
@@ -189,26 +189,24 @@ function setTable(res, branch = null) {
           ${row.branch_name.charAt(0).toUpperCase() + row.branch_name.slice(1)}
         </div>
       </td> 
-      <td class="px-4 py-3.5">
+      <td class="px-4 py-2">
           <span class="block text-rose-700">${row.month}</span>
           ${row.formatted_date ? row.formatted_date : "No date added"}
       </td>     
-      <td class="px-4 py-3.5">
+      <td class="px-4 py-2">
           <span class="text-purple-700">${row.group_end_month}</span>
           <br>
           ${row.group_end_date}
       </td>      
-      <td class="px-4 py-3.5">
+      <td class="px-4 py-2 grid grid-cols-1 gap-1">
           <a href="?action=edit&group_id=${
             row.id
-          }" class="cursor-pointer border border-gray-300 py-1 px-2 rounded-lg font-medium text-blue-600 hover:underline mr-2 inline-block mb-2"><i class="fa-solid fa-pen-to-square mr-2"></i>
+          }" class="cursor-pointer text-center border border-gray-300 py-1 px-2 rounded-lg font-medium text-blue-600 hover:underline"><i class="fa-solid fa-pen-to-square hidden md:inline-block mr-1.5"></i>
             Edit
           </a>
-          <button data-group-id="${
-            row.id
-          }" class="finish-group-btn cursor-pointer border border-gray-300 py-1 px-2 rounded-lg font-medium text-red-600 hover:underline">
-              <i class="fa-regular fa-circle-check mr-2"></i>Finish
-          </button>
+          <a href="?action=finish_group&group_id=${row.id}" class="cursor-pointer text-center border border-gray-300 py-1 px-2 rounded-lg font-medium text-red-600 hover:underline">
+              <i class="fa-regular fa-circle-check hidden md:inline-block mr-1.5"></i>Finish
+          </a>
       </td>
   `;
 
