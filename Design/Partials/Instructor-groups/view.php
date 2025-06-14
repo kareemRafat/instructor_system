@@ -30,7 +30,7 @@
                 JOIN branches ON `groups`.branch_id = branches.id
                 WHERE `groups`.is_active = 1
                 AND instructors.id = '{$_SESSION['user_id']}'
-                ORDER BY `groups`.day ASC";
+                ORDER BY `groups`.day ASC , `groups`.time ASC";
 
     $stmt = $pdo->prepare($query);
     $stmt->execute();
