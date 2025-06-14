@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 session_start();
 
@@ -12,11 +12,12 @@ if (!isset($_SESSION['user_id'])) {
 
 try {
 
-    $queryMonth = "SELECT DISTINCT  
+    $queryMonth = "SELECT  
                     MONTHNAME(`bonus`.finish_date) AS month, 
                     YEAR(`bonus`.finish_date) AS year
                     FROM bonus
-                    ORDER BY bonus.finish_date DESC
+                    GROUP BY month, year
+                    ORDER BY MAX(finish_date) DESC
                     LIMIT 10";
     $stmtMonth = $pdo->prepare($queryMonth);
     $stmtMonth->execute();
@@ -24,7 +25,6 @@ try {
 
     header('Content-Type: application/json');
     echo json_encode(['status' => 'success', 'data' => $dates]);
-
-} catch(PDOException $e) {
+} catch (PDOException $e) {
     echo json_encode(['status' => 'success', 'data' => $e->getMessage()]);
 }

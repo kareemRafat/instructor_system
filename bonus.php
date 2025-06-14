@@ -51,6 +51,8 @@ try {
     $stmt->execute($params);
     $bonusData = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
+
+
     $organizedData = [];
     $totalBonusLec = [];
     foreach ($bonusData as $row) {
@@ -64,6 +66,9 @@ try {
         }
         $organizedData[$branch][$instructor][] = $row;
         if ($row['percentage'] < 20) {
+            if (!isset($totalBonusLec[$branch])) {
+                $totalBonusLec[$branch] = ['percentages' => []];
+            }
             $totalBonusLec[$branch]['percentages'][] = $row['percentage'];
         }
     }
@@ -95,11 +100,11 @@ try {
         </p>
     <?php else: ?>
 
-        <div class="flex justify-between items-center mb-5">
+        <div class="flex flex-col md:flex-row justify-between md:items-center mb-5 gap-4">
             <h1 class="text-xl font-bold leading-none tracking-tight text-gray-900 md:text-xl lg:text-xl">Bonus data For <span class="text-blue-600"><?= ucwords($selectedMonth) ?></span> year
                 <span class="font-bold text-blue-600"><?= $selectedYear ? " $selectedYear" : '' ?>.</span>
             </h1>
-            <p class="text-white bg-blue-600 border border-gray-200 rounded-lg shadow-md text-base px-3 py-1"><a href="bonus.php" class="inline-flex items-center font-medium hover:underline">
+            <p class="self-end text-white bg-blue-600 border border-gray-200 rounded-lg shadow-md text-base px-3 py-1"><a href="bonus.php" class="inline-flex items-center font-medium hover:underline">
                     <svg class="w-4 h-4 me-2 rotate-90 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h12m0 0L9 1m4 4L9 9" />
                     </svg>
@@ -113,7 +118,7 @@ try {
                         <?= htmlspecialchars($branch) ?>
                         <span class="flex flex-row items-center text-white">
                             <?php if ($totalBonusLec) { ?>
-                                <span class="font-bold"><?= count($totalBonusLec[$branch]['percentages']) ?></span>
+                                <span class="font-bold"><?= isset($totalBonusLec[$branch]) ? count($totalBonusLec[$branch]['percentages']) : '' ?></span>
                                 <svg class="ml-2 w-5 h-5 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
                                     <path d="M7.833 2c-.507 0-.98.216-1.318.576A1.92 1.92 0 0 0 6 3.89V21a1 1 0 0 0 1.625.78L12 18.28l4.375 3.5A1 1 0 0 0 18 21V3.889c0-.481-.178-.954-.515-1.313A1.808 1.808 0 0 0 16.167 2H7.833Z" />
                                 </svg>
