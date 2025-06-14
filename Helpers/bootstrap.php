@@ -2,8 +2,6 @@
 
 session_start();
 
-
-
 require_once __DIR__ . "/../Database/connect.php";
 require_once __DIR__ . '/../functions/Auth/auth_helper.php';
 
@@ -23,19 +21,19 @@ function checkAccess($role)
     $accessRules = [
         'admin' => ['*'], // Admin can access all pages,
         'owner' => ['*'],
-        'cs' => ['lectures.php','groups.php','tables.php'],
-        'cs-admin' => ['customer-service.php','lectures.php','groups.php','tables.php'],
-        'instructor' => ['index.php','instructor-groups.php'], // Instructor can access index.php
+        'cs' => ['lectures.php', 'groups.php', 'tables.php'],
+        'cs-admin' => ['customer-service.php', 'lectures.php', 'groups.php', 'tables.php'],
+        'instructor' => ['index.php', 'instructor-groups.php'], // Instructor can access index.php
     ];
 
     if (isset($accessRules[$role])) {
         if (in_array('*', $accessRules[$role]) || in_array($currentPage, $accessRules[$role])) {
             return true;
+        } else {
+            header("location: ../" . $accessRules[$role][0]);
+            return false;
         }
     }
-
-    // header("location: ../login.php");
-    return false;
 }
 
 // fetch user information

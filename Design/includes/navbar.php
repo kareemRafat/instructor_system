@@ -2,6 +2,10 @@
 
 $pageName = basename($_SERVER['PHP_SELF']);
 
+function hasRole(...$roles)
+{
+    return in_array(ROLE, $roles);
+}
 ?>
 
 <!-- navbar -->
@@ -44,7 +48,7 @@ $pageName = basename($_SERVER['PHP_SELF']);
                     <div id="dropdownNavbar" class="z-10 hidden font-normal bg-white divide-y divide-gray-100 rounded-lg shadow-sm w-44">
                         <ul class="py-2 text-base font-semibold text-gray-700" aria-labelledby="dropdownLargeButton">
                             <?php
-                            if (ROLE === 'admin') {
+                            if (hasRole('owner', 'admin')) {
                             ?>
                                 <li>
                                     <a href="instructors.php"
@@ -55,7 +59,7 @@ $pageName = basename($_SERVER['PHP_SELF']);
                                 </li>
                             <?php } ?>
                             <?php
-                            if (ROLE == 'admin' or ROLE == 'cs-admin') {
+                            if (hasRole('admin', 'cs-admin', 'owner')) {
                             ?>
                                 <li>
                                     <a href="customer-service.php"
@@ -66,7 +70,7 @@ $pageName = basename($_SERVER['PHP_SELF']);
                         </ul>
                     </div>
                 </li>
-                <?php if (ROLE == 'admin' or ROLE == 'owner') { ?>
+                <?php if (hasRole('admin', 'owner')) { ?>
                     <li>
                         <a href="bonus.php"
                             class=" <?= $pageName == 'bonus.php' ? 'text-blue-600' : '' ?> block py-2 px-3 rounded-sm md:text-center hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0">
@@ -76,7 +80,7 @@ $pageName = basename($_SERVER['PHP_SELF']);
                     </li>
                 <?php } ?>
                 <?php
-                if (ROLE === 'admin' or ROLE === 'cs-admin' or ROLE === 'cs') {
+                if (hasRole('admin', 'cs-admin', 'cs', 'owner')) {
                 ?>
                     <li>
                         <a href="lectures.php"
@@ -95,7 +99,7 @@ $pageName = basename($_SERVER['PHP_SELF']);
                 <?php } ?>
 
                 <?php
-                if (ROLE == 'admin' or ROLE == 'cs' or ROLE == 'cs-admin') {
+                if (hasRole('admin', 'cs', 'cs-admin', 'owner')) {
                 ?>
                     <li>
                         <a href="groups.php"
@@ -106,7 +110,7 @@ $pageName = basename($_SERVER['PHP_SELF']);
                     </li>
                 <?php } ?>
                 <?php
-                if (ROLE === 'admin' or ROLE === 'instructor') {
+                if (hasRole('admin', 'instructor', 'owner')) {
                 ?>
                     <li>
                         <a href="instructor-groups.php"
