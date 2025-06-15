@@ -16,7 +16,7 @@
                                 DATE_ADD(`groups`.start_date, INTERVAL 5 MONTH),
                                 INTERVAL 2 WEEK
                             ),
-                            '%d, %m-%Y'
+                            '%d-%m-%Y'
                             ) AS group_end_date,
                         DATE_FORMAT(
                             DATE_ADD(
@@ -45,22 +45,22 @@
          <thead class="text-xs text-gray-700 uppercase bg-gray-200">
              <tr class="text-base">
                  <th scope="col" class="px-6 py-3">
-                     Group
+                    Group
                  </th>
                  <th scope="col" class="px-6 py-3">
-                     Time
+                    Time
                  </th>
                  <th scope="col" class="px-6 py-3">
-                     Track
+                    Track
                  </th>
                  <th scope="col" class="px-6 py-3">
-                     Start Date
+                    Start Date
                  </th>
                  <th scope="col" class="px-6 py-3">
-                     End Date
+                    Expected End
                  </th>
                  <th scope="col" class="px-6 py-3">
-                     Branch
+                    Branch
                  </th>
              </tr>
          </thead>

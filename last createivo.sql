@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.1
+-- version 5.2.2
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Generation Time: Jun 10, 2025 at 02:05 AM
--- Server version: 10.4.28-MariaDB
--- PHP Version: 8.2.4
+-- Host: localhost:3306
+-- Generation Time: Jun 15, 2025 at 03:58 PM
+-- Server version: 8.0.42
+-- PHP Version: 8.3.22
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `createivo`
+-- Database: `kareem_inst`
 --
 
 -- --------------------------------------------------------
@@ -28,10 +28,10 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `bonus` (
-  `id` int(11) NOT NULL,
-  `total_students` int(11) NOT NULL,
-  `unpaid_students` int(11) NOT NULL,
-  `group_id` int(11) NOT NULL,
+  `id` int NOT NULL,
+  `total_students` int NOT NULL,
+  `unpaid_students` int NOT NULL,
+  `group_id` int NOT NULL,
   `finish_date` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -42,9 +42,9 @@ CREATE TABLE `bonus` (
 --
 
 CREATE TABLE `branches` (
-  `id` int(11) NOT NULL,
-  `name` varchar(255) NOT NULL,
-  `arabic_name` varchar(255) NOT NULL
+  `id` int NOT NULL,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `arabic_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
@@ -63,8 +63,8 @@ INSERT INTO `branches` (`id`, `name`, `arabic_name`) VALUES
 --
 
 CREATE TABLE `branch_instructor` (
-  `instructor_id` int(11) NOT NULL,
-  `branch_id` int(11) NOT NULL
+  `instructor_id` int NOT NULL,
+  `branch_id` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -73,15 +73,16 @@ CREATE TABLE `branch_instructor` (
 
 INSERT INTO `branch_instructor` (`instructor_id`, `branch_id`) VALUES
 (1, 1),
-(18, 2),
-(20, 2),
 (21, 1),
-(21, 3),
-(22, 2),
 (23, 1),
 (24, 1),
 (25, 1),
-(26, 1);
+(26, 1),
+(35, 1),
+(18, 2),
+(20, 2),
+(22, 2),
+(21, 3);
 
 -- --------------------------------------------------------
 
@@ -90,12 +91,12 @@ INSERT INTO `branch_instructor` (`instructor_id`, `branch_id`) VALUES
 --
 
 CREATE TABLE `groups` (
-  `id` int(11) NOT NULL,
-  `name` varchar(255) NOT NULL,
+  `id` int NOT NULL,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `time` decimal(4,2) NOT NULL,
-  `day` enum('saturday','sunday','monday') NOT NULL,
-  `instructor_id` int(11) DEFAULT NULL,
-  `branch_id` int(11) DEFAULT NULL,
+  `day` enum('saturday','sunday','monday') COLLATE utf8mb4_unicode_ci NOT NULL,
+  `instructor_id` int DEFAULT NULL,
+  `branch_id` int DEFAULT NULL,
   `is_active` tinyint(1) NOT NULL,
   `start_date` datetime DEFAULT NULL,
   `has_bonus` tinyint(1) DEFAULT NULL
@@ -129,7 +130,9 @@ INSERT INTO `groups` (`id`, `name`, `time`, `day`, `instructor_id`, `branch_id`,
 (58, 'orchid', 3.00, 'sunday', 21, 3, 1, '2025-01-15 22:04:08', NULL),
 (59, 'training_first', 12.30, 'saturday', 1, 1, 0, '2025-01-21 00:58:14', NULL),
 (68, 'char', 3.00, 'monday', 21, 1, 1, '2025-02-20 01:43:21', NULL),
-(69, 'position', 6.00, 'monday', 21, 1, 1, '2025-04-07 01:44:16', NULL);
+(69, 'position', 6.00, 'monday', 21, 1, 1, '2025-04-07 01:44:16', NULL),
+(70, 'span Online ', 6.10, 'saturday', 23, 1, 1, '2025-06-17 15:55:20', NULL),
+(71, 'design', 12.30, 'sunday', 23, 1, 1, '2025-06-15 15:56:38', NULL);
 
 -- --------------------------------------------------------
 
@@ -138,11 +141,11 @@ INSERT INTO `groups` (`id`, `name`, `time`, `day`, `instructor_id`, `branch_id`,
 --
 
 CREATE TABLE `instructors` (
-  `id` int(11) NOT NULL,
-  `username` varchar(255) NOT NULL,
-  `password` varchar(255) NOT NULL,
-  `is_active` tinyint(1) NOT NULL DEFAULT 1,
-  `role` varchar(20) NOT NULL
+  `id` int NOT NULL,
+  `username` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `password` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `is_active` tinyint(1) NOT NULL DEFAULT '1',
+  `role` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
@@ -158,7 +161,8 @@ INSERT INTO `instructors` (`id`, `username`, `password`, `is_active`, `role`) VA
 (23, 'esraa', '$2y$10$dkq74DqAU9GyUESLRW25wuUn2vqFjUTDnNVeop9vg1XkBFvOm7J4y', 1, 'instructor'),
 (24, 'atef', '$2y$10$KvZFCg5xjavM5OylP5rI2u4oKXs/AVhys/o8QI4.IlxmeHKfffFcy', 1, 'instructor'),
 (25, 'nora', '$2y$10$wj/e5nJpNBupGoq.GNVDqOL0tEgEUYhf0taBmnRUFgDYSsixDVMoa', 1, 'instructor'),
-(26, 'hend', '$2y$10$2zxlynA9kkULE3ZTRzJh6./QOSy7HFZt4R3Thy2T1nDhnvcVzcMiS', 1, 'cs');
+(26, 'hend', '$2y$10$2zxlynA9kkULE3ZTRzJh6./QOSy7HFZt4R3Thy2T1nDhnvcVzcMiS', 1, 'cs'),
+(35, 'khaled', '$2y$10$OFHlXeT4W5VYnECyV/FP7ellFNRlZdodPUVo5Ap1yk/v9vBHrX1d.', 1, 'owner');
 
 -- --------------------------------------------------------
 
@@ -167,13 +171,13 @@ INSERT INTO `instructors` (`id`, `username`, `password`, `is_active`, `role`) VA
 --
 
 CREATE TABLE `lectures` (
-  `id` int(11) NOT NULL,
-  `group_id` int(11) DEFAULT NULL,
-  `track_id` int(11) DEFAULT NULL,
-  `instructor_id` int(11) NOT NULL,
-  `branch_id` int(11) NOT NULL,
-  `comment` text DEFAULT NULL,
-  `date` datetime DEFAULT current_timestamp()
+  `id` int NOT NULL,
+  `group_id` int DEFAULT NULL,
+  `track_id` int DEFAULT NULL,
+  `instructor_id` int NOT NULL,
+  `branch_id` int NOT NULL,
+  `comment` text COLLATE utf8mb4_general_ci,
+  `date` datetime DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -207,9 +211,9 @@ INSERT INTO `lectures` (`id`, `group_id`, `track_id`, `instructor_id`, `branch_i
 --
 
 CREATE TABLE `remember_tokens` (
-  `id` int(11) NOT NULL,
-  `instructor_id` int(11) NOT NULL,
-  `token` varchar(64) NOT NULL,
+  `id` int NOT NULL,
+  `instructor_id` int NOT NULL,
+  `token` varchar(64) COLLATE utf8mb4_general_ci NOT NULL,
   `expiry` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -229,8 +233,8 @@ INSERT INTO `remember_tokens` (`id`, `instructor_id`, `token`, `expiry`) VALUES
 --
 
 CREATE TABLE `tracks` (
-  `id` int(11) NOT NULL,
-  `name` varchar(255) NOT NULL
+  `id` int NOT NULL,
+  `name` varchar(255) COLLATE utf8mb4_general_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -319,43 +323,43 @@ ALTER TABLE `tracks`
 -- AUTO_INCREMENT for table `bonus`
 --
 ALTER TABLE `bonus`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT for table `branches`
 --
 ALTER TABLE `branches`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `groups`
 --
 ALTER TABLE `groups`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=70;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=72;
 
 --
 -- AUTO_INCREMENT for table `instructors`
 --
 ALTER TABLE `instructors`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
 
 --
 -- AUTO_INCREMENT for table `lectures`
 --
 ALTER TABLE `lectures`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=87;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=87;
 
 --
 -- AUTO_INCREMENT for table `remember_tokens`
 --
 ALTER TABLE `remember_tokens`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=62;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=64;
 
 --
 -- AUTO_INCREMENT for table `tracks`
 --
 ALTER TABLE `tracks`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- Constraints for dumped tables
