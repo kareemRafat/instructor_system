@@ -24,7 +24,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         //  password logic
         if (!empty($password)) {
             $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
-            $query = "UPDATE  instructors SET password = :password WHERE id = $id )";
+            $query = "UPDATE  instructors SET password = :password WHERE id = $id";
             $stmt = $pdo->prepare($query);
             $stmt->execute([
                 ':password' => $hashedPassword,
