@@ -51,9 +51,6 @@
                      Time
                  </th>
                  <th scope="col" class="px-6 py-3">
-                     Day
-                 </th>
-                 <th scope="col" class="px-6 py-3">
                      Track
                  </th>
                  <th scope="col" class="px-6 py-3">
@@ -82,7 +79,7 @@
                 ?>
                      <!-- Day Section Header -->
                      <tr>
-                         <td colspan="7" class="bg-slate-200 text-zinc-800 text-base font-bold px-6 py-1 border-y border-zinc-300">
+                         <td colspan="7" class="bg-slate-200 text-zinc-800 text-base font-bold px-6 py-1.5 border-y border-zinc-300">
                              <?= strtoupper($currentDay) ?>
                          </td>
                      </tr>
@@ -90,11 +87,11 @@
                     endif;
                     $previousDay = $currentDay;
                     ?> <tr class="odd:bg-white even:bg-gray-50 bg-white border-b border-gray-200 hover:bg-gray-50">
-                     <th scope="row" class="px-6 py-3 font-medium text-gray-900 whitespace-nowrap">
+                     <th scope="row" class="<?= dayBadgeColor($row['group_day']) ?> px-6 py-3 font-bolder tracking-wider  whitespace-nowrap">
                          <?= ucwords($row['group_name']) ?>
                      </th>
-                     <th scope="row" class="px-6 py-3 font-medium text-pink-800 whitespace-nowrap">
-                         <i class="fa-solid fa-clock mr-1.5"></i>
+                     <th scope="row" class="px-6 py-3 font-medium text-slate-600 whitespace-nowrap">
+                         <i class="fa-solid fa-clock mr-1.5 text-slate-500"></i>
                          <?php
                             if ($row['group_time'] == 2 || $row['group_time'] == 5) {
                                 echo $row['group_time'] . " - Friday";
@@ -104,9 +101,6 @@
                                 echo $row['group_time'];
                             }
                             ?>
-                     </th>
-                     <th scope="row" class="px-6 py-3 font-medium text-gray-900 whitespace-nowrap">
-                         <span class="<?= dayBadgeColor($row['group_day']) ?> text-sm font-medium me-2 px-2.5 py-1.5 rounded-md"><?= $row['group_day'] ?></span>
                      </th>
                      <td class="px-6 py-3 text-sky-600 capitalize">
                          <?php
@@ -179,10 +173,10 @@
         $dayName = strtolower($dayName);
 
         $colors = [
-            'saturday' => 'bg-orange-100 text-orange-600 border border-orange-300',
-            'sunday' => 'bg-blue-100 text-blue-700 border border-blue-300',
-            'monday' => 'bg-pink-100 text-pink-700 border border-pink-300',
-            'default' => 'bg-zinc-100 text-zinc-700 border border-zinc-300'
+            'saturday' => 'text-orange-600',
+            'sunday' => 'text-blue-700',
+            'monday' => 'text-pink-700',
+            'default' => 'text-zinc-700'
         ];
 
         return $colors[$dayName] ?? $colors['default'];
