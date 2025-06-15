@@ -87,7 +87,7 @@
  </div>
 
  <!-- total count -->
- <div class="flex flex-col md:flex-row justify-between items-center gap-4">
+ <div class="py-5 flex flex-col md:flex-row justify-between items-center gap-4">
      <div class="w-full">
          <h1 class="text-2xl font-extrabold leading-none text-gray-900 ">Active
              <span class="text-blue-600">Groups - </span>
@@ -95,7 +95,7 @@
          </h1>
      </div>
 
-     <div class="w-full my-4 flex flex-col md:flex-row justify-end gap-4">
+     <div class="w-full flex flex-col md:flex-row justify-end gap-4">
 
          <?php if (hasRole('admin', 'cs-admin', 'owner')) : ?>
              <a class="px-4 py-1.5 md:mb-0 bg-rose-600 text-base rounded-md tracking-wider font-medium capitalize text-center text-white" href="?action=finished">
