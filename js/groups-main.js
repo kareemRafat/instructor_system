@@ -151,17 +151,24 @@ function setTable(res, branch = null) {
     const tr = document.createElement("tr");
     tr.className = "bg-white border-b border-gray-200 hover:bg-gray-50";
 
+    // show real time group time (6.10 to online 6)
+    const displayTime = (group_time) => {
+      group_time = parseFloat(group_time);
+      if (group_time === 2 || group_time === 5) {
+          return `${group_time} - Friday`;
+      } else if (group_time === 6.10 || group_time === 8) {
+          return `Online ${Math.floor(group_time)}`;
+      } else {
+          return `${group_time}`;
+      }
+  };  
     tr.innerHTML = `
       <th scope="row" class="px-4 py-2 font-medium text-gray-900 whitespace-nowrap">
           ${row.group_name.charAt(0).toUpperCase() + row.group_name.slice(1)}
       </th>
       <th scope="row" class="px-4 py-2 font-medium text-pink-900 whitespace-nowrap">
       <i class="fa-solid fa-clock mr-1.5"></i>
-          ${
-            row.group_time == 2 || row.group_time == 5
-              ? `${row.group_time} - Friday`
-              : row.group_time
-          }
+          ${displayTime(row.group_time)}
       </th>
       <th scope="row" class="px-4 py-2 font-medium text-gray-900 whitespace-nowrap">
       <span class="${dayBadgeColor(
