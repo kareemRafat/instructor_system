@@ -89,15 +89,16 @@
  <!-- total count -->
  <div class="flex flex-col md:flex-row justify-between items-center gap-4">
      <div class="w-full">
-         <h1 class="text-2xl font-extrabold leading-none text-gray-900 ">Active 
-            <span class="text-blue-600">Groups - </span>
-            <span class="total-inst-count"></span>
-        </h1>
+         <h1 class="text-2xl font-extrabold leading-none text-gray-900 ">Active
+             <span class="text-blue-600">Groups - </span>
+             <span class="total-inst-count"></span>
+         </h1>
      </div>
-     
+
      <div class="w-full my-4 flex flex-col md:flex-row justify-end gap-4">
-         <?php if (ROLE == 'admin' || ROLE == 'cs-admin') : ?>
-             <a class="px-4 py-1.5 mb-3 md:mb-0 bg-rose-600 text-base rounded-md tracking-wider font-medium capitalize text-center text-white" href="?action=finished">
+
+         <?php if (hasRole('admin', 'cs-admin', 'owner')) : ?>
+             <a class="px-4 py-1.5 md:mb-0 bg-rose-600 text-base rounded-md tracking-wider font-medium capitalize text-center text-white" href="?action=finished">
                  Finished Groups
              </a>
          <?php endif; ?>
@@ -209,7 +210,7 @@
                      </td>
                      <td class="px-4 py-2 grid grid-cols-1 gap-1">
                          <a href="?action=edit&group_id=<?= $row['group_id'] ?>" class="cursor-pointer text-center border border-gray-300 py-1 px-2 rounded-lg font-medium text-blue-600 hover:underline">
-                            <i class="fa-solid fa-pen-to-square hidden md:inline-block mr-1.5"></i>
+                             <i class="fa-solid fa-pen-to-square f"></i>
                              <span>Edit</span>
                          </a>
                          <a href="?action=finish_group&group_id=<?= $row['group_id'] ?>" class="cursor-pointer text-center border border-gray-300 py-1 px-2 rounded-lg font-medium text-red-600 hover:underline">

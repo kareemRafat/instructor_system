@@ -8,7 +8,7 @@ if(!isset($_SESSION['user_id'])) {
     exit('You are not logged in!');
 }
 
-$is_admin = $_SESSION['role'] == 'admin' || $_SESSION['role'] == 'cs-admin';
+$is_admin = in_array($_SESSION['role'], ['admin', 'cs-admin', 'owner']);
 
 try {
     // Query to fetch all branches
