@@ -19,13 +19,38 @@
                     DATE_FORMAT(g.start_date, '%d-%m-%Y') AS formatted_date,
                     DATE_FORMAT(g.start_date, '%M') AS month,
                     DATE_FORMAT(
-                        DATE_ADD(DATE_ADD(g.start_date, INTERVAL 5 MONTH), INTERVAL 2 WEEK),
-                        '%d, %m-%Y'
-                    ) AS group_end_date,
-                    DATE_FORMAT(
-                        DATE_ADD(DATE_ADD(g.start_date, INTERVAL 5 MONTH), INTERVAL 2 WEEK),
-                        '%M'
-                    ) AS group_end_month
+                            DATE_ADD(
+                                DATE_ADD(
+                                    g.start_date,
+                                    INTERVAL CASE
+                                                WHEN g.name LIKE '%training%' THEN 2
+                                                ELSE 5
+                                            END MONTH
+                                ),
+                                INTERVAL CASE
+                                            WHEN g.name LIKE '%training%' THEN 15
+                                            ELSE 14
+                                        END DAY
+                            ),
+                            '%d-%m-%Y'
+                        ) AS group_end_date,
+
+                        DATE_FORMAT(
+                            DATE_ADD(
+                                DATE_ADD(
+                                    g.start_date,
+                                    INTERVAL CASE
+                                                WHEN g.name LIKE '%training%' THEN 2
+                                                ELSE 5
+                                            END MONTH
+                                ),
+                                INTERVAL CASE
+                                            WHEN g.name LIKE '%training%' THEN 15
+                                            ELSE 14
+                                        END DAY
+                            ),
+                            '%M'
+                        ) AS group_end_month
                 FROM `groups` g
                 JOIN instructors i ON g.instructor_id = i.id
                 JOIN branches b ON g.branch_id = b.id

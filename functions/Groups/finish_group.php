@@ -15,6 +15,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     $group_id = $_POST['group_id'] ?? null;
+    $group_name = $_POST['group_name'] ?? null;
     $finish_date = $_POST['finish_date'] ?? null;
     $total_students = $_POST['total_students'] ?? null;
     $unpaid_students = $_POST['unpaid_students'] ?? null;
@@ -45,6 +46,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             // check if group exists in bonus table
             if (!checkGroupExists($pdo, $group_id)) {
+                // if (str_contains(strtolower($group_name), strtolower('training'))) {
+                //     var_dump( 'Found!' );
+                //     die();
+                // }
                 // insert in bonus table
                 $stmtBonus = $pdo->prepare("INSERT INTO `bonus` (group_id , total_students , unpaid_students , finish_date) VALUES (:group_id , :total , :unpaid , :finish_date )");
                 $stmtBonus->execute([
@@ -96,7 +101,7 @@ function checkErrors($formData, $pdo)
         $errors['unpaid_students'] = "Unpaid Group Students count is required.";
     }
 
-    if($formData['unpaid_students'] > $formData['total_students']) {
+    if ($formData['unpaid_students'] > $formData['total_students']) {
         $errors['unpaid_studentss'] = "يجب ان يكون عدد المتبقين اقل من إجمالي الطلاب ";
     }
 

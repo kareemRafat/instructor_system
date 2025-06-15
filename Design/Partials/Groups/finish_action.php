@@ -19,6 +19,7 @@ function getGroupById($groupId, $pdo)
 </div>
 
 <form class="p-4 md:p-5" action="functions/Groups/finish_group.php" method="POST">
+    <input type="hidden" name="group_name" value="<?= $group['name'] ?>">
     <input type="hidden" name="group_id" value="<?= $group['id'] ?>">
 
     <div>
