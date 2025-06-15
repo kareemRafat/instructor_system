@@ -210,7 +210,7 @@
                      </td>
                      <td class="px-4 py-2 grid grid-cols-1 gap-1">
                          <a href="?action=edit&group_id=<?= $row['group_id'] ?>" class="cursor-pointer text-center border border-gray-300 py-1 px-2 rounded-lg font-medium text-blue-600 hover:underline">
-                             <i class="fa-solid fa-pen-to-square f"></i>
+                             <i class="fa-solid fa-pen-to-square hidden md:inline-block"></i>
                              <span>Edit</span>
                          </a>
                          <a href="?action=finish_group&group_id=<?= $row['group_id'] ?>" class="cursor-pointer text-center border border-gray-300 py-1 px-2 rounded-lg font-medium text-red-600 hover:underline">
