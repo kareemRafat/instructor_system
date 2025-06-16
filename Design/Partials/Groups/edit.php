@@ -8,7 +8,14 @@ function getGroupById($groupId, $pdo)
 {
     $stmt = $pdo->prepare("SELECT * FROM `groups` WHERE id = :id");
     $stmt->execute([':id' => $groupId]);
-    return $stmt->fetch(PDO::FETCH_ASSOC);
+    $group = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    if (!$group) {
+        include "not_found.php";
+        exit();
+    }
+
+    return $group;
 }
 ?>
 

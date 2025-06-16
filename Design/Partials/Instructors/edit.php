@@ -12,7 +12,14 @@ function getInstructorById($instId, $pdo)
                         JOIN branch_instructor bi ON i.id = bi.instructor_id
                         WHERE id = :id");
     $stmt->execute([':id' => $instId]);
-    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    $instructor = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    if(empty($instructor)) {
+        include "not_found.php";
+        exit();
+    }
+
+    return $instructor ;
 }
 
 function getBranches($pdo)
