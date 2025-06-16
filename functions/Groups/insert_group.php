@@ -29,7 +29,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     // check if the group time with the same instructor and branch is already exists
-    $stmt = $pdo->prepare("SELECT COUNT(*) FROM `groups` WHERE instructor_id = :instructor AND branch_id = :branch AND time = :groupTime AND day = :groupDay");
+    $stmt = $pdo->prepare("SELECT COUNT(*) FROM `groups` WHERE instructor_id = :instructor AND branch_id = :branch AND time = :groupTime AND day = :groupDay AND is_active = 1");
     $stmt->bindParam(':instructor', $instructor);
     $stmt->bindParam(':branch', $branch);
     $stmt->bindParam(':groupTime', $groupTime);

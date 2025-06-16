@@ -46,10 +46,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             // check if group exists in bonus table
             if (!checkGroupExists($pdo, $group_id)) {
-                // if (str_contains(strtolower($group_name), strtolower('training'))) {
-                //     var_dump( 'Found!' );
-                //     die();
-                // }
                 // insert in bonus table
                 $stmtBonus = $pdo->prepare("INSERT INTO `bonus` (group_id , total_students , unpaid_students , finish_date) VALUES (:group_id , :total , :unpaid , :finish_date )");
                 $stmtBonus->execute([
@@ -68,9 +64,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // Roll back transaction if any error occurs
             $pdo->rollBack();
 
-            echo "<pre>";
-            print_r($e);
-            die();
             $_SESSION['errors']['finish'] = 'Something went Wrong';
             header('location: ../../groups.php');
         }

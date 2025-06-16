@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Jun 15, 2025 at 03:58 PM
+-- Generation Time: Jun 16, 2025 at 03:25 AM
 -- Server version: 8.0.42
 -- PHP Version: 8.3.22
 
@@ -97,7 +97,7 @@ CREATE TABLE `groups` (
   `day` enum('saturday','sunday','monday') COLLATE utf8mb4_unicode_ci NOT NULL,
   `instructor_id` int DEFAULT NULL,
   `branch_id` int DEFAULT NULL,
-  `is_active` tinyint(1) NOT NULL,
+  `is_active` tinyint(1) NOT NULL COMMENT '0 finished',
   `start_date` datetime DEFAULT NULL,
   `has_bonus` tinyint(1) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -132,7 +132,9 @@ INSERT INTO `groups` (`id`, `name`, `time`, `day`, `instructor_id`, `branch_id`,
 (68, 'char', 3.00, 'monday', 21, 1, 1, '2025-02-20 01:43:21', NULL),
 (69, 'position', 6.00, 'monday', 21, 1, 1, '2025-04-07 01:44:16', NULL),
 (70, 'span Online ', 6.10, 'saturday', 23, 1, 1, '2025-06-17 15:55:20', NULL),
-(71, 'design', 12.30, 'sunday', 23, 1, 1, '2025-06-15 15:56:38', NULL);
+(71, 'design', 12.30, 'sunday', 23, 1, 1, '2025-06-15 15:56:38', NULL),
+(72, 'glue', 6.00, 'monday', 20, 2, 1, '2025-06-16 00:53:38', NULL),
+(73, 'training_magdy1', 3.00, 'saturday', 20, 2, 1, '2025-05-03 01:35:58', NULL);
 
 -- --------------------------------------------------------
 
@@ -156,7 +158,7 @@ INSERT INTO `instructors` (`id`, `username`, `password`, `is_active`, `role`) VA
 (1, 'kareem', '$2y$10$HtisKuRB1rUWCrToSZ5D6OPBBEO9/deo.Z81s/lov5WYpnK0BLbuK', 1, 'admin'),
 (18, 'hala', '$2y$10$raObV2IWuaJG8lw2aje9.e3bDuaTOe2fZWMtWnaxA71voVOigKlvm', 1, 'cs-admin'),
 (20, 'magdy', '$2y$10$YxtR.0hIeFiU7HVA6VA58ut8rS1JRxfcs6UiStjw5h8SVurHe3BfK', 1, 'instructor'),
-(21, 'assim', '$2y$10$HtisKuRB1rUWCrToSZ5D6OPBBEO9/deo.Z81s/lov5WYpnK0BLbuK', 1, 'instructor'),
+(21, 'assim', '$2y$10$5cuNFyG7gFOhcM5UghqQNOMOAfERupcNrAFJY81N/rc9x8CnUb6W2', 1, 'instructor'),
 (22, 'sobhy', '$2y$10$GfeeCg1ZDtcCAAl9F5El9OVW0aq8cEo/6JjmYp.Q9jAgLKYFY.66.', 1, 'instructor'),
 (23, 'esraa', '$2y$10$dkq74DqAU9GyUESLRW25wuUn2vqFjUTDnNVeop9vg1XkBFvOm7J4y', 1, 'instructor'),
 (24, 'atef', '$2y$10$KvZFCg5xjavM5OylP5rI2u4oKXs/AVhys/o8QI4.IlxmeHKfffFcy', 1, 'instructor'),
@@ -202,7 +204,9 @@ INSERT INTO `lectures` (`id`, `group_id`, `track_id`, `instructor_id`, `branch_i
 (68, 47, 4, 22, 2, 'اول محاضرة php', '2025-05-21 22:24:24'),
 (69, 49, 2, 22, 2, 'مشروع css بعد الاجازة ', '2025-05-21 22:26:38'),
 (70, 50, 3, 22, 2, 'تاني محاضرة ', '2025-05-21 22:27:13'),
-(71, 51, 3, 22, 2, 'بداية المكتبات', '2025-05-21 22:30:33');
+(71, 51, 3, 22, 2, 'بداية المكتبات', '2025-05-21 22:30:33'),
+(87, 38, 3, 1, 1, '2 - JavaScript Functions', '2025-06-15 21:42:01'),
+(88, 39, 4, 1, 1, '3 - PHP file system', '2025-06-15 21:42:26');
 
 -- --------------------------------------------------------
 
@@ -222,9 +226,8 @@ CREATE TABLE `remember_tokens` (
 --
 
 INSERT INTO `remember_tokens` (`id`, `instructor_id`, `token`, `expiry`) VALUES
-(24, 23, '8fb2f0524b78c4306920aa6eae9206eeb07a7e6ac122e9e907374ba751a50862', '2025-06-19 14:47:55'),
 (36, 18, '41753f220165166908b3af27cd601cbbb9d9d3c49a7b1d1f8d50d06258413d64', '2025-06-20 13:46:39'),
-(54, 23, '9f804e1858981673d989f58f6c95a6617ccbbd10f7d38c281fb222dd1b9e19e7', '2025-06-23 13:01:47');
+(64, 21, '2efc29b15004aae58e5562d427e54deb65ce78a9416848366337e6c9269bac36', '2025-07-15 15:04:37');
 
 -- --------------------------------------------------------
 
@@ -335,7 +338,7 @@ ALTER TABLE `branches`
 -- AUTO_INCREMENT for table `groups`
 --
 ALTER TABLE `groups`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=72;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=74;
 
 --
 -- AUTO_INCREMENT for table `instructors`
@@ -347,13 +350,13 @@ ALTER TABLE `instructors`
 -- AUTO_INCREMENT for table `lectures`
 --
 ALTER TABLE `lectures`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=87;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=89;
 
 --
 -- AUTO_INCREMENT for table `remember_tokens`
 --
 ALTER TABLE `remember_tokens`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=64;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=65;
 
 --
 -- AUTO_INCREMENT for table `tracks`

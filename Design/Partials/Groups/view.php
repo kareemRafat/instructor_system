@@ -121,7 +121,6 @@
      </div>
 
      <div class="w-full flex flex-col md:flex-row justify-end gap-4">
-
          <?php if (hasRole('admin', 'cs-admin', 'owner')) : ?>
              <a class="px-4 py-1.5 md:mb-0 bg-rose-600 text-base rounded-md tracking-wider font-medium capitalize text-center text-white" href="?action=finished">
                  Finished Groups
@@ -238,10 +237,20 @@
                              <i class="fa-solid fa-pen-to-square hidden md:inline-block"></i>
                              <span>Edit</span>
                          </a>
-                         <a href="?action=finish_group&group_id=<?= $row['group_id'] ?>" class="cursor-pointer text-center border border-gray-300 py-1 px-2 rounded-lg font-medium text-red-600 hover:underline">
-                             <i class="fa-regular fa-circle-check mr-1.5 hidden md:inline-block"></i>
-                             <span>Finish</span>
-                         </a>
+                         <!-- if not training finish with from to check bonus -->
+                         <?php if (!str_contains(strtolower($row['group_name']), strtolower('training'))): ?>
+                             <a href="?action=finish_group&group_id=<?= $row['group_id'] ?>" class="cursor-pointer text-center border border-gray-300 py-1 px-2 rounded-lg font-medium text-red-600 hover:underline">
+                                 <i class="fa-regular fa-circle-check mr-1.5 hidden md:inline-block"></i>
+                                 <span>Finish</span>
+                             </a>
+                        <!-- if training just change is_active to 0 -->
+                         <?php else : ?>
+                             <a  data-group-id="<?= $row['group_id'] ?>" class="finish-btn cursor-pointer text-center border border-gray-300 py-1 px-2 rounded-lg font-medium text-red-600 hover:underline">
+                                 <i class="fa-regular fa-circle-check mr-1.5 hidden md:inline-block"></i>
+                                 <span>Finish</span>
+                             </a>
+                         <?php endif; ?>
+
                      </td>
                  </tr>
              <?php endforeach; ?>

@@ -1,4 +1,8 @@
-import { capitalizeFirstLetter, getQueryString , globalWait } from "./helpers.js";
+import {
+  capitalizeFirstLetter,
+  getQueryString,
+  globalWait,
+} from "./helpers.js";
 
 const searchInput = document.getElementById("table-search");
 const tbody = document.querySelector("tbody");
@@ -28,6 +32,9 @@ document.addEventListener("DOMContentLoaded", function () {
     })
     .catch((error) => console.error("Error fetching lectures:", error));
 
+  // finish group in case of training groups only
+  finishTrainigGroups();
+
   // get groups total count when page load
   groupsTotalCount(getQueryString("branch"));
 
@@ -40,7 +47,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const instructorName = this.selectedOptions[0]?.text;
 
     // get total groups to the instructor
-    groupsTotalCount(branchVal , instructorId ,instructorName )
+    groupsTotalCount(branchVal, instructorId, instructorName);
 
     // toggle pagination
     if (!instructorId) {
@@ -70,7 +77,7 @@ document.addEventListener("DOMContentLoaded", function () {
   /** search functionality */
   searchInput.addEventListener("input", function () {
     const searchValue = this.value.trim();
-  
+
     // reset instructor
     fetchInstructors(branchVal);
     groupsTotalCount(branchVal);
@@ -105,34 +112,44 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 });
 
-/** Finish a group */
-function finishGroup(groupId, button) {
-  const formData = new FormData();
+/** Finish Training groups */
+function finishTrainigGroups() {
+  const button = document.querySelectorAll(".finish-btn");
 
-  const now = new Date();
-  const datetime = now.toLocaleString("sv-SE").replace("T", " "); // 'YYYY-MM-DD HH:mm:ss'
+  button.forEach((btn) => {
+    btn.addEventListener("click", async () => {
+      const groupId = btn.dataset.groupId;
 
-  formData.append("group_id", groupId);
-  formData.append("finist_date", datetime);
+      if (
+        confirm(
+          "Are you sure you want to mark this Training group as finished?"
+        )
+      ) {
+        try {
+          const response = await fetch(
+            "functions/Groups/finish_training_group.php",
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/x-www-form-urlencoded",
+              },
+              body: `id=${encodeURIComponent(groupId)}`,
+            }
+          );
 
-  fetch("functions/Groups/finish_group.php", {
-    method: "POST",
-    body: formData,
-  })
-    .then((response) => response.json())
-    .then((data) => {
-      if (data.status === "success") {
-        // Remove the row from the table
-        const row = button.closest("tr");
-        row.remove();
-        notyf.success("Group Finished Successfully");
-      } else {
-        alert("Error: " + data.message);
+          const result = await response.json();
+          if (result.status == "success") {
+            const row = btn.closest("tr");
+            row.remove();
+            notyf.success("Group Finished Successfully");
+          }
+        } catch (error) {
+          alert("Request failed.");
+          console.error(error);
+        }
       }
-    })
-    .catch((error) => {
-      alert("An error occurred while finishing the group");
     });
+  });
 }
 
 /** setTable */
@@ -155,13 +172,13 @@ function setTable(res, branch = null) {
     const displayTime = (group_time) => {
       group_time = parseFloat(group_time);
       if (group_time === 2 || group_time === 5) {
-          return `${group_time} - Friday`;
-      } else if (group_time === 6.10 || group_time === 8) {
-          return `Online ${Math.floor(group_time)}`;
+        return `${group_time} - Friday`;
+      } else if (group_time === 6.1 || group_time === 8) {
+        return `Online ${Math.floor(group_time)}`;
       } else {
-          return `${group_time}`;
+        return `${group_time}`;
       }
-  };  
+    };
     tr.innerHTML = `
       <th scope="row" class="px-4 py-2 font-medium text-gray-900 whitespace-nowrap">
           ${row.group_name.charAt(0).toUpperCase() + row.group_name.slice(1)}
@@ -211,7 +228,9 @@ function setTable(res, branch = null) {
           }" class="cursor-pointer text-center border border-gray-300 py-1 px-2 rounded-lg font-medium text-blue-600 hover:underline"><i class="fa-solid fa-pen-to-square hidden md:inline-block mr-1.5"></i>
             Edit
           </a>
-          <a href="?action=finish_group&group_id=${row.id}" class="cursor-pointer text-center border border-gray-300 py-1 px-2 rounded-lg font-medium text-red-600 hover:underline">
+          <a href="?action=finish_group&group_id=${
+            row.id
+          }" class="cursor-pointer text-center border border-gray-300 py-1 px-2 rounded-lg font-medium text-red-600 hover:underline">
               <i class="fa-regular fa-circle-check hidden md:inline-block mr-1.5"></i>Finish
           </a>
       </td>
@@ -283,19 +302,22 @@ function dayBadgeColor(dayName) {
   dayName = dayName.toLowerCase();
 
   const colors = {
-    'saturday' : 'bg-orange-100 text-orange-600 border border-orange-300',
-    'sunday' : 'bg-blue-100 text-blue-700 border border-blue-300',
-    'monday' : 'bg-pink-100 text-pink-700 border border-pink-300',
-    'default' : 'bg-zinc-100 text-zinc-700 border border-zinc-300'
+    saturday: "bg-orange-100 text-orange-600 border border-orange-300",
+    sunday: "bg-blue-100 text-blue-700 border border-blue-300",
+    monday: "bg-pink-100 text-pink-700 border border-pink-300",
+    default: "bg-zinc-100 text-zinc-700 border border-zinc-300",
   };
 
   return colors[dayName] || colors["default"];
 }
 
 /** get gropus total count */
-async function groupsTotalCount(branch , instructor = null , instructorName = null) {
-  
-  const instructorTotal = document.querySelector('.total-inst-count');
+async function groupsTotalCount(
+  branch,
+  instructor = null,
+  instructorName = null
+) {
+  const instructorTotal = document.querySelector(".total-inst-count");
 
   instructorTotal.innerHTML = `
     <div role="status" class="inline-block">
@@ -305,15 +327,17 @@ async function groupsTotalCount(branch , instructor = null , instructorName = nu
              </svg>
              <span class="sr-only">Loading...</span>
          </div>
-  `
+  `;
   await globalWait(300);
 
   let url = `functions/Groups/get_groups_count.php`;
 
-  if(instructor) {
-    url += `?branch_id=${encodeURIComponent(branch)}&instructor_id=${encodeURIComponent(instructor)}`
-  } else if(branch) {
-    url += `?branch_id=${encodeURIComponent(branch)}`
+  if (instructor) {
+    url += `?branch_id=${encodeURIComponent(
+      branch
+    )}&instructor_id=${encodeURIComponent(instructor)}`;
+  } else if (branch) {
+    url += `?branch_id=${encodeURIComponent(branch)}`;
   }
 
   fetch(url)

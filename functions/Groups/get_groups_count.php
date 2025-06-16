@@ -13,7 +13,8 @@ if (!isset($_SESSION['user_id'])) {
 $countQuery = "SELECT 
                     COUNT(*) AS total 
                 FROM `groups` AS g 
-                WHERE is_active = 1 
+                WHERE is_active = 1
+                AND g.name NOT LIKE '%training%' 
                 AND (:branch IS NULL OR g.branch_id = :branch) 
                 AND (:instructor IS NULL OR g.instructor_id = :instructor)
                 AND (:search IS NULL OR g.name LIKE '%:search%') ";

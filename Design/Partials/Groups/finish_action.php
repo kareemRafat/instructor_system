@@ -27,6 +27,7 @@ function getGroupById($groupId, $pdo)
     </div>
 
     <div class="grid gap-4 grid-cols-1 md:grid-cols-3">
+        <!-- date picker -->
         <div class="my-1">
             <label class="block mb-2 text-sm font-medium text-gray-900">End Date</label>
             <div class="relative w-full mb-1">
@@ -35,7 +36,7 @@ function getGroupById($groupId, $pdo)
                         <path d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z" />
                     </svg>
                 </div>
-                <input required name="finish_date" id="datepicker-actions" datepicker datepicker-buttons datepicker-autoselect-today type="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5" placeholder="Select date">
+                <input required autocomplete="off" name="finish_date" id="datepicker-actions" datepicker datepicker-buttons datepicker-autoselect-today type="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5" placeholder="Select date">
             </div>
         </div>
 
