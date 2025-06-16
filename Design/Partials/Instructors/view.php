@@ -51,16 +51,16 @@ $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <table class="w-full text-sm text-left rtl:text-right text-gray-500">
         <thead class="text-xs text-gray-700 uppercase bg-gray-200">
             <tr class="text-base">
-                <th scope="col" class="px-6 py-3">
+                <th scope="col" class="px-6 py-2">
                     Username
                 </th>
-                <th scope="col" class="px-6 py-3" >
+                <th scope="col" class="px-6 py-2" >
                     Branch
                 </th>
-                <th scope="col" class="px-6 py-3">
+                <th scope="col" class="px-6 py-2">
                     Status
                 </th>
-                <th scope="col" class="px-6 py-3">
+                <th scope="col" class="px-6 py-2">
                     <span>Action</span>
                 </th>
             </tr>
@@ -68,7 +68,7 @@ $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <tbody class="font-semibold text-base">
             <?php if ($count == 0) : ?>
                 <tr class="bg-white">
-                    <td colspan="4" class="px-6 py-4 text-gray-500 font-semibold">
+                    <td colspan="4" class="px-6 py-1 text-gray-500 font-semibold">
                         No instructors found
                     </td>
                 </tr>
@@ -78,10 +78,10 @@ $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
             ?>
                 <tr
                     class="odd:bg-white even:bg-gray-50 bg-white border-b border-gray-200 hover:bg-gray-50">
-                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
+                    <th scope="row" class="px-6 py-1 font-medium text-gray-900 whitespace-nowrap">
                         <?= ucwords($row['username']) ?>
                     </th>
-                    <td class="pr-6 py-4 md:flex  md:flex-row md:justify-start">
+                    <td class="pr-3 py-1 md:flex  md:flex-row md:justify-start">
                         <?php
                         if (isset($row['branches'])) {
                             $branchArray = explode(', ', $row['branches']);
@@ -97,20 +97,20 @@ $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         }
                         ?>
                     </td>
-                    <td class="px-6 py-4">
+                    <td class="px-6 py-1">
                         <span
                             class="isactive-span inline-flex items-center rounded-md px-2 py-1 text-xs font-medium ring-1 ring-inset <?= $row['is_active'] ? 'text-green-700 bg-green-50 ring-green-600/20' : 'text-red-700 bg-red-50 ring-red-600/20' ?>">
                             <?= $row['is_active'] ? 'Active' : 'Disabled' ?>
                         </span>
                     </td>
-                    <td class="px-4 py-3.5">
-                        <a href="?action=edit&instructor_id=<?= $row['id'] ?>" class="cursor-pointer border border-gray-300 py-0.5 px-2 rounded-lg font-medium text-blue-600 hover:underline mr-2 inline-block mb-2 text-center"><i class="fa-solid fa-pen-to-square mr-2"></i>
+                    <td class="px-4 py-1.5 flex flex-col md:flex-row gap-1">
+                        <a href="?action=edit&instructor_id=<?= $row['id'] ?>" class="cursor-pointer border border-gray-300 py-0.5 px-2 rounded-lg font-medium text-blue-600 hover:underline mr-2 inline-block text-center w-[85%] md:w-fit"><i class="fa-solid fa-pen-to-square mr-1 hidden md:inline-block"></i>
                             Edit
                         </a>
                         <button type="button"
-                            class="toggle-status-btn cursor-pointer text-sm border border-gray-300 py-1 px-2 rounded-lg <?= $row['is_active'] ? 'text-red-600' : 'text-green-600' ?> hover:underline"
+                            class="toggle-status-btn w-[85%] md:w-fit cursor-pointer text-sm border border-gray-300 py-1 px-2 rounded-lg <?= $row['is_active'] ? 'text-red-600' : 'text-green-600' ?> hover:underline"
                             data-instructor-id="<?= $row['id'] ?>">
-                            <?= $row['is_active'] ? '<i class="fa-solid fa-user-slash mr-1"></i>' : '<i class="fa-solid fa-user mr-1"></i>' ?>
+                            <?= $row['is_active'] ? '<i class="fa-solid fa-user-slash mr-1 hidden md:inline-block"></i>' : '<i class="fa-solid fa-user mr-1 hidden md:inline-block"></i>' ?>
                             <?= $row['is_active'] ? 'Disable' : 'Enable' ?>
                         </button>
                     </td>

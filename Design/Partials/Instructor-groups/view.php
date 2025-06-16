@@ -4,7 +4,7 @@
 
     $query = "SELECT 
                         `groups`.id AS group_id,
-                        `groups`.name AS group_name,
+                        IF(`groups`.name LIKE '%training%', 'training', `groups`.name) AS group_name,
                         `groups`.time AS group_time,
                         `groups`.day AS group_day,
                         instructors.username AS instructor_name,
@@ -87,7 +87,7 @@
                     endif;
                     $previousDay = $currentDay;
                     ?> <tr class="odd:bg-white even:bg-gray-50 bg-white border-b border-gray-200 hover:bg-gray-50">
-                     <th scope="row" class="<?= dayBadgeColor($row['group_day']) ?> px-6 py-3 font-bolder tracking-wider  whitespace-nowrap">
+                     <th scope="row" class="<?= dayBadgeColor($row['group_day']) ?> px-6 py-3 font-semibold tracking-wider whitespace-nowrap">
                          <?= ucwords($row['group_name']) ?>
                      </th>
                      <th scope="row" class="px-6 py-2 font-medium text-slate-800 whitespace-nowrap">
