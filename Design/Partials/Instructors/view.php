@@ -68,7 +68,7 @@ $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <tbody class="font-semibold text-base">
             <?php if ($count == 0) : ?>
                 <tr class="bg-white">
-                    <td colspan="4" class="px-6 py-1 text-gray-500 font-semibold">
+                    <td colspan="4" class="px-6 py-4 text-gray-500 font-semibold">
                         No instructors found
                     </td>
                 </tr>
@@ -78,10 +78,10 @@ $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
             ?>
                 <tr
                     class="odd:bg-white even:bg-gray-50 bg-white border-b border-gray-200 hover:bg-gray-50">
-                    <th scope="row" class="px-6 py-1 font-medium text-gray-900 whitespace-nowrap">
+                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
                         <?= ucwords($row['username']) ?>
                     </th>
-                    <td class="pr-3 py-1 md:flex  md:flex-row md:justify-start">
+                    <td class="pr-3 py-4 md:flex  md:flex-row md:justify-start">
                         <?php
                         if (isset($row['branches'])) {
                             $branchArray = explode(', ', $row['branches']);
@@ -97,13 +97,13 @@ $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         }
                         ?>
                     </td>
-                    <td class="px-6 py-1">
+                    <td class="px-6 py-4">
                         <span
                             class="isactive-span inline-flex items-center rounded-md px-2 py-1 text-xs font-medium ring-1 ring-inset <?= $row['is_active'] ? 'text-green-700 bg-green-50 ring-green-600/20' : 'text-red-700 bg-red-50 ring-red-600/20' ?>">
                             <?= $row['is_active'] ? 'Active' : 'Disabled' ?>
                         </span>
                     </td>
-                    <td class="px-4 py-1.5 flex flex-col md:flex-row gap-1">
+                    <td class="px-4 py-4 flex flex-col md:flex-row gap-1">
                         <a href="?action=edit&instructor_id=<?= $row['id'] ?>" class="cursor-pointer border border-gray-300 py-0.5 px-2 rounded-lg font-medium text-blue-600 hover:underline mr-2 inline-block text-center w-[85%] md:w-fit"><i class="fa-solid fa-pen-to-square mr-1 hidden md:inline-block"></i>
                             Edit
                         </a>
