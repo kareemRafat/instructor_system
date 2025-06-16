@@ -28,7 +28,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
 
     if (roleMeta == "cs") {
-      await wait(1000);
+      await wait(500);
       skeleton.classList.add("hidden");
       // fetch lectures base on logged user branch
       await fetchBranchLectures(branchMeta);
@@ -59,7 +59,7 @@ branch.onchange = async function () {
     if (!branch.value) {
       resetAllWithNoBranch();
       await fetchBranchLectures(this.value);
-      await wait(1000);
+      await wait(500);
       skeleton.classList.add("hidden");
       return;
     }
@@ -77,7 +77,7 @@ branch.onchange = async function () {
     // reset time
     groupTimeSelect.value = "";
 
-    await wait(1000);
+    await wait(500);
     skeleton.classList.add("hidden");
   } catch (error) {
     console.error("Error in branch change handler:", error);
@@ -122,7 +122,7 @@ tracks.onchange = async function () {
     // reset groups when select no track
     if (this.value == "") {
       await fetchBranchLectures(branch.value);
-      await wait(1000);
+      await wait(500);
       skeleton.classList.add("hidden");
       lecturesCards.classList.remove("hidden");
       return;
@@ -133,7 +133,7 @@ tracks.onchange = async function () {
       await fetchBranchAndTrackLec(branch.value, this.value);
     }
 
-    await wait(1000);
+    await wait(500);
     skeleton.classList.add("hidden");
     lecturesCards.classList.remove("hidden");
   } catch (error) {
@@ -182,7 +182,7 @@ groupTimeSelect.onchange = async function () {
 
     if (this.value == "") {
       await fetchBranchLectures(branch.value);
-      await wait(1000);
+      await wait(500);
       skeleton.classList.add("hidden");
       lecturesCards.classList.remove("hidden");
       return;
@@ -220,7 +220,7 @@ groupTimeSelect.onchange = async function () {
     lecturesCards.innerHTML =
       "<p>Failed to load lectures. Please try again.</p>";
   } finally {
-    await wait(1000);
+    await wait(500);
     skeleton.classList.add("hidden");
     lecturesCards.classList.remove("hidden");
   }
@@ -235,7 +235,7 @@ instructor.onchange = async function () {
 
     if (this.value == "") {
       await fetchBranchLectures(branch.value);
-      await wait(1000);
+      await wait(500);
       skeleton.classList.add("hidden");
       lecturesCards.classList.remove("hidden");
       return;
@@ -270,7 +270,7 @@ instructor.onchange = async function () {
     lecturesCards.innerHTML =
       "<p>Failed to load lectures. Please try again.</p>";
   } finally {
-    await wait(1000);
+    await wait(500);
     skeleton.classList.add("hidden");
     lecturesCards.classList.remove("hidden");
   }

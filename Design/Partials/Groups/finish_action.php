@@ -11,10 +11,15 @@ function getGroupById($groupId, $pdo)
     return $stmt->fetch(PDO::FETCH_ASSOC);
 }
 ?>
-<div class="p-4 md:p-5 flex justify-end">
-    <a href="groups.php" class="text-white inline-flex items-center bg-orange-400 hover:bg-amber-600 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
-        <i class="fas fa-backward me-2"></i>
-        <span class="hidden md:inline-flex">Back</span>
+<div class="p-3 md:p-3 flex flex-col-reverse md:flex-row justify-between md:items-center">
+    <div>
+        <h1 class="text-2xl font-extrabold leading-none tracking-tight text-gray-900 md:text-4xl">Finsih <span class="text-blue-600"><?= $group['name'] ?></span> Group </h1>
+    </div>
+    <a href="groups.php" class="inline-flex items-center self-end justify-center pr-2 text-base font-medium text-gray-500 rounded-lg bg-gray-50 hover:text-gray-900 hover:bg-gray-100">
+        <svg class="w-4 h-4 me-2 rotate-90" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
+            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h12m0 0L9 1m4 4L9 9" />
+        </svg>
+        <span class="w-full">Back</span>
     </a>
 </div>
 
@@ -22,9 +27,7 @@ function getGroupById($groupId, $pdo)
     <input type="hidden" name="group_name" value="<?= $group['name'] ?>">
     <input type="hidden" name="group_id" value="<?= $group['id'] ?>">
 
-    <div>
-        <h1 class="mb-10 text-3xl font-extrabold leading-none tracking-tight text-gray-900 md:text-4xl lg:text-5xl">Finsih <span class="text-blue-600"><?= $group['name'] ?></span> Group </h1>
-    </div>
+
 
     <div class="grid gap-4 grid-cols-1 md:grid-cols-3">
         <!-- date picker -->

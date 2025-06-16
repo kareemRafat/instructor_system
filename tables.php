@@ -18,7 +18,7 @@ $instructors = $stmt->fetchAll(PDO::FETCH_ASSOC);
 // Fetch groups
 $groups = [];
 $stmt = $pdo->prepare("SELECT 
-                            g.name,
+                            IF(g.name LIKE '%training%', 'training', g.name) AS name,
                             g.day,
                             g.time,
                             g.branch_id,

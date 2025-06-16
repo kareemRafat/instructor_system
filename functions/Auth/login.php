@@ -3,7 +3,7 @@ session_start();
 require_once '../../Database/connect.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $inputUsername = $_POST['username'];
+    $inputUsername = trim($_POST['username']);
     $inputPassword = $_POST['password'];
     $rememberMe = isset($_POST['remember']);
 
@@ -73,6 +73,7 @@ function errorDiv($errorTxt)
 
 function redirectBasedOnRole($role)
 {
+    $_SESSION['login'] = 'success';
     if ($role == 'admin' || $role == 'instructor') {
         header("Location: ../../index.php");
     } elseif ($role == 'cs' or $role == 'cs-admin') {

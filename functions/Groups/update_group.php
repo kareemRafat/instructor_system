@@ -14,7 +14,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $time = $_POST['time'] ?? null;
     $groupTime = $_POST['grouptime'] ?? null;
     $groupDay = $_POST['groupDay'] ?? null;
-    $name = $_POST['name'] ?? null;
+    $name = trim($_POST['name']) ?? null;
     $instructor = $_POST['instructor'] ?? null;
     $branch = $_POST['branch'] ?? null;
 
