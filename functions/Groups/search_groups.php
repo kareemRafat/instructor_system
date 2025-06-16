@@ -17,7 +17,7 @@ if (isset($_GET['search'])) {
                 DATE_FORMAT(g.start_date, '%M') AS month,
                 DATE_FORMAT(
                     DATE_ADD(DATE_ADD(g.start_date, INTERVAL 5 MONTH), INTERVAL 2 WEEK),
-                    '%d, %m-%Y'
+                    '%d-%m-%Y'
                 ) AS group_end_date,
                 DATE_FORMAT(
                     DATE_ADD(DATE_ADD(g.start_date, INTERVAL 5 MONTH), INTERVAL 2 WEEK),

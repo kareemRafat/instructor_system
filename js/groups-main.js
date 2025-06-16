@@ -33,7 +33,7 @@ document.addEventListener("DOMContentLoaded", function () {
     .catch((error) => console.error("Error fetching lectures:", error));
 
   // finish group in case of training groups only
-  finishTrainigGroups();
+  finishTrainingGroups();
 
   // get groups total count when page load
   groupsTotalCount(getQueryString("branch"));
@@ -113,43 +113,37 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 /** Finish Training groups */
-function finishTrainigGroups() {
-  const button = document.querySelectorAll(".finish-btn");
+function finishTrainingGroups() {
+  // i used event delegation because the finish btn added to the dom when search
+  document.getElementById("group-table-body").addEventListener("click", async (e) => {
+  const btn = e.target.closest(".finish-btn");
+  
+  if (!btn) return;
 
-  button.forEach((btn) => {
-    btn.addEventListener("click", async () => {
-      const groupId = btn.dataset.groupId;
+  const groupId = btn.dataset.groupId;
 
-      if (
-        confirm(
-          "Are you sure you want to mark this Training group as finished?"
-        )
-      ) {
-        try {
-          const response = await fetch(
-            "functions/Groups/finish_training_group.php",
-            {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/x-www-form-urlencoded",
-              },
-              body: `id=${encodeURIComponent(groupId)}`,
-            }
-          );
+  if (confirm("Are you sure you want to mark this Training group as finished?")) {
+    try {
+      const response = await fetch("functions/Groups/finish_training_group.php", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: `id=${encodeURIComponent(groupId)}`,
+      });
 
-          const result = await response.json();
-          if (result.status == "success") {
-            const row = btn.closest("tr");
-            row.remove();
-            notyf.success("Group Finished Successfully");
-          }
-        } catch (error) {
-          alert("Request failed.");
-          console.error(error);
-        }
+      const result = await response.json();
+      if (result.status === "success") {
+        const row = btn.closest("tr");
+        row.remove();
+        notyf.success("Group Finished Successfully");
       }
-    });
-  });
+    } catch (error) {
+      alert("Request failed.");
+      console.error(error);
+    }
+  }
+});
 }
 
 /** setTable */
@@ -170,10 +164,10 @@ function setTable(res, branch = null) {
 
     // show real time group time (6.10 to online 6)
     const displayTime = (group_time) => {
-      group_time = parseFloat(group_time);
-      if (group_time === 2 || group_time === 5) {
+      const gTime = +group_time;
+      if (gTime === 2 || gTime === 5) {
         return `${group_time} - Friday`;
-      } else if (group_time === 6.1 || group_time === 8) {
+      } else if (gTime === 6.1 || gTime === 8) {
         return `Online ${Math.floor(group_time)}`;
       } else {
         return `${group_time}`;
@@ -228,11 +222,7 @@ function setTable(res, branch = null) {
           }" class="cursor-pointer text-center border border-gray-300 py-1 px-2 rounded-lg font-medium text-blue-600 hover:underline"><i class="fa-solid fa-pen-to-square hidden md:inline-block mr-1.5"></i>
             Edit
           </a>
-          <a href="?action=finish_group&group_id=${
-            row.id
-          }" class="cursor-pointer text-center border border-gray-300 py-1 px-2 rounded-lg font-medium text-red-600 hover:underline">
-              <i class="fa-regular fa-circle-check hidden md:inline-block mr-1.5"></i>Finish
-          </a>
+          ${renderFinishButton(row.group_name, row.id)}
       </td>
   `;
 
@@ -347,3 +337,16 @@ async function groupsTotalCount(
     })
     .catch((error) => console.error("Error:", error));
 }
+
+const renderFinishButton = (groupName, groupId) => {
+  const isTraining = groupName.toLowerCase().includes("training");
+  return isTraining
+    ? `<a data-group-id="${groupId}" class="finish-btn cursor-pointer text-center border border-gray-300 py-1 px-2 rounded-lg font-medium text-red-600 hover:underline">
+         <i class="fa-solid fa-power-off text-base hidden md:inline-block"></i>
+         <span>Finish</span>
+       </a>`
+    : `<a href="?action=finish_group&group_id=${groupId}" class="cursor-pointer text-center border border-gray-300 py-1 px-2 rounded-lg font-medium text-red-600 hover:underline">
+         <i class="fas fa-square-check hidden md:inline-block"></i>
+         <span>Finish</span>
+       </a>`;
+};

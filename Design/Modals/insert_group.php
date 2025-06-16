@@ -34,6 +34,11 @@
                         <div class="col-span-2">
                             <label for="name" class="block mb-2 text-sm font-medium text-gray-900">Name</label>
                             <input type="text" name="name" id="name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-600 block w-full p-2.5" placeholder="Group Name" required="">
+                            <!-- Generate button -->
+                            <a id="generate-name" href="#" class="font-sm font-semibold mt-1 block text-blue-600 dark:text-blue-500 hover:underline">
+                                <i class="fa-solid fa-sign-hanging mr-1"></i>
+                                Generate Training group
+                            </a>
                             <?php
                             if (isset($errors['name'])) {
                                 echo '<div class="p-2 my-2 text-sm text-red-800 rounded-lg bg-red-50" role="alert"> ' .
@@ -181,6 +186,28 @@
                 });
             }
         }
+
+
+        // generte training group name
+        document.addEventListener('DOMContentLoaded', () => {
+            const generateBtn = document.getElementById('generate-name');
+            const nameInput = document.getElementById('name');
+
+            function getRandomAlphaNum(length) {
+                const chars = 'abcdefghijklmnopqrstuvwxyz0123456789';
+                let result = '';
+                for (let i = 0; i < length; i++) {
+                    result += chars.charAt(Math.floor(Math.random() * chars.length));
+                }
+                return result;
+            }
+
+            generateBtn.addEventListener('click', () => {
+                const randomPart = getRandomAlphaNum(4); // exactly 4 characters
+                const groupName = `training_${randomPart}`;
+                nameInput.value = groupName;
+            });
+        });
 
         /** helper functions */
         function capitalizeFirstLetter(value) {

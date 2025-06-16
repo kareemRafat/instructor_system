@@ -169,7 +169,7 @@
                  </th>
              </tr>
          </thead>
-         <tbody class="font-semibold text-base">
+         <tbody id="group-table-body" class="font-semibold text-base">
              <?php if ($count == 0) : ?> <tr class="bg-white">
                      <td colspan="7" class="px-4 py-2 text-gray-500 font-semibold">
                          No Groups found
@@ -240,13 +240,13 @@
                          <!-- if not training finish with from to check bonus -->
                          <?php if (!str_contains(strtolower($row['group_name']), strtolower('training'))): ?>
                              <a href="?action=finish_group&group_id=<?= $row['group_id'] ?>" class="cursor-pointer text-center border border-gray-300 py-1 px-2 rounded-lg font-medium text-red-600 hover:underline">
-                                 <i class="fa-regular fa-circle-check mr-1.5 hidden md:inline-block"></i>
+                                 <i class="fas fa-square-check hidden md:inline-block"></i>
                                  <span>Finish</span>
                              </a>
                         <!-- if training just change is_active to 0 -->
                          <?php else : ?>
                              <a  data-group-id="<?= $row['group_id'] ?>" class="finish-btn cursor-pointer text-center border border-gray-300 py-1 px-2 rounded-lg font-medium text-red-600 hover:underline">
-                                 <i class="fa-regular fa-circle-check mr-1.5 hidden md:inline-block"></i>
+                                 <i class="fa-solid fa-power-off text-base hidden md:inline-block"></i>
                                  <span>Finish</span>
                              </a>
                          <?php endif; ?>
