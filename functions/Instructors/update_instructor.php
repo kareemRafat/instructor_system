@@ -11,7 +11,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
 
-
     try {
 
         $id = $_POST['id'];
@@ -31,7 +30,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             ]);
         }
 
-        // Insert new instructor
+        // update instructor
         $query = "UPDATE instructors SET username = :username WHERE id = $id";
         $stmt = $pdo->prepare($query);
         $stmt->execute([

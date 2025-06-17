@@ -22,7 +22,7 @@ $errors = $_SESSION['errors'] ?? [];
             <form class="p-4 md:p-5" action="functions/Customer-service/insert_cs.php" method="POST">
                 <div class="grid gap-4 mb-4">
                     <div class="col-span-2"> <label for="username" class="block mb-2 text-sm font-medium text-gray-900">Username</label>
-                        <input type="text" name="username" id="username" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" placeholder="Enter instructor username" required value="<?= isset($_SESSION['old']) ? $_SESSION['old']['username'] : '' ?>">
+                        <input type="text" name="username" id="username" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" placeholder="Enter agent username" required value="<?= isset($_SESSION['old']) ? $_SESSION['old']['username'] : '' ?>">
                         <?php if (isset($errors['username'])) {
                             echo '<div class="p-2 my-2 text-sm text-red-800 rounded-lg bg-red-50" role="alert"> ' .
                                 $errors['username'] .

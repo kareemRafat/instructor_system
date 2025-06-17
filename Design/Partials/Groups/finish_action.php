@@ -20,7 +20,7 @@ function getGroupById($groupId, $pdo)
 ?>
 <div class="p-3 md:p-3 flex flex-col-reverse md:flex-row justify-between md:items-center gap-3">
     <div>
-        <h1 class="text-2xl font-extrabold leading-none tracking-tight text-gray-900 md:text-4xl">Finsih <span class="text-blue-600"><?= $group['name'] ?></span> Group </h1>
+        <h1 class="text-2xl font-extrabold leading-none tracking-tight text-gray-900 md:text-4xl">Finish <span class="text-blue-600"><?= $group['name'] ?></span> Group </h1>
     </div>
     <a href="groups.php" class="inline-flex items-center self-end justify-center p-2 text-base font-medium text-gray-500 rounded-lg bg-gray-100 hover:text-gray-900 hover:bg-gray-200">
         <svg class="w-4 h-4 me-2 rotate-90" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
