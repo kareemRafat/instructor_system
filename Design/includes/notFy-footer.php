@@ -15,7 +15,7 @@
     <?php if (isset($_SESSION['login'])): ?>
         notyf.success({
             message: 'Welcome to Your Dashboard',
-            duration: 5000,
+            duration: 3000,
             icon:'<i class="fa-solid fa-code"></i>' ,
             dismissible: false,
             position: {

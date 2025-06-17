@@ -128,6 +128,7 @@ function getBranches($pdo)
     }
 
 
+    // mark the agent role as selected
     document.querySelectorAll('#rolesSelect option').forEach(op => {
         if (op.value == `<?= $instructor[0]['role'] ?>` ) {
             op.selected = true 

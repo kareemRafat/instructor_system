@@ -120,7 +120,9 @@ include_once 'Design/includes/navbar.php';
 </div>
 <script type="module" src="dist/lectures-main.js"></script>
 
-
+<?php
+include_once "Design/includes/notFy-footer.php";
+?>
 
 </body>
 

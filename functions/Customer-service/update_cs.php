@@ -41,10 +41,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             ':role' => $role,
         ]);
 
-        // Commit transaction if both queries succeeded
+        // update branch
+        $queryBranch = "UPDATE branch_instructor SET branch_id = :branch WHERE instructor_id = $id";
+        $stmtBranch = $pdo->prepare($queryBranch);
+        $stmtBranch->execute([
+            ':branch' => $branch
+        ]);
+
+        // Commit transaction if all queries succeeded
         $pdo->commit();
 
-        $_SESSION['success'] = "Customer Service Agent Added Successfully";
+        $_SESSION['success'] = "Customer Service Agent updated Successfully";
         header('Location: ../../customer-service.php');
     } catch (Exception $e) {
         // Roll back transaction if any error occurs
@@ -52,7 +59,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         echo $e->getMessage();
         $_SESSION['errors'] = $e->getMessage();
-        // header('Location: ../../customer-service.php');
+        header('Location: ../../customer-service.php');
     }
 }
 
