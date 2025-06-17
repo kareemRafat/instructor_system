@@ -2,6 +2,7 @@ import {
   capitalizeFirstLetter,
   getQueryString,
   globalWait,
+  getMetaContent
 } from "./helpers.js";
 
 const searchInput = document.getElementById("table-search");
@@ -13,6 +14,9 @@ const instructorSelect = document.getElementById("instructor-select");
 // branchSelect const came from the modal in the same page
 
 document.addEventListener("DOMContentLoaded", function () {
+  const branchMeta = getMetaContent("branch");
+  const roleMeta = getMetaContent("role");
+  
   // get branches when page loaded
   fetch("functions/Branches/get_branches.php")
     .then((response) => response.json())
@@ -26,11 +30,17 @@ document.addEventListener("DOMContentLoaded", function () {
           if (option.value == branchVal) {
             option.selected = true;
           }
+          if (option.value == branchMeta && roleMeta == 'cs') {
+            option.selected = true;
+          }
           branchSelect.appendChild(option);
         });
       }
     })
     .catch((error) => console.error("Error fetching lectures:", error));
+
+
+  if(roleMeta == 'cs') setBranchQueryString(branchMeta);
 
   // finish group in case of training groups only
   finishTrainingGroups();
@@ -39,7 +49,11 @@ document.addEventListener("DOMContentLoaded", function () {
   groupsTotalCount(getQueryString("branch"));
 
   // when page load get instructors based on branch
-  fetchInstructors(branchVal);
+  if(roleMeta == 'cs') {
+    fetchInstructors(branchMeta);
+  } else {
+    fetchInstructors(branchVal);
+  }
 
   /** instructor select */
   instructorSelect.addEventListener("change", function (e) {
@@ -56,14 +70,17 @@ document.addEventListener("DOMContentLoaded", function () {
       pageList.classList.add("hidden");
     }
 
+    
+    const branchId = getQueryString('branch');
+
     let url = "";
 
     if (instructorId) {
       url = `functions/Groups/get_groups.php?instructor_id=${encodeURIComponent(
         instructorId
-      )}&branch_id=${branchVal}`;
+      )}&branch_id=${branchId}`;
     } else {
-      url = `functions/Groups/get_groups.php?branch_id=${branchVal}`;
+      url = `functions/Groups/get_groups.php?branch_id=${branchId}`;
     }
 
     fetch(url)
@@ -78,9 +95,11 @@ document.addEventListener("DOMContentLoaded", function () {
   searchInput.addEventListener("input", function () {
     const searchValue = this.value.trim();
 
+    const branchId = getQueryString('branch') || null ;
+
     // reset instructor
-    fetchInstructors(branchVal);
-    groupsTotalCount(branchVal);
+    fetchInstructors(branchId);
+    groupsTotalCount(branchId);
 
     let url = "";
 
@@ -91,10 +110,12 @@ document.addEventListener("DOMContentLoaded", function () {
       pageList.classList.add("hidden");
     }
 
-    if (branchVal) {
+   
+
+    if (branchId) {      
       url = `functions/Groups/search_groups.php?search=${encodeURIComponent(
         searchValue
-      )}&branch_id=${encodeURIComponent(branchVal)}${
+      )}&branch_id=${encodeURIComponent(branchId)}${
         page ? `&page=${encodeURIComponent(page)}` : ""
       }`;
     } else {
@@ -232,6 +253,8 @@ function setTable(res, branch = null) {
 
 /** Fetch instructors based on selected branch */
 async function fetchInstructors(branchId) {
+  console.log(branchId);
+  
   try {
     const response = await fetch(
       `functions/Instructors/get_instructors.php?branch_id=${branchId}`
@@ -246,6 +269,8 @@ async function fetchInstructors(branchId) {
       : "<option value=''>Choose Instructor</option>";
 
     if (res.data) {
+      console.log(res.data);
+      
       res.data.forEach((instructorData) => {
         const option = document.createElement("option");
         option.value = instructorData.id;
@@ -339,6 +364,7 @@ async function groupsTotalCount(
 }
 
 const renderFinishButton = (groupName, groupId) => {
+  // training group has btn -- normal groups has btn
   const isTraining = groupName.toLowerCase().includes("training");
   return isTraining
     ? `<a data-group-id="${groupId}" class="finish-btn cursor-pointer text-center border border-gray-300 py-1 px-2 rounded-lg font-medium text-red-600 hover:underline">
@@ -350,3 +376,10 @@ const renderFinishButton = (groupName, groupId) => {
          <span>Finish</span>
        </a>`;
 };
+
+/** set query string when page load */
+function setBranchQueryString(branchMeta){
+  const url = new URL(window.location);
+  url.searchParams.set('branch', branchMeta);
+  window.history.pushState({}, '', url.toString());
+}

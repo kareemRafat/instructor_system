@@ -59,9 +59,21 @@
                 LIMIT $groupPerPage OFFSET $pageNum"; // Adjust LIMIT and OFFSET as needed for pagination
 
     $stmt = $pdo->prepare($query);
+
+    // when admin show all groups . 
+    // when cs role show her branch groups
+    $branchid = NULL ;
+    if (isset($_GET['branch'])) {
+        $branchid = $_GET['branch'];
+    } else {
+        if(ROLE == 'cs') {
+            $branchid = BRANCH ;
+        }
+    }
+
     $stmt->execute([
         ':search' => isset($_GET['search']) ? $_GET['search'] : null,
-        ':branch' => isset($_GET['branch']) ? $_GET['branch'] : null
+        ':branch' => $branchid
     ]);
     $count = $stmt->rowCount();
     $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
