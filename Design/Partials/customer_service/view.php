@@ -87,19 +87,19 @@ $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
                             <?= $row['is_active'] ? 'Active' : 'Disabled' ?>
                         </span>
                     </td>
-                    <td class="px-6 py-4 flex flex-col md:flex-row gap-2">
-                        <a href="?action=edit&instructor_id=<?= $row['id'] ?>" class="cursor-pointer border border-gray-300 py-0.5 px-2 rounded-lg font-medium text-blue-600 hover:underline mr-2 inline-block text-center w-[85%] md:w-fit">
+                    <td class="px-6 py-4 flex flex-col md:flex-row gap-1">
+                        <a href="?action=edit&instructor_id=<?= $row['id'] ?>" class="cursor-pointer border border-gray-300 py-0.5 px-2 rounded-lg font-medium text-blue-600 hover:underline inline-block text-center w-full md:w-fit">
                             <i class="fa-solid fa-pen-to-square mr-1 hidden md:inline-block"></i>
                             Edit
                         </a>
                         <button <?= $row['role'] === ROLE ? 'disabled' : '' ?>
-                            class="w-[85%] md:w-fit toggle-status-btn cursor-pointer text-sm border border-gray-300 py-1 px-2 rounded-lg <?= $row['is_active'] ? 'text-red-600' : 'text-green-600' ?> hover:underline disabled:border-gray-200 disabled:bg-gray-50 disabled:text-gray-500 disabled:shadow-none disabled:cursor-not-allowed disabled:hover:no-underline mr-2"
+                            class="w-full md:w-fit toggle-status-btn cursor-pointer text-sm border border-gray-300 py-1 px-2 rounded-lg <?= $row['is_active'] ? 'text-red-600' : 'text-green-600' ?> hover:underline disabled:border-gray-200 disabled:bg-gray-50 disabled:text-gray-500 disabled:shadow-none disabled:cursor-not-allowed disabled:hover:no-underline"
                             data-agent-id="<?= $row['id'] ?>">
                             <?= $row['is_active'] ? '<i class="fa-solid fa-user-slash hidden md:inline-block mr-1"></i>' : '<i class="fa-solid fa-user mr-1"></i>' ?>
                             <?= $row['is_active'] ? 'Disable' : 'Enable' ?>
                         </button>
                         <button <?= $row['role'] === ROLE ? 'disabled' : '' ?>
-                            class="delete-cs-btn w-[85%] md:w-fit cursor-pointer text-sm border border-gray-300 py-1 px-2 rounded-lg text-red-600 hover:underline disabled:border-gray-200 disabled:bg-gray-50 disabled:text-gray-500 disabled:shadow-none disabled:cursor-not-allowed disabled:hover:no-underline"
+                            class="delete-cs-btn w-full md:w-fit cursor-pointer text-sm border border-gray-300 py-1 px-2 rounded-lg text-red-600 hover:underline disabled:border-gray-200 disabled:bg-gray-50 disabled:text-gray-500 disabled:shadow-none disabled:cursor-not-allowed disabled:hover:no-underline"
                             data-agent-id="<?= $row['id'] ?>">
                             <i class="fa-solid fa-trash mr-1 hidden md:inline-block"></i>Delete
                         </button>

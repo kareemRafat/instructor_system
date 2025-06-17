@@ -104,11 +104,11 @@ $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         </span>
                     </td>
                     <td class="px-4 py-4 flex flex-col md:flex-row gap-1">
-                        <a href="?action=edit&instructor_id=<?= $row['id'] ?>" class="cursor-pointer border border-gray-300 py-0.5 px-2 rounded-lg font-medium text-blue-600 hover:underline mr-2 inline-block text-center w-[85%] md:w-fit"><i class="fa-solid fa-pen-to-square mr-1 hidden md:inline-block"></i>
+                        <a href="?action=edit&instructor_id=<?= $row['id'] ?>" class="cursor-pointer border border-gray-300 py-0.5 px-2 rounded-lg font-medium text-blue-600 hover:underline mr-2 inline-block text-center w-full md:w-fit"><i class="fa-solid fa-pen-to-square mr-1 hidden md:inline-block"></i>
                             Edit
                         </a>
                         <button type="button"
-                            class="toggle-status-btn w-[85%] md:w-fit cursor-pointer text-sm border border-gray-300 py-1 px-2 rounded-lg <?= $row['is_active'] ? 'text-red-600' : 'text-green-600' ?> hover:underline"
+                            class="toggle-status-btn w-full md:w-fit cursor-pointer text-sm border border-gray-300 py-1 px-2 rounded-lg <?= $row['is_active'] ? 'text-red-600' : 'text-green-600' ?> hover:underline"
                             data-instructor-id="<?= $row['id'] ?>">
                             <?= $row['is_active'] ? '<i class="fa-solid fa-user-slash mr-1 hidden md:inline-block"></i>' : '<i class="fa-solid fa-user mr-1 hidden md:inline-block"></i>' ?>
                             <?= $row['is_active'] ? 'Disable' : 'Enable' ?>
