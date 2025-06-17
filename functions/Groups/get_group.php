@@ -11,18 +11,27 @@ if (!isset($_SESSION['user_id'])) {
 
 try {
     $query = "SELECT 
-                `groups`.id,
-                `groups`.name  As group_name,
-                DATE_FORMAT(`groups`.start_date, '%M %d, %m-%Y') AS formatted_date,
+                g.id,
+                g.name  As group_name,
+                DATE_FORMAT(g.start_date, '%M %d-%m-%Y') AS formatted_date,
                 DATE_FORMAT(
-                    DATE_ADD(
-                        DATE_ADD(`groups`.start_date, INTERVAL 5 MONTH),
-                        INTERVAL 2 WEEK
-                    ),
-                    '%d, %m-%Y'
+                        DATE_ADD(
+                            DATE_ADD(
+                                g.start_date,
+                                INTERVAL CASE
+                                            WHEN g.name LIKE '%training%' THEN 2
+                                            ELSE 5
+                                        END MONTH
+                            ),
+                            INTERVAL CASE
+                                        WHEN g.name LIKE '%training%' THEN 15
+                                        ELSE 14
+                                    END DAY
+                        ),
+                        '%d-%m-%Y'
                     ) AS group_end_date
-        FROM `groups` 
-        WHERE `groups`.is_active = 1 AND id = :group";
+        FROM `groups` g
+        WHERE g.is_active = 1 AND id = :group";
 
     $stmt = $pdo->prepare($query);
     $stmt->execute([':group' => $_GET['group_id']]);

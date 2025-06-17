@@ -11,34 +11,52 @@ if (!isset($_SESSION['user_id'])) {
 try {
     if (isset($_GET['branch_id'])) {
         $query = "SELECT 
-                `groups`.id,
-                `groups`.name AS group_name,
-                `groups`.time AS group_time,
-                `groups`.day AS group_day,
+                g.id,
+                g.name AS group_name,
+                g.time AS group_time,
+                g.day AS group_day,
                 instructors.username AS instructor_name,
                 branches.name AS branch_name,
-                DATE_FORMAT(`groups`.start_date, '%d-%m-%Y') AS formatted_date,
-                DATE_FORMAT(`groups`.start_date, '%M') AS month,
+                DATE_FORMAT(g.start_date, '%d-%m-%Y') AS formatted_date,
+                DATE_FORMAT(g.start_date, '%M') AS month,
                 DATE_FORMAT(
-                    DATE_ADD(
-                        DATE_ADD(`groups`.start_date, INTERVAL 5 MONTH),
-                        INTERVAL 2 WEEK
-                    ),
-                    '%d, %m-%Y'
+                        DATE_ADD(
+                            DATE_ADD(
+                                g.start_date,
+                                INTERVAL CASE
+                                            WHEN g.name LIKE '%training%' THEN 2
+                                            ELSE 5
+                                        END MONTH
+                            ),
+                            INTERVAL CASE
+                                        WHEN g.name LIKE '%training%' THEN 15
+                                        ELSE 14
+                                    END DAY
+                        ),
+                        '%d-%m-%Y'
                     ) AS group_end_date,
-                DATE_FORMAT(
-                    DATE_ADD(
-                        DATE_ADD(`groups`.start_date, INTERVAL 5 MONTH),
-                        INTERVAL 2 WEEK
-                    ),
-                    '%M'
+                    DATE_FORMAT(
+                        DATE_ADD(
+                            DATE_ADD(
+                                g.start_date,
+                                INTERVAL CASE
+                                            WHEN g.name LIKE '%training%' THEN 2
+                                            ELSE 5
+                                        END MONTH
+                            ),
+                            INTERVAL CASE
+                                        WHEN g.name LIKE '%training%' THEN 15
+                                        ELSE 14
+                                    END DAY
+                        ),
+                        '%M'
                     ) AS group_end_month
-        FROM `groups` 
-        JOIN instructors ON `groups`.instructor_id = instructors.id 
-        JOIN branches ON `groups`.branch_id = branches.id
-        WHERE `groups`.is_active = 1 AND (:branch = '' OR branches.id = :branch)
+        FROM `groups` g
+        JOIN instructors ON g.instructor_id = instructors.id 
+        JOIN branches ON g.branch_id = branches.id
+        WHERE g.is_active = 1 AND (:branch = '' OR branches.id = :branch)
         AND (:instructor IS NULL OR instructors.id = :instructor)
-        ORDER BY `groups`.start_date DESC";
+        ORDER BY g.start_date DESC";
 
         $stmt = $pdo->prepare($query);
         $stmt->execute([
@@ -115,8 +133,8 @@ try {
         $stmtBranchCount->execute();
         $resultBranchCount = $stmtBranchCount->fetch(PDO::FETCH_ASSOC);
 
-        $branchCount = $resultBranchCount['branch_count'] >= 2 ;
-        
+        $branchCount = $resultBranchCount['branch_count'] >= 2;
+
         // Return JSON response
         header('Content-Type: application/json');
         echo json_encode(['status' => 'success', 'data' => $groups, 'isMultiBranch' => $branchCount]);

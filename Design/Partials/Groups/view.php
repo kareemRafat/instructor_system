@@ -27,14 +27,13 @@
                                                 ELSE 5
                                             END MONTH
                                 ),
-                                INTERVAL CASE
-                                            WHEN g.name LIKE '%training%' THEN 15
-                                            ELSE 14
-                                        END DAY
-                            ),
+                                    INTERVAL CASE
+                                                WHEN g.name LIKE '%training%' THEN 15
+                                                ELSE 14
+                                            END DAY
+                                ),
                             '%d-%m-%Y'
                         ) AS group_end_date,
-
                         DATE_FORMAT(
                             DATE_ADD(
                                 DATE_ADD(
@@ -44,11 +43,11 @@
                                                 ELSE 5
                                             END MONTH
                                 ),
-                                INTERVAL CASE
-                                            WHEN g.name LIKE '%training%' THEN 15
-                                            ELSE 14
-                                        END DAY
-                            ),
+                                    INTERVAL CASE
+                                                WHEN g.name LIKE '%training%' THEN 15
+                                                ELSE 14
+                                            END DAY
+                                ),
                             '%M'
                         ) AS group_end_month
                 FROM `groups` g
