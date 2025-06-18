@@ -59,9 +59,9 @@ document.addEventListener("DOMContentLoaded", function () {
   instructorSelect.addEventListener("change", function (e) {
     const instructorId = this.value;
     const instructorName = this.selectedOptions[0]?.text;
-
+    
     // get total groups to the instructor
-    groupsTotalCount(branchMeta, instructorId, instructorName);
+    groupsTotalCount(getQueryString("branch"), instructorId, instructorName);
 
     // toggle pagination
     if (!instructorId) {
@@ -71,7 +71,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     const branchId = getQueryString('branch');
-    console.log(instructorId);
+
     
     let url = "";
 
@@ -338,7 +338,6 @@ async function groupsTotalCount(
              <span class="sr-only">Loading...</span>
          </div>
   `;
-  await globalWait(300);
 
   let url = `functions/Groups/get_groups_count.php`;
 
@@ -349,6 +348,8 @@ async function groupsTotalCount(
   } else if (branch) {
     url += `?branch_id=${encodeURIComponent(branch)}`;
   }
+
+  await globalWait(300);
 
   fetch(url)
     .then((response) => response.json())

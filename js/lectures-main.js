@@ -19,9 +19,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     if (branchData.data) {
       branch.innerHTML = '<option value="" selected>Choose a branch</option>';
-      branchData.data.forEach((br) => {
-        console.log(br);
-        
+      branchData.data.forEach((br) => {        
         const option = document.createElement("option");
         option.value = br.id;
         if (roleMeta == 'cs') {

@@ -60,20 +60,9 @@
 
     $stmt = $pdo->prepare($query);
 
-    // when admin show all groups . 
-    // when cs role show her branch groups
-    $branchid = NULL ;
-    if (isset($_GET['branch'])) {
-        $branchid = $_GET['branch'];
-    } else {
-        if(ROLE == 'cs') {
-            $branchid = BRANCH ;
-        }
-    }
-
     $stmt->execute([
         ':search' => isset($_GET['search']) ? $_GET['search'] : null,
-        ':branch' => $branchid
+        ':branch' => $_GET['branch'] ?? null 
     ]);
     $count = $stmt->rowCount();
     $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -137,7 +126,8 @@
                  Finished Groups
              </a>
          <?php endif; ?>
-         <a href="groups.php" class="px-4 py-1.5 mb-3 md:mb-0 bg-blue-600 text-base rounded-md tracking-wider font-medium capitalize text-center text-white inline-flex items-center hover:underline justify-center">
+         <?php $groupLocation = ROLE == 'cs' ? "groups.php?branch=".BRANCH : "groups.php"; ?>
+         <a href="<?= $groupLocation ?>" class="px-4 py-1.5 mb-3 md:mb-0 bg-blue-600 text-base rounded-md tracking-wider font-medium capitalize text-center text-white inline-flex items-center hover:underline justify-center">
              <svg class="w-4 h-4 me-2 rotate-90" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h12m0 0L9 1m4 4L9 9" />
              </svg>
