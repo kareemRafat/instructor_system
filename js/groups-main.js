@@ -264,7 +264,7 @@ async function fetchInstructors(branchId) {
     instructorSelect.innerHTML = !branchId
       ? "<option value=''>Select Branch First</option>"
       : "<option value=''>Choose Instructor</option>";
-
+      
     if (res.data) {    
       res.data.forEach((instructorData) => {
         const option = document.createElement("option");

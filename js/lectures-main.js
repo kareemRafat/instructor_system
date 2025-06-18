@@ -313,8 +313,8 @@ function setCard(lec) {
                             )}</h2>
                         </div>
                     </div>
-                    <div class="text-center pr-6 flex flex-col-reverse md:flex-row md:gap-2 items-center">
-                        <span class="text-white text-base font-bold tracking-wider">
+                    <div class="text-center text-base font-bold pr-6 flex flex-col-reverse md:flex-row md:gap-2 items-center">
+                        <span class="text-white tracking-wider">
                           ${capitalizeFirstLetter(lec.group_day)}
                         </span>
                         <div class="group-time text-white text-lg mb-0">${
