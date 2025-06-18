@@ -147,10 +147,11 @@ function getGroupById($groupId, $pdo)
     </div>
     <!-- assign group to other instructor -->
     <div class="flex md:justify-center md:items-center bg-blue-100 rounded-lg">
-        <form class="p-4 md:p-5" action="functions/Groups/update_group.php" method="POST">
+        <form class="p-4 md:p-5" action="functions/Groups/assign_to_instructor.php" method="POST">
             <h3 class=" mb-2 text-xl font-bold leading-none tracking-tight text-gray-900 md:text-2xl"><span class="text-blue-600">Assign</span> Group To Other Instructor </h3>
+            <input type="hidden" name="group" value="<?= $group['id'] ?>">
             <div class="grid gap-4 mb-4 grid-cols-1">
-                <div class=""> 
+                <div> 
                     <label for="newInstructor" class="block mb-2 text-sm font-medium text-gray-900">new Instructor</label>
                     <select name="new-instructor" id="newInstructor" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5">
                         <option value="" selected="">Select instructor</option>
@@ -210,7 +211,7 @@ function getGroupById($groupId, $pdo)
                 }
                 option.textContent = capitalizeFirstLetter(instructor.username);
                 instructorSelect.appendChild(option);
-                // You need to clone the <option> before appending it to the second <select>
+                // You need to clone the <option> before appending it to the second <select> parent
                 newInstructor.appendChild(option.cloneNode(true));
             });
         }

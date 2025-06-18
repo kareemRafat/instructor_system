@@ -15,7 +15,8 @@ $stmt = $pdo->prepare("SELECT i.id, i.username
 $stmt->execute([':branch' => $_GET['branch'] ?? 1]);
 $instructors = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-// Fetch groups
+/** Fetch groups */
+// To handle the logic "use g.second_instructor_id if it's not NULL, otherwise use g.instructor_id" when joining with the instructors table, you can use a LEFT JOIN and COALESCE.
 $groups = [];
 $stmt = $pdo->prepare("SELECT 
                             IF(g.name LIKE '%training%', 'training', g.name) AS name,
@@ -24,9 +25,9 @@ $stmt = $pdo->prepare("SELECT
                             g.branch_id,
                             g.is_active,
                             DATE_FORMAT(g.start_date, '%d-%m-%Y') AS start,
-                            g.instructor_id 
+                            COALESCE(g.second_instructor_id, g.instructor_id) AS instructor_id
                         FROM `groups` g
-                        JOIN instructors i ON g.instructor_id = i.id
+                        JOIN instructors i ON i.id = COALESCE(g.second_instructor_id, g.instructor_id)
                         JOIN branch_instructor bi ON bi.instructor_id = i.id
                         WHERE bi.branch_id = :branch AND g.is_active = 1 AND g.branch_id = :branch");
 $stmt->execute([

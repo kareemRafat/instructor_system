@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Jun 16, 2025 at 03:25 AM
+-- Generation Time: Jun 19, 2025 at 01:34 AM
 -- Server version: 8.0.42
 -- PHP Version: 8.3.22
 
@@ -96,6 +96,7 @@ CREATE TABLE `groups` (
   `time` decimal(4,2) NOT NULL,
   `day` enum('saturday','sunday','monday') COLLATE utf8mb4_unicode_ci NOT NULL,
   `instructor_id` int DEFAULT NULL,
+  `second_instructor_id` int DEFAULT NULL COMMENT 'new group instructor',
   `branch_id` int DEFAULT NULL,
   `is_active` tinyint(1) NOT NULL COMMENT '0 finished',
   `start_date` datetime DEFAULT NULL,
@@ -106,35 +107,42 @@ CREATE TABLE `groups` (
 -- Dumping data for table `groups`
 --
 
-INSERT INTO `groups` (`id`, `name`, `time`, `day`, `instructor_id`, `branch_id`, `is_active`, `start_date`, `has_bonus`) VALUES
-(38, 'Hover', 3.00, 'sunday', 1, 1, 1, '2025-04-16 22:00:07', NULL),
-(39, 'bug', 6.00, 'sunday', 1, 1, 1, '2025-01-29 22:01:01', NULL),
-(40, 'ram', 10.00, 'saturday', 25, 1, 1, '2025-01-28 22:01:08', NULL),
-(41, 'window Online', 8.00, 'saturday', 23, 1, 1, '2025-04-22 21:59:52', NULL),
-(42, 'Transition', 10.00, 'sunday', 23, 1, 1, '2025-04-13 22:00:16', NULL),
-(43, 'null', 12.30, 'monday', 23, 1, 1, '2025-01-30 22:00:46', NULL),
-(44, 'Scope Online', 8.00, 'sunday', 25, 1, 1, '2025-02-23 22:00:28', NULL),
-(45, 'For Online', 6.10, 'monday', 25, 1, 1, '2025-01-30 12:37:44', NULL),
-(46, 'Fire Online', 8.00, 'monday', 25, 1, 1, '2024-12-12 22:01:17', NULL),
-(47, 'static', 3.00, 'saturday', 22, 2, 1, '2024-12-14 17:14:06', NULL),
-(48, 'ploto', 6.00, 'saturday', 20, 2, 1, '2025-04-05 17:16:19', NULL),
-(49, 'mirror', 12.30, 'sunday', 22, 2, 1, '2025-04-16 22:01:47', NULL),
-(50, 'seek', 10.00, 'monday', 22, 2, 1, '2025-04-07 22:01:56', NULL),
-(51, 'word', 3.00, 'monday', 22, 2, 1, '2025-02-20 22:02:14', NULL),
-(52, 'dot', 3.00, 'sunday', 20, 2, 1, '2025-04-23 22:01:39', NULL),
-(53, 'network', 6.00, 'sunday', 20, 2, 1, '2025-01-12 22:02:39', NULL),
-(54, 'coding', 12.30, 'monday', 20, 2, 1, '2025-02-03 22:02:27', NULL),
-(55, 'root', 3.00, 'monday', 20, 2, 1, '2024-12-09 22:03:44', NULL),
-(56, 'talk', 10.00, 'saturday', 21, 3, 1, '2025-04-26 22:03:56', NULL),
-(57, 'laravel', 12.30, 'saturday', 21, 3, 1, '2025-02-25 17:21:54', NULL),
-(58, 'orchid', 3.00, 'sunday', 21, 3, 1, '2025-01-15 22:04:08', NULL),
-(59, 'training_first', 12.30, 'saturday', 1, 1, 0, '2025-01-21 00:58:14', NULL),
-(68, 'char', 3.00, 'monday', 21, 1, 1, '2025-02-20 01:43:21', NULL),
-(69, 'position', 6.00, 'monday', 21, 1, 1, '2025-04-07 01:44:16', NULL),
-(70, 'span Online ', 6.10, 'saturday', 23, 1, 1, '2025-06-17 15:55:20', NULL),
-(71, 'design', 12.30, 'sunday', 23, 1, 1, '2025-06-15 15:56:38', NULL),
-(72, 'glue', 6.00, 'monday', 20, 2, 1, '2025-06-16 00:53:38', NULL),
-(73, 'training_magdy1', 3.00, 'saturday', 20, 2, 1, '2025-05-03 01:35:58', NULL);
+INSERT INTO `groups` (`id`, `name`, `time`, `day`, `instructor_id`, `second_instructor_id`, `branch_id`, `is_active`, `start_date`, `has_bonus`) VALUES
+(38, 'Hover', 3.00, 'sunday', 1, NULL, 1, 1, '2025-04-16 22:00:07', NULL),
+(39, 'bug', 6.00, 'sunday', 1, NULL, 1, 1, '2025-01-29 22:01:01', NULL),
+(40, 'ram', 10.00, 'saturday', 25, NULL, 1, 1, '2025-01-28 22:01:08', NULL),
+(41, 'window Online', 8.00, 'saturday', 23, NULL, 1, 1, '2025-04-22 21:59:52', NULL),
+(42, 'Transition', 10.00, 'sunday', 23, NULL, 1, 1, '2025-04-13 22:00:16', NULL),
+(43, 'null', 12.30, 'monday', 23, NULL, 1, 1, '2025-01-30 22:00:46', NULL),
+(44, 'Scope Online', 8.00, 'sunday', 25, NULL, 1, 1, '2025-02-23 22:00:28', NULL),
+(45, 'For Online', 6.10, 'monday', 25, NULL, 1, 1, '2025-01-30 12:37:44', NULL),
+(46, 'Fire Online', 8.00, 'monday', 25, NULL, 1, 1, '2024-12-12 22:01:17', NULL),
+(47, 'static', 3.00, 'saturday', 22, NULL, 2, 1, '2024-12-14 17:14:06', NULL),
+(48, 'ploto', 6.00, 'saturday', 20, NULL, 2, 1, '2025-04-05 17:16:19', NULL),
+(49, 'mirror', 12.30, 'sunday', 22, NULL, 2, 1, '2025-04-16 22:01:47', NULL),
+(50, 'seek', 10.00, 'monday', 22, NULL, 2, 1, '2025-04-07 22:01:56', NULL),
+(51, 'word', 3.00, 'monday', 22, NULL, 2, 1, '2025-02-20 22:02:14', NULL),
+(52, 'dot', 3.00, 'sunday', 20, NULL, 2, 1, '2025-04-23 22:01:39', NULL),
+(53, 'network', 6.00, 'sunday', 20, NULL, 2, 1, '2025-01-12 22:02:39', NULL),
+(54, 'coding', 12.30, 'monday', 20, NULL, 2, 1, '2025-02-03 22:02:27', NULL),
+(55, 'root', 3.00, 'monday', 20, NULL, 2, 1, '2024-12-09 22:03:44', NULL),
+(56, 'talk', 10.00, 'saturday', 21, NULL, 3, 1, '2025-04-26 22:03:56', NULL),
+(57, 'laravel', 12.30, 'saturday', 21, NULL, 3, 1, '2025-02-25 17:21:54', NULL),
+(58, 'orchid', 3.00, 'sunday', 21, NULL, 3, 1, '2025-01-15 22:04:08', NULL),
+(59, 'training_first', 12.30, 'saturday', 1, NULL, 1, 0, '2025-01-21 00:58:14', NULL),
+(68, 'char', 3.00, 'monday', 21, NULL, 1, 1, '2025-02-20 01:43:21', NULL),
+(69, 'position', 6.00, 'monday', 21, NULL, 1, 1, '2025-04-07 01:44:16', NULL),
+(70, 'span Online', 6.10, 'saturday', 23, NULL, 1, 1, '2025-06-17 01:52:19', NULL),
+(71, 'design', 12.30, 'sunday', 23, NULL, 1, 1, '2025-06-15 15:56:38', NULL),
+(72, 'glue', 6.00, 'monday', 20, NULL, 2, 1, '2025-06-16 00:53:38', NULL),
+(73, 'training_magdy1', 3.00, 'saturday', 20, NULL, 2, 1, '2025-05-03 01:35:58', NULL),
+(74, 'spear', 3.00, 'saturday', 1, NULL, 1, 1, '2025-06-17 15:27:23', NULL),
+(75, 'dash', 6.00, 'saturday', 1, NULL, 1, 1, '2025-06-17 15:27:52', NULL),
+(76, 'training_jcvc', 3.00, 'saturday', 21, NULL, 3, 1, '2025-04-12 15:28:39', NULL),
+(77, 'training_kn2a', 12.30, 'monday', 22, NULL, 2, 1, '2025-04-07 15:30:58', NULL),
+(78, 'training_my7d', 12.30, 'sunday', 20, NULL, 2, 1, '2025-06-22 17:12:21', NULL),
+(79, 'neon Online', 8.00, 'sunday', 23, NULL, 1, 1, '2025-06-25 17:14:16', NULL),
+(80, 'giga', 10.00, 'monday', 23, NULL, 1, 1, '2025-06-19 17:16:35', NULL);
 
 -- --------------------------------------------------------
 
@@ -206,7 +214,24 @@ INSERT INTO `lectures` (`id`, `group_id`, `track_id`, `instructor_id`, `branch_i
 (70, 50, 3, 22, 2, 'تاني محاضرة ', '2025-05-21 22:27:13'),
 (71, 51, 3, 22, 2, 'بداية المكتبات', '2025-05-21 22:30:33'),
 (87, 38, 3, 1, 1, '2 - JavaScript Functions', '2025-06-15 21:42:01'),
-(88, 39, 4, 1, 1, '3 - PHP file system', '2025-06-15 21:42:26');
+(88, 39, 4, 1, 1, '3 - PHP file system', '2025-06-15 21:42:26'),
+(89, 47, 4, 22, 2, '2 - PHP array', '2025-06-16 18:10:02'),
+(90, 48, 3, 20, 2, '2 - JavaScript Functions', '2025-06-16 18:09:33'),
+(91, 49, 2, 22, 2, '5 - CSS Project', '2025-06-16 18:10:30'),
+(92, 52, 2, 20, 2, '3 - CSS display - float - position', '2025-06-16 18:10:42'),
+(93, 53, 4, 20, 2, '4 - Requests - PHP form', '2025-06-16 18:11:00'),
+(94, 50, 3, 22, 2, '3 - JavaScript bi function & if', '2025-06-16 18:10:52'),
+(95, 54, 3, 20, 2, '15 - grid system', '2025-06-16 18:11:17'),
+(96, 55, 5, 20, 2, '2 - Create - Read', '2025-06-16 18:11:40'),
+(97, 72, 1, 20, 2, '1 - HTML intro and tags to link or image', '2025-06-16 18:11:53'),
+(98, 51, 3, 22, 2, '12 - JavaScript multi selector - jQuery and cdn', '2025-06-16 18:11:24'),
+(99, 45, 4, 25, 1, '2 - PHP array', '2025-06-17 13:17:03'),
+(100, 46, 6, 25, 1, '1 - Project intro - html ', '2025-06-17 13:17:51'),
+(101, 40, 3, 25, 1, '17 - Vuejs events - methods - form', '2025-06-17 13:18:19'),
+(102, 44, 3, 25, 1, '8 - JavaScript Array', '2025-06-17 13:19:30'),
+(103, 47, 4, 22, 2, '4 - Requests - PHP form', '2025-06-17 17:38:04'),
+(104, 47, 4, 22, 2, '4 - Requests - PHP form', '2025-06-17 17:38:42'),
+(105, 46, 5, 25, 1, '3 - Insert - Update - Delete', '2025-06-18 18:28:36');
 
 -- --------------------------------------------------------
 
@@ -227,7 +252,9 @@ CREATE TABLE `remember_tokens` (
 
 INSERT INTO `remember_tokens` (`id`, `instructor_id`, `token`, `expiry`) VALUES
 (36, 18, '41753f220165166908b3af27cd601cbbb9d9d3c49a7b1d1f8d50d06258413d64', '2025-06-20 13:46:39'),
-(64, 21, '2efc29b15004aae58e5562d427e54deb65ce78a9416848366337e6c9269bac36', '2025-07-15 15:04:37');
+(64, 21, '2efc29b15004aae58e5562d427e54deb65ce78a9416848366337e6c9269bac36', '2025-07-15 15:04:37'),
+(66, 22, '07419dce0c388f6218bca509be95e8497d5dfec270276104ada127e872ba2f83', '2025-07-17 14:37:57'),
+(67, 22, '4aefecc56066d171e1062ab5e5694b8a1895f20a34c8a67af8f724a59e7ac781', '2025-07-17 14:38:02');
 
 -- --------------------------------------------------------
 
@@ -283,7 +310,8 @@ ALTER TABLE `groups`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `groups_name_unique` (`name`),
   ADD KEY `branch_id` (`branch_id`),
-  ADD KEY `instructor_id` (`instructor_id`);
+  ADD KEY `instructor_id` (`instructor_id`),
+  ADD KEY `second_instructor_id` (`second_instructor_id`);
 
 --
 -- Indexes for table `instructors`
@@ -338,7 +366,7 @@ ALTER TABLE `branches`
 -- AUTO_INCREMENT for table `groups`
 --
 ALTER TABLE `groups`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=74;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=81;
 
 --
 -- AUTO_INCREMENT for table `instructors`
@@ -350,13 +378,13 @@ ALTER TABLE `instructors`
 -- AUTO_INCREMENT for table `lectures`
 --
 ALTER TABLE `lectures`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=89;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=106;
 
 --
 -- AUTO_INCREMENT for table `remember_tokens`
 --
 ALTER TABLE `remember_tokens`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=65;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=68;
 
 --
 -- AUTO_INCREMENT for table `tracks`
@@ -386,7 +414,8 @@ ALTER TABLE `branch_instructor`
 --
 ALTER TABLE `groups`
   ADD CONSTRAINT `groups_ibfk_2` FOREIGN KEY (`instructor_id`) REFERENCES `instructors` (`id`),
-  ADD CONSTRAINT `groups_ibfk_3` FOREIGN KEY (`branch_id`) REFERENCES `branches` (`id`);
+  ADD CONSTRAINT `groups_ibfk_3` FOREIGN KEY (`branch_id`) REFERENCES `branches` (`id`),
+  ADD CONSTRAINT `groups_ibfk_4` FOREIGN KEY (`second_instructor_id`) REFERENCES `instructors` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
 
 --
 -- Constraints for table `lectures`

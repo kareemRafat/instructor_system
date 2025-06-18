@@ -24,8 +24,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         return;
     }
 
-
-
     if ($date) {
         $date = date('Y-m-d', strtotime($date));
         $time = date('H:i:s', strtotime($time));
@@ -106,3 +104,4 @@ function isGroupNameDuplicated($name, $oldName, $pdo): bool
     $group = $stmt->fetch(PDO::FETCH_ASSOC);
     return $group['Count'] > 0 and $name !== $oldName;
 }
+

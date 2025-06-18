@@ -28,15 +28,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $date = $date . ' ' . $time;
     }
 
-    // check if the group time with the same instructor and branch is already exists
-    $stmt = $pdo->prepare("SELECT COUNT(*) FROM `groups` WHERE instructor_id = :instructor AND branch_id = :branch AND time = :groupTime AND day = :groupDay AND is_active = 1");
-    $stmt->bindParam(':instructor', $instructor);
-    $stmt->bindParam(':branch', $branch);
-    $stmt->bindParam(':groupTime', $groupTime);
-    $stmt->bindParam(':groupDay', $groupDay);
-    $stmt->execute();
-    $count = $stmt->fetchColumn();
-    if ($count > 0) {
+    if(!checkGoupTimeDuplication($pdo, $instructor, $branch, $groupTime, $groupDay)){
         $_SESSION['errors']['exists'] = "الوقت المحدد لهذه المجموعة متاح بالفعل مع نفس المدرب";
         header("Location: ../../groups.php");
         exit();
@@ -113,4 +105,18 @@ function isGroupNameDuplicated($name, $pdo):bool
     $stmt->bindParam(':name', $name);
     $stmt->execute();
     return $stmt->fetchColumn() > 0;
+}
+
+/** check if the group time with the same instructor and branch is already exists */
+function checkGoupTimeDuplication($pdo, $instructor, $branch, $groupTime, $groupDay):bool
+{
+    $stmt = $pdo->prepare("SELECT COUNT(*) FROM `groups` WHERE instructor_id = :instructor AND branch_id = :branch AND time = :groupTime AND day = :groupDay AND is_active = 1");
+    $stmt->bindParam(':instructor', $instructor);
+    $stmt->bindParam(':branch', $branch);
+    $stmt->bindParam(':groupTime', $groupTime);
+    $stmt->bindParam(':groupDay', $groupDay);
+    $stmt->execute();
+    $count = $stmt->fetchColumn();
+
+    return !$count > 0 ;
 }
