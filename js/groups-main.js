@@ -61,7 +61,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const instructorName = this.selectedOptions[0]?.text;
 
     // get total groups to the instructor
-    groupsTotalCount(branchVal, instructorId, instructorName);
+    groupsTotalCount(branchMeta, instructorId, instructorName);
 
     // toggle pagination
     if (!instructorId) {
@@ -70,9 +70,9 @@ document.addEventListener("DOMContentLoaded", function () {
       pageList.classList.add("hidden");
     }
 
-    
     const branchId = getQueryString('branch');
-
+    console.log(instructorId);
+    
     let url = "";
 
     if (instructorId) {
@@ -96,10 +96,10 @@ document.addEventListener("DOMContentLoaded", function () {
     const searchValue = this.value.trim();
 
     const branchId = getQueryString('branch') || null ;
-
+    
     // reset instructor
     fetchInstructors(branchId);
-    groupsTotalCount(branchId);
+    groupsTotalCount(branchVal);
 
     let url = "";
 
@@ -109,8 +109,6 @@ document.addEventListener("DOMContentLoaded", function () {
     } else {
       pageList.classList.add("hidden");
     }
-
-   
 
     if (branchId) {      
       url = `functions/Groups/search_groups.php?search=${encodeURIComponent(
@@ -253,7 +251,6 @@ function setTable(res, branch = null) {
 
 /** Fetch instructors based on selected branch */
 async function fetchInstructors(branchId) {
-  console.log(branchId);
   
   try {
     const response = await fetch(
@@ -268,9 +265,7 @@ async function fetchInstructors(branchId) {
       ? "<option value=''>Select Branch First</option>"
       : "<option value=''>Choose Instructor</option>";
 
-    if (res.data) {
-      console.log(res.data);
-      
+    if (res.data) {    
       res.data.forEach((instructorData) => {
         const option = document.createElement("option");
         option.value = instructorData.id;
