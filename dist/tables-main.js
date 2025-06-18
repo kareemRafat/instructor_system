@@ -1,1 +1,1 @@
-import{getMetaContent}from"./helpers.js";const radios=document.querySelectorAll("input[type='radio']"),branchForm=document.getElementById("branchForm"),urlParams=new URLSearchParams(window.location.search);urlParams.get("branch")||(radios.forEach((e=>{e.value==getMetaContent("branch")&&(e.checked=!0)})),branchForm.submit());
+import{getMetaContent}from"./helpers.js";const radios=document.querySelectorAll("input[type='radio']"),branchForm=document.getElementById("branchForm"),urlParams=new URLSearchParams(window.location.search);

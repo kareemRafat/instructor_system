@@ -181,6 +181,11 @@ try {
 </div>
 
 <?php
+include_once "Design/includes/notFy-footer.php";
+?>
+
+
+<?php
 
 function headerColor($branchName)
 {

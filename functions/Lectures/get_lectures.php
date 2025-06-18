@@ -13,16 +13,17 @@ $baseQuery = "SELECT
         lectures.*,
         `groups`.name AS group_name,
         `groups`.time AS group_time,
+        `groups`.day AS group_day,
         `tracks`.name AS track_name,
         instructors.username AS instructor_name,
-        DATE_FORMAT(lectures.date, '%M %d-%m-%Y') AS formatted_date,
-        DATE_FORMAT(`groups`.start_date, '%M %d, %m-%Y') AS group_start_date,
+        DATE_FORMAT(lectures.date, '%M %d-%m-%Y') AS latest_comment_date,
+        DATE_FORMAT(`groups`.start_date, '%M %d-%m-%Y') AS group_start_date,
         DATE_FORMAT(
                 DATE_ADD(
                     DATE_ADD(`groups`.start_date, INTERVAL 5 MONTH),
                     INTERVAL 2 WEEK
                 ),
-                '%d, %m-%Y'
+                '%d-%m-%Y'
                 ) AS group_end_date,
         ROW_NUMBER() OVER (PARTITION BY lectures.group_id ORDER BY lectures.date DESC) AS rn
     FROM lectures 
@@ -63,13 +64,14 @@ try {
                 group_id,
                 group_name,
                 group_time,
+                group_day,
                 group_start_date,
                 group_end_date,
                 track_id,
                 track_name,
                 instructor_name,
                 comment,
-                formatted_date AS latest_comment_date
+                latest_comment_date
             FROM RankedLectures
             WHERE rn = 1";
 

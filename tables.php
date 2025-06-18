@@ -231,7 +231,6 @@ $cellHoverColor = ['hover:bg-orange-100', 'hover:bg-indigo-100', 'hover:bg-green
         </div>
     </div>
 </div>
-<script type="module" src="dist/tables-main.js"></script>
 </body>
 
 </html>

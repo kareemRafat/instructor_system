@@ -313,14 +313,18 @@ function setCard(lec) {
                             )}</h2>
                         </div>
                     </div>
-                    <div class="text-right pr-6">
-                        <div class="group-time text-white text-lg">${
+                    <div class="text-center pr-6">
+                        <div class="group-time text-white text-lg mb-0">${
                           lec.group_time == 2 || lec.group_time == 5
                             ? lec.group_time + " - Friday"
                             : lec.group_time == 8 || lec.group_time == 6.1
                             ?  'Online ' + Math.floor(lec.group_time)          
                             : lec.group_time
                         }</div>
+                        <span class="text-white text-base font-semibold tracking-wider">
+                          ${capitalizeFirstLetter(lec.group_day)}
+                        </span>
+
                     </div>
                 </div>
             </div>
@@ -346,7 +350,7 @@ function setCard(lec) {
                     </div>
                     
                 </div>
-                <div class="flex items-center gap-3 mb-4 p-3 bg-gray-50 rounded-lg">
+                <div class="flex items-center gap-3 mb-4 p-3 bg-gray-100 rounded-lg">
                     <div class="w-10 h-10 bg-gradient-to-r bg-cyan-600 rounded-full flex items-center justify-center">
                         <span class="text-white font-bold text-lg">${lec.instructor_name[0].toUpperCase()}</span>
                     </div>
@@ -357,7 +361,7 @@ function setCard(lec) {
                         <div class="font-semibold text-gray-800">${capitalizeFirstLetter(
                           lec.instructor_name
                         )}</div>
-                    </div>
+                      </div>
                 </div>
                 <div class="mb-4">
                     <div class="flex items-center gap-2 mb-2">

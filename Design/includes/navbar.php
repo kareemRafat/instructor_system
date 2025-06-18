@@ -90,7 +90,10 @@ function hasRole(...$roles)
                         </a>
                     </li>
                     <li>
-                        <a href="tables.php"
+                        <?php 
+                            $tablesLocation = "tables.php?branch=" . BRANCH; 
+                        ?>
+                        <a href="<?= $tablesLocation ?>"
                             class=" <?= $pageName == 'tables.php' ? 'text-blue-600' : '' ?> block py-2 px-3 rounded-sm md:text-center hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0">
                             <i class="text-blue-700 fa-solid fa-star"></i>
                             Tables
@@ -100,7 +103,7 @@ function hasRole(...$roles)
 
                 <?php
                 if (hasRole('admin', 'cs', 'cs-admin', 'owner')) {
-                    $groupLocation = ROLE == 'cs' ? "groups.php?branch=".BRANCH : "groups.php";
+                    $groupLocation = ROLE == 'cs' ? "groups.php?branch=" . BRANCH : "groups.php";
                 ?>
                     <li>
                         <a href="<?= $groupLocation ?>"
