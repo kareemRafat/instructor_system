@@ -313,7 +313,7 @@ function setCard(lec) {
                             )}</h2>
                         </div>
                     </div>
-                    <div class="text-center text-base font-bold pr-6 flex flex-col-reverse md:flex-row md:gap-2 items-center">
+                    <div class="text-center text-base font-bold pr-6 flex +flex-row md:gap-2 items-center">
                         <div class="group-time text-white text-lg mb-0">${
                           lec.group_time == 2 || lec.group_time == 5
                             ? lec.group_time + " - Friday"
@@ -321,9 +321,6 @@ function setCard(lec) {
                             ?  'Online ' + Math.floor(lec.group_time)          
                             : lec.group_time
                         }</div>
-                        <div class="w-10 md:ms-auto">
-                            ${groupDay(lec.group_day)}
-                        </div>
                     </div>
                 </div>
             </div>
@@ -350,17 +347,22 @@ function setCard(lec) {
                     
                 </div>
                 <div class="flex items-center gap-3 mb-4 p-3 bg-gray-100 rounded-lg">
-                    <div class="w-10 h-10 bg-gradient-to-r bg-cyan-600 rounded-full flex items-center justify-center">
-                        <span class="text-white font-bold text-lg">${lec.instructor_name[0].toUpperCase()}</span>
-                    </div>
-                    <div>
-                        <div class="text-gray-600 text-xs capitalize tracking-wide">
-                            Instructor
-                        </div>
-                        <div class="font-semibold text-gray-800">${capitalizeFirstLetter(
-                          lec.instructor_name
-                        )}</div>
+                    <div class="flex items-center gap-3">
+                      <div class="w-10 h-10 bg-gradient-to-r bg-cyan-600 rounded-full flex items-center justify-center">
+                          <span class="text-white font-bold text-lg">${lec.instructor_name[0].toUpperCase()}</span>
                       </div>
+                      <div>
+                          <div class="text-gray-600 text-xs capitalize tracking-wide">
+                              Instructor
+                          </div>
+                          <div class="font-semibold text-gray-800">${capitalizeFirstLetter(
+                            lec.instructor_name
+                          )}</div>
+                      </div>
+                  </div>
+                  <div class="w-10 ms-auto md:mr-2">
+                    ${groupDay(lec.group_day)}
+                  </div>
                 </div>
                 <div class="mb-4">
                     <div class="flex items-center gap-2 mb-2">
