@@ -68,7 +68,7 @@
     $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
     ?>
-
+<?php include "Design/Modals/group_drawer.php"; ?>
  <!-- filter row -->
  <div class="flex flex-col md:flex-row md:justify-between md:items-center mb-7 space-y-4 md:space-y-0 md:space-x-4">
      <!-- Add Group Button -->
@@ -181,7 +181,9 @@
                 foreach ($result as $row) :
                 ?> <tr class="odd:bg-white even:bg-gray-50 bg-white border-b border-gray-200 hover:bg-gray-50">
                      <th scope="row" class="px-4 py-2 w-10 font-medium text-gray-900 whitespace-nowrap">
-                         <?= ucwords($row['group_name']) ?>
+                        <button type="button" data-drawer-target="drawer-left-example" data-drawer-show="drawer-left-example" data-drawer-placement="left" aria-controls="drawer-left-example">
+                            <?= ucwords($row['group_name']) ?>
+                        </button>
                      </th>
                      <th scope="row" class="px-4 py-2 font-medium text-pink-900 whitespace-nowrap">
                          <i class="fa-solid fa-clock mr-1.5"></i>
@@ -196,7 +198,7 @@
                             ?>
                      </th>
                      <th scope="row" class="px-4 py-2 font-medium text-gray-900 whitespace-nowrap">
-                         <span class="<?= dayBadgeColor($row['group_day']) ?> text-sm font-medium me-2 px-2.5 py-1.5 rounded-md"><?= $row['group_day'] ?></span>
+                         <span class="<?= dayBadgeColor($row['group_day']) ?> text-sm font-medium me-2 px-2.5 py-1.5 rounded-md"><?= ucwords($row['group_day']) ?></span>
                      </th>
                      <td class="px-4 py-2 text-sky-600 capitalize">
                          <?php
@@ -303,5 +305,6 @@
 
         return $colors[$dayName] ?? $colors['default'];
     }
-
     ?>
+
+

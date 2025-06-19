@@ -36,7 +36,10 @@ function getGroupById($groupId, $pdo)
     <!-- update group -->
     <div class="bg-gray-200 rounded-lg">
         <form class="p-4 md:p-5" action="functions/Groups/update_group.php" method="POST">
-            <h3 class="mb-3 text-xl font-bold leading-none tracking-tight text-gray-900 md:text-2xl">Edit <span class="text-blue-600"><?= $group['name'] ?></span> Group </h3>
+            <h3 class="mb-4 text-xl font-bold leading-none tracking-tight text-gray-900 md:text-2xl">
+                <span class="text-blue-600">Edit </span>
+                Group Details
+            </h3>
             <input type="hidden" name="group_id" value="<?= $group['id'] ?>">
             <input type="hidden" name="time" id="currentTime">
             <script>
@@ -48,7 +51,7 @@ function getGroupById($groupId, $pdo)
 
             <div class="grid gap-4 grid-cols-2">
                 <div class="col-span-1">
-                    <label for="name" class="block mb-3 text-sm font-medium text-gray-900">Name</label>
+                    <label for="name" class="block mb-2 text-sm font-medium text-gray-900">Name</label>
                     <input type="hidden" name="old_name" value="<?= $group['name'] ?>">
                     <input type="text" name="name" id="name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" placeholder="Group Name" required="" value="<?= $group['name'] ?>">
                     <?php if (isset($errors['name'])) {
@@ -146,12 +149,12 @@ function getGroupById($groupId, $pdo)
         </form>
     </div>
     <!-- assign group to other instructor -->
-    <div class="flex md:justify-center md:items-center bg-blue-100 rounded-lg">
+    <div class="flex md:justify-center md:items-center bg-blue-100 rounded-lg mt-5 md:mt-0">
         <form class="p-4 md:p-5" action="functions/Groups/assign_to_instructor.php" method="POST">
-            <h3 class=" mb-2 text-xl font-bold leading-none tracking-tight text-gray-900 md:text-2xl"><span class="text-blue-600">Assign</span> Group To Other Instructor </h3>
+            <h3 class=" mb-3 text-xl font-bold leading-none tracking-tight text-gray-900 md:text-2xl"><span class="text-blue-600">Assign</span> Group To Other Instructor </h3>
             <input type="hidden" name="group" value="<?= $group['id'] ?>">
             <div class="grid gap-4 mb-4 grid-cols-1">
-                <div> 
+                <div>
                     <label for="newInstructor" class="block mb-2 text-sm font-medium text-gray-900">new Instructor</label>
                     <select name="new-instructor" id="newInstructor" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5">
                         <option value="" selected="">Select instructor</option>
