@@ -118,10 +118,24 @@
          </div>
 
          <!-- Footer -->
-         <div class="p-3 bg-gray-50 border-t border-gray-100">
-            <button class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg text-sm font-medium transition-colors shadow-sm">
-               <i class="fas fa-edit mr-1"></i> Edit Details
-            </button>
+         <div class="p-3 bg-gray-50 border-t border-gray-100 flex gap-3">
+            <a id="edit-btn" href="" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg text-sm font-medium transition-colors shadow-sm">
+               <i class="fas fa-edit mr-1"></i> Edit
+            </a>
+            <div class="self-center">
+               <a id="finish-btn" href="" class="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg text-sm font-medium transition-colors shadow-sm">
+                  <i class="fas fa-edit mr-1"></i> Finish
+               </a>
+
+
+               <a id="finish-training-btn" data-group-id="" href="" class="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg text-sm font-medium transition-colors shadow-sm">
+                  <i class="fas fa-edit mr-1"></i> Finish
+               </a>
+
+            </div>
+
+
+
          </div>
       </div>
 
@@ -136,19 +150,32 @@
          button.addEventListener("click", () => {
             const groupData = JSON.parse(button.dataset.group);
 
+            // training groups
+            if (groupData.name.toLowerCase().includes('training')) {
+               document.getElementById("finish-btn").classList.add('hidden');
+               document.getElementById("finish-training-btn").classList.remove('hidden');
+            } else {
+               document.getElementById("finish-btn").classList.remove('hidden');
+               document.getElementById("finish-training-btn").classList.add('hidden');
+            }
 
+            finishTrainingGroups()
 
             // Inject into modal
+            document.getElementById("edit-btn").href = `?action=edit&group_id=${groupData.id}`;
+            document.getElementById("finish-btn").href = `?action=finish_group&group_id=${groupData.id}`;
+            document.getElementById("finish-training-btn").dataset.groupId = groupData.id;
             document.getElementById("drawerGroup").textContent = groupData.name;
             document.getElementById("drawerGroup2").textContent = groupData.name;
             document.getElementById("drawerTrack").textContent = groupData.track;
+            document.getElementById("langIcon").innerHTML = setLangIcon(groupData.track);
             document.getElementById("drawerTime").textContent = groupData.time;
             document.getElementById("drawerDay").textContent = groupData.day;
             document.getElementById("drawerInstructor").textContent = groupData.instructor;
             document.getElementById("drawerBranch").textContent = groupData.branch;
             document.getElementById("drawerStart").innerHTML = coloredDate(groupData.start, "text-rose-700");
             document.getElementById("drawerEnd").innerHTML = coloredDate(groupData.end, "text-purple-700");
-            document.getElementById("langIcon").innerHTML = setLangIcon(groupData.track);
+
          });
       });
 
@@ -180,10 +207,40 @@
                break;
             case 'project':
                break;
-            default :
+            default:
                return "";
-               break ;
+               break;
          }
+      }
+
+
+      /** Finish Training groups */
+      function finishTrainingGroups() {
+         // i used event delegation because the finish btn added to the dom when search
+         document.getElementById("finish-training-btn").addEventListener("click", async (e) => {
+            e.preventDefault();
+            const groupId = e.target.dataset.groupId;
+
+            if (confirm("Are you sure you want to mark this Training group as finished?")) {
+               try {
+                  const response = await fetch("functions/Groups/finish_training_group.php", {
+                     method: "POST",
+                     headers: {
+                        "Content-Type": "application/x-www-form-urlencoded",
+                     },
+                     body: `id=${encodeURIComponent(groupId)}`,
+                  });
+
+                  const result = await response.json();
+                  if (result.status === "success") {                     
+                     notyf.success("Group Finished Successfully");
+                  }
+               } catch (error) {
+                  alert("Request failed.");
+                  console.error(error);
+               }
+            }
+         });
       }
    });
 </script>

@@ -46,6 +46,7 @@ if(!isset($_GET['action'])):
 
 <?php
 include_once "Design/includes/notFy-footer.php";
+
 ?>
 
 </body>
