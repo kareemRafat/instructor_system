@@ -15,7 +15,8 @@
          <div class="p-4 bg-gray-50 border-b border-gray-100">
             <h3 class="font-semibold text-gray-800 flex items-center text-lg">
                <i class="fas fa-calendar-alt text-indigo-500 mr-2 text-lg"></i>
-               Hover Details
+               <p id="drawerGroup" class="mr-2 text-indigo-800 text-lg"> </p>
+               <p>Details</p>
             </h3>
          </div>
 
@@ -28,9 +29,8 @@
                </div>
                <div class="flex-1">
                   <p class="text-xs font-medium text-gray-400 uppercase tracking-wider">Group</p>
-                  <p class="font-medium text-gray-800 text-lg">Neon Online</p>
+                  <p class="font-medium text-gray-800 text-lg" id="drawerGroup2">Neon Online</p>
                </div>
-
             </div>
 
             <!-- Time -->
@@ -40,18 +40,34 @@
                </div>
                <div class="flex-1">
                   <p class="text-xs font-medium text-gray-400 uppercase tracking-wider">Time</p>
-                  <p class="font-medium text-gray-800">Online 8</p>
+                  <p class="font-medium text-gray-800" id="drawerTime">Online 8</p>
+               </div>
+            </div>
+
+            <!-- Track -->
+            <div class="flex items-center p-4 hover:bg-gray-50 transition-all duration-200 group">
+               <div class="flex items-center justify-center w-10 h-10 rounded-lg bg-teal-50 mr-3 group-hover:bg-teal-100 transition-colors">
+                  <i class="fa-solid fa-bolt text-teal-600 text-sm"></i>
+               </div>
+               <div class="flex-1 flex justify-between">
+                  <div>
+                     <p class="text-xs font-medium text-gray-400 uppercase tracking-wider">Track</p>
+                     <p class="font-medium text-gray-800 text-lg" id="drawerTrack">javascript</p>
+                  </div>
+                  <div id="langIcon">
+                     <!-- injected with js -->
+                  </div>
                </div>
             </div>
 
             <!-- Day -->
             <div class="flex items-center p-4 hover:bg-gray-50 transition-all duration-200 group">
-               <div class="flex items-center justify-center w-10 h-10 rounded-lg bg-teal-50 mr-3 group-hover:bg-teal-100 transition-colors">
-                  <i class="fas fa-calendar-day text-teal-600 text-sm"></i>
+               <div class="flex items-center justify-center w-10 h-10 rounded-lg bg-slate-50 mr-3 group-hover:bg-slate-100 transition-colors">
+                  <i class="fas fa-calendar-day text-slate-600 text-sm"></i>
                </div>
                <div class="flex-1">
                   <p class="text-xs font-medium text-gray-400 uppercase tracking-wider">Day</p>
-                  <p class="font-medium text-gray-800">Sunday</p>
+                  <p class="font-medium text-gray-800" id="drawerDay">Sunday</p>
                </div>
             </div>
 
@@ -62,7 +78,7 @@
                </div>
                <div class="flex-1">
                   <p class="text-xs font-medium text-gray-400 uppercase tracking-wider">Instructor</p>
-                  <p class="font-medium text-gray-800">Esraa</p>
+                  <p class="font-medium text-gray-800" id="drawerInstructor">Esraa</p>
                </div>
 
             </div>
@@ -74,7 +90,7 @@
                </div>
                <div class="flex-1">
                   <p class="text-xs font-medium text-gray-400 uppercase tracking-wider">Branch</p>
-                  <p class="font-medium text-gray-800">Mansoura</p>
+                  <p class="font-medium text-gray-800" id="drawerBranch">Mansoura</p>
                </div>
             </div>
 
@@ -83,9 +99,9 @@
                <div class="flex items-center justify-center w-10 h-10 rounded-lg bg-blue-50 mr-3 group-hover:bg-blue-100 transition-colors">
                   <i class="fas fa-calendar-plus text-blue-600 text-sm"></i>
                </div>
-               <div class="flex-1 text-lg">
+               <div class="flex-1">
                   <p class="text-xs font-medium text-gray-400 uppercase tracking-wider">Start Date</p>
-                  <p class="font-medium text-gray-800 text-lg">25-06-2025</p>
+                  <p class="font-medium text-gray-800" id="drawerStart">25-06-2025</p>
                </div>
             </div>
 
@@ -96,7 +112,7 @@
                </div>
                <div class="flex-1">
                   <p class="text-xs font-medium text-gray-400 uppercase tracking-wider">End Date</p>
-                  <p class="font-medium text-gray-800 text-lg">09-12-2025</p>
+                  <p class="font-medium text-gray-800" id="drawerEnd">09-12-2025</p>
                </div>
             </div>
          </div>
@@ -111,3 +127,63 @@
 
    </div>
 </div>
+
+<script>
+   document.addEventListener("DOMContentLoaded", () => {
+      const groupButtons = document.querySelectorAll(".groupInfoBtn");
+
+      groupButtons.forEach(button => {
+         button.addEventListener("click", () => {
+            const groupData = JSON.parse(button.dataset.group);
+
+
+
+            // Inject into modal
+            document.getElementById("drawerGroup").textContent = groupData.name;
+            document.getElementById("drawerGroup2").textContent = groupData.name;
+            document.getElementById("drawerTrack").textContent = groupData.track;
+            document.getElementById("drawerTime").textContent = groupData.time;
+            document.getElementById("drawerDay").textContent = groupData.day;
+            document.getElementById("drawerInstructor").textContent = groupData.instructor;
+            document.getElementById("drawerBranch").textContent = groupData.branch;
+            document.getElementById("drawerStart").innerHTML = coloredDate(groupData.start, "text-rose-700");
+            document.getElementById("drawerEnd").innerHTML = coloredDate(groupData.end, "text-purple-700");
+            document.getElementById("langIcon").innerHTML = setLangIcon(groupData.track);
+         });
+      });
+
+      function coloredDate(month, color) {
+         let date = month.split(' ');
+         return `
+                  <p class="${color}">${date[0]}</p>
+                  <p>${date[1]}</p>
+               `;
+
+      }
+
+      function setLangIcon(lang) {
+         switch (lang.toLowerCase()) {
+            case 'html':
+               return `<i class="fa-brands fa-html5 text-5xl text-slate-700"></i>`;
+               break;
+            case 'css':
+               return `<i class="fa-brands fa-css text-5xl text-slate-700"></i>`;
+               break;
+            case 'javascript':
+               return `<i class="fa-brands fa-js text-5xl text-slate-700"></i>`;
+               break;
+            case 'php':
+               return `<img class="w-[55px]" src="images/php.png" >`;
+               break;
+            case 'database':
+               return `<img class="w-20" src="https://www.mysql.com/common/logos/logo-mysql-170x115.png" >`;
+               break;
+            case 'project':
+               break;
+            default :
+               return "";
+               break ;
+         }
+      }
+   });
+</script>

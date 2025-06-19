@@ -62,13 +62,13 @@
 
     $stmt->execute([
         ':search' => isset($_GET['search']) ? $_GET['search'] : null,
-        ':branch' => $_GET['branch'] ?? null 
+        ':branch' => $_GET['branch'] ?? null
     ]);
     $count = $stmt->rowCount();
     $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
     ?>
-<?php include "Design/Modals/group_drawer.php"; ?>
+ <?php include "Design/Modals/group_drawer.php"; ?>
  <!-- filter row -->
  <div class="flex flex-col md:flex-row md:justify-between md:items-center mb-7 space-y-4 md:space-y-0 md:space-x-4">
      <!-- Add Group Button -->
@@ -126,7 +126,7 @@
                  Finished Groups
              </a>
          <?php endif; ?>
-         <?php $groupLocation = ROLE == 'cs' ? "groups.php?branch=".BRANCH : "groups.php"; ?>
+         <?php $groupLocation = ROLE == 'cs' ? "groups.php?branch=" . BRANCH : "groups.php"; ?>
          <a href="<?= $groupLocation ?>" class="px-4 py-1.5 mb-3 md:mb-0 bg-blue-600 text-base rounded-md tracking-wider font-medium capitalize text-center text-white inline-flex items-center hover:underline justify-center">
              <svg class="w-4 h-4 me-2 rotate-90" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h12m0 0L9 1m4 4L9 9" />
@@ -179,39 +179,40 @@
              <?php endif; ?>
              <?php
                 foreach ($result as $row) :
-                ?> <tr class="odd:bg-white even:bg-gray-50 bg-white border-b border-gray-200 hover:bg-gray-50">
+                    $groupTrack = getGroupTrack($row['group_id'], $pdo);
+                ?>
+                 <tr class="odd:bg-white even:bg-gray-50 bg-white border-b border-gray-200 hover:bg-gray-50">
                      <th scope="row" class="px-4 py-2 w-10 font-medium text-gray-900 whitespace-nowrap">
-                        <button type="button" data-drawer-target="drawer-left-example" data-drawer-show="drawer-left-example" data-drawer-placement="left" aria-controls="drawer-left-example">
-                            <?= ucwords($row['group_name']) ?>
-                        </button>
+                         <button
+                             class="groupInfoBtn outline-none"
+                             type="button"
+                             data-drawer-target="drawer-left-example"
+                             data-drawer-show="drawer-left-example"
+                             data-drawer-placement="left"
+                             aria-controls="drawer-left-example"
+                             data-group='{
+                                "id" : "<?= $row['group_id'] ?>",
+                                "name": "<?= ucwords($row['group_name']) ?>",
+                                "time": "<?= rowGroupTime($row['group_time']); ?>",
+                                "day": "<?= ucwords($row['group_day']) ?>",
+                                "track": "<?= ucwords($groupTrack) ?>",
+                                "instructor": "<?= ucwords($row['instructor_name']) ?>",
+                                "branch": "<?= ucwords($row['branch_name']) ?>",
+                                "start": "<?= $row['month'] ?> <?= $row['formatted_date'] ?? 'No date added' ?>",
+                                "end": "<?= $row['group_end_month'] ?> <?= $row['group_end_date'] ?? 'No date added' ?>"
+                            }'>
+                             <?= ucwords($row['group_name']) ?>
+                         </button>
                      </th>
                      <th scope="row" class="px-4 py-2 font-medium text-pink-900 whitespace-nowrap">
                          <i class="fa-solid fa-clock mr-1.5"></i>
-                         <?php
-                            if ($row['group_time'] == 2 || $row['group_time'] == 5) {
-                                echo $row['group_time'] . " - Friday";
-                            } elseif ($row['group_time'] == 6.10 || $row['group_time'] == 8) {
-                                echo "Online " . number_format((int)$row['group_time']);
-                            } else {
-                                echo $row['group_time'];
-                            }
-                            ?>
+                         <?= rowGroupTime($row['group_time']); ?>
                      </th>
                      <th scope="row" class="px-4 py-2 font-medium text-gray-900 whitespace-nowrap">
                          <span class="<?= dayBadgeColor($row['group_day']) ?> text-sm font-medium me-2 px-2.5 py-1.5 rounded-md"><?= ucwords($row['group_day']) ?></span>
                      </th>
                      <td class="px-4 py-2 text-sky-600 capitalize">
-                         <?php
-                            $groupId = $row['group_id'];
-                            $getTrack = "SELECT 
-                                            *
-                                            FROM lectures AS l 
-                                            JOIN tracks AS t ON t.id =  l.track_id
-                                            WHERE group_id = :group ORDER BY date DESC LIMIT 1";
-                            $stmt = $pdo->prepare($getTrack);
-                            $stmt->execute([':group' => $groupId]);
-                            echo $stmt->fetch(PDO::FETCH_ASSOC)['name'] ?? 'Not Updated';
-                            ?>
+                         <?= $groupTrack ?>
                      </td>
                      <td class="px-4 py-2">
                          <span class="w-2 h-2 <?= branchIndicator($row['branch_name'])['bgColor'] ?> inline-block mr-2"></span>
@@ -246,9 +247,9 @@
                                  <i class="fas fa-square-check hidden md:inline-block"></i>
                                  <span>Finish</span>
                              </a>
-                        <!-- if training just change is_active to 0 -->
+                             <!-- if training just change is_active to 0 -->
                          <?php else : ?>
-                             <a  data-group-id="<?= $row['group_id'] ?>" class="finish-btn cursor-pointer text-center border border-gray-300 py-1 px-2 rounded-lg font-medium text-red-600 hover:underline">
+                             <a data-group-id="<?= $row['group_id'] ?>" class="finish-btn cursor-pointer text-center border border-gray-300 py-1 px-2 rounded-lg font-medium text-red-600 hover:underline">
                                  <i class="fa-solid fa-power-off text-base hidden md:inline-block"></i>
                                  <span>Finish</span>
                              </a>
@@ -261,7 +262,6 @@
      </table>
      <?php include "pagination.php"; ?>
  </div>
-
 
 
  <?php
@@ -305,6 +305,28 @@
 
         return $colors[$dayName] ?? $colors['default'];
     }
+
+    function rowGroupTime($rowTime)
+    {
+        if ($rowTime == 2 || $rowTime == 5) {
+            return $rowTime . " - Friday";
+        } elseif ($rowTime == 6.10 || $rowTime == 8) {
+            return "Online " . number_format((int)$rowTime);
+        } else {
+            return $rowTime;
+        }
+    }
+
+    // get the track from lectures last comment
+    function getGroupTrack($groupId, $pdo)
+    {
+        $getTrack = "SELECT 
+                        *
+                        FROM lectures AS l 
+                        JOIN tracks AS t ON t.id =  l.track_id
+                        WHERE group_id = :group ORDER BY date DESC LIMIT 1";
+        $stmt = $pdo->prepare($getTrack);
+        $stmt->execute([':group' => $groupId]);
+        return $stmt->fetch(PDO::FETCH_ASSOC)['name'] ?? 'Not Updated';
+    }
     ?>
-
-
