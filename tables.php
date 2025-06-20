@@ -1,4 +1,8 @@
 <?php
+
+$hideScroll = true; // Set this only on pages where you want to hide scroll
+
+
 include_once 'Helpers/bootstrap.php';
 include_once 'Design/includes/header.php';
 include_once 'Design/includes/navbar.php';
@@ -64,7 +68,7 @@ if (isset($_GET['branch']) and $_GET['branch'] == 1) {
     $text = 'text-blue-800';
 }
 
-$rowHoverColors = ['hover:bg-orange-50',  'hover:bg-indigo-50','hover:bg-green-50',  'hover:bg-rose-50', 'hover:bg-purple-50', 'hover:bg-blue-50'];
+$rowHoverColors = ['hover:bg-orange-50',  'hover:bg-indigo-50', 'hover:bg-green-50',  'hover:bg-rose-50', 'hover:bg-purple-50', 'hover:bg-blue-50'];
 
 $cellHoverColor = ['hover:bg-orange-100', 'hover:bg-indigo-100', 'hover:bg-green-100',  'hover:bg-rose-100', 'hover:bg-purple-100', 'hover:bg-blue-100'];
 
@@ -127,7 +131,7 @@ $cellHoverColor = ['hover:bg-orange-100', 'hover:bg-indigo-100', 'hover:bg-green
                             <?php foreach ($times as $index => $time): ?>
                                 <th class="border border-gray-300 <?php echo ($index === 3 && $dayIndex < 2) ? 'border-r-2 border-r-slate-400' : ''; ?> p-2 text-sm font-medium">
                                     <?php
-                                    if($time === '12.30-4.00'){
+                                    if ($time === '12.30-4.00') {
                                         echo '12.30';
                                     } elseif ($time === '3.00-6.10') {
                                         echo '3.00';
@@ -143,7 +147,7 @@ $cellHoverColor = ['hover:bg-orange-100', 'hover:bg-indigo-100', 'hover:bg-green
                     </tr>
                 </thead>
                 <!-- Table Body -->
-                <tbody>
+                <tbody id="tables-table-body">
                     <?php foreach ($instructors as $index => $instructor): ?>
                         <?php $hoverColor = $rowHoverColors[$index % count($rowHoverColors)]; ?>
                         <?php $tdHoverColor = $cellHoverColor[$index % count($cellHoverColor)]; ?>
@@ -163,14 +167,37 @@ $cellHoverColor = ['hover:bg-orange-100', 'hover:bg-indigo-100', 'hover:bg-green
                                                 <div class="flex flex-col items-center gap-1">
                                                     <?php if ($firstSlot) { ?>
                                                         <div>
-                                                            <span class="<?= $text ?> font-semibold text-base"><?= ucwords($schedule[$instructor['id']][$day]['12.30']['name']) ?></span>
-                                                            <span class="text-sm md:block hidden font-semibold"><?= $schedule[$instructor['id']][$day]['12.30']['start'] ?? ''; ?></span>
+
+                                                            <button
+                                                                class="outline-none"
+                                                                type="button"
+                                                                data-drawer-target="drawer-left-example"
+                                                                data-drawer-show="drawer-left-example"
+                                                                data-drawer-placement="left"
+                                                                aria-controls="drawer-left-example">
+                                                                <span class="<?= $text ?> font-semibold text-base">
+                                                                    <?= ucwords($schedule[$instructor['id']][$day]['12.30']['name']) ?>
+                                                                </span>
+                                                                <span class="text-sm md:block hidden font-semibold"><?= $schedule[$instructor['id']][$day]['12.30']['start'] ?? ''; ?></span>
+                                                            </button>
+
+
                                                         </div>
                                                     <?php } ?>
                                                     <?php if ($secondSlot) { ?>
                                                         <div>
-                                                            <span class="<?= $text ?> font-semibold text-base"><?= ucwords($schedule[$instructor['id']][$day]['4.00']['name']) ?>(4)</span>
-                                                            <span class="text-sm md:block hidden font-semibold"><?= $schedule[$instructor['id']][$day]['4.00']['start'] ?? ''; ?></span>
+                                                            <button
+                                                                class="outline-none"
+                                                                type="button"
+                                                                data-drawer-target="drawer-left-example"
+                                                                data-drawer-show="drawer-left-example"
+                                                                data-drawer-placement="left"
+                                                                aria-controls="drawer-left-example">
+                                                                <span class="<?= $text ?> font-semibold text-base">
+                                                                    <?= ucwords($schedule[$instructor['id']][$day]['4.00']['name']) ?>(4)
+                                                                </span>
+                                                                <span class="text-sm md:block hidden font-semibold"><?= $schedule[$instructor['id']][$day]['4.00']['start'] ?? ''; ?></span>
+                                                            </button>
                                                         </div>
                                                     <?php } ?>
                                                 </div>
@@ -182,14 +209,34 @@ $cellHoverColor = ['hover:bg-orange-100', 'hover:bg-indigo-100', 'hover:bg-green
                                                 <div class="flex flex-col items-center gap-1">
                                                     <?php if ($firstSlot) { ?>
                                                         <div>
-                                                            <span class="<?= $text ?> font-semibold text-base"><?= ucwords($schedule[$instructor['id']][$day]['3.00']['name']) ?></span>
-                                                            <span class="text-sm md:block hidden font-semibold"><?= $schedule[$instructor['id']][$day]['3.00']['start'] ?? ''; ?></span>
+                                                            <button
+                                                                class="outline-none"
+                                                                type="button"
+                                                                data-drawer-target="drawer-left-example"
+                                                                data-drawer-show="drawer-left-example"
+                                                                data-drawer-placement="left"
+                                                                aria-controls="drawer-left-example">
+                                                                <span class="<?= $text ?> font-semibold text-base">
+                                                                    <?= ucwords($schedule[$instructor['id']][$day]['3.00']['name']) ?>
+                                                                </span>
+                                                                <span class="text-sm md:block hidden font-semibold"><?= $schedule[$instructor['id']][$day]['3.00']['start'] ?? ''; ?></span>
+                                                            </button>
                                                         </div>
                                                     <?php } ?>
                                                     <?php if ($secondSlot) { ?>
                                                         <div>
-                                                            <span class="<?= $text ?> font-semibold text-base"><?= ucwords($schedule[$instructor['id']][$day]['6.10']['name']) ?>(6)</span>
-                                                            <span class="text-sm md:block hidden font-semibold"><?= $schedule[$instructor['id']][$day]['6.10']['start'] ?? ''; ?></span>
+                                                            <button
+                                                                class="outline-none"
+                                                                type="button"
+                                                                data-drawer-target="drawer-left-example"
+                                                                data-drawer-show="drawer-left-example"
+                                                                data-drawer-placement="left"
+                                                                aria-controls="drawer-left-example">
+                                                                <span class="<?= $text ?> font-semibold text-base">
+                                                                    <?= ucwords($schedule[$instructor['id']][$day]['6.10']['name']) ?>(6)
+                                                                </span>
+                                                                <span class="text-sm md:block hidden font-semibold"><?= $schedule[$instructor['id']][$day]['6.10']['start'] ?? ''; ?></span>
+                                                            </button>
                                                         </div>
                                                     <?php } ?>
                                                 </div>
@@ -201,14 +248,34 @@ $cellHoverColor = ['hover:bg-orange-100', 'hover:bg-indigo-100', 'hover:bg-green
                                                 <div class="flex flex-col items-center gap-1">
                                                     <?php if ($firstSlot) { ?>
                                                         <div>
-                                                            <span class="<?= $text ?> font-semibold text-base"><?= ucwords($schedule[$instructor['id']][$day]['6.00']['name']) ?></span>
-                                                            <span class="text-sm md:block hidden font-semibold"><?= $schedule[$instructor['id']][$day]['6.00']['start'] ?? ''; ?></span>
+                                                            <button
+                                                                class="outline-none"
+                                                                type="button"
+                                                                data-drawer-target="drawer-left-example"
+                                                                data-drawer-show="drawer-left-example"
+                                                                data-drawer-placement="left"
+                                                                aria-controls="drawer-left-example">
+                                                                <span class="<?= $text ?> font-semibold text-base">
+                                                                    <?= ucwords($schedule[$instructor['id']][$day]['6.00']['name']) ?>
+                                                                </span>
+                                                                <span class="text-sm md:block hidden font-semibold"><?= $schedule[$instructor['id']][$day]['6.00']['start'] ?? ''; ?></span>
+                                                            </button>
                                                         </div>
                                                     <?php } ?>
                                                     <?php if ($secondSlot) { ?>
                                                         <div>
-                                                            <span class="<?= $text ?> font-semibold text-base"><?= ucwords($schedule[$instructor['id']][$day]['8.00']['name']) ?>(8)</span>
-                                                            <span class="text-sm md:block hidden font-semibold"><?= $schedule[$instructor['id']][$day]['8.00']['start'] ?? ''; ?></span>
+                                                            <button
+                                                                class="outline-none"
+                                                                type="button"
+                                                                data-drawer-target="drawer-left-example"
+                                                                data-drawer-show="drawer-left-example"
+                                                                data-drawer-placement="left"
+                                                                aria-controls="drawer-left-example">
+                                                                <span class="<?= $text ?> font-semibold text-base">
+                                                                    <?= ucwords($schedule[$instructor['id']][$day]['8.00']['name']) ?>(8)
+                                                                </span>
+                                                                <span class="text-sm md:block hidden font-semibold"><?= $schedule[$instructor['id']][$day]['8.00']['start'] ?? ''; ?></span>
+                                                            </button>
                                                         </div>
                                                     <?php } ?>
                                                 </div>
@@ -217,8 +284,18 @@ $cellHoverColor = ['hover:bg-orange-100', 'hover:bg-indigo-100', 'hover:bg-green
                                             // Original code for other time slots
                                             if (isset($schedule[$instructor['id']][$day][$time])) { ?>
                                                 <div class="flex flex-col items-center">
-                                                    <span class="<?= $text ?> font-semibold text-base"><?= ucwords($schedule[$instructor['id']][$day][$time]['name']) ?></span>
-                                                    <span class="text-sm md:block hidden font-semibold"><?= $schedule[$instructor['id']][$day][$time]['start'] ?? ''; ?></span>
+                                                    <button
+                                                        class="outline-none"
+                                                        type="button"
+                                                        data-drawer-target="drawer-left-example"
+                                                        data-drawer-show="drawer-left-example"
+                                                        data-drawer-placement="left"
+                                                        aria-controls="drawer-left-example">
+                                                        <span class="<?= $text ?> font-semibold text-base">
+                                                            <?= ucwords($schedule[$instructor['id']][$day][$time]['name']) ?>
+                                                        </span>
+                                                        <span class="text-sm md:block hidden font-semibold"><?= $schedule[$instructor['id']][$day][$time]['start'] ?? ''; ?></span>
+                                                    </button>
                                                 </div>
                                         <?php }
                                         } ?>
@@ -232,6 +309,7 @@ $cellHoverColor = ['hover:bg-orange-100', 'hover:bg-indigo-100', 'hover:bg-green
         </div>
     </div>
 </div>
+<?php include "Design/Modals/tables_drawer.php"; ?>
 </body>
 
 </html>
