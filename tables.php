@@ -2,10 +2,13 @@
 
 $hideScroll = true; // Set this only on pages where you want to hide scroll
 
-
 include_once 'Helpers/bootstrap.php';
 include_once 'Design/includes/header.php';
 include_once 'Design/includes/navbar.php';
+
+// use it when finish group header me here
+$_SESSION['current_branch_id'] = $_GET['branch'] ?? 1 ; 
+
 ?>
 
 <?php
@@ -24,6 +27,7 @@ $instructors = $stmt->fetchAll(PDO::FETCH_ASSOC);
 $groups = [];
 $stmt = $pdo->prepare("SELECT 
                             IF(g.name LIKE '%training%', 'training', g.name) AS name,
+                            g.id,
                             g.day,
                             g.time,
                             g.branch_id,
@@ -32,8 +36,7 @@ $stmt = $pdo->prepare("SELECT
                             COALESCE(g.second_instructor_id, g.instructor_id) AS instructor_id
                         FROM `groups` g
                         JOIN instructors i ON i.id = COALESCE(g.second_instructor_id, g.instructor_id)
-                        JOIN branch_instructor bi ON bi.instructor_id = i.id
-                        WHERE bi.branch_id = :branch AND g.is_active = 1 AND g.branch_id = :branch");
+                        WHERE g.is_active = 1 AND g.branch_id = :branch");
 $stmt->execute([
     ':branch' => $_GET['branch'] ?? 1
 ]);
@@ -45,6 +48,7 @@ foreach ($groups as $group) {
     $instructor_id = $group['instructor_id'];
     $day = $group['day'];
     $time = $group['time'];
+    $schedule[$instructor_id][$day][$time]['id'] = $group['id'];
     $schedule[$instructor_id][$day][$time]['name'] = $group['name'];
     $schedule[$instructor_id][$day][$time]['start'] = $group['start'];
 }
@@ -169,6 +173,7 @@ $cellHoverColor = ['hover:bg-orange-100', 'hover:bg-indigo-100', 'hover:bg-green
                                                         <div>
 
                                                             <button
+                                                                data-group-id="<?= $schedule[$instructor['id']][$day]['12.30']['id'] ?>"
                                                                 class="outline-none"
                                                                 type="button"
                                                                 data-drawer-target="drawer-left-example"
@@ -187,6 +192,7 @@ $cellHoverColor = ['hover:bg-orange-100', 'hover:bg-indigo-100', 'hover:bg-green
                                                     <?php if ($secondSlot) { ?>
                                                         <div>
                                                             <button
+                                                                data-group-id="<?= $schedule[$instructor['id']][$day]['4.00']['id'] ?>"
                                                                 class="outline-none"
                                                                 type="button"
                                                                 data-drawer-target="drawer-left-example"
@@ -210,6 +216,7 @@ $cellHoverColor = ['hover:bg-orange-100', 'hover:bg-indigo-100', 'hover:bg-green
                                                     <?php if ($firstSlot) { ?>
                                                         <div>
                                                             <button
+                                                                data-group-id="<?= $schedule[$instructor['id']][$day]['3.00']['id'] ?>"
                                                                 class="outline-none"
                                                                 type="button"
                                                                 data-drawer-target="drawer-left-example"
@@ -226,6 +233,7 @@ $cellHoverColor = ['hover:bg-orange-100', 'hover:bg-indigo-100', 'hover:bg-green
                                                     <?php if ($secondSlot) { ?>
                                                         <div>
                                                             <button
+                                                                data-group-id="<?= $schedule[$instructor['id']][$day]['6.10']['id'] ?>"
                                                                 class="outline-none"
                                                                 type="button"
                                                                 data-drawer-target="drawer-left-example"
@@ -249,6 +257,7 @@ $cellHoverColor = ['hover:bg-orange-100', 'hover:bg-indigo-100', 'hover:bg-green
                                                     <?php if ($firstSlot) { ?>
                                                         <div>
                                                             <button
+                                                                data-group-id="<?= $schedule[$instructor['id']][$day]['6.00']['id'] ?>"
                                                                 class="outline-none"
                                                                 type="button"
                                                                 data-drawer-target="drawer-left-example"
@@ -265,6 +274,7 @@ $cellHoverColor = ['hover:bg-orange-100', 'hover:bg-indigo-100', 'hover:bg-green
                                                     <?php if ($secondSlot) { ?>
                                                         <div>
                                                             <button
+                                                                data-group-id="<?= $schedule[$instructor['id']][$day]['8.00']['id'] ?>"
                                                                 class="outline-none"
                                                                 type="button"
                                                                 data-drawer-target="drawer-left-example"
@@ -285,6 +295,7 @@ $cellHoverColor = ['hover:bg-orange-100', 'hover:bg-indigo-100', 'hover:bg-green
                                             if (isset($schedule[$instructor['id']][$day][$time])) { ?>
                                                 <div class="flex flex-col items-center">
                                                     <button
+                                                        data-group-id="<?= $schedule[$instructor['id']][$day][$time]['id'] ?>"
                                                         class="outline-none"
                                                         type="button"
                                                         data-drawer-target="drawer-left-example"
@@ -309,7 +320,11 @@ $cellHoverColor = ['hover:bg-orange-100', 'hover:bg-indigo-100', 'hover:bg-green
         </div>
     </div>
 </div>
-<?php include "Design/Modals/tables_drawer.php"; ?>
+<script src="dist/tables-main.js"></script>
+<?php
+include_once "Design/Modals/tables_drawer.php";
+include_once "Design/includes/notFy-footer.php";
+?>
 </body>
 
 </html>

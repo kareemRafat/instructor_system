@@ -68,7 +68,6 @@
     $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
     ?>
- <?php include "Design/Modals/group_drawer.php"; ?>
  <!-- filter row -->
  <div class="flex flex-col md:flex-row md:justify-between md:items-center mb-7 space-y-4 md:space-y-0 md:space-x-4">
      <!-- Add Group Button -->
@@ -183,26 +182,7 @@
                 ?>
                  <tr class="odd:bg-white even:bg-gray-50 bg-white border-b border-gray-200 hover:bg-gray-50">
                      <th scope="row" class="px-4 py-2 w-10 font-medium text-gray-900 whitespace-nowrap">
-                         <button
-                             class="groupInfoBtn outline-none"
-                             type="button"
-                             data-drawer-target="drawer-left-example"
-                             data-drawer-show="drawer-left-example"
-                             data-drawer-placement="left"
-                             aria-controls="drawer-left-example"
-                             data-group='{
-                                "id" : "<?= $row['group_id'] ?>",
-                                "name": "<?= ucwords($row['group_name']) ?>",
-                                "time": "<?= rowGroupTime($row['group_time']); ?>",
-                                "day": "<?= ucwords($row['group_day']) ?>",
-                                "track": "<?= ucwords($groupTrack) ?>",
-                                "instructor": "<?= ucwords($row['instructor_name']) ?>",
-                                "branch": "<?= ucwords($row['branch_name']) ?>",
-                                "start": "<?= $row['month'] ?> <?= $row['formatted_date'] ?? 'No date added' ?>",
-                                "end": "<?= $row['group_end_month'] ?> <?= $row['group_end_date'] ?? 'No date added' ?>"
-                            }'>
-                             <?= ucwords($row['group_name']) ?>
-                         </button>
+                         <?= ucwords($row['group_name']) ?>
                      </th>
                      <th scope="row" class="px-4 py-2 font-medium text-pink-900 whitespace-nowrap">
                          <i class="fa-solid fa-clock mr-1.5"></i>
@@ -329,4 +309,7 @@
         $stmt->execute([':group' => $groupId]);
         return $stmt->fetch(PDO::FETCH_ASSOC)['name'] ?? 'Not Updated';
     }
-    ?>
+
+ unset($_SESSION['page']);
+ 
+?>

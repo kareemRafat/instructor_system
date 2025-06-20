@@ -38,7 +38,7 @@
                <div class="flex items-center justify-center w-10 h-10 rounded-lg bg-teal-50 mr-3 group-hover:bg-teal-100 transition-colors">
                   <i class="fa-solid fa-bolt text-teal-600 text-sm"></i>
                </div>
-               <div class="flex-1 flex justify-between">
+               <div class="flex-1 flex justify-between items-center">
                   <div>
                      <p class="text-xs font-medium text-gray-400 uppercase tracking-wider">Track</p>
                      <p class="font-medium text-gray-800 text-lg" id="drawerTrack">javascript</p>
@@ -101,7 +101,8 @@
                </div>
                <div class="flex-1">
                   <p class="text-xs font-medium text-gray-400 uppercase tracking-wider">Start Date</p>
-                  <p class="font-medium text-gray-800" id="drawerStart">25-06-2025</p>
+                  <p class="font-medium text-rose-700" id="drawerStartMonth">25-06-2025</p>
+                  <p class="font-medium text-gray-800" id="drawerStartDate">25-06-2025</p>
                </div>
             </div>
 
@@ -111,8 +112,9 @@
                   <i class="fas fa-calendar-check text-cyan-600 text-sm"></i>
                </div>
                <div class="flex-1">
-                  <p class="text-xs font-medium text-gray-400 uppercase tracking-wider">End Date</p>
-                  <p class="font-medium text-gray-800" id="drawerEnd">09-12-2025</p>
+                  <p class="text-xs font-medium text-gray-400 uppercase tracking-wider">Expected End Date</p>
+                  <p class="font-medium text-purple-700" id="drawerEndMonth">09-12-2025</p>
+                  <p class="font-medium text-gray-800" id="drawerEndDate">09-12-2025</p>
                </div>
             </div>
          </div>
@@ -133,117 +135,10 @@
                </a>
 
             </div>
-
-
-
          </div>
       </div>
-
    </div>
 </div>
-
-<script>
-   document.addEventListener("DOMContentLoaded", () => {
-      // const groupButtons = document.querySelectorAll(".groupInfoBtn");
-
-      document.getElementById('tables-table-body').addEventListener('click', (e) => {
-         console.log(e.target);
-
-         // const groupData = JSON.parse(e.target.dataset.group);
-
-         // if (groupData.name.toLowerCase().includes('training')) {
-         //    document.getElementById("finish-btn").classList.add('hidden');
-         //    document.getElementById("finish-training-btn").classList.remove('hidden');
-         // } else {
-         //    document.getElementById("finish-btn").classList.remove('hidden');
-         //    document.getElementById("finish-training-btn").classList.add('hidden');
-         // }
-
-         // finishTrainingGroups()
-
-         // // Inject into modal
-         // document.getElementById("edit-btn").href = `?action=edit&group_id=${groupData.id}`;
-         // document.getElementById("finish-btn").href = `?action=finish_group&group_id=${groupData.id}`;
-         // document.getElementById("finish-training-btn").dataset.groupId = groupData.id;
-         // document.getElementById("drawerGroup").textContent = groupData.name;
-         // document.getElementById("drawerGroup2").textContent = groupData.name;
-         // document.getElementById("drawerTrack").textContent = groupData.track;
-         // document.getElementById("langIcon").innerHTML = setLangIcon(groupData.track);
-         // document.getElementById("drawerTime").textContent = groupData.time;
-         // document.getElementById("drawerDay").textContent = groupData.day;
-         // document.getElementById("drawerInstructor").textContent = groupData.instructor;
-         // document.getElementById("drawerBranch").textContent = groupData.branch;
-         // document.getElementById("drawerStart").innerHTML = coloredDate(groupData.start, "text-rose-700");
-         // document.getElementById("drawerEnd").innerHTML = coloredDate(groupData.end, "text-purple-700");
-
-      })
-
-
-
-      function coloredDate(month, color) {
-         let date = month.split(' ');
-         return `
-                  <p class="${color}">${date[0]}</p>
-                  <p>${date[1]}</p>
-               `;
-
-      }
-
-      function setLangIcon(lang) {
-         switch (lang.toLowerCase()) {
-            case 'html':
-               return `<i class="fa-brands fa-html5 text-5xl text-slate-700"></i>`;
-               break;
-            case 'css':
-               return `<i class="fa-brands fa-css text-5xl text-slate-700"></i>`;
-               break;
-            case 'javascript':
-               return `<i class="fa-brands fa-js text-5xl text-slate-700"></i>`;
-               break;
-            case 'php':
-               return `<img class="w-[55px]" src="images/php.png" >`;
-               break;
-            case 'database':
-               return `<img class="w-20" src="https://www.mysql.com/common/logos/logo-mysql-170x115.png" >`;
-               break;
-            case 'project':
-               break;
-            default:
-               return "";
-               break;
-         }
-      }
-
-      /** Finish Training groups */
-      function finishTrainingGroups() {
-         // i used event delegation because the finish btn added to the dom when search
-         document.getElementById("finish-training-btn").addEventListener("click", async (e) => {
-            e.preventDefault();
-            const groupId = e.target.dataset.groupId;
-
-            if (confirm("Are you sure you want to mark this Training group as finished?")) {
-               try {
-                  const response = await fetch("functions/Groups/finish_training_group.php", {
-                     method: "POST",
-                     headers: {
-                        "Content-Type": "application/x-www-form-urlencoded",
-                     },
-                     body: `id=${encodeURIComponent(groupId)}`,
-                  });
-
-                  const result = await response.json();
-                  if (result.status === "success") {
-                     notyf.success("Group Finished Successfully");
-                     setTimeout(() => {
-                        window.location.reload();
-                     }, 1000);
-                  }
-               } catch (error) {
-                  alert("Request failed.");
-                  console.error(error);
-               }
-            }
-         });
-      }
-   });
-</script>
+<?php 
+   $_SESSION['page'] = 'tables.php';
+?>

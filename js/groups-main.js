@@ -194,28 +194,8 @@ function setTable(res, branch = null) {
     };
 
     tr.innerHTML = `
-      <th scope="row" class="px-4 py-2 font-medium text-gray-900 whitespace-nowrap">
-        <button
-          class="groupInfoBtn outline-none"
-          type="button"
-          data-drawer-target="drawer-left-example"
-          data-drawer-show="drawer-left-example"
-          data-drawer-placement="left"
-          aria-controls="drawer-left-example"
-          data-group='{
-              "id": "${row.id}",
-              "name": "${row.group_name.charAt(0).toUpperCase() + row.group_name.slice(1)}",
-              "time": "${displayTime(row.group_time)}",
-              "day": "${row.group_day}",
-              "track": "",
-              "instructor": "${row.instructor_name.charAt(0).toUpperCase() + row.instructor_name.slice(1)}",
-              "branch": "${row.branch_name.charAt(0).toUpperCase() + row.branch_name.slice(1)}",
-              "start": "${row.month} ${row.formatted_date ? row.formatted_date : "No date added"} ",
-              "end": "${row.group_end_month} ${row.group_end_date}"
-          }'>
+      <th scope="row" class="px-4 py-3.5 font-medium text-gray-900 whitespace-nowrap">
           ${row.group_name.charAt(0).toUpperCase() + row.group_name.slice(1)}
-      </button>
-          
       </th>
       <th scope="row" class="px-4 py-2 font-medium text-pink-900 whitespace-nowrap">
       <i class="fa-solid fa-clock mr-1.5"></i>

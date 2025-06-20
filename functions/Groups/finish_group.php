@@ -11,7 +11,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if (!checkErrors($_POST, $pdo)) {
         header("Location: ../../groups.php?action=finish_group&group_id=" . $_POST['group_id']);
-        return;
+        exit();
     }
 
     $group_id = $_POST['group_id'] ?? null;
@@ -59,7 +59,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // Commit transaction if both queries succeeded
             $pdo->commit();
             $_SESSION['success'] = 'Group Finish successfully';
-            header('location: ../../groups.php');
+
+            // if the request came from tables.php or groups.php
+            if (isset($_SESSION['page'])) {
+                header('location: ../../' . $_SESSION['page'] . '?branch=' . $_SESSION['current_branch_id']);
+                unset($_SESSION['page']);
+                unset($_SESSION['current_branch_id']);
+            } else {
+                header('location: ../../groups.php');
+            }
+
         } catch (PDOException $e) {
             // Roll back transaction if any error occurs
             $pdo->rollBack();
