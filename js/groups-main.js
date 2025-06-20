@@ -177,7 +177,7 @@ function setTable(res, branch = null) {
     `;
   }
 
-  res.data.forEach((row) => {
+  res.data.forEach((row) => {    
     const tr = document.createElement("tr");
     tr.className = "bg-white border-b border-gray-200 hover:bg-gray-50";
 
@@ -192,9 +192,30 @@ function setTable(res, branch = null) {
         return `${group_time}`;
       }
     };
+
     tr.innerHTML = `
       <th scope="row" class="px-4 py-2 font-medium text-gray-900 whitespace-nowrap">
+        <button
+          class="groupInfoBtn outline-none"
+          type="button"
+          data-drawer-target="drawer-left-example"
+          data-drawer-show="drawer-left-example"
+          data-drawer-placement="left"
+          aria-controls="drawer-left-example"
+          data-group='{
+              "id": "${row.id}",
+              "name": "${row.group_name.charAt(0).toUpperCase() + row.group_name.slice(1)}",
+              "time": "${displayTime(row.group_time)}",
+              "day": "${row.group_day}",
+              "track": "",
+              "instructor": "${row.instructor_name.charAt(0).toUpperCase() + row.instructor_name.slice(1)}",
+              "branch": "${row.branch_name.charAt(0).toUpperCase() + row.branch_name.slice(1)}",
+              "start": "${row.month} ${row.formatted_date ? row.formatted_date : "No date added"} ",
+              "end": "${row.group_end_month} ${row.group_end_date}"
+          }'>
           ${row.group_name.charAt(0).toUpperCase() + row.group_name.slice(1)}
+      </button>
+          
       </th>
       <th scope="row" class="px-4 py-2 font-medium text-pink-900 whitespace-nowrap">
       <i class="fa-solid fa-clock mr-1.5"></i>

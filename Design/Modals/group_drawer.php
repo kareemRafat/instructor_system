@@ -143,41 +143,73 @@
 </div>
 
 <script>
+   import { Drawer } from 'flowbite';
+
    document.addEventListener("DOMContentLoaded", () => {
-      const groupButtons = document.querySelectorAll(".groupInfoBtn");
+      // const groupButtons = document.querySelectorAll(".groupInfoBtn");
 
-      groupButtons.forEach(button => {
-         button.addEventListener("click", () => {
-            const groupData = JSON.parse(button.dataset.group);
+      document.getElementById('group-table-body').addEventListener('click', (e) => {
+         const groupData = JSON.parse(e.target.dataset.group);
 
-            // training groups
-            if (groupData.name.toLowerCase().includes('training')) {
-               document.getElementById("finish-btn").classList.add('hidden');
-               document.getElementById("finish-training-btn").classList.remove('hidden');
-            } else {
-               document.getElementById("finish-btn").classList.remove('hidden');
-               document.getElementById("finish-training-btn").classList.add('hidden');
-            }
+         if (groupData.name.toLowerCase().includes('training')) {
+            document.getElementById("finish-btn").classList.add('hidden');
+            document.getElementById("finish-training-btn").classList.remove('hidden');
+         } else {
+            document.getElementById("finish-btn").classList.remove('hidden');
+            document.getElementById("finish-training-btn").classList.add('hidden');
+         }
 
-            finishTrainingGroups()
+         finishTrainingGroups()
 
-            // Inject into modal
-            document.getElementById("edit-btn").href = `?action=edit&group_id=${groupData.id}`;
-            document.getElementById("finish-btn").href = `?action=finish_group&group_id=${groupData.id}`;
-            document.getElementById("finish-training-btn").dataset.groupId = groupData.id;
-            document.getElementById("drawerGroup").textContent = groupData.name;
-            document.getElementById("drawerGroup2").textContent = groupData.name;
-            document.getElementById("drawerTrack").textContent = groupData.track;
-            document.getElementById("langIcon").innerHTML = setLangIcon(groupData.track);
-            document.getElementById("drawerTime").textContent = groupData.time;
-            document.getElementById("drawerDay").textContent = groupData.day;
-            document.getElementById("drawerInstructor").textContent = groupData.instructor;
-            document.getElementById("drawerBranch").textContent = groupData.branch;
-            document.getElementById("drawerStart").innerHTML = coloredDate(groupData.start, "text-rose-700");
-            document.getElementById("drawerEnd").innerHTML = coloredDate(groupData.end, "text-purple-700");
+         // Inject into modal
+         document.getElementById("edit-btn").href = `?action=edit&group_id=${groupData.id}`;
+         document.getElementById("finish-btn").href = `?action=finish_group&group_id=${groupData.id}`;
+         document.getElementById("finish-training-btn").dataset.groupId = groupData.id;
+         document.getElementById("drawerGroup").textContent = groupData.name;
+         document.getElementById("drawerGroup2").textContent = groupData.name;
+         document.getElementById("drawerTrack").textContent = groupData.track;
+         document.getElementById("langIcon").innerHTML = setLangIcon(groupData.track);
+         document.getElementById("drawerTime").textContent = groupData.time;
+         document.getElementById("drawerDay").textContent = groupData.day;
+         document.getElementById("drawerInstructor").textContent = groupData.instructor;
+         document.getElementById("drawerBranch").textContent = groupData.branch;
+         document.getElementById("drawerStart").innerHTML = coloredDate(groupData.start, "text-rose-700");
+         document.getElementById("drawerEnd").innerHTML = coloredDate(groupData.end, "text-purple-700");
 
-         });
-      });
+      })
+
+      // groupButtons.forEach(button => {
+      //    button.addEventListener("click", () => {
+      //       const groupData = JSON.parse(button.dataset.group);
+
+      //       // training groups
+      //       if (groupData.name.toLowerCase().includes('training')) {
+      //          document.getElementById("finish-btn").classList.add('hidden');
+      //          document.getElementById("finish-training-btn").classList.remove('hidden');
+      //       } else {
+      //          document.getElementById("finish-btn").classList.remove('hidden');
+      //          document.getElementById("finish-training-btn").classList.add('hidden');
+      //       }
+
+      //       finishTrainingGroups()
+
+      //       // Inject into modal
+      //       document.getElementById("edit-btn").href = `?action=edit&group_id=${groupData.id}`;
+      //       document.getElementById("finish-btn").href = `?action=finish_group&group_id=${groupData.id}`;
+      //       document.getElementById("finish-training-btn").dataset.groupId = groupData.id;
+      //       document.getElementById("drawerGroup").textContent = groupData.name;
+      //       document.getElementById("drawerGroup2").textContent = groupData.name;
+      //       document.getElementById("drawerTrack").textContent = groupData.track;
+      //       document.getElementById("langIcon").innerHTML = setLangIcon(groupData.track);
+      //       document.getElementById("drawerTime").textContent = groupData.time;
+      //       document.getElementById("drawerDay").textContent = groupData.day;
+      //       document.getElementById("drawerInstructor").textContent = groupData.instructor;
+      //       document.getElementById("drawerBranch").textContent = groupData.branch;
+      //       document.getElementById("drawerStart").innerHTML = coloredDate(groupData.start, "text-rose-700");
+      //       document.getElementById("drawerEnd").innerHTML = coloredDate(groupData.end, "text-purple-700");
+
+      //    });
+      // });
 
       function coloredDate(month, color) {
          let date = month.split(' ');
@@ -213,7 +245,6 @@
          }
       }
 
-
       /** Finish Training groups */
       function finishTrainingGroups() {
          // i used event delegation because the finish btn added to the dom when search
@@ -232,8 +263,11 @@
                   });
 
                   const result = await response.json();
-                  if (result.status === "success") {                     
+                  if (result.status === "success") {
                      notyf.success("Group Finished Successfully");
+                     setTimeout(() => {
+                        window.location.reload();
+                     }, 1000);
                   }
                } catch (error) {
                   alert("Request failed.");
