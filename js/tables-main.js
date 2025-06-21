@@ -84,6 +84,9 @@ document.addEventListener("DOMContentLoaded", async () => {
     document.getElementById("time-left").innerHTML = getTimeRemaining(
       groupData.start_date
     );
+    document.getElementById("time-left2").innerHTML = getTimeRemaining(
+      groupData.start_date
+    );
   }
 
   /** show real time group time (6.10 to online 6) */

@@ -95,8 +95,8 @@
             </div>
 
             <!-- Start Date -->
-            <div class="flex justify-between">
-               <div class="flex items-center p-4 hover:bg-gray-50 transition-all duration-200 group">
+            <div class="flex justify-between hover:bg-gray-50 transition-all duration-200 ">
+               <div class="flex items-center p-4 group">
                   <div class="flex items-center justify-center w-10 h-10 rounded-lg bg-blue-50 mr-3 group-hover:bg-blue-100 transition-colors">
                      <i class="fas fa-calendar-plus text-blue-600 text-sm"></i>
                   </div>
@@ -106,9 +106,10 @@
                      <p class="font-medium text-gray-800" id="drawerStartDate">25-06-2025</p>
                   </div>
                </div>
-               <div class="flex items-center text-right p-4 hover:bg-gray-50 transition-all duration-200 group">
+               <!-- now -->
+               <div class="hidden md:flex items-center text-right p-4 hover:bg-gray-50 transition-all duration-200 group">
                   <div id="today" class="font-medium text-gray-800">
-
+                     <!-- inject by js -->
                   </div>
                   <div class="flex items-center justify-center w-10 h-10 rounded-lg bg-cyan-50 ml-6 mr-3 group-hover:bg-cyan-100 transition-colors">
                      <i class="fa-solid fa-calendar text-blue-600 text-sm"></i>
@@ -117,8 +118,8 @@
             </div>
 
             <!-- End Date -->
-            <div class="flex justify-between">
-               <div class="flex items-center p-4 hover:bg-gray-50 transition-all duration-200 group">
+            <div class="flex justify-between hover:bg-gray-50 transition-all duration-200">
+               <div class="flex items-center p-4 group">
                   <div class="flex items-center justify-center w-10 h-10 rounded-lg bg-cyan-50 mr-3 group-hover:bg-cyan-100 transition-colors">
                      <i class="fas fa-calendar-check text-cyan-600 text-sm"></i>
                   </div>
@@ -128,13 +129,24 @@
                      <p class="font-medium text-gray-800" id="drawerEndDate">09-12-2025</p>
                   </div>
                </div>
-               <div class="flex items-center text-right p-4 hover:bg-gray-50 transition-all duration-200 group">
+               <!-- time left medium -->
+               <div class="hidden md:flex items-center text-right p-4 hover:bg-gray-50 transition-all duration-200 group">
                   <div id="time-left" class="font-medium text-gray-800">
+                     <!-- inject by js -->
+                  </div>
+                  <div class="flex items-center justify-center w-10 h-10 rounded-lg bg-rose-50 ml-6 mr-3 group-hover:bg-rose-100 transition-colors">
+                     <i class="fa-solid fa-calendar-week text-rose-600 text-sm"></i>
+                  </div>
+               </div>
+            </div>
 
-                  </div>
-                  <div class="flex items-center justify-center w-10 h-10 rounded-lg bg-cyan-50 ml-6 mr-3 group-hover:bg-cyan-100 transition-colors">
-                     <i class="fa-solid fa-calendar-week text-cyan-600 text-sm"></i>
-                  </div>
+            <!-- time left small -->
+            <div class="md:hidden flex items-center p-4 hover:bg-gray-50 transition-all duration-200 group">
+               <div class="flex items-center justify-center w-10 h-10 rounded-lg bg-rose-50 mr-3 group-hover:bg-rose-100 transition-colors">
+                  <i class="fa-solid fa-calendar-week text-rose-600 text-sm"></i>
+               </div>
+               <div id="time-left2" class="font-medium text-gray-800">
+                  <!-- inject by js -->
                </div>
             </div>
          </div>
