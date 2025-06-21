@@ -95,26 +95,46 @@
             </div>
 
             <!-- Start Date -->
-            <div class="flex items-center p-4 hover:bg-gray-50 transition-all duration-200 group">
-               <div class="flex items-center justify-center w-10 h-10 rounded-lg bg-blue-50 mr-3 group-hover:bg-blue-100 transition-colors">
-                  <i class="fas fa-calendar-plus text-blue-600 text-sm"></i>
+            <div class="flex justify-between">
+               <div class="flex items-center p-4 hover:bg-gray-50 transition-all duration-200 group">
+                  <div class="flex items-center justify-center w-10 h-10 rounded-lg bg-blue-50 mr-3 group-hover:bg-blue-100 transition-colors">
+                     <i class="fas fa-calendar-plus text-blue-600 text-sm"></i>
+                  </div>
+                  <div class="flex-1">
+                     <p class="text-xs font-medium text-gray-400 uppercase tracking-wider">Start Date</p>
+                     <p class="font-medium text-rose-700" id="drawerStartMonth">25-06-2025</p>
+                     <p class="font-medium text-gray-800" id="drawerStartDate">25-06-2025</p>
+                  </div>
                </div>
-               <div class="flex-1">
-                  <p class="text-xs font-medium text-gray-400 uppercase tracking-wider">Start Date</p>
-                  <p class="font-medium text-rose-700" id="drawerStartMonth">25-06-2025</p>
-                  <p class="font-medium text-gray-800" id="drawerStartDate">25-06-2025</p>
+               <div class="flex items-center text-right p-4 hover:bg-gray-50 transition-all duration-200 group">
+                  <div id="today" class="font-medium text-gray-800">
+
+                  </div>
+                  <div class="flex items-center justify-center w-10 h-10 rounded-lg bg-cyan-50 ml-6 mr-3 group-hover:bg-cyan-100 transition-colors">
+                     <i class="fa-solid fa-calendar text-blue-600 text-sm"></i>
+                  </div>
                </div>
             </div>
 
             <!-- End Date -->
-            <div class="flex items-center p-4 hover:bg-gray-50 transition-all duration-200 group">
-               <div class="flex items-center justify-center w-10 h-10 rounded-lg bg-cyan-50 mr-3 group-hover:bg-cyan-100 transition-colors">
-                  <i class="fas fa-calendar-check text-cyan-600 text-sm"></i>
+            <div class="flex justify-between">
+               <div class="flex items-center p-4 hover:bg-gray-50 transition-all duration-200 group">
+                  <div class="flex items-center justify-center w-10 h-10 rounded-lg bg-cyan-50 mr-3 group-hover:bg-cyan-100 transition-colors">
+                     <i class="fas fa-calendar-check text-cyan-600 text-sm"></i>
+                  </div>
+                  <div class="flex-1">
+                     <p class="text-xs font-medium text-gray-400 uppercase tracking-wider">Expected End Date</p>
+                     <p class="font-medium text-purple-700" id="drawerEndMonth">09-12-2025</p>
+                     <p class="font-medium text-gray-800" id="drawerEndDate">09-12-2025</p>
+                  </div>
                </div>
-               <div class="flex-1">
-                  <p class="text-xs font-medium text-gray-400 uppercase tracking-wider">Expected End Date</p>
-                  <p class="font-medium text-purple-700" id="drawerEndMonth">09-12-2025</p>
-                  <p class="font-medium text-gray-800" id="drawerEndDate">09-12-2025</p>
+               <div class="flex items-center text-right p-4 hover:bg-gray-50 transition-all duration-200 group">
+                  <div id="time-left" class="font-medium text-gray-800">
+
+                  </div>
+                  <div class="flex items-center justify-center w-10 h-10 rounded-lg bg-cyan-50 ml-6 mr-3 group-hover:bg-cyan-100 transition-colors">
+                     <i class="fa-solid fa-calendar-week text-cyan-600 text-sm"></i>
+                  </div>
                </div>
             </div>
          </div>
@@ -139,6 +159,6 @@
       </div>
    </div>
 </div>
-<?php 
-   $_SESSION['page'] = 'tables.php';
+<?php
+$_SESSION['page'] = 'tables.php';
 ?>

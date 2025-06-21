@@ -1,7 +1,6 @@
 const groupBtn = document.querySelectorAll("button.outline-none");
 
 document.addEventListener("DOMContentLoaded", async () => {
-
   groupBtn.forEach((btn) => {
     btn.addEventListener("click", async (e) => {
       const id = e.currentTarget.dataset.groupId;
@@ -81,6 +80,10 @@ document.addEventListener("DOMContentLoaded", async () => {
     );
     document.getElementById("drawerEndDate").innerHTML =
       groupData.group_end_date;
+    document.getElementById("today").innerHTML = getTodayDate();
+    document.getElementById("time-left").innerHTML = getTimeRemaining(
+      groupData.start_date
+    );
   }
 
   /** show real time group time (6.10 to online 6) */
@@ -155,17 +158,13 @@ document.addEventListener("DOMContentLoaded", async () => {
             if (result.status === "success") {
               // create php session to make notfy toaster
               // and create session['page'] = tables.php to use it in headers
-              const test = await fetch("functions/Tables/flash_session.php", {
+              await fetch("functions/Tables/flash_session.php", {
                 method: "POST",
                 headers: {
                   "Content-Type": "application/x-www-form-urlencoded",
                 },
                 body: `session_name=Training Group Finished Successfully`,
               });
-
-              console.log(await test.text());
-              
-
 
               //reload page after finish
               window.location.reload();
@@ -190,5 +189,72 @@ document.addEventListener("DOMContentLoaded", async () => {
       return value;
     }
     return value.charAt(0).toUpperCase() + value.slice(1);
+  }
+
+  /** get Today */
+  function getTodayDate(date = new Date()) {
+    const monthNames = [
+      "January",
+      "February",
+      "March",
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "December",
+    ];
+
+    const day = String(date.getDate()).padStart(2, "0");
+    const monthNumber = String(date.getMonth() + 1).padStart(2, "0");
+    const year = date.getFullYear();
+    const monthName = monthNames[date.getMonth()];
+
+    return `
+    <p class="text-xs font-medium text-gray-400 uppercase tracking-wider">NOW</p>
+    <p class="month">${monthName}</p>
+    <p class="date">${day}-${monthNumber}-${year}</p>
+  `;
+  }
+
+  /** get how much time to end */
+  function getTimeRemaining(startDateStr) {
+    // Parse the start date (DD-MM-YYYY format)
+    const [day, month, year] = startDateStr.split("-").map(Number);
+    const startDate = new Date(year, month - 1, day);
+
+    // Calculate target date (start date + 5 months + 15 days)
+    const targetDate = new Date(startDate);
+    targetDate.setMonth(targetDate.getMonth() + 5);
+    targetDate.setDate(targetDate.getDate() + 15);
+
+    // Get current date
+    const today = new Date();
+
+    // Calculate difference in milliseconds
+    const diff = targetDate - today;
+
+    // If target date has passed
+    if (diff <= 0) {
+      return `
+      <p class="time-remaining">Completed</p>
+    `;
+    }
+
+    // Convert to days
+    const daysTotal = Math.floor(diff / (1000 * 60 * 60 * 24));
+
+    // Calculate months and remaining days
+    const months = Math.floor(daysTotal / 30);
+    const days = daysTotal % 30;
+
+    return `
+    <p class="text-xs font-medium text-gray-400 uppercase tracking-wider">Time Left</p>
+    <p>${months} Months </p>
+    <p>${days} Days</p>
+  `;
   }
 });
