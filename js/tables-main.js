@@ -82,10 +82,10 @@ document.addEventListener("DOMContentLoaded", async () => {
       groupData.group_end_date;
     document.getElementById("today").innerHTML = getTodayDate();
     document.getElementById("time-left").innerHTML = getTimeRemaining(
-      groupData.start_date
+      groupData.start_date,groupData.name
     );
     document.getElementById("time-left2").innerHTML = getTimeRemaining(
-      groupData.start_date
+      groupData.start_date,groupData.name
     );
   }
 
@@ -224,40 +224,59 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 
   /** get how much time to end */
-  function getTimeRemaining(startDateStr) {
+  function getTimeRemaining(startDateStr, groupName) {
     // Parse the start date (DD-MM-YYYY format)
     const [day, month, year] = startDateStr.split("-").map(Number);
     const startDate = new Date(year, month - 1, day);
 
-    // Calculate target date (start date + 5 months + 15 days)
+    // Determine duration based on group name
+    const isTraining = groupName.toLowerCase().includes("training");
+    const monthsToAdd = isTraining ? 2 : 5;
+    const daysToAdd = isTraining ? 15 : 14;
+
+    // Calculate target date
     const targetDate = new Date(startDate);
-    targetDate.setMonth(targetDate.getMonth() + 5);
-    targetDate.setDate(targetDate.getDate() + 15);
+    targetDate.setMonth(targetDate.getMonth() + monthsToAdd);
+    targetDate.setDate(targetDate.getDate() + daysToAdd);
 
     // Get current date
     const today = new Date();
-
-    // Calculate difference in milliseconds
-    const diff = targetDate - today;
+    today.setHours(0, 0, 0, 0); // Normalize to start of day
 
     // If target date has passed
-    if (diff <= 0) {
-      return `
-      <p class="time-remaining">Completed</p>
-    `;
+    if (targetDate < today) {
+      return `<p class="time-remaining">Completed</p>`;
     }
 
-    // Convert to days
-    const daysTotal = Math.floor(diff / (1000 * 60 * 60 * 24));
+    // Calculate remaining time (more precise calculation)
+    let monthsRemaining = targetDate.getMonth() - today.getMonth();
+    let yearsDiff = targetDate.getFullYear() - today.getFullYear();
 
-    // Calculate months and remaining days
-    const months = Math.floor(daysTotal / 30);
-    const days = daysTotal % 30;
+    // Adjust for year crossover
+    monthsRemaining += yearsDiff * 12;
+
+    // Calculate remaining days
+    const tempDate = new Date(today);
+    tempDate.setMonth(tempDate.getMonth() + monthsRemaining);
+
+    let daysRemaining = Math.floor(
+      (targetDate - tempDate) / (1000 * 60 * 60 * 24)
+    );
+
+    // Adjust if days are negative (month rollover)
+    if (daysRemaining < 0) {
+      monthsRemaining--;
+      tempDate.setMonth(tempDate.getMonth() - 1);
+      daysRemaining = Math.floor(
+        (targetDate - tempDate) / (1000 * 60 * 60 * 24)
+      );
+    }
 
     return `
     <p class="text-xs font-medium text-gray-400 uppercase tracking-wider">Time Left</p>
-    <p>${months} Months </p>
-    <p>${days} Days</p>
+    <p class="time-remaining">${monthsRemaining} months</p>
+    <p class="time-remaining">${daysRemaining} days</p>
   `;
+
   }
 });

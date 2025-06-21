@@ -29,7 +29,9 @@
                </div>
                <div class="flex-1">
                   <p class="text-xs font-medium text-gray-400 uppercase tracking-wider">Group</p>
-                  <p class="font-medium text-gray-800 text-lg" id="drawerGroup2">Neon Online</p>
+                  <p class="font-medium text-gray-800 text-lg" id="drawerGroup2">
+                     <i class="fa-solid fa-spinner fa-spin"></i>
+                  </p>
                </div>
             </div>
 
@@ -41,7 +43,9 @@
                <div class="flex-1 flex justify-between items-center">
                   <div>
                      <p class="text-xs font-medium text-gray-400 uppercase tracking-wider">Track</p>
-                     <p class="font-medium text-gray-800 text-lg" id="drawerTrack">javascript</p>
+                     <p class="font-medium text-gray-800 text-lg" id="drawerTrack">
+                        <i class="fa-solid fa-spinner fa-spin"></i>
+                     </p>
                   </div>
                   <div id="langIcon">
                      <!-- injected with js -->
@@ -56,7 +60,9 @@
                </div>
                <div class="flex-1">
                   <p class="text-xs font-medium text-gray-400 uppercase tracking-wider">Time</p>
-                  <p class="font-medium text-gray-800" id="drawerTime">Online 8</p>
+                  <p class="font-medium text-gray-800" id="drawerTime">
+                     <i class="fa-solid fa-spinner fa-spin"></i>
+                  </p>
                </div>
             </div>
 
@@ -67,7 +73,9 @@
                </div>
                <div class="flex-1">
                   <p class="text-xs font-medium text-gray-400 uppercase tracking-wider">Day</p>
-                  <p class="font-medium text-gray-800" id="drawerDay">Sunday</p>
+                  <p class="font-medium text-gray-800" id="drawerDay">
+                     <i class="fa-solid fa-spinner fa-spin"></i>
+                  </p>
                </div>
             </div>
 
@@ -78,7 +86,9 @@
                </div>
                <div class="flex-1">
                   <p class="text-xs font-medium text-gray-400 uppercase tracking-wider">Instructor</p>
-                  <p class="font-medium text-gray-800" id="drawerInstructor">Esraa</p>
+                  <p class="font-medium text-gray-800" id="drawerInstructor">
+                     <i class="fa-solid fa-spinner fa-spin"></i>
+                  </p>
                </div>
 
             </div>
@@ -90,7 +100,9 @@
                </div>
                <div class="flex-1">
                   <p class="text-xs font-medium text-gray-400 uppercase tracking-wider">Branch</p>
-                  <p class="font-medium text-gray-800" id="drawerBranch">Mansoura</p>
+                  <p class="font-medium text-gray-800" id="drawerBranch">
+                     <i class="fa-solid fa-spinner fa-spin"></i>
+                  </p>
                </div>
             </div>
 
@@ -102,8 +114,12 @@
                   </div>
                   <div class="flex-1">
                      <p class="text-xs font-medium text-gray-400 uppercase tracking-wider">Start Date</p>
-                     <p class="font-medium text-rose-700" id="drawerStartMonth">25-06-2025</p>
-                     <p class="font-medium text-gray-800" id="drawerStartDate">25-06-2025</p>
+                     <p class="font-medium text-rose-700" id="drawerStartMonth">
+                        
+                     </p>
+                     <p class="font-medium text-gray-800" id="drawerStartDate">
+                        <i class="fa-solid fa-spinner fa-spin"></i>
+                     </p>
                   </div>
                </div>
                <!-- now -->
@@ -125,8 +141,12 @@
                   </div>
                   <div class="flex-1">
                      <p class="text-xs font-medium text-gray-400 uppercase tracking-wider">Expected End Date</p>
-                     <p class="font-medium text-purple-700" id="drawerEndMonth">09-12-2025</p>
-                     <p class="font-medium text-gray-800" id="drawerEndDate">09-12-2025</p>
+                     <p class="font-medium text-purple-700" id="drawerEndMonth">
+                        
+                     </p>
+                     <p class="font-medium text-gray-800" id="drawerEndDate">
+                        <i class="fa-solid fa-spinner fa-spin"></i>
+                     </p>
                   </div>
                </div>
                <!-- time left medium -->
