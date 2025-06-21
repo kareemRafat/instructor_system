@@ -3,6 +3,8 @@ const groupBtn = document.querySelectorAll("button.outline-none");
 document.addEventListener("DOMContentLoaded", async () => {
   groupBtn.forEach((btn) => {
     btn.addEventListener("click", async (e) => {
+      document.getElementById('drawer-left-example').scrollTop = 0; // Scroll to top
+
       const id = e.currentTarget.dataset.groupId;
       const url = "functions/Tables/get_group.php";
 
