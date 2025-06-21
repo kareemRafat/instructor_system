@@ -4,7 +4,7 @@ include_once 'Design/includes/header.php';
 include_once 'Design/includes/navbar.php';
 
 // use it when finish group header me here
-$_SESSION['current_branch_id'] = $_GET['branch'] ?? 1 ; 
+$_SESSION['current_branch_id'] = $_GET['branch'] ?? 1;
 
 ?>
 
@@ -66,6 +66,9 @@ if (isset($_GET['branch']) and $_GET['branch'] == 1) {
 } else if (isset($_GET['branch']) and $_GET['branch'] == 4) {
     $color = 'bg-blue-600';
     $text = 'text-blue-800';
+} else {
+    $color = 'bg-[#1b5180]';
+    $text = 'text-[#0F4C81]';
 }
 
 $rowHoverColors = ['hover:bg-orange-50',  'hover:bg-indigo-50', 'hover:bg-green-50',  'hover:bg-rose-50', 'hover:bg-purple-50', 'hover:bg-blue-50'];
@@ -89,8 +92,12 @@ $cellHoverColor = ['hover:bg-orange-100', 'hover:bg-indigo-100', 'hover:bg-green
                     <!-- branch radio buttons -->
                     <?php
                     $branches = $pdo->query("SELECT id, name FROM branches")->fetchAll(PDO::FETCH_ASSOC);
-                    foreach ($branches as $branch):
+                    foreach ($branches as $index => $branch):
                         $checked = (isset($_GET['branch']) && $_GET['branch'] == $branch['id']) ? 'checked' : '';
+                        // Check the first branch if no branch is selected
+                        if (!isset($_GET['branch']) && $index === 0) {
+                            $checked = 'checked';
+                        }
                     ?>
                         <li class="border-gray-200 sm:border-b-0">
                             <div class="flex items-center">
@@ -167,7 +174,6 @@ $cellHoverColor = ['hover:bg-orange-100', 'hover:bg-indigo-100', 'hover:bg-green
                                                 <div class="flex flex-col items-center gap-1">
                                                     <?php if ($firstSlot) { ?>
                                                         <div>
-
                                                             <button
                                                                 data-group-id="<?= $schedule[$instructor['id']][$day]['12.30']['id'] ?>"
                                                                 class="outline-none"
@@ -181,8 +187,6 @@ $cellHoverColor = ['hover:bg-orange-100', 'hover:bg-indigo-100', 'hover:bg-green
                                                                 </span>
                                                                 <span class="text-sm md:block hidden font-semibold"><?= $schedule[$instructor['id']][$day]['12.30']['start'] ?? ''; ?></span>
                                                             </button>
-
-
                                                         </div>
                                                     <?php } ?>
                                                     <?php if ($secondSlot) { ?>

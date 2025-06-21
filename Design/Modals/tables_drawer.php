@@ -79,28 +79,43 @@
                </div>
             </div>
 
-            <!-- Instructor -->
-            <div class="flex items-center p-4 hover:bg-gray-50 transition-all duration-200 group">
-               <div class="flex items-center justify-center w-10 h-10 rounded-lg bg-purple-50 mr-3 group-hover:bg-purple-100 transition-colors">
-                  <i class="fas fa-user-tie text-purple-600 text-sm"></i>
-               </div>
-               <div class="flex-1">
-                  <p class="text-xs font-medium text-gray-400 uppercase tracking-wider">Instructor</p>
-                  <p class="font-medium text-gray-800" id="drawerInstructor">
-                     <i class="fa-solid fa-spinner fa-spin"></i>
-                  </p>
-               </div>
+            <div class="flex justify-between hover:bg-gray-50 py-2">
+               <!-- Instructor -->
+               <div class="flex items-center p-4  transition-all duration-200 group">
+                  <div class="flex items-center justify-center w-10 h-10 rounded-lg bg-purple-50 mr-3 group-hover:bg-purple-100 transition-colors">
+                     <i class="fas fa-user-tie text-purple-600 text-sm"></i>
+                  </div>
+                  <div class="flex-1">
+                     <p class="text-xs font-medium text-gray-400 uppercase tracking-wider">Instructor</p>
+                     <p class="font-medium text-gray-800" id="drawerInstructor">
+                        <i class="fa-solid fa-spinner fa-spin"></i>
+                     </p>
+                  </div>
 
+               </div>
+               <!-- Branch -->
+               <div class="hidden md:flex items-center p-4 transition-all duration-200 group">
+                  <div class="flex-1">
+                     <p class="text-xs font-medium text-gray-400 uppercase tracking-wider text-right">Branch</p>
+                     <p class="font-medium text-gray-800" id="drawerBranch">
+                        <i class="fa-solid fa-spinner fa-spin"></i>
+                     </p>
+                  </div>
+                  <div class="flex items-center justify-center w-10 h-10 rounded-lg bg-green-50 ml-6 mr-3 group-hover:bg-green-100 transition-colors">
+                     <i class="fas fa-location-dot text-green-600 text-sm"></i>
+                  </div>
+
+               </div>
             </div>
 
-            <!-- Branch -->
-            <div class="flex items-center p-4 hover:bg-gray-50 transition-all duration-200 group">
+            <!-- Branch mobile -->
+            <div class="md:hidden flex items-center p-4 hover:bg-gray-50 transition-all duration-200 group">
                <div class="flex items-center justify-center w-10 h-10 rounded-lg bg-green-50 mr-3 group-hover:bg-green-100 transition-colors">
                   <i class="fas fa-location-dot text-green-600 text-sm"></i>
                </div>
                <div class="flex-1">
                   <p class="text-xs font-medium text-gray-400 uppercase tracking-wider">Branch</p>
-                  <p class="font-medium text-gray-800" id="drawerBranch">
+                  <p class="font-medium text-gray-800" id="drawerBranch2">
                      <i class="fa-solid fa-spinner fa-spin"></i>
                   </p>
                </div>
@@ -173,19 +188,18 @@
 
          <!-- Footer -->
          <div class="p-3 bg-gray-50 border-t border-gray-100 flex gap-3">
-            <a id="edit-btn" href="" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg text-sm font-medium transition-colors shadow-sm">
+            <a id="edit-btn" href="" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg text-sm font-medium transition-colors">
                <i class="fas fa-edit mr-1"></i> Edit
             </a>
             <div class="self-center">
-               <a id="finish-btn" href="" class="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg text-sm font-medium transition-colors shadow-sm">
+               <!-- finish group -->
+               <a id="finish-btn" href="" class="px-4 py-2 bg-gray-100 hover:bg-gray-600 hover:text-white rounded-lg text-sm font-medium transition-colors border-2 border-gray-300">
                   <i class="fas fa-edit mr-1"></i> Finish
                </a>
-
-
-               <a id="finish-training-btn" data-group-id="" href="" class="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg text-sm font-medium transition-colors shadow-sm">
+               <!-- finish training -->
+               <a id="finish-training-btn" data-group-id="" href="" class="px-4 py-2 bg-gray-100 hover:bg-gray-600 hover:text-white rounded-lg text-sm font-medium transition-colors border-2 border-gray-300">
                   <i class="fas fa-edit mr-1"></i> Finish
                </a>
-
             </div>
          </div>
       </div>
@@ -213,7 +227,7 @@ $_SESSION['page'] = 'tables.php';
    const closeX = document.querySelectorAll('button[data-drawer-hide]');
 
 
-    closeX.forEach(btn => {
+   closeX.forEach(btn => {
       btn.addEventListener('click', function(e) {
          document.querySelector("#floatClose").classList.add('hidden');
       })

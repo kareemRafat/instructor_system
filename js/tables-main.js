@@ -1,12 +1,10 @@
 
-
 document.addEventListener("DOMContentLoaded", async () => {
   const groupBtn = document.querySelectorAll("button.outline-none");
-  
   groupBtn.forEach((btn) => {
     btn.addEventListener("click", async (e) => {
-      
-      // show floated close btn 
+
+      // show floated close btn Add commentMore actions
       setTimeout(() => {
         document.querySelector("#floatClose").classList.remove('hidden');
       }, 300);
@@ -80,6 +78,9 @@ document.addEventListener("DOMContentLoaded", async () => {
     document.getElementById("drawerInstructor").textContent =
       capitalizeFirstLetter(groupData.instructor_name);
     document.getElementById("drawerBranch").textContent = capitalizeFirstLetter(
+      groupData.branch_name
+    );
+    document.getElementById("drawerBranch2").textContent = capitalizeFirstLetter(
       groupData.branch_name
     );
     document.getElementById("drawerStartMonth").innerHTML =
@@ -284,8 +285,8 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     return `
     <p class="text-xs font-medium text-gray-400 uppercase tracking-wider">Time Left</p>
-    <p class="time-remaining text-orange-500">${monthsRemaining} Months</p>
-    <p class="time-remaining">${daysRemaining} Days</p>
+    <p class="time-remaining">${monthsRemaining} months</p>
+    <p class="time-remaining">${daysRemaining} days</p>
   `;
 
   }

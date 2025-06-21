@@ -11,7 +11,7 @@ $query = "SELECT
                 FROM instructors i
                 JOIN branch_instructor bi ON i.id = bi.instructor_id
                 JOIN branches b ON b.id = bi.branch_id
-                WHERE role IN ('cs' , 'cs-admin')
+                WHERE role IN ('cs' , 'cs-admin' , 'owner')
                 GROUP BY i.id, i.username, i.is_active, i.role
                 ORDER BY i.is_active DESC, i.username ASC";
 
@@ -23,7 +23,7 @@ $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 <div class="flex flex-col md:flex-row md:justify-between md:items-center mb-7 space-y-4 md:space-y-0 md:space-x-4">
     <!-- Add Agent Button -->
     <button id="addInstructor" data-modal-target="crud-modal" data-modal-toggle="crud-modal"
-        class="w-full md:w-auto text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300        font-medium rounded-lg text-sm px-5 py-2.5 text-center">
+        class="w-full md:w-auto text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
         Add Agent
     </button>
 
@@ -70,7 +70,9 @@ $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
                         <?= ucwords($row['username']) ?>
                         <?php if ($row['role'] == 'cs-admin'): ?>
-                            <i class="fa-solid fa-user-shield ml-3 text-green-700"></i>
+                            <i class="fa-solid fa-user-shield ml-3 text-rose-700"></i>
+                        <?php elseif($row['role'] == 'owner'): ?>
+                            <i class="fa-solid fa-user-tie ml-3 text-teal-800 text-lg"></i>
                         <?php endif; ?>
                     </th>
                     <td class="px-6 py-4 <?= branchIndicator($row['branch_name'])['textColor'] ?>">
