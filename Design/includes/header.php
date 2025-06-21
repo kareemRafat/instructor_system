@@ -17,7 +17,7 @@ if (isset($_SESSION['user_id'])) {
 ?>
 
 <!DOCTYPE html>
-<html lang="en" class="light">
+<html lang="en" class="light" style="height: -webkit-fill-available !important;">
 
 <head>
     <meta charset="UTF-8" />
@@ -44,4 +44,4 @@ if (isset($_SESSION['user_id'])) {
     <script src="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.js"></script>
 </head>
 
-<body class="bg-gray-50 min-h-screen">
+<body class="bg-gray-50 min-h-screen" style="height: -webkit-fill-available !important;">

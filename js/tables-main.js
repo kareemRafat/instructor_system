@@ -129,9 +129,10 @@ document.addEventListener("DOMContentLoaded", async () => {
         return `<img class="w-[55px]" src="images/php.png" >`;
         break;
       case "database":
-        return `<img class="w-20" src="https://www.mysql.com/common/logos/logo-mysql-170x115.png" >`;
+        return `<img class="w-20" src="images/database.png" >`;
         break;
       case "project":
+        return `<img class="w-[55px]" src="images/project.svg" >`;
         break;
       case "Not Updated":
         return "";
