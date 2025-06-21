@@ -128,7 +128,7 @@
                          <br>
                          <?= $row['group_end_date'] ?? 'No date added' ?>
                      </td>
-                     <td class="px-6 py-20 time-left" data-start="<?= $row['formatted_date'] ?>" data-group-name="<?= $row['group_name'] ?>">
+                     <td class="px-6 py-2 time-left" data-start="<?= $row['formatted_date'] ?>" data-group-name="<?= $row['group_name'] ?>">
 
                      </td>
                      <td class="px-6 py-2 <?= branchIndicator($row['branch_name'])['textColor'] ?>">
