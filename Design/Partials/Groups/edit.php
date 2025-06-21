@@ -24,7 +24,7 @@ function getGroupById($groupId, $pdo)
     <div>
         <h3 class="text-2xl font-extrabold leading-none tracking-tight text-gray-900 md:text-4xl">Edit <span class="text-blue-600"><?= $group['name'] ?></span> Group </h3>
     </div>
-    <a href="groups.php" class="inline-flex items-center justify-center self-end p-2 text-base font-medium text-gray-500 rounded-lg bg-gray-100 hover:text-gray-900 hover:bg-gray-200">
+    <a href="<?= isset($_SESSION['page']) ? 'tables.php' : 'groups.php'; ?>" class="inline-flex items-center justify-center self-end p-2 text-base font-medium text-gray-500 rounded-lg bg-gray-100 hover:text-gray-900 hover:bg-gray-200">
         <svg class="w-4 h-4 me-2 rotate-90" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h12m0 0L9 1m4 4L9 9" />
         </svg>
@@ -130,7 +130,7 @@ function getGroupById($groupId, $pdo)
                     }
                     ?>
                 </div>
-                <div class="col-span-2 sm:col-span-1"> <label for="instructor" class="block mb-2 text-sm font-medium text-gray-900">Instructor</label>
+                <div class="col-span-2 sm:col-span-1"> <label for="instructor" class="block mb-2 text-sm font-medium text-gray-900">First Instructor</label>
                     <select name="instructor" id="instructorSelect" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5">
                         <option value="" selected="">Select instructor</option>
                     </select>
@@ -207,15 +207,23 @@ function getGroupById($groupId, $pdo)
         if (res.data) {
             instructorSelect.innerHTML = '<option value="" selected="">Select instructor</option>';
             res.data.forEach(instructor => {
+                console.log(instructor);
+                
                 let option = document.createElement('option');
                 option.value = instructor.id;
-                if (instructor.id == <?= $group['instructor_id'] ?>) {
+                option.textContent = capitalizeFirstLetter(instructor.username);
+                if (instructor.id == `<?= $group['instructor_id'] ?>`) {
                     option.setAttribute('selected', 'true');
                 }
-                option.textContent = capitalizeFirstLetter(instructor.username);
                 instructorSelect.appendChild(option);
+                
                 // You need to clone the <option> before appending it to the second <select> parent
-                newInstructor.appendChild(option.cloneNode(true));
+                let clonedOption = option.cloneNode(true);
+                clonedOption.removeAttribute('selected');
+                if(instructor.id == `<?= $group['second_instructor_id'] ?>`) {
+                    clonedOption.setAttribute('selected', true);
+                }
+                newInstructor.appendChild(clonedOption);
             });
         }
     }

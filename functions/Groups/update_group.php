@@ -42,7 +42,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt->execute();
 
         $_SESSION['success'] = "Group updated successfully";
-        header("Location: ../../groups.php");
+
+        // if the request came from tables.php or groups.php
+        if (isset($_SESSION['page'])) {
+            header('location: ../../' . $_SESSION['page'] . '?branch=' . $_SESSION['current_branch_id']);
+            unset($_SESSION['page']);
+            unset($_SESSION['current_branch_id']);
+        } else {
+            header('location: ../../groups.php');
+        }
     } catch (PDOException $e) {
         $_SESSION['errors'] = $e->getMessage();
         header("Location: ../../groups.php?action=edit&id=$group_id");
@@ -104,4 +112,3 @@ function isGroupNameDuplicated($name, $oldName, $pdo): bool
     $group = $stmt->fetch(PDO::FETCH_ASSOC);
     return $group['Count'] > 0 and $name !== $oldName;
 }
-

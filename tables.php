@@ -1,7 +1,4 @@
 <?php
-
-$hideScroll = true; // Set this only on pages where you want to hide scroll
-
 include_once 'Helpers/bootstrap.php';
 include_once 'Design/includes/header.php';
 include_once 'Design/includes/navbar.php';
@@ -12,7 +9,6 @@ $_SESSION['current_branch_id'] = $_GET['branch'] ?? 1 ;
 ?>
 
 <?php
-
 // Fetch instructors
 $instructors = [];
 $stmt = $pdo->prepare("SELECT i.id, i.username

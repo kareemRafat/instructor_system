@@ -44,4 +44,4 @@ if (isset($_SESSION['user_id'])) {
     <script src="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.js"></script>
 </head>
 
-<body class="bg-gray-50 min-h-screen <?= isset($hideScroll) ? 'lg:overflow-hidden' : '' ?>">
+<body class="bg-gray-50 min-h-screen">

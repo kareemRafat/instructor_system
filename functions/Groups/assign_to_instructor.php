@@ -8,12 +8,12 @@ if (!isset($_SESSION['user_id'])) {
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    
+
     $newInstructor = $_POST['new-instructor'] ?? null;
     $group_id = $_POST['group'] ?? null;
     $group = getGroupById($group_id, $pdo);
 
-    if(!checkGoupTimeDuplication($pdo, $group , $newInstructor)){
+    if (!checkGoupTimeDuplication($pdo, $group, $newInstructor)) {
         $_SESSION['errors']['exists'] = "الوقت المحدد لهذه المجموعة متاح بالفعل مع نفس المدرب";
         header("Location: ../../groups.php?action=edit&group_id=$group_id");
         exit();
@@ -34,7 +34,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         ]);
 
         $_SESSION['success'] = "Group Assigned To Other instructor";
-        header("Location: ../../groups.php");
+
+        // if the request came from tables.php or groups.php
+        if (isset($_SESSION['page'])) {
+            header('location: ../../' . $_SESSION['page'] . '?branch=' . $_SESSION['current_branch_id']);
+            unset($_SESSION['page']);
+            unset($_SESSION['current_branch_id']);
+        } else {
+            header('location: ../../groups.php');
+        }
     } catch (PDOException $e) {
         $_SESSION['errors'] = $e->getMessage();
         header("Location: ../../groups.php?action=edit&id=$group_id");
