@@ -192,10 +192,10 @@
    </div>
 </div>
 
-<button id="floatClose" class="hidden md:hidden fixed bottom-1/2 right-4 translate-y-1/2 z-50" data-drawer-hide="drawer-left-example" aria-controls="drawer-left-example">
+<button id="floatClose" class="hidden md:hidden fixed bottom-1/2 right-4 translate-y-1/2 z-50 opacity-50" data-drawer-hide="drawer-left-example" aria-controls="drawer-left-example">
    <div class="relative">
       <!-- Main button -->
-      <div class="w-12 h-12 rounded-full bg-blue-600 shadow-lg shadow-blue-500/50 flex items-center justify-center text-white transform transition-all hover:scale-110 hover:bg-blue-700 active:scale-95">
+      <div class="w-12 h-12 rounded-full bg-blue-600  flex items-center justify-center text-white">
          <i class="fa-solid fa-circle-chevron-left text-4xl"></i>
       </div>
 
@@ -210,8 +210,12 @@ $_SESSION['page'] = 'tables.php';
 
 <script>
    const closeBtn = document.querySelector("#floatClose");
+   const closeX = document.querySelectorAll('button[data-drawer-hide]');
 
-   closeBtn.addEventListener('click', function(e) {
-      this.classList.add('hidden');
+
+    closeX.forEach(btn => {
+      btn.addEventListener('click', function(e) {
+         document.querySelector("#floatClose").classList.add('hidden');
+      })
    })
 </script>
