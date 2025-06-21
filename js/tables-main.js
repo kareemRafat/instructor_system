@@ -1,8 +1,16 @@
-const groupBtn = document.querySelectorAll("button.outline-none");
+
 
 document.addEventListener("DOMContentLoaded", async () => {
+  const groupBtn = document.querySelectorAll("button.outline-none");
+  
   groupBtn.forEach((btn) => {
     btn.addEventListener("click", async (e) => {
+      
+      // show floated close btn 
+      setTimeout(() => {
+        document.querySelector("#floatClose").classList.remove('hidden');
+      }, 300);
+
       document.getElementById('drawer-left-example').scrollTop = 0; // Scroll to top
 
       const id = e.currentTarget.dataset.groupId;

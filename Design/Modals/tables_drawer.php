@@ -115,7 +115,7 @@
                   <div class="flex-1">
                      <p class="text-xs font-medium text-gray-400 uppercase tracking-wider">Start Date</p>
                      <p class="font-medium text-rose-700" id="drawerStartMonth">
-                        
+
                      </p>
                      <p class="font-medium text-gray-800" id="drawerStartDate">
                         <i class="fa-solid fa-spinner fa-spin"></i>
@@ -142,7 +142,7 @@
                   <div class="flex-1">
                      <p class="text-xs font-medium text-gray-400 uppercase tracking-wider">Expected End Date</p>
                      <p class="font-medium text-purple-700" id="drawerEndMonth">
-                        
+
                      </p>
                      <p class="font-medium text-gray-800" id="drawerEndDate">
                         <i class="fa-solid fa-spinner fa-spin"></i>
@@ -191,6 +191,27 @@
       </div>
    </div>
 </div>
+
+<button id="floatClose" class="hidden md:hidden fixed bottom-1/2 right-4 translate-y-1/2 z-50" data-drawer-hide="drawer-left-example" aria-controls="drawer-left-example">
+   <div class="relative">
+      <!-- Main button -->
+      <div class="w-12 h-12 rounded-full bg-blue-600 shadow-lg shadow-blue-500/50 flex items-center justify-center text-white transform transition-all hover:scale-110 hover:bg-blue-700 active:scale-95">
+         <i class="fa-solid fa-circle-chevron-left text-4xl"></i>
+      </div>
+
+      <!-- Optional pulse effect -->
+      <div class="absolute inset-0 rounded-full bg-blue-600 opacity-0 group-hover:opacity-40 group-hover:animate-ping"></div>
+   </div>
+</button>
 <?php
 $_SESSION['page'] = 'tables.php';
 ?>
+
+
+<script>
+   const closeBtn = document.querySelector("#floatClose");
+
+   closeBtn.addEventListener('click', function(e) {
+      this.classList.add('hidden');
+   })
+</script>
