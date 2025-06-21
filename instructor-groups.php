@@ -14,6 +14,7 @@ include_once 'Design/includes/navbar.php';
     ?>
 </div>
 
+<script src="dist/instructor-groups.js"></script>
 </body>
 
 </html>

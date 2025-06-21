@@ -60,6 +60,9 @@
                     Expected End
                  </th>
                  <th scope="col" class="px-6 py-3">
+                    Time Left
+                 </th>
+                 <th scope="col" class="px-6 py-3">
                     Branch
                  </th>
              </tr>
@@ -124,6 +127,9 @@
                          <span class="text-purple-700"><?= $row['group_end_month'] ?></span>
                          <br>
                          <?= $row['group_end_date'] ?? 'No date added' ?>
+                     </td>
+                     <td class="px-6 py-20 time-left" data-start="<?= $row['formatted_date'] ?>" data-group-name="<?= $row['group_name'] ?>">
+
                      </td>
                      <td class="px-6 py-2 <?= branchIndicator($row['branch_name'])['textColor'] ?>">
                          <div class="flex flex-row justify-start items-center">

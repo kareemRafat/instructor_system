@@ -274,8 +274,8 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     return `
     <p class="text-xs font-medium text-gray-400 uppercase tracking-wider">Time Left</p>
-    <p class="time-remaining">${monthsRemaining} months</p>
-    <p class="time-remaining">${daysRemaining} days</p>
+    <p class="time-remaining">${monthsRemaining} Months</p>
+    <p class="time-remaining">${daysRemaining} Days</p>
   `;
 
   }
