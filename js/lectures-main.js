@@ -459,7 +459,8 @@ async function fetchInstructors(branchId) {
 
 /** show time options */
 function showTimeOptions() {
-  const time = [10, 12.3, 3, 6 , 4 , 6.10 , 8, 2, 5];
+  // friday  2, 5 canceled - 4 online4 canceledd
+  const time = [10, 12.3, 3, 6 , 6.10 , 8] ;
   groupTimeSelect.innerHTML = "<option value=''>Select Group Time</option>";
   time.forEach((time) => {
     const option = document.createElement("option");

@@ -100,7 +100,7 @@ include_once 'Design/includes/navbar.php';
     </form>
 
     <div id="cards" class="pb-1">
-
+        <!-- skeleton loader -->
         <div id="skeleton" role="status" class="max-w-sm animate-pulse mb-4">
             <div class="h-2.5 bg-gray-200 rounded-full w-48 mb-4"></div>
             <div class="h-2 bg-gray-200 rounded-full max-w-[360px] mb-2.5"></div>
