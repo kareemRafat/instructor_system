@@ -79,6 +79,6 @@ function redirectBasedOnRole($role)
     } elseif ($role == 'cs' or $role == 'cs-admin') {
         header("Location: ../../lectures.php");
     } elseif ($role == 'owner') {
-        header("Location: ../../bonus.php");
+        header("Location: ../../tables.php");
     }
 }
