@@ -60,14 +60,8 @@ function getBranches($pdo)
             }
             ?>
         </div>
-        <div> <label for="password" class="block mb-2 text-sm font-medium text-gray-900">Password</label>
-            <input type="password" name="password" id="password" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" placeholder="Enter password if you want to Change it ...">
-            <?php if (isset($errors['password'])) {
-                echo '<div class="p-2 my-2 text-sm text-red-800 rounded-lg bg-red-50" role="alert"> ' .
-                    $errors['password'] .
-                    '</div>';
-            }
-            ?>
+        <div>
+            <?php include_once "Design/Components/password-input.php"; ?>
         </div>
         <div>
             <label for="branch" class="block mb-2 text-sm font-medium text-gray-900">Branch</label>
@@ -76,7 +70,7 @@ function getBranches($pdo)
                 <?php foreach ($branches as $branch): ?>
                     <option
                         value="<?= $branch['id'] ?>"
-                        <?= $branch['id'] === $instructor[0]['branch_id'] ? 'selected' : '' ?> >
+                        <?= $branch['id'] === $instructor[0]['branch_id'] ? 'selected' : '' ?>>
                         <?= $branch['name'] ?>
                     </option>
                 <?php endforeach; ?>
@@ -108,7 +102,7 @@ function getBranches($pdo)
         <?php endif; ?>
     </div>
     <button type="submit" class="text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
-         <i class="fa-solid fa-pen-to-square mr-2"></i>
+        <i class="fa-solid fa-pen-to-square mr-2"></i>
         update Agent
     </button>
 </form>
@@ -128,8 +122,8 @@ function getBranches($pdo)
 
     // mark the agent role as selected
     document.querySelectorAll('#rolesSelect option').forEach(op => {
-        if (op.value == `<?= $instructor[0]['role'] ?>` ) {
-            op.selected = true 
+        if (op.value == `<?= $instructor[0]['role'] ?>`) {
+            op.selected = true
         }
     })
 </script>

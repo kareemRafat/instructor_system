@@ -30,16 +30,10 @@ $errors = $_SESSION['errors'] ?? [];
                         }
                         ?>
                     </div>
-                    <div class="col-span-2"> <label for="password" class="block mb-2 text-sm font-medium text-gray-900">Password</label>
-                        <input type="password" name="password" id="password" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" placeholder="Enter password" required>
-                        <?php if (isset($errors['password'])) {
-                            echo '<div class="p-2 my-2 text-sm text-red-800 rounded-lg bg-red-50" role="alert"> ' .
-                                $errors['password'] .
-                                '</div>';
-                        }
-                        ?>
+                    <div class="col-span-2">
+                        <?php include_once "Design/Components/password-input.php"; ?>
                     </div>
-                    <div class="col-span-2"> 
+                    <div class="col-span-2">
                         <label for="branch" class="block mb-2 text-sm font-medium text-gray-900">Branch</label>
                         <select name="branch" id="branchesSelect" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5">
                             <option value="" selected="">Select branch</option>
@@ -51,8 +45,8 @@ $errors = $_SESSION['errors'] ?? [];
                         }
                         ?>
                     </div>
-                    <?php if (hasRole('admin' , 'owner')): ?>
-                        <div class="col-span-2"> 
+                    <?php if (hasRole('admin', 'owner')): ?>
+                        <div class="col-span-2">
                             <label for="role" class="block mb-2 text-sm font-medium text-gray-900">Role</label>
                             <select name="role" id="rolesSelect" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5">
                                 <option value="" selected="">Select Role</option>

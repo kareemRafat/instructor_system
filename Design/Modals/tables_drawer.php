@@ -93,10 +93,10 @@
                   </div>
 
                </div>
-               <!-- Branch -->
+               <!-- Branch medium - lg  -->
                <div class="hidden md:flex items-center p-4 transition-all duration-200 group">
-                  <div class="flex-1">
-                     <p class="text-xs font-medium text-gray-400 uppercase tracking-wider text-right">Branch</p>
+                  <div class="flex-1 text-right">
+                     <p class="text-xs font-medium text-gray-400 uppercase tracking-wider">Branch</p>
                      <p class="font-medium text-gray-800" id="drawerBranch">
                         <i class="fa-solid fa-spinner fa-spin"></i>
                      </p>
@@ -226,7 +226,7 @@ $_SESSION['page'] = 'tables.php';
 <script>
    const closeBtn = document.querySelector("#floatClose");
    const closeX = document.querySelectorAll('button[data-drawer-hide]');
-   
+
    closeX.forEach(btn => {
       btn.addEventListener('click', function(e) {
          document.querySelector("#floatClose").classList.add('hidden');

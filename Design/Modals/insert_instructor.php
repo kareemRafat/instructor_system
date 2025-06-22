@@ -30,19 +30,13 @@ $errors = $_SESSION['errors'] ?? [];
                         }
                         ?>
                     </div>
-                    <div class="col-span-2"> <label for="password" class="block mb-2 text-sm font-medium text-gray-900">Password</label>
-                        <input type="password" name="password" id="password" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" placeholder="Enter password" required>
-                        <?php if (isset($errors['password'])) {
-                            echo '<div class="p-2 my-2 text-sm text-red-800 rounded-lg bg-red-50" role="alert"> ' .
-                                $errors['password'] .
-                                '</div>';
-                        }
-                        ?>
+                    <div class="col-span-2">
+                       <?php include_once "Design/Components/password-input.php"; ?>
                     </div>
                     <div class="col-span-2">
                         <label class="block mb-2 text-sm font-medium text-gray-900">Branches</label>
-                        <div class="grid grid-cols-2 md:grid-cols-3 gap-2"  id="branchesContainer">
-                           
+                        <div class="grid grid-cols-2 md:grid-cols-3 gap-2" id="branchesContainer">
+
                         </div>
                         <?php if (isset($errors['branch'])): ?>
                             <div class="p-2 my-2 text-sm text-red-800 rounded-lg bg-red-50" role="alert">
