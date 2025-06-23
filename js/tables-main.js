@@ -1,7 +1,7 @@
 
 document.addEventListener("DOMContentLoaded", async () => {
 
-  printTableToPDF('#groups', {margins : none});
+  printTableToPDF('#groups', {margins : 'none'});
 
   const groupBtn = document.querySelectorAll("button.outline-none");
   groupBtn.forEach((btn) => {
