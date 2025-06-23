@@ -94,7 +94,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             lecturesCards.innerHTML += card;
           });
         } else {
-          lecturesCards.innerHTML = "<p>No lectures found</p>";
+          lecturesCards.innerHTML = `<p><i class="text-gray-400 fa-solid fa-ban"></i> No lectures found</p>`;
         }
       } else {
         throw new Error(res.message || "Failed to fetch lectures");
@@ -225,7 +225,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             lecturesCards.innerHTML += card;
           });
         } else {
-          lecturesCards.innerHTML = "<p>No lectures found</p>";
+          lecturesCards.innerHTML = `<p><i class="text-gray-400 fa-solid fa-ban"></i> No lectures found</p>`;
         }
       } else {
         throw new Error(res.message || "Failed to fetch lectures");
@@ -275,7 +275,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             lecturesCards.innerHTML += card;
           });
         } else {
-          lecturesCards.innerHTML = "<p>No lectures found</p>";
+          lecturesCards.innerHTML = `<p><i class="text-gray-400 fa-solid fa-ban"></i> No lectures found</p>`;
         }
       } else {
         throw new Error(res.message || "Failed to fetch lectures");
@@ -327,7 +327,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             lecturesCards.innerHTML += card;
           });
         } else {
-          lecturesCards.innerHTML = "<p>No lectures found</p>";
+          lecturesCards.innerHTML = `<p><i class="text-gray-400 fa-solid fa-ban"></i> No lectures found</p>`;
         }
       } else {
         throw new Error(res.message || "Failed to fetch lectures");
