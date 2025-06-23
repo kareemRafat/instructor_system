@@ -68,7 +68,12 @@ document.addEventListener("DOMContentLoaded", async () => {
     let url = null;
 
     if (!branch.value) {
-      url = `functions/Lectures/get_lectures.php?search=${searchValue}`;
+      if (roleMeta == 'cs') {
+        // if the user is cs search with its branch_id found in meta
+        url = `functions/Lectures/get_lectures.php?branch_id=${branchMeta}&search=${searchValue}`;
+      } else {
+        url = `functions/Lectures/get_lectures.php?search=${searchValue}`;
+      }
     } else {
       url = `functions/Lectures/get_lectures.php?branch_id=${branch.value}&search=${searchValue}`;
     }
@@ -113,6 +118,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
       if (!branch.value) {
         resetAllWithNoBranch();
+        groupSearch.value = ""; // reset search
         await fetchBranchLectures(this.value);
         await wait(500);
         skeleton.classList.add("hidden");
