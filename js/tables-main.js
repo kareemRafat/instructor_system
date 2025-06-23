@@ -1,7 +1,9 @@
 
 document.addEventListener("DOMContentLoaded", async () => {
 
-  printTableToPDF('#groups', {margins : 'none'});
+  document.querySelector('.print').addEventListener('click' , (e) => {
+    window.print();
+  })
 
   const groupBtn = document.querySelectorAll("button.outline-none");
   groupBtn.forEach((btn) => {
@@ -293,44 +295,5 @@ document.addEventListener("DOMContentLoaded", async () => {
     <p class="time-remaining">${daysRemaining} days</p>
   `;
 
-  }
-
-  /** print table with jsPDF library and canvasHTML */
-  async function printTableToPDF(tableSelector, options = {}) {
-      const {
-          jsPDF
-      } = window.jspdf;
-      const table = document.querySelector(tableSelector);
-
-      // Create canvas from table
-      const canvas = await html2canvas(table, {
-          scale: 2,
-          scrollY: -window.scrollY
-      });
-
-      // Create PDF
-      const pdf = new jsPDF({
-          orientation: options.landscape ? 'landscape' : 'portrait',
-          unit: 'mm',
-          format: 'a4'
-      });
-
-      // Add image to PDF
-      const imgData = canvas.toDataURL('image/png');
-      const pageWidth = pdf.internal.pageSize.getWidth();
-      const pageHeight = pdf.internal.pageSize.getHeight();
-      const imgWidth = options.fitToPage ? pageWidth : canvas.width / 5;
-      const imgHeight = (canvas.height * imgWidth) / canvas.width;
-
-      pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
-
-      // Save or print
-      if (options.download) {
-          pdf.save('table-print.pdf');
-      } else {
-          const pdfBlob = pdf.output('blob');
-          const pdfUrl = URL.createObjectURL(pdfBlob);
-          window.open(pdfUrl, '_blank');
-      }
   }
 });

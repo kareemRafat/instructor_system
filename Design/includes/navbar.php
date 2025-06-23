@@ -18,7 +18,9 @@ function hasRole(...$roles)
                         <path fill-rule="evenodd" d="M2.25 6a3 3 0 0 1 3-3h13.5a3 3 0 0 1 3 3v12a3 3 0 0 1-3 3H5.25a3 3 0 0 1-3-3V6Zm3.97.97a.75.75 0 0 1 1.06 0l2.25 2.25a.75.75 0 0 1 0 1.06l-2.25 2.25a.75.75 0 0 1-1.06-1.06l1.72-1.72-1.72-1.72a.75.75 0 0 1 0-1.06Zm4.28 4.28a.75.75 0 0 0 0 1.5h3a.75.75 0 0 0 0-1.5h-3Z" clip-rule="evenodd" />
                     </svg>
                 </span>
-                Instructors System
+                <span id="logo">
+                    <!-- Instructors System -->
+                </span>
             </span>
         </a>
         <button data-collapse-toggle="navbar-default" type="button"
@@ -90,8 +92,8 @@ function hasRole(...$roles)
                         </a>
                     </li>
                     <li>
-                        <?php 
-                            $tablesLocation = "tables.php?branch=" . BRANCH; 
+                        <?php
+                        $tablesLocation = "tables.php?branch=" . BRANCH;
                         ?>
                         <a href="<?= $tablesLocation ?>"
                             class=" <?= $pageName == 'tables.php' ? 'text-blue-600' : '' ?> block py-2 px-3 rounded-sm md:text-center hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0">
@@ -141,3 +143,19 @@ function hasRole(...$roles)
         </div>
     </div>
 </nav>
+
+<script>
+    const text = "Instructors System";
+    const target = document.getElementById("logo");
+    let index = 0;
+
+    function typeLetter() {
+        if (index < text.length) {
+            target.textContent += text[index];
+            index++;
+            setTimeout(typeLetter, 50); // delay between letters
+        }
+    }
+
+    typeLetter();
+</script>

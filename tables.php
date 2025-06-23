@@ -9,13 +9,18 @@ $_SESSION['current_branch_id'] = $_GET['branch'] ?? 1;
 ?>
 <style>
     @media print {
-        nav , .print-hide {
-            display: none ;
+
+        nav,
+        .print-hide {
+            display: none;
+        }
+
+        @page {
+            size: landscape;
+            margin: 0;
         }
     }
 </style>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <?php
 // Fetch instructors
 $instructors = [];
@@ -71,18 +76,23 @@ $times = ['10.00', '12.30-4.00', '3.00-6.10', '6.00-8.00'];
 // tables bg and font random color based on branch
 if (isset($_GET['branch']) and $_GET['branch'] == 1) {
     $color = 'bg-[#1b5180]';
+    $hoverPrint = 'hover:bg-[#1b5180]';
     $text = 'text-[#0F4C81]';
 } else if (isset($_GET['branch']) and $_GET['branch'] == 2) {
     $color = 'bg-teal-800';
+    $hoverPrint = 'hover:bg-teal-800';
     $text = 'text-teal-700';
 } else if (isset($_GET['branch']) and $_GET['branch'] == 3) {
     $color = 'bg-[#5F4B8B]';
+    $hoverPrint = 'hover:bg-[#5F4B8B]';
     $text = 'text-violet-800';
 } else if (isset($_GET['branch']) and $_GET['branch'] == 4) {
     $color = 'bg-blue-600';
+    $hoverPrint = 'hover:bg-blue-600';
     $text = 'text-blue-800';
 } else {
     $color = 'bg-[#1b5180]';
+    $hoverPrint = 'hover:bg-[#1b5180]';
     $text = 'text-[#0F4C81]';
 }
 
@@ -98,10 +108,10 @@ $cellHoverColor = ['hover:bg-orange-100', 'hover:bg-indigo-100', 'hover:bg-green
             Instructor Schedule
         </h1>
 
-        <!-- filter -->
+        <!-- filters -->
         <div class="mb-5 print-hide">
             <form method="get" id="branchForm" class="flex items-center justify-start md:justify-center gap-4">
-                <ul id="branches-list" class="flext justify-between items-center lg:w-1/3 md:w-1/2 px-7 text-sm font-medium text-gray-900 bg-white  rounded-lg flex gap-4 shadow">
+                <ul id="branches-list" class="flext justify-between items-center lg:w-1/3 md:w-1/2 px-4 md:px-7 text-sm font-medium text-gray-900 bg-white  rounded-lg flex gap-4 shadow">
                     <!-- branch radio buttons -->
                     <?php
                     $branches = $pdo->query("SELECT id, name FROM branches")->fetchAll(PDO::FETCH_ASSOC);
@@ -333,6 +343,9 @@ $cellHoverColor = ['hover:bg-orange-100', 'hover:bg-indigo-100', 'hover:bg-green
                     <?php endforeach; ?>
                 </tbody>
             </table>
+        </div>
+        <div class="print-hide hidden lg:flex justify-end">
+            <i class="print text-lg cursor-pointer flex justify-center items-center rounded-full w-8 h-8 bg-gray-300 <?= $hoverPrint ?> text-gray-100 my-4 fa-solid fa-print"></i>
         </div>
     </div>
 </div>
