@@ -164,10 +164,10 @@ $cellHoverColor = ['hover:bg-orange-100', 'hover:bg-indigo-100', 'hover:bg-green
                         <?php $hoverColor = $rowHoverColors[$index % count($rowHoverColors)]; ?>
                         <?php $tdHoverColor = $cellHoverColor[$index % count($cellHoverColor)]; ?>
                         <tr class="bg-gray-50 <?= $hoverColor ?> transition-colors duration-300">
-                            <td class="relative border border-gray-300 p-4 font-semibold <?= $text ?> bg-gray-200 overflow-hidden">
+                            <td class="h-20 relative border border-gray-300 p-4 font-semibold <?= $text ?> bg-gray-200 overflow-hidden">
                                 <div class="flex justify-between ">
                                     <span><?= htmlspecialchars(ucwords($instructor['username'])) ?></span>
-                                    <span class="text-gray-100 text-7xl absolute right-0 top-0 font-bold"><?=  $groupsCount[$instructor['id']] ?? 0 ?></span>
+                                    <span class="text-gray-100 text-8xl absolute right-0 top-0 font-bold opacity-80"><?=  $groupsCount[$instructor['id']] ?? 0 ?></span>
                                 </div>
                             </td>
                             <?php foreach ($days as $dayIndex => $day): ?>
