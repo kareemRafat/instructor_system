@@ -19,7 +19,7 @@ function getTimeRemaining(startDateStr, groupName) {
   // Determine duration based on group name
   const isTraining = groupName.toLowerCase().includes("training");
   const monthsToAdd = isTraining ? 2 : 5;
-  const daysToAdd = isTraining ? 15 : 14;
+  const daysToAdd = isTraining ? 15 : 21;
 
   // Calculate target date
   const targetDate = new Date(startDate);

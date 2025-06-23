@@ -26,7 +26,7 @@ if (isset($_GET['search'])) {
                             ),
                             INTERVAL CASE
                                         WHEN g.name LIKE '%training%' THEN 15
-                                        ELSE 14
+                                        ELSE 21
                                     END DAY
                         ),
                         '%d-%m-%Y'
@@ -42,7 +42,7 @@ if (isset($_GET['search'])) {
                             ),
                             INTERVAL CASE
                                         WHEN g.name LIKE '%training%' THEN 15
-                                        ELSE 14
+                                        ELSE 21
                                     END DAY
                         ),
                         '%M'

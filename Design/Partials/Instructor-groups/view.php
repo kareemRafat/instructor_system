@@ -3,28 +3,46 @@
     require_once "Database/connect.php";
 
     $query = "SELECT 
-                        `groups`.id AS group_id,
-                        IF(`groups`.name LIKE '%training%', 'training', `groups`.name) AS group_name,
-                        `groups`.time AS group_time,
-                        `groups`.day AS group_day,
-                        instructors.username AS instructor_name,
-                        branches.name AS branch_name,
-                        DATE_FORMAT(`groups`.start_date, '%d-%m-%Y') AS formatted_date,
-                        MONTHNAME(`groups`.start_date) AS month,
-                        DATE_FORMAT(
+                `groups`.id AS group_id,
+                IF(`groups`.name LIKE '%training%', 'training', `groups`.name) AS group_name,
+                `groups`.time AS group_time,
+                `groups`.day AS group_day,
+                instructors.username AS instructor_name,
+                branches.name AS branch_name,
+                DATE_FORMAT(`groups`.start_date, '%d-%m-%Y') AS formatted_date,
+                MONTHNAME(`groups`.start_date) AS month,
+                DATE_FORMAT(
                             DATE_ADD(
-                                DATE_ADD(`groups`.start_date, INTERVAL 5 MONTH),
-                                INTERVAL 2 WEEK
-                            ),
+                                DATE_ADD(
+                                    `groups`.start_date,
+                                    INTERVAL CASE
+                                                WHEN `groups`.name LIKE '%training%' THEN 2
+                                                ELSE 5
+                                            END MONTH
+                                ),
+                                    INTERVAL CASE
+                                                WHEN `groups`.name LIKE '%training%' THEN 15
+                                                ELSE 21
+                                            END DAY
+                                ),
                             '%d-%m-%Y'
-                            ) AS group_end_date,
+                        ) AS group_end_date,
                         DATE_FORMAT(
                             DATE_ADD(
-                                DATE_ADD(`groups`.start_date, INTERVAL 5 MONTH),
-                                INTERVAL 2 WEEK
-                            ),
+                                DATE_ADD(
+                                    `groups`.start_date,
+                                    INTERVAL CASE
+                                                WHEN `groups`.name LIKE '%training%' THEN 2
+                                                ELSE 5
+                                            END MONTH
+                                ),
+                                    INTERVAL CASE
+                                                WHEN `groups`.name LIKE '%training%' THEN 15
+                                                ELSE 21
+                                            END DAY
+                                ),
                             '%M'
-                            ) AS group_end_month
+                        ) AS group_end_month
                 FROM `groups` 
                 JOIN instructors ON `groups`.instructor_id = instructors.id 
                 JOIN branches ON `groups`.branch_id = branches.id
@@ -45,25 +63,25 @@
          <thead class="text-xs text-gray-700 uppercase bg-gray-200">
              <tr class="text-base">
                  <th scope="col" class="px-6 py-3">
-                    Group
+                     Group
                  </th>
                  <th scope="col" class="px-6 py-3">
-                    Time
+                     Time
                  </th>
                  <th scope="col" class="px-6 py-3">
-                    Track
+                     Track
                  </th>
                  <th scope="col" class="px-6 py-3">
-                    Start Date
+                     Start Date
                  </th>
                  <th scope="col" class="px-6 py-3">
-                    Expected End
+                     Expected End
                  </th>
                  <th scope="col" class="px-6 py-3">
-                    Time Left
+                     Time Left
                  </th>
                  <th scope="col" class="px-6 py-3">
-                    Branch
+                     Branch
                  </th>
              </tr>
          </thead>

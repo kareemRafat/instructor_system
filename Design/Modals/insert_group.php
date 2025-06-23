@@ -35,7 +35,7 @@
                             <label for="name" class="block mb-2 text-sm font-medium text-gray-900">Name</label>
                             <input type="text" name="name" id="name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-600 block w-full p-2.5" placeholder="Group Name" required="">
                             <!-- Generate button -->
-                            <a id="generate-name" href="#" class="text-sm font-semibold mt-1 block text-blue-700 dark:text-blue-500 ">
+                            <a id="generate-name" href="#" class="inline text-sm font-semibold mt-1 text-blue-700 dark:text-blue-500 ">
                                 <i class="fa-solid fa-sign-hanging mr-1 "></i>
                                 Generate Training group
                             </a>

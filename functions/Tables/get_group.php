@@ -35,7 +35,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                         ),
                                             INTERVAL CASE
                                                         WHEN g.name LIKE '%training%' THEN 15
-                                                        ELSE 14
+                                                        ELSE 21
                                                     END DAY
                                         ),
                                     '%d-%m-%Y'
@@ -51,7 +51,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                         ),
                                             INTERVAL CASE
                                                         WHEN g.name LIKE '%training%' THEN 15
-                                                        ELSE 14
+                                                        ELSE 21
                                                     END DAY
                                         ),
                                     '%M'

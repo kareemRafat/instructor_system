@@ -206,7 +206,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     return value.charAt(0).toUpperCase() + value.slice(1);
   }
 
-  /** get Today */
+  /** get Today [now] */
   function getTodayDate(date = new Date()) {
     const monthNames = [
       "January",
@@ -244,7 +244,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     // Determine duration based on group name
     const isTraining = groupName.toLowerCase().includes("training");
     const monthsToAdd = isTraining ? 2 : 5;
-    const daysToAdd = isTraining ? 15 : 14;
+    const daysToAdd = isTraining ? 15 : 21;
 
     // Calculate target date
     const targetDate = new Date(startDate);
