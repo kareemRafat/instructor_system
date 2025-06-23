@@ -61,8 +61,7 @@ document.addEventListener("DOMContentLoaded", function () {
     if (e.target.closest(".delete-cs-btn")) {
       const button = e.target.closest(".delete-cs-btn");
       const agentId = button.dataset.agentId;
-      const branchId = button.dataset.branchId;
-
+      
       if (
         confirm(
           "Are you sure you want to delete this CS Agent? This action cannot be undone."
