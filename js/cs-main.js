@@ -73,7 +73,7 @@ document.addEventListener("DOMContentLoaded", function () {
           headers: {
             "Content-Type": "application/x-www-form-urlencoded",
           },
-          body: `cs_id=${agentId},branch=${branchId}`,
+          body: `cs_id=${agentId}`,
         })
           .then((response) => response.json())
           .then((data) => {

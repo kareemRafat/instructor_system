@@ -6,7 +6,6 @@ $query = "SELECT
                     i.username,
                     i.is_active,
                     i.role,
-                    b.id AS branch_id ,
                     MIN(b.name) AS branch_name,
                     GROUP_CONCAT(b.name SEPARATOR ', ') AS branches
                 FROM instructors i
@@ -103,7 +102,7 @@ $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         </button>
                         <button <?= $row['role'] === ROLE ? 'disabled' : '' ?>
                             class="delete-cs-btn w-full md:w-fit cursor-pointer text-sm border border-gray-300 py-1 px-2 rounded-lg text-red-600 hover:underline disabled:border-gray-200 disabled:bg-gray-50 disabled:text-gray-500 disabled:shadow-none disabled:cursor-not-allowed disabled:hover:no-underline"
-                            data-agent-id="<?= $row['id'] ?>" data-branch-id="<?= $row['branch_id'] ?>">
+                            data-agent-id="<?= $row['id'] ?>">
                             <i class="fa-solid fa-trash mr-1 hidden md:inline-block"></i>Delete
                         </button>
                     </td>
