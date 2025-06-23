@@ -40,7 +40,7 @@ $groups = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 // Organize groups by instructor, day, and time
 $schedule = [];
-$groupsCount = [] ;
+$groupsCount = [];
 foreach ($groups as $group) {
     $instructor_id = $group['instructor_id'];
     $day = $group['day'];
@@ -86,12 +86,12 @@ $cellHoverColor = ['hover:bg-orange-100', 'hover:bg-indigo-100', 'hover:bg-green
 
 <div class="p-6 bg-gray-50 min-h-screen">
     <div class="mx-auto">
-        <h1 class="text-3xl font-bold text-center mb-8 text-gray-800">
+        <h1 class="print-hide text-3xl font-bold text-center mb-8 text-gray-800">
             Instructor Schedule
         </h1>
 
         <!-- filter -->
-        <div class="mb-5">
+        <div class="mb-5 print-hide">
             <form method="get" id="branchForm" class="flex items-center justify-start md:justify-center gap-4">
                 <ul id="branches-list" class="flext justify-between items-center lg:w-1/3 md:w-1/2 px-7 text-sm font-medium text-gray-900 bg-white  rounded-lg flex gap-4 shadow">
                     <!-- branch radio buttons -->
@@ -166,8 +166,8 @@ $cellHoverColor = ['hover:bg-orange-100', 'hover:bg-indigo-100', 'hover:bg-green
                         <tr class="bg-gray-50 <?= $hoverColor ?> transition-colors duration-300">
                             <td class="h-20 relative border border-gray-300 p-4 font-semibold <?= $text ?> bg-gray-200 overflow-hidden">
                                 <div class="flex justify-between ">
-                                    <span><?= htmlspecialchars(ucwords($instructor['username'])) ?></span>
-                                    <span class="text-gray-100 text-8xl absolute right-0 top-0 font-bold opacity-80"><?=  $groupsCount[$instructor['id']] ?? 0 ?></span>
+                                    <span class="relative z-40"><?= htmlspecialchars(ucwords($instructor['username'])) ?></span>
+                                    <span class="text-gray-100 text-8xl absolute right-0 top-0 font-bold opacity-80"><?= $groupsCount[$instructor['id']] ?? 0 ?></span>
                                 </div>
                             </td>
                             <?php foreach ($days as $dayIndex => $day): ?>
