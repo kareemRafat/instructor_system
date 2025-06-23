@@ -7,7 +7,15 @@ include_once 'Design/includes/navbar.php';
 $_SESSION['current_branch_id'] = $_GET['branch'] ?? 1;
 
 ?>
-
+<style>
+    @media print {
+        nav , .print-hide {
+            display: none ;
+        }
+    }
+</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <?php
 // Fetch instructors
 $instructors = [];
@@ -123,7 +131,7 @@ $cellHoverColor = ['hover:bg-orange-100', 'hover:bg-indigo-100', 'hover:bg-green
         </div>
 
         <div class="overflow-x-auto shadow-lg rounded-lg">
-            <table class="w-full border-collapse">
+            <table id="groups" class="w-full border-collapse">
                 <!-- Table Header -->
                 <thead>
                     <tr class="<?= $color ?> bg-[#1b5180] text-white">
@@ -167,7 +175,7 @@ $cellHoverColor = ['hover:bg-orange-100', 'hover:bg-indigo-100', 'hover:bg-green
                             <td class="h-20 relative border border-gray-300 p-4 font-semibold <?= $text ?> bg-gray-200 overflow-hidden">
                                 <div class="flex justify-between ">
                                     <span class="relative z-40"><?= htmlspecialchars(ucwords($instructor['username'])) ?></span>
-                                    <span class="text-gray-100 text-8xl absolute right-0 top-0 font-bold opacity-80"><?= $groupsCount[$instructor['id']] ?? 0 ?></span>
+                                    <span class="print-hide text-gray-100 text-8xl absolute right-0 top-0 font-bold opacity-80"><?= $groupsCount[$instructor['id']] ?? 0 ?></span>
                                 </div>
                             </td>
                             <?php foreach ($days as $dayIndex => $day): ?>
@@ -333,6 +341,7 @@ $cellHoverColor = ['hover:bg-orange-100', 'hover:bg-indigo-100', 'hover:bg-green
 include_once "Design/Modals/tables_drawer.php";
 include_once "Design/includes/notFy-footer.php";
 ?>
+
 </body>
 
 </html>

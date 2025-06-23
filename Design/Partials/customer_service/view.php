@@ -6,6 +6,7 @@ $query = "SELECT
                     i.username,
                     i.is_active,
                     i.role,
+                    b.id AS branch_id ,
                     MIN(b.name) AS branch_name,
                     GROUP_CONCAT(b.name SEPARATOR ', ') AS branches
                 FROM instructors i
@@ -71,7 +72,7 @@ $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         <?= ucwords($row['username']) ?>
                         <?php if ($row['role'] == 'cs-admin'): ?>
                             <i class="fa-solid fa-user-shield ml-3 text-rose-700"></i>
-                        <?php elseif($row['role'] == 'owner'): ?>
+                        <?php elseif ($row['role'] == 'owner'): ?>
                             <i class="fa-solid fa-user-tie ml-3 text-teal-800 text-lg"></i>
                         <?php endif; ?>
                     </th>
@@ -83,7 +84,7 @@ $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
                             <?= ucwords($row['branch_name'] ?? 'Not Assigned') ?>
                         </div>
                     </td>
-                    <td class="px-6 py-4"> 
+                    <td class="px-6 py-4">
                         <span
                             class="inline-flex items-center rounded-md px-2 py-1 text-xs font-medium ring-1 ring-inset <?= $row['is_active'] ? 'text-green-700 ring-green-600/20' : 'text-red-700 ring-red-600/20' ?>">
                             <?= $row['is_active'] ? 'Active' : 'Disabled' ?>
@@ -102,7 +103,7 @@ $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         </button>
                         <button <?= $row['role'] === ROLE ? 'disabled' : '' ?>
                             class="delete-cs-btn w-full md:w-fit cursor-pointer text-sm border border-gray-300 py-1 px-2 rounded-lg text-red-600 hover:underline disabled:border-gray-200 disabled:bg-gray-50 disabled:text-gray-500 disabled:shadow-none disabled:cursor-not-allowed disabled:hover:no-underline"
-                            data-agent-id="<?= $row['id'] ?>">
+                            data-agent-id="<?= $row['id'] ?>" data-branch-id="<?= $row['branch_id'] ?>">
                             <i class="fa-solid fa-trash mr-1 hidden md:inline-block"></i>Delete
                         </button>
                     </td>
