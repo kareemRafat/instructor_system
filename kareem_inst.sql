@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Jun 19, 2025 at 01:34 AM
+-- Generation Time: Jun 23, 2025 at 03:47 AM
 -- Server version: 8.0.42
 -- PHP Version: 8.3.22
 
@@ -79,6 +79,7 @@ INSERT INTO `branch_instructor` (`instructor_id`, `branch_id`) VALUES
 (25, 1),
 (26, 1),
 (35, 1),
+(36, 1),
 (18, 2),
 (20, 2),
 (22, 2),
@@ -116,7 +117,7 @@ INSERT INTO `groups` (`id`, `name`, `time`, `day`, `instructor_id`, `second_inst
 (43, 'null', 12.30, 'monday', 23, NULL, 1, 1, '2025-01-30 22:00:46', NULL),
 (44, 'Scope Online', 8.00, 'sunday', 25, NULL, 1, 1, '2025-02-23 22:00:28', NULL),
 (45, 'For Online', 6.10, 'monday', 25, NULL, 1, 1, '2025-01-30 12:37:44', NULL),
-(46, 'Fire Online', 8.00, 'monday', 25, NULL, 1, 1, '2024-12-12 22:01:17', NULL),
+(46, 'Fire Online', 8.00, 'monday', 25, 23, 1, 1, '2024-12-12 22:01:17', NULL),
 (47, 'static', 3.00, 'saturday', 22, NULL, 2, 1, '2024-12-14 17:14:06', NULL),
 (48, 'ploto', 6.00, 'saturday', 20, NULL, 2, 1, '2025-04-05 17:16:19', NULL),
 (49, 'mirror', 12.30, 'sunday', 22, NULL, 2, 1, '2025-04-16 22:01:47', NULL),
@@ -141,8 +142,11 @@ INSERT INTO `groups` (`id`, `name`, `time`, `day`, `instructor_id`, `second_inst
 (76, 'training_jcvc', 3.00, 'saturday', 21, NULL, 3, 1, '2025-04-12 15:28:39', NULL),
 (77, 'training_kn2a', 12.30, 'monday', 22, NULL, 2, 1, '2025-04-07 15:30:58', NULL),
 (78, 'training_my7d', 12.30, 'sunday', 20, NULL, 2, 1, '2025-06-22 17:12:21', NULL),
-(79, 'neon Online', 8.00, 'sunday', 23, NULL, 1, 1, '2025-06-25 17:14:16', NULL),
-(80, 'giga', 10.00, 'monday', 23, NULL, 1, 1, '2025-06-19 17:16:35', NULL);
+(79, 'neon Online', 8.00, 'monday', 25, NULL, 1, 1, '2025-06-19 17:49:00', NULL),
+(80, 'giga', 10.00, 'monday', 23, NULL, 1, 1, '2025-06-19 17:16:35', NULL),
+(81, 'enter', 10.00, 'saturday', 22, NULL, 2, 1, '2025-06-21 23:35:41', NULL),
+(82, 'venom', 3.00, 'sunday', 22, NULL, 2, 1, '2025-06-22 23:10:29', NULL),
+(83, 'Bash', 8.00, 'sunday', 23, NULL, 1, 1, '2025-06-25 03:44:49', NULL);
 
 -- --------------------------------------------------------
 
@@ -166,13 +170,14 @@ INSERT INTO `instructors` (`id`, `username`, `password`, `is_active`, `role`) VA
 (1, 'kareem', '$2y$10$HtisKuRB1rUWCrToSZ5D6OPBBEO9/deo.Z81s/lov5WYpnK0BLbuK', 1, 'admin'),
 (18, 'hala', '$2y$10$raObV2IWuaJG8lw2aje9.e3bDuaTOe2fZWMtWnaxA71voVOigKlvm', 1, 'cs-admin'),
 (20, 'magdy', '$2y$10$YxtR.0hIeFiU7HVA6VA58ut8rS1JRxfcs6UiStjw5h8SVurHe3BfK', 1, 'instructor'),
-(21, 'assim', '$2y$10$5cuNFyG7gFOhcM5UghqQNOMOAfERupcNrAFJY81N/rc9x8CnUb6W2', 1, 'instructor'),
+(21, 'assim', '$2y$10$J24v5cB/keM4OCHadYxErOPRWTeDd/.XDP2pGMvBD0QUV3U1D4XjK', 1, 'instructor'),
 (22, 'sobhy', '$2y$10$GfeeCg1ZDtcCAAl9F5El9OVW0aq8cEo/6JjmYp.Q9jAgLKYFY.66.', 1, 'instructor'),
 (23, 'esraa', '$2y$10$dkq74DqAU9GyUESLRW25wuUn2vqFjUTDnNVeop9vg1XkBFvOm7J4y', 1, 'instructor'),
 (24, 'atef', '$2y$10$KvZFCg5xjavM5OylP5rI2u4oKXs/AVhys/o8QI4.IlxmeHKfffFcy', 1, 'instructor'),
 (25, 'nora', '$2y$10$wj/e5nJpNBupGoq.GNVDqOL0tEgEUYhf0taBmnRUFgDYSsixDVMoa', 1, 'instructor'),
 (26, 'hend', '$2y$10$2zxlynA9kkULE3ZTRzJh6./QOSy7HFZt4R3Thy2T1nDhnvcVzcMiS', 1, 'cs'),
-(35, 'khaled', '$2y$10$OFHlXeT4W5VYnECyV/FP7ellFNRlZdodPUVo5Ap1yk/v9vBHrX1d.', 1, 'owner');
+(35, 'khaled', '$2y$10$OFHlXeT4W5VYnECyV/FP7ellFNRlZdodPUVo5Ap1yk/v9vBHrX1d.', 1, 'owner'),
+(36, 'mostafa', '$2y$10$Og9f64p3/vkUFecXPT562unRnmCI2qTGjgckH7n0AILtAOxzysD6a', 1, 'owner');
 
 -- --------------------------------------------------------
 
@@ -231,7 +236,30 @@ INSERT INTO `lectures` (`id`, `group_id`, `track_id`, `instructor_id`, `branch_i
 (102, 44, 3, 25, 1, '8 - JavaScript Array', '2025-06-17 13:19:30'),
 (103, 47, 4, 22, 2, '4 - Requests - PHP form', '2025-06-17 17:38:04'),
 (104, 47, 4, 22, 2, '4 - Requests - PHP form', '2025-06-17 17:38:42'),
-(105, 46, 5, 25, 1, '3 - Insert - Update - Delete', '2025-06-18 18:28:36');
+(105, 46, 5, 25, 1, '3 - Insert - Update - Delete', '2025-06-18 18:28:36'),
+(106, 50, 3, 22, 2, '3 - JavaScript bi function & if', '2025-06-19 17:56:13'),
+(107, 51, 3, 22, 2, '12 - JavaScript multi selector - jQuery and cdn', '2025-06-19 17:56:51'),
+(108, 49, 3, 22, 2, '1 - JavaScript intro', '2025-06-19 17:57:57'),
+(109, 38, 3, 1, 1, '3 - JavaScript bi function & if', '2025-06-20 04:59:03'),
+(110, 39, 4, 1, 1, '4 - Requests - PHP form', '2025-06-20 04:59:09'),
+(111, 68, 3, 21, 1, '15 - grid system', '2025-06-20 18:44:58'),
+(112, 69, 3, 21, 1, '5 - JavaScript intro - Dom - selectors - events', '2025-06-20 18:45:36'),
+(113, 41, 3, 23, 1, '1 - JavaScript intro', '2025-06-20 19:08:33'),
+(114, 42, 3, 23, 1, '2 - JavaScript Functions', '2025-06-20 19:08:44'),
+(115, 43, 4, 23, 1, '2 - PHP array', '2025-06-20 19:08:58'),
+(116, 70, 1, 23, 1, '1 - HTML intro and tags to link or image', '2025-06-20 19:09:05'),
+(117, 71, 1, 23, 1, '1 - HTML intro and tags to link or image', '2025-06-20 19:09:17'),
+(118, 80, 1, 23, 1, '1 - HTML intro and tags to link or image', '2025-06-20 19:09:30'),
+(119, 74, 1, 1, 1, '1 - HTML intro and tags to link or image', '2025-06-22 03:41:56'),
+(120, 75, 1, 1, 1, '1 - HTML intro and tags to link or image', '2025-06-22 03:42:02'),
+(121, 56, 2, 21, 3, '5 - CSS Project', '2025-06-22 17:01:27'),
+(122, 57, 3, 21, 3, '16 - Vuejs intro', '2025-06-22 17:02:21'),
+(123, 58, 5, 21, 3, '1 - SQL intro - relations', '2025-06-22 17:02:50'),
+(124, 38, 3, 1, 1, '4 - JavaScript Date - Loops - Switch', '2025-06-23 00:29:22'),
+(125, 49, 3, 22, 2, '2 - JavaScript Functions', '2025-06-23 00:54:27'),
+(126, 81, 1, 22, 2, '1 - HTML intro and tags to link or image', '2025-06-23 00:54:57'),
+(127, 82, 1, 22, 2, '1 - HTML intro and tags to link or image', '2025-06-23 00:55:22'),
+(128, 47, 4, 22, 2, '5 - PHP session - cookies', '2025-06-23 00:55:41');
 
 -- --------------------------------------------------------
 
@@ -254,7 +282,9 @@ INSERT INTO `remember_tokens` (`id`, `instructor_id`, `token`, `expiry`) VALUES
 (36, 18, '41753f220165166908b3af27cd601cbbb9d9d3c49a7b1d1f8d50d06258413d64', '2025-06-20 13:46:39'),
 (64, 21, '2efc29b15004aae58e5562d427e54deb65ce78a9416848366337e6c9269bac36', '2025-07-15 15:04:37'),
 (66, 22, '07419dce0c388f6218bca509be95e8497d5dfec270276104ada127e872ba2f83', '2025-07-17 14:37:57'),
-(67, 22, '4aefecc56066d171e1062ab5e5694b8a1895f20a34c8a67af8f724a59e7ac781', '2025-07-17 14:38:02');
+(67, 22, '4aefecc56066d171e1062ab5e5694b8a1895f20a34c8a67af8f724a59e7ac781', '2025-07-17 14:38:02'),
+(70, 26, 'b001f428ac8d2045ddc69d40e44e27e175b4f8d84f008ac4dd05bbed80e0dffb', '2025-07-21 18:17:39'),
+(71, 26, '0b84eba96d1e97f3cc6efbf3438500755348a923af1fe6c6868826729cee06ed', '2025-07-22 11:52:12');
 
 -- --------------------------------------------------------
 
@@ -366,25 +396,25 @@ ALTER TABLE `branches`
 -- AUTO_INCREMENT for table `groups`
 --
 ALTER TABLE `groups`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=81;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=84;
 
 --
 -- AUTO_INCREMENT for table `instructors`
 --
 ALTER TABLE `instructors`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
 
 --
 -- AUTO_INCREMENT for table `lectures`
 --
 ALTER TABLE `lectures`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=106;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=129;
 
 --
 -- AUTO_INCREMENT for table `remember_tokens`
 --
 ALTER TABLE `remember_tokens`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=68;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=72;
 
 --
 -- AUTO_INCREMENT for table `tracks`

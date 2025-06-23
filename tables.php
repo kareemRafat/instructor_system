@@ -40,6 +40,7 @@ $groups = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 // Organize groups by instructor, day, and time
 $schedule = [];
+$groupsCount = [] ;
 foreach ($groups as $group) {
     $instructor_id = $group['instructor_id'];
     $day = $group['day'];
@@ -47,6 +48,12 @@ foreach ($groups as $group) {
     $schedule[$instructor_id][$day][$time]['id'] = $group['id'];
     $schedule[$instructor_id][$day][$time]['name'] = $group['name'];
     $schedule[$instructor_id][$day][$time]['start'] = $group['start'];
+
+    // get group count for each instructor
+    if (!isset($groupsCount[$instructor_id])) {
+        $groupsCount[$instructor_id] = 0;
+    }
+    $groupsCount[$instructor_id]++;
 }
 
 // Time slots and days for the table
@@ -76,8 +83,6 @@ $rowHoverColors = ['hover:bg-orange-50',  'hover:bg-indigo-50', 'hover:bg-green-
 $cellHoverColor = ['hover:bg-orange-100', 'hover:bg-indigo-100', 'hover:bg-green-100',  'hover:bg-rose-100', 'hover:bg-purple-100', 'hover:bg-blue-100'];
 
 ?>
-
-
 
 <div class="p-6 bg-gray-50 min-h-screen">
     <div class="mx-auto">
@@ -159,8 +164,11 @@ $cellHoverColor = ['hover:bg-orange-100', 'hover:bg-indigo-100', 'hover:bg-green
                         <?php $hoverColor = $rowHoverColors[$index % count($rowHoverColors)]; ?>
                         <?php $tdHoverColor = $cellHoverColor[$index % count($cellHoverColor)]; ?>
                         <tr class="bg-gray-50 <?= $hoverColor ?> transition-colors duration-300">
-                            <td class="border border-gray-300 p-4 font-semibold <?= $text ?> bg-gray-200">
-                                <?= htmlspecialchars(ucwords($instructor['username'])) ?>
+                            <td class="relative border border-gray-300 p-4 font-semibold <?= $text ?> bg-gray-200 overflow-hidden">
+                                <div class="flex justify-between ">
+                                    <span><?= htmlspecialchars(ucwords($instructor['username'])) ?></span>
+                                    <span class="text-gray-100 text-7xl absolute right-0 top-0 font-bold"><?=  $groupsCount[$instructor['id']] ?? 0 ?></span>
+                                </div>
                             </td>
                             <?php foreach ($days as $dayIndex => $day): ?>
                                 <?php foreach ($times as $index => $time): ?>
