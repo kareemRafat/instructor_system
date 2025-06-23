@@ -26,8 +26,9 @@ include_once 'Design/includes/navbar.php';
             opacity: 1;
         }
     }
-    
-    .group-name , .group-time{
+
+    .group-name,
+    .group-time {
         font-family: header-font;
     }
 </style>
@@ -63,9 +64,10 @@ include_once 'Design/includes/navbar.php';
 
     <form id="lectureForm" class="mb-8" action="functions/Lectures/get_lectures.php">
         <!-- Select Row -->
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
             <!-- Branch Select -->
-            <div> <label for="branch" class="block mb-2 text-sm font-medium text-gray-900">Branch</label>
+            <div>
+                <label for="branch" class="block mb-2 text-sm font-medium text-gray-900">Branch</label>
                 <select id="branch"
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
                     <option value="" selected>Choose a branch</option>
@@ -73,10 +75,11 @@ include_once 'Design/includes/navbar.php';
             </div>
 
             <!-- Track Select -->
-            <div> <label for="tracks" class="block mb-2 text-sm font-medium text-gray-900">Track</label>
+            <div>
+                <label for="tracks" class="block mb-2 text-sm font-medium text-gray-900">Track</label>
                 <select id="tracks"
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
-                    <option class="font-semibold" value="" selected>Select Track</option>
+                    <option class="font-semibold" value="" selected>Select Branch First</option>
                 </select>
             </div>
 
@@ -90,11 +93,25 @@ include_once 'Design/includes/navbar.php';
             </div>
 
             <!-- Instructor Select -->
-            <div> <label for="instructor" class="block mb-2 text-sm font-medium text-gray-900">Instructor</label>
+            <div>
+                <label for="instructor" class="block mb-2 text-sm font-medium text-gray-900">Instructor</label>
                 <select id="instructor" name="instructor_id"
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
                     <option selected>Select Branch first</option>
                 </select>
+            </div>
+
+            <!-- search group -->
+            <div class="col-span-2">
+                <label for="group-search" class="block mb-2 text-sm font-medium text-gray-900">Search Group</label>
+                <div class="relative w-full">
+                    <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+                        <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 20">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5v10M3 5a2 2 0 1 0 0-4 2 2 0 0 0 0 4Zm0 10a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm12 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm0 0V6a3 3 0 0 0-3-3H9m1.5-2-2 2 2 2" />
+                        </svg>
+                    </div>
+                    <input type="search" id="group-search" name="group-search" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search Group ..." required />
+                </div>
             </div>
         </div>
     </form>
@@ -118,7 +135,7 @@ include_once 'Design/includes/navbar.php';
     </div>
 
 </div>
-<script type="module" src="dist/lectures-main.js"></script>
+<script type="module" src="js/lectures-main.js"></script>
 
 <?php
 include_once "Design/includes/notFy-footer.php";

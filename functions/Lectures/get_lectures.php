@@ -42,10 +42,18 @@ if (isset($_GET['branch_id'])) {
         $params[':time'] = $_GET['time'];
     }
 
+    if (isset($_GET['search'])) {
+        $baseQuery .= " AND `groups`.name LIKE :search";
+        $params[':search'] = '%' . $_GET['search'] . '%';
+    }
+
     if (isset($_GET['instructor_id'])) {
         $baseQuery .= " AND lectures.instructor_id = :instructor";
         $params[':instructor'] = $_GET['instructor_id'];
     }
+} elseif (isset($_GET['search'])) {
+    $baseQuery .= " AND `groups`.name LIKE :search";
+    $params[':search'] = '%' . $_GET['search'] . '%';
 } elseif (isset($_GET['time'])) {
     $baseQuery .= " AND `groups`.time = :time";
     $params[':time'] = $_GET['time'];

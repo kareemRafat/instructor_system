@@ -7,6 +7,7 @@ const groupTimeSelect = document.getElementById("group-time");
 const tracks = document.getElementById("tracks");
 const skeleton = document.getElementById("skeleton");
 const arrowWarning = document.getElementById("arrow-warning");
+const groupSearch = document.getElementById("group-search");
 
 document.addEventListener("DOMContentLoaded", async () => {
   const branchMeta = getMetaContent("branch");
@@ -19,17 +20,18 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     if (branchData.data) {
       branch.innerHTML = '<option value="" selected>Choose a branch</option>';
-      branchData.data.forEach((br) => {        
+      branchData.data.forEach((br) => {
         const option = document.createElement("option");
         option.value = br.id;
-        if (roleMeta == 'cs') {
-          option.selected = branchMeta == br.id
+        if (roleMeta == "cs") {
+          option.selected = branchMeta == br.id;
         }
         option.textContent = capitalizeFirstLetter(br.name);
         branch.appendChild(option);
       });
     }
 
+    // when logged user is cs auto run the functions
     if (roleMeta == "cs") {
       await wait(500);
       skeleton.classList.add("hidden");
@@ -52,249 +54,314 @@ document.addEventListener("DOMContentLoaded", async () => {
     lecturesCards.innerHTML =
       "<p>Failed to load initial data. Please refresh the page.</p>";
   }
-});
 
-/** select branch */
-branch.onchange = async function () {
-  try {
-    showLoadingSkeleton();
+  /** search group event */
+  const debouncedSearch = debounce(async function () {
+    await fetchLecturesWhenSearch(this.value);
+    resetOtherWhenSearch();
+  }, 500);
+  groupSearch.addEventListener("input", debouncedSearch);
+  /** end search event */
+
+  /** fetch groups when search */
+  async function fetchLecturesWhenSearch(searchValue) {
+    let url = null;
 
     if (!branch.value) {
-      resetAllWithNoBranch();
-      await fetchBranchLectures(this.value);
+      url = `functions/Lectures/get_lectures.php?search=${searchValue}`;
+    } else {
+      url = `functions/Lectures/get_lectures.php?branch_id=${branch.value}&search=${searchValue}`;
+    }
+
+    try {
+      showLoadingSkeleton();
+
+      const response = await fetch(url);
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      const res = await response.json();
+
+      await wait(300);
+      skeleton.classList.add("hidden");
+
+      if (res.status == "success") {
+        if (res.data.length > 0) {
+          lecturesCards.innerHTML = ""; // Clear previous cards
+          res.data.forEach((lec) => {
+            let card = setCard(lec);
+            lecturesCards.innerHTML += card;
+          });
+        } else {
+          lecturesCards.innerHTML = "<p>No lectures found</p>";
+        }
+      } else {
+        throw new Error(res.message || "Failed to fetch lectures");
+      }
+    } catch (error) {
+      console.error("Error fetching lectures:", error);
+      lecturesCards.innerHTML =
+        "<p>Failed to load lectures. Please try again.</p>";
+    }
+  }
+
+  /** select branch */
+  branch.onchange = async function () {
+    try {
+      showLoadingSkeleton();
+
+      if (!branch.value) {
+        resetAllWithNoBranch();
+        await fetchBranchLectures(this.value);
+        await wait(500);
+        skeleton.classList.add("hidden");
+        return;
+      }
+
+      // Run these operations in parallel for better performance
+      await Promise.all([
+        fetchBranchLectures(this.value),
+        fetchTracks(),
+        fetchInstructors(this.value),
+      ]);
+
+      // show time options after successful fetches
+      showTimeOptions();
+
+      // reset time
+      groupTimeSelect.value = "";
+
+      // reset search
+      groupSearch.value = "";
+
       await wait(500);
       skeleton.classList.add("hidden");
-      return;
+    } catch (error) {
+      console.error("Error in branch change handler:", error);
+      lecturesCards.classList.remove("hidden");
+      lecturesCards.innerHTML = "<p>An error occurred. Please try again.</p>";
     }
+  };
 
-    // Run these operations in parallel for better performance
-    await Promise.all([
-      fetchBranchLectures(this.value),
-      fetchTracks(),
-      fetchInstructors(this.value),
-    ]);
+  /** get Tracks */
+  async function fetchTracks() {
+    try {
+      const response = await fetch(`functions/Tracks/get_tracks.php`);
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      const tracksData = await response.json();
 
-    // show time options after successful fetches
-    showTimeOptions();
-
-    // reset time
-    groupTimeSelect.value = "";
-
-    await wait(500);
-    skeleton.classList.add("hidden");
-  } catch (error) {
-    console.error("Error in branch change handler:", error);
-    lecturesCards.classList.remove("hidden");
-    lecturesCards.innerHTML = "<p>An error occurred. Please try again.</p>";
+      tracks.innerHTML = "<option value=''>Select Track</option>";
+      if (tracksData.data) {
+        tracksData.data.forEach((trackResData) => {
+          const option = document.createElement("option");
+          option.value = trackResData.id;
+          option.textContent = capitalizeFirstLetter(trackResData.name);
+          tracks.appendChild(option);
+        });
+      }
+    } catch (error) {
+      console.error("Error fetching tracks:", error);
+      tracks.innerHTML = "<option value=''>Error loading tracks</option>";
+    }
   }
-};
 
-/** get Tracks */
-async function fetchTracks() {
-  try {
-    const response = await fetch(`functions/Tracks/get_tracks.php`);
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-    const tracksData = await response.json();
+  /** select lectures by Track and Group */
+  tracks.onchange = async function () {
+    try {
+      showLoadingSkeleton();
 
-    tracks.innerHTML = "<option value=''>Select Track</option>";
-    if (tracksData.data) {
-      tracksData.data.forEach((trackResData) => {
-        const option = document.createElement("option");
-        option.value = trackResData.id;
-        option.textContent = capitalizeFirstLetter(trackResData.name);
-        tracks.appendChild(option);
-      });
-    }
-  } catch (error) {
-    console.error("Error fetching tracks:", error);
-    tracks.innerHTML = "<option value=''>Error loading tracks</option>";
-  }
-}
+      // reset instructor and time when select a track
+      document.querySelector("#instructor option:first-child").selected =
+        "true";
+      document.querySelector("#group-time option:first-child").selected =
+        "true";
 
-/** select lectures by Track and Group */
-tracks.onchange = async function () {
-  try {
-    showLoadingSkeleton();
+      // reset search
+      groupSearch.value = "";
 
-    // reset instructor and time when select a track
-    document.querySelector("#instructor option:first-child").selected = "true";
-    document.querySelector("#group-time option:first-child").selected = "true";
+      // reset groups when select no track
+      if (this.value == "") {
+        await fetchBranchLectures(branch.value);
+        await wait(500);
+        skeleton.classList.add("hidden");
+        lecturesCards.classList.remove("hidden");
+      }
 
-    // reset groups when select no track
-    if (this.value == "") {
-      await fetchBranchLectures(branch.value);
+      // select track only when there a branch
+      if (branch.value) {
+        await fetchBranchAndTrackLec(branch.value, this.value);
+      }
+
       await wait(500);
       skeleton.classList.add("hidden");
       lecturesCards.classList.remove("hidden");
-      return;
+    } catch (error) {
+      console.error("Error in track change:", error);
+      lecturesCards.innerHTML =
+        "<p>Failed to load lectures. Please try again.</p>";
+      skeleton.classList.add("hidden");
+      lecturesCards.classList.remove("hidden");
     }
+  };
 
-    // select track only when there a branch
-    if (branch.value) {
-      await fetchBranchAndTrackLec(branch.value, this.value);
-    }
-
-    await wait(500);
-    skeleton.classList.add("hidden");
-    lecturesCards.classList.remove("hidden");
-  } catch (error) {
-    console.error("Error in track change:", error);
-    lecturesCards.innerHTML =
-      "<p>Failed to load lectures. Please try again.</p>";
-    skeleton.classList.add("hidden");
-    lecturesCards.classList.remove("hidden");
-  }
-};
-
-async function fetchBranchAndTrackLec(branchId, trackId) {
-  try {
-    const response = await fetch(
-      `functions/Lectures/get_lectures.php?branch_id=${branchId}&track_id=${trackId}`
-    );
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-    const res = await response.json();
-
-    if (res.status == "success") {
-      if (res.data.length > 0) {
-        lecturesCards.innerHTML = ""; // Clear previous cards
-        res.data.forEach((lec) => {
-          let card = setCard(lec);
-          lecturesCards.innerHTML += card;
-        });
-      } else {
-        lecturesCards.innerHTML = "<p>No lectures found</p>";
+  async function fetchBranchAndTrackLec(branchId, trackId) {
+    try {
+      const response = await fetch(
+        `functions/Lectures/get_lectures.php?branch_id=${branchId}&track_id=${trackId}`
+      );
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
       }
-    } else {
-      throw new Error(res.message || "Failed to fetch lectures");
+      const res = await response.json();
+
+      if (res.status == "success") {
+        if (res.data.length > 0) {
+          lecturesCards.innerHTML = ""; // Clear previous cards
+          res.data.forEach((lec) => {
+            let card = setCard(lec);
+            lecturesCards.innerHTML += card;
+          });
+        } else {
+          lecturesCards.innerHTML = "<p>No lectures found</p>";
+        }
+      } else {
+        throw new Error(res.message || "Failed to fetch lectures");
+      }
+    } catch (error) {
+      console.error("Error fetching lectures:", error);
+      lecturesCards.innerHTML =
+        "<p>Failed to load lectures. Please try again.</p>";
     }
-  } catch (error) {
-    console.error("Error fetching lectures:", error);
-    lecturesCards.innerHTML =
-      "<p>Failed to load lectures. Please try again.</p>";
   }
-}
 
-/** select Lectures by Group time */
-groupTimeSelect.onchange = async function () {
-  try {
-    showLoadingSkeleton();
+  /** select Lectures by Group time */
+  groupTimeSelect.onchange = async function () {
+    try {
+      showLoadingSkeleton();
 
-    if (this.value == "") {
-      await fetchBranchLectures(branch.value);
+      // reset search
+      groupSearch.value = "";
+
+      if (this.value == "") {
+        await fetchBranchLectures(branch.value);
+        await wait(500);
+        skeleton.classList.add("hidden");
+        lecturesCards.classList.remove("hidden");
+        return;
+      }
+
+      let url = "";
+
+      if (branch.value) {
+        url = `functions/Lectures/get_lectures.php?branch_id=${branch.value}&time=${this.value}`;
+      } else {
+        url = `functions/Lectures/get_lectures.php?time=${this.value}`;
+      }
+
+      const response = await fetch(url);
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      const res = await response.json();
+
+      if (res.status == "success") {
+        if (res.data.length > 0) {
+          lecturesCards.innerHTML = ""; // Clear previous cards
+          res.data.forEach((lec) => {
+            let card = setCard(lec);
+            lecturesCards.innerHTML += card;
+          });
+        } else {
+          lecturesCards.innerHTML = "<p>No lectures found</p>";
+        }
+      } else {
+        throw new Error(res.message || "Failed to fetch lectures");
+      }
+    } catch (error) {
+      console.error("Error in time change:", error);
+      lecturesCards.innerHTML =
+        "<p>Failed to load lectures. Please try again.</p>";
+    } finally {
       await wait(500);
       skeleton.classList.add("hidden");
       lecturesCards.classList.remove("hidden");
-      return;
     }
+  };
 
-    let url = "";
+  /** select instructor */
+  instructor.onchange = async function () {
+    const selectedBranch = branch.value;
 
-    if (branch.value) {
-      url = `functions/Lectures/get_lectures.php?branch_id=${branch.value}&time=${this.value}`;
-    } else {
-      url = `functions/Lectures/get_lectures.php?time=${this.value}`;
-    }
+    try {
+      showLoadingSkeleton();
 
-    const response = await fetch(url);
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-    const res = await response.json();
+      // reset search
+      groupSearch.value = "";
+      tracks.value = "";
+      groupTimeSelect.value = "";
 
-    if (res.status == "success") {
-      if (res.data.length > 0) {
-        lecturesCards.innerHTML = ""; // Clear previous cards
-        res.data.forEach((lec) => {
-          let card = setCard(lec);
-          lecturesCards.innerHTML += card;
-        });
-      } else {
-        lecturesCards.innerHTML = "<p>No lectures found</p>";
+      if (this.value == "") {
+        await fetchBranchLectures(branch.value);
+        await wait(500);
+        skeleton.classList.add("hidden");
+        lecturesCards.classList.remove("hidden");
+        return;
       }
-    } else {
-      throw new Error(res.message || "Failed to fetch lectures");
-    }
-  } catch (error) {
-    console.error("Error in time change:", error);
-    lecturesCards.innerHTML =
-      "<p>Failed to load lectures. Please try again.</p>";
-  } finally {
-    await wait(500);
-    skeleton.classList.add("hidden");
-    lecturesCards.classList.remove("hidden");
-  }
-};
 
-/** select instructor */
-instructor.onchange = async function () {
-  const selectedBranch = branch.value ;
-  
-  try {
-    showLoadingSkeleton();
+      const response = await fetch(
+        `functions/Lectures/get_lectures.php?instructor_id=${this.value}&branch_id=${selectedBranch}`
+      );
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      const res = await response.json();
 
-    if (this.value == "") {
-      await fetchBranchLectures(branch.value);
+      if (res.status == "success") {
+        if (res.data.length > 0) {
+          lecturesCards.innerHTML = ""; // Clear previous cards
+          res.data.forEach((lec) => {
+            let card = setCard(lec);
+            lecturesCards.innerHTML += card;
+          });
+        } else {
+          lecturesCards.innerHTML = "<p>No lectures found</p>";
+        }
+      } else {
+        throw new Error(res.message || "Failed to fetch lectures");
+      }
+
+      // reset time
+      groupTimeSelect.value = "";
+    } catch (error) {
+      console.error("Error in instructor change:", error);
+      lecturesCards.innerHTML =
+        "<p>Failed to load lectures. Please try again.</p>";
+    } finally {
       await wait(500);
       skeleton.classList.add("hidden");
       lecturesCards.classList.remove("hidden");
-      return;
     }
+  };
 
-    const response = await fetch(
-      `functions/Lectures/get_lectures.php?instructor_id=${this.value}&branch_id=${selectedBranch}`
-    );
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
+  /** set card */
+  function setCard(lec) {
+    let indicatorColor = "";
+    let trackName = lec.track_name.toLowerCase();
+    if (
+      trackName == "php" ||
+      trackName.toLowerCase().includes("database") ||
+      trackName.includes("project")
+    ) {
+      indicatorColor = `bg-red-500`;
+    } else if (trackName == "html" || trackName.includes("css")) {
+      indicatorColor = `bg-green-500`;
+    } else if (trackName.includes("javascript")) {
+      indicatorColor = `bg-cyan-500`;
     }
-    const res = await response.json();
-
-    if (res.status == "success") {
-      if (res.data.length > 0) {
-        lecturesCards.innerHTML = ""; // Clear previous cards
-        res.data.forEach((lec) => {
-          let card = setCard(lec);
-          lecturesCards.innerHTML += card;
-        });
-      } else {
-        lecturesCards.innerHTML = "<p>No lectures found</p>";
-      }
-    } else {
-      throw new Error(res.message || "Failed to fetch lectures");
-    }
-
-    // reset time
-    groupTimeSelect.value = "";
-  } catch (error) {
-    console.error("Error in instructor change:", error);
-    lecturesCards.innerHTML =
-      "<p>Failed to load lectures. Please try again.</p>";
-  } finally {
-    await wait(500);
-    skeleton.classList.add("hidden");
-    lecturesCards.classList.remove("hidden");
-  }
-};
-
-/** set card */
-function setCard(lec) {
-  let indicatorColor = "";
-  let trackName = lec.track_name.toLowerCase();
-  if (
-    trackName == "php" ||
-    trackName.toLowerCase().includes("database") ||
-    trackName.includes("project")
-  ) {
-    indicatorColor = `bg-red-500`;
-  } else if (trackName == "html" || trackName.includes("css")) {
-    indicatorColor = `bg-green-500`;
-  } else if (trackName.includes("javascript")) {
-    indicatorColor = `bg-cyan-500`;
-  }
-  return `
+    return `
 <li class="">
     <div class="relative">
         <div
@@ -318,7 +385,7 @@ function setCard(lec) {
                           lec.group_time == 2 || lec.group_time == 5
                             ? lec.group_time + " - Friday"
                             : lec.group_time == 8 || lec.group_time == 6.1
-                            ?  'Online ' + Math.floor(lec.group_time)          
+                            ? "Online " + Math.floor(lec.group_time)
                             : lec.group_time
                         }</div>
                     </div>
@@ -397,116 +464,141 @@ function setCard(lec) {
     </div>
 </li>
 `;
-}
+  }
 
-/** fetch branch lectures */
-async function fetchBranchLectures(value) {
-  try {
-    const response = await fetch(
-      `functions/Lectures/get_lectures.php?branch_id=${value}`
-    );
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-    const res = await response.json();
-
-    if (res.status === "success") {
-      if (res.data && res.data.length > 0) {
-        lecturesCards.innerHTML = ""; // Clear previous cards
-        res.data.forEach((lec) => {
-          let card = setCard(lec);
-          lecturesCards.innerHTML += card;
-        });
-      } else {
-        lecturesCards.innerHTML = `<p><i class="fas fa-arrow-up-long mr-2"></i>Select Branch</p>`;
+  /** fetch branch lectures */
+  async function fetchBranchLectures(value) {
+    try {
+      const response = await fetch(
+        `functions/Lectures/get_lectures.php?branch_id=${value}`
+      );
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
       }
-    } else {
-      throw new Error(res.message || "Failed to fetch lectures");
-    }
-  } catch (error) {
-    console.error("Error fetching lectures:", error);
-    lecturesCards.innerHTML =
-      "<p>Failed to load lectures. Please try again.</p>";
-  }
-}
+      const res = await response.json();
 
-/** Fetch instructors based on selected branch */
-async function fetchInstructors(branchId) {
-  try {
-    const response = await fetch(
-      `functions/Instructors/get_instructors.php?branch_id=${branchId}`
+      if (res.status === "success") {
+        if (res.data && res.data.length > 0) {
+          lecturesCards.innerHTML = ""; // Clear previous cards
+          res.data.forEach((lec) => {
+            let card = setCard(lec);
+            lecturesCards.innerHTML += card;
+          });
+        } else {
+          lecturesCards.innerHTML = `<p><i class="fas fa-arrow-up-long mr-2"></i>Select Branch</p>`;
+        }
+      } else {
+        throw new Error(res.message || "Failed to fetch lectures");
+      }
+    } catch (error) {
+      console.error("Error fetching lectures:", error);
+      lecturesCards.innerHTML =
+        "<p>Failed to load lectures. Please try again.</p>";
+    }
+  }
+
+  /** Fetch instructors based on selected branch */
+  async function fetchInstructors(branchId) {
+    try {
+      const response = await fetch(
+        `functions/Instructors/get_instructors.php?branch_id=${branchId}`
+      );
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      const res = await response.json();
+
+      instructor.innerHTML = "<option value=''>Choose Instructor</option>";
+      if (res.data) {
+        res.data.forEach((instructorData) => {
+          const option = document.createElement("option");
+          option.value = instructorData.id;
+          option.textContent = capitalizeFirstLetter(instructorData.username);
+          instructor.appendChild(option);
+        });
+      }
+    } catch (error) {
+      console.error("Error fetching instructors:", error);
+      instructor.innerHTML =
+        "<option value=''>Error loading instructors</option>";
+    }
+  }
+
+  /** show time options */
+  function showTimeOptions() {
+    // friday  2, 5 canceled - 4 online4 canceledd
+    const time = [10, 12.3, 3, 6, 6.1, 8];
+    groupTimeSelect.innerHTML = "<option value=''>Select Group Time</option>";
+    time.forEach((time) => {
+      const option = document.createElement("option");
+      option.value = time;
+      option.textContent = time;
+      option.classList.add("font-semibold");
+      if (time == 8 || time == 6.1 || time == 4) {
+        option.textContent = `Online ${time.toFixed(0)}`;
+      } else if (time == 2 || time == 5) {
+        option.textContent = `${time} [ Friday ]`;
+      }
+      groupTimeSelect.appendChild(option);
+    });
+  }
+
+  /** reset other selects when nulling the branches */
+  function resetAllWithNoBranch() {
+    // reset tracks , time and instructor when no branch selected
+    tracks.innerHTML = "<option value=''>Select Branch First</option>";
+    instructor.innerHTML = "<option value=''>Select Branch First</option>";
+    document.querySelector("#group-time option:first-child").innerHTML =
+      "Select Branch First";
+    document.querySelector("#group-time option:first-child").selected = "true";
+    let allOptions = document.querySelectorAll(
+      "#group-time option:not(:first-child)"
     );
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-    const res = await response.json();
-
-    instructor.innerHTML = "<option value=''>Choose Instructor</option>";
-    if (res.data) {
-      res.data.forEach((instructorData) => {
-        const option = document.createElement("option");
-        option.value = instructorData.id;
-        option.textContent = capitalizeFirstLetter(instructorData.username);
-        instructor.appendChild(option);
-      });
-    }
-  } catch (error) {
-    console.error("Error fetching instructors:", error);
-    instructor.innerHTML =
-      "<option value=''>Error loading instructors</option>";
+    allOptions.forEach((option) => option.remove());
   }
-}
 
-/** show time options */
-function showTimeOptions() {
-  // friday  2, 5 canceled - 4 online4 canceledd
-  const time = [10, 12.3, 3, 6 , 6.10 , 8] ;
-  groupTimeSelect.innerHTML = "<option value=''>Select Group Time</option>";
-  time.forEach((time) => {
-    const option = document.createElement("option");
-    option.value = time;
-    option.textContent = time;
-    option.classList.add("font-semibold");
-    if (time == 8 || time == 6.10 || time == 4) {
-      option.textContent = `Online ${time.toFixed(0)}`;
-    } else if (time == 2 || time == 5) {
-      option.textContent = `${time} [ Friday ]`;
+  function resetOtherWhenSearch() {
+    tracks.value = "";
+
+    if (!branch.value) {
+      document.querySelector("#instructor option:first-child").innerHTML =
+        "Select Branch First";
+      document.querySelector("#instructor option:first-child").selected =
+        "true";
+    } else {
+      instructor.value = "";
     }
-    groupTimeSelect.appendChild(option);
-  });
-}
+  }
 
-/** reset other selects when nulling the branches */
-function resetAllWithNoBranch() {
-  // reset tracks , time and instructor when no branch selected
-  tracks.innerHTML = "<option value=''>Select Branch First</option>";
-  instructor.innerHTML = "<option value=''>Select Branch First</option>";
-  document.querySelector("#group-time option:first-child").innerHTML =
-    "Select Branch First";
-  document.querySelector("#group-time option:first-child").selected = "true";
-  let allOptions = document.querySelectorAll(
-    "#group-time option:not(:first-child)"
-  );
-  allOptions.forEach((option) => option.remove());
-}
+  /** show Loading Skeleton */
+  function showLoadingSkeleton() {
+    // show skeleton and hide lectures cards and arrow warning
+    skeleton.classList.remove("hidden");
+    arrowWarning.classList.add("hidden");
+    lecturesCards.classList.add("hidden");
+    lecturesCards.innerHTML = ""; // Clear previous content
+  }
 
-/** show Loading Skeleton */
-function showLoadingSkeleton() {
-  // show skeleton and hide lectures cards and arrow warning
-  skeleton.classList.remove("hidden");
-  arrowWarning.classList.add("hidden");
-  lecturesCards.classList.add("hidden");
-  lecturesCards.innerHTML = ""; // Clear previous content
-}
+  /** group day svg */
+  function groupDay(group_day) {
+    if (group_day == "saturday") {
+      return `<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 122.88 116.61"><defs><style>.cls-1{fill:gray;}.cls-2{fill:#fff;}.cls-2,.cls-3,.cls-4{fill-rule:evenodd;}.cls-3{fill:#ef4136;}.cls-4{fill:#c72b20;}.cls-5{fill:#1a1a1a;}</style></defs><title>week-day-saturday</title><path class="cls-1" d="M111.36,116.61H11.52A11.57,11.57,0,0,1,0,105.09V40H122.88v65.07a11.56,11.56,0,0,1-11.52,11.52Z"/><path class="cls-2" d="M12.92,112.92H110.3a9.09,9.09,0,0,0,9.06-9.06V44.94H3.86v58.92a9.09,9.09,0,0,0,9.06,9.06Z"/><path class="cls-3" d="M11.52,6.67h99.84a11.57,11.57,0,0,1,11.52,11.52V44.94H0V18.19A11.56,11.56,0,0,1,11.52,6.67Zm24.79,9.75A9.31,9.31,0,1,1,27,25.73a9.31,9.31,0,0,1,9.31-9.31Zm49.79,0a9.31,9.31,0,1,1-9.31,9.31,9.31,9.31,0,0,1,9.31-9.31Z"/><path class="cls-4" d="M86.1,14.63a11.11,11.11,0,1,1-7.85,3.26l.11-.1a11.06,11.06,0,0,1,7.74-3.16Zm0,1.79a9.31,9.31,0,1,1-9.31,9.31,9.31,9.31,0,0,1,9.31-9.31Z"/><path class="cls-4" d="M36.31,14.63a11.11,11.11,0,1,1-7.85,3.26l.11-.1a11.08,11.08,0,0,1,7.74-3.16Zm0,1.79A9.31,9.31,0,1,1,27,25.73a9.31,9.31,0,0,1,9.31-9.31Z"/><path class="cls-5" d="M80.54,4.56C80.54,2,83,0,86.1,0s5.56,2,5.56,4.56V25.77c0,2.51-2.48,4.56-5.56,4.56s-5.56-2-5.56-4.56V4.56Z"/><path class="cls-5" d="M30.75,4.56C30.75,2,33.24,0,36.31,0s5.56,2,5.56,4.56V25.77c0,2.51-2.48,4.56-5.56,4.56s-5.56-2-5.56-4.56V4.56Z"/><path class="cls-5" d="M25.24,92.15l1.22-7.24a29.88,29.88,0,0,0,7.26,1,42.22,42.22,0,0,0,5.2-.26V83l-4-.35c-3.56-.32-6-.74-7.34-2.13s-2-3.44-2-6.16q0-5.61,2.44-7.72t8.26-2.1a46.49,46.49,0,0,1,10.53,1.09l-1.1,7c-2.72-.44-4.9-1.1-6.53-1.1a32.78,32.78,0,0,0-4.17.22v2.59l3.16.31q5.74.57,7.93,2.74a8.08,8.08,0,0,1,2.2,6,12.8,12.8,0,0,1-.75,4.67A8,8,0,0,1,45.83,91a6.66,6.66,0,0,1-2.92,1.51,16.71,16.71,0,0,1-3.31.64c-1,.07-2.21.11-3.79.11a46.29,46.29,0,0,1-10.57-1.14Zm33.59.48H49.58l7.1-27.41H70.23l7.1,27.41H68.08l-1-4.34H59.84l-1,4.34Zm4.38-19-1.79,7.68h4L63.7,73.64Zm34.43-1.4H91.28V92.63H82.51V72.24H76.15v-7H97.64v7Z"/></svg>`;
+    } else if (group_day == "sunday") {
+      return `<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 122.88 116.61"><defs><style>.cls-1{fill:gray;}.cls-2{fill:#fff;}.cls-2,.cls-3,.cls-4{fill-rule:evenodd;}.cls-3{fill:#ef4136;}.cls-4{fill:#c72b20;}.cls-5{fill:#1a1a1a;}</style></defs><title>week-day-sunday</title><path class="cls-1" d="M111.36,116.61H11.52A11.57,11.57,0,0,1,0,105.09V40H122.88v65.07a11.56,11.56,0,0,1-11.52,11.52Z"/><path class="cls-2" d="M12.75,112.92h97.38a9.1,9.1,0,0,0,9.06-9.06V44.94H3.69v58.92a9.08,9.08,0,0,0,9.06,9.06Z"/><path class="cls-3" d="M11.52,6.67h99.84a11.57,11.57,0,0,1,11.52,11.52V44.94H0V18.19A11.56,11.56,0,0,1,11.52,6.67Zm24.79,9.75A9.31,9.31,0,1,1,27,25.73a9.31,9.31,0,0,1,9.31-9.31Zm49.79,0a9.31,9.31,0,1,1-9.31,9.31,9.31,9.31,0,0,1,9.31-9.31Z"/><path class="cls-4" d="M86.1,14.63a11.11,11.11,0,1,1-7.85,3.26l.11-.1a11.06,11.06,0,0,1,7.74-3.16Zm0,1.79a9.31,9.31,0,1,1-9.31,9.31,9.31,9.31,0,0,1,9.31-9.31Z"/><path class="cls-4" d="M36.31,14.63a11.11,11.11,0,1,1-7.85,3.26l.11-.1a11.08,11.08,0,0,1,7.74-3.16Zm0,1.79A9.31,9.31,0,1,1,27,25.73a9.31,9.31,0,0,1,9.31-9.31Z"/><path class="cls-5" d="M80.54,4.56C80.54,2,83,0,86.1,0s5.56,2,5.56,4.56V25.77c0,2.51-2.48,4.56-5.56,4.56s-5.56-2-5.56-4.56V4.56Z"/><path class="cls-5" d="M30.75,4.56C30.75,2,33.24,0,36.31,0s5.56,2,5.56,4.56V25.77c0,2.51-2.48,4.56-5.56,4.56s-5.56-2-5.56-4.56V4.56Z"/><path class="cls-5" d="M22.1,92.15l1.23-7.24a29.88,29.88,0,0,0,7.26,1,41.93,41.93,0,0,0,5.19-.26V83.47l-3.94-.35c-3.57-.33-6-1.18-7.35-2.57s-2-3.44-2-6.16q0-5.61,2.43-7.72t8.27-2.1a46.39,46.39,0,0,1,10.52,1.09l-1.09,7A43.08,43.08,0,0,0,36.09,72a32.72,32.72,0,0,0-4.16.22v2.15l3.15.31q5.74.57,7.94,2.74a8.12,8.12,0,0,1,2.19,6,12.82,12.82,0,0,1-.74,4.67A8,8,0,0,1,42.69,91a6.61,6.61,0,0,1-2.91,1.51,16.71,16.71,0,0,1-3.31.64c-.95.07-2.22.11-3.8.11A46.35,46.35,0,0,1,22.1,92.15ZM57.27,65.22V85.79h3.12a4.47,4.47,0,0,0,2.28-.41c.41-.28.61-.92.61-1.91V65.22h8.77v15.4a30.2,30.2,0,0,1-.48,6,8.69,8.69,0,0,1-1.8,3.86,6.81,6.81,0,0,1-3.59,2.2,23.43,23.43,0,0,1-5.92.61,23.1,23.1,0,0,1-5.9-.61,6.82,6.82,0,0,1-3.58-2.2A8.78,8.78,0,0,1,49,86.62a29.36,29.36,0,0,1-.49-6V65.22ZM92.53,92.63,85.82,82.9a4.59,4.59,0,0,1-.44-2.11h-.17V92.63H76.44V65.22h8.24L91.39,75a4.41,4.41,0,0,1,.44,2.1H92V65.22h8.77V92.63Z"/></svg>`;
+    } else if (group_day == "monday") {
+      return `<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 122.88 116.61"><defs><style>.cls-1{fill:gray;}.cls-2{fill:#fff;}.cls-2,.cls-3,.cls-4{fill-rule:evenodd;}.cls-3{fill:#ef4136;}.cls-4{fill:#c72b20;}.cls-5{fill:#1a1a1a;}</style></defs><title>week-day-monday</title><path class="cls-1" d="M111.36,116.61H11.52A11.57,11.57,0,0,1,0,105.09V40H122.88v65.07a11.56,11.56,0,0,1-11.52,11.52Z"/><path class="cls-2" d="M12.75,112.92h97.38a9.1,9.1,0,0,0,9.06-9.06V44.94H3.69v58.92a9.08,9.08,0,0,0,9.06,9.06Z"/><path class="cls-3" d="M11.52,6.67h99.84a11.57,11.57,0,0,1,11.52,11.52V44.94H0V18.19A11.56,11.56,0,0,1,11.52,6.67Zm24.79,9.75A9.31,9.31,0,1,1,27,25.73a9.31,9.31,0,0,1,9.31-9.31Zm49.79,0a9.31,9.31,0,1,1-9.31,9.31,9.31,9.31,0,0,1,9.31-9.31Z"/><path class="cls-4" d="M86.1,14.63a11.11,11.11,0,1,1-7.85,3.26l.11-.1a11.06,11.06,0,0,1,7.74-3.16Zm0,1.79a9.31,9.31,0,1,1-9.31,9.31,9.31,9.31,0,0,1,9.31-9.31Z"/><path class="cls-4" d="M36.31,14.63a11.11,11.11,0,1,1-7.85,3.26l.11-.1a11.08,11.08,0,0,1,7.74-3.16Zm0,1.79A9.31,9.31,0,1,1,27,25.73a9.31,9.31,0,0,1,9.31-9.31Z"/><path class="cls-5" d="M80.54,4.56C80.54,2,83,0,86.1,0s5.56,2,5.56,4.56V25.77c0,2.51-2.48,4.56-5.56,4.56s-5.56-2-5.56-4.56V4.56Z"/><path class="cls-5" d="M30.75,4.56C30.75,2,33.24,0,36.31,0s5.56,2,5.56,4.56V25.77c0,2.51-2.48,4.56-5.56,4.56s-5.56-2-5.56-4.56V4.56Z"/><path class="cls-5" d="M26,92.63H16.8l1.66-27.41H29.91l3.42,14h.31l3.42-14H48.5l1.67,27.41H41l-.52-13.29h-.31L36.84,92.63H30.13L26.75,79.34h-.26L26,92.63ZM52.47,79q0-7.5,2.81-10.94t10.13-3.44q7.32,0,10.13,3.44T78.35,79a28.46,28.46,0,0,1-.59,6.27,11.57,11.57,0,0,1-2,4.43,8.25,8.25,0,0,1-4,2.76,19.34,19.34,0,0,1-6.31.88,19.38,19.38,0,0,1-6.31-.88,8.18,8.18,0,0,1-4-2.76,11.44,11.44,0,0,1-2-4.43A28.46,28.46,0,0,1,52.47,79Zm9.43-4.56v11.4h3.64a6.19,6.19,0,0,0,2.61-.41c.54-.28.81-.92.81-1.91V72.06H65.28a5.89,5.89,0,0,0-2.57.42c-.54.28-.81.92-.81,1.91ZM97.84,92.63,91.13,82.9a4.59,4.59,0,0,1-.44-2.11h-.17V92.63H81.75V65.22H90L96.7,75a4.54,4.54,0,0,1,.44,2.1h.18V65.22h8.76V92.63Z"/></svg>`;
+    }
+  }
 
-/** group day svg */
-function groupDay(group_day) {
-  if(group_day == 'saturday') {
-    return `<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 122.88 116.61"><defs><style>.cls-1{fill:gray;}.cls-2{fill:#fff;}.cls-2,.cls-3,.cls-4{fill-rule:evenodd;}.cls-3{fill:#ef4136;}.cls-4{fill:#c72b20;}.cls-5{fill:#1a1a1a;}</style></defs><title>week-day-saturday</title><path class="cls-1" d="M111.36,116.61H11.52A11.57,11.57,0,0,1,0,105.09V40H122.88v65.07a11.56,11.56,0,0,1-11.52,11.52Z"/><path class="cls-2" d="M12.92,112.92H110.3a9.09,9.09,0,0,0,9.06-9.06V44.94H3.86v58.92a9.09,9.09,0,0,0,9.06,9.06Z"/><path class="cls-3" d="M11.52,6.67h99.84a11.57,11.57,0,0,1,11.52,11.52V44.94H0V18.19A11.56,11.56,0,0,1,11.52,6.67Zm24.79,9.75A9.31,9.31,0,1,1,27,25.73a9.31,9.31,0,0,1,9.31-9.31Zm49.79,0a9.31,9.31,0,1,1-9.31,9.31,9.31,9.31,0,0,1,9.31-9.31Z"/><path class="cls-4" d="M86.1,14.63a11.11,11.11,0,1,1-7.85,3.26l.11-.1a11.06,11.06,0,0,1,7.74-3.16Zm0,1.79a9.31,9.31,0,1,1-9.31,9.31,9.31,9.31,0,0,1,9.31-9.31Z"/><path class="cls-4" d="M36.31,14.63a11.11,11.11,0,1,1-7.85,3.26l.11-.1a11.08,11.08,0,0,1,7.74-3.16Zm0,1.79A9.31,9.31,0,1,1,27,25.73a9.31,9.31,0,0,1,9.31-9.31Z"/><path class="cls-5" d="M80.54,4.56C80.54,2,83,0,86.1,0s5.56,2,5.56,4.56V25.77c0,2.51-2.48,4.56-5.56,4.56s-5.56-2-5.56-4.56V4.56Z"/><path class="cls-5" d="M30.75,4.56C30.75,2,33.24,0,36.31,0s5.56,2,5.56,4.56V25.77c0,2.51-2.48,4.56-5.56,4.56s-5.56-2-5.56-4.56V4.56Z"/><path class="cls-5" d="M25.24,92.15l1.22-7.24a29.88,29.88,0,0,0,7.26,1,42.22,42.22,0,0,0,5.2-.26V83l-4-.35c-3.56-.32-6-.74-7.34-2.13s-2-3.44-2-6.16q0-5.61,2.44-7.72t8.26-2.1a46.49,46.49,0,0,1,10.53,1.09l-1.1,7c-2.72-.44-4.9-1.1-6.53-1.1a32.78,32.78,0,0,0-4.17.22v2.59l3.16.31q5.74.57,7.93,2.74a8.08,8.08,0,0,1,2.2,6,12.8,12.8,0,0,1-.75,4.67A8,8,0,0,1,45.83,91a6.66,6.66,0,0,1-2.92,1.51,16.71,16.71,0,0,1-3.31.64c-1,.07-2.21.11-3.79.11a46.29,46.29,0,0,1-10.57-1.14Zm33.59.48H49.58l7.1-27.41H70.23l7.1,27.41H68.08l-1-4.34H59.84l-1,4.34Zm4.38-19-1.79,7.68h4L63.7,73.64Zm34.43-1.4H91.28V92.63H82.51V72.24H76.15v-7H97.64v7Z"/></svg>`;
-  } else if (group_day == 'sunday') {
-    return `<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 122.88 116.61"><defs><style>.cls-1{fill:gray;}.cls-2{fill:#fff;}.cls-2,.cls-3,.cls-4{fill-rule:evenodd;}.cls-3{fill:#ef4136;}.cls-4{fill:#c72b20;}.cls-5{fill:#1a1a1a;}</style></defs><title>week-day-sunday</title><path class="cls-1" d="M111.36,116.61H11.52A11.57,11.57,0,0,1,0,105.09V40H122.88v65.07a11.56,11.56,0,0,1-11.52,11.52Z"/><path class="cls-2" d="M12.75,112.92h97.38a9.1,9.1,0,0,0,9.06-9.06V44.94H3.69v58.92a9.08,9.08,0,0,0,9.06,9.06Z"/><path class="cls-3" d="M11.52,6.67h99.84a11.57,11.57,0,0,1,11.52,11.52V44.94H0V18.19A11.56,11.56,0,0,1,11.52,6.67Zm24.79,9.75A9.31,9.31,0,1,1,27,25.73a9.31,9.31,0,0,1,9.31-9.31Zm49.79,0a9.31,9.31,0,1,1-9.31,9.31,9.31,9.31,0,0,1,9.31-9.31Z"/><path class="cls-4" d="M86.1,14.63a11.11,11.11,0,1,1-7.85,3.26l.11-.1a11.06,11.06,0,0,1,7.74-3.16Zm0,1.79a9.31,9.31,0,1,1-9.31,9.31,9.31,9.31,0,0,1,9.31-9.31Z"/><path class="cls-4" d="M36.31,14.63a11.11,11.11,0,1,1-7.85,3.26l.11-.1a11.08,11.08,0,0,1,7.74-3.16Zm0,1.79A9.31,9.31,0,1,1,27,25.73a9.31,9.31,0,0,1,9.31-9.31Z"/><path class="cls-5" d="M80.54,4.56C80.54,2,83,0,86.1,0s5.56,2,5.56,4.56V25.77c0,2.51-2.48,4.56-5.56,4.56s-5.56-2-5.56-4.56V4.56Z"/><path class="cls-5" d="M30.75,4.56C30.75,2,33.24,0,36.31,0s5.56,2,5.56,4.56V25.77c0,2.51-2.48,4.56-5.56,4.56s-5.56-2-5.56-4.56V4.56Z"/><path class="cls-5" d="M22.1,92.15l1.23-7.24a29.88,29.88,0,0,0,7.26,1,41.93,41.93,0,0,0,5.19-.26V83.47l-3.94-.35c-3.57-.33-6-1.18-7.35-2.57s-2-3.44-2-6.16q0-5.61,2.43-7.72t8.27-2.1a46.39,46.39,0,0,1,10.52,1.09l-1.09,7A43.08,43.08,0,0,0,36.09,72a32.72,32.72,0,0,0-4.16.22v2.15l3.15.31q5.74.57,7.94,2.74a8.12,8.12,0,0,1,2.19,6,12.82,12.82,0,0,1-.74,4.67A8,8,0,0,1,42.69,91a6.61,6.61,0,0,1-2.91,1.51,16.71,16.71,0,0,1-3.31.64c-.95.07-2.22.11-3.8.11A46.35,46.35,0,0,1,22.1,92.15ZM57.27,65.22V85.79h3.12a4.47,4.47,0,0,0,2.28-.41c.41-.28.61-.92.61-1.91V65.22h8.77v15.4a30.2,30.2,0,0,1-.48,6,8.69,8.69,0,0,1-1.8,3.86,6.81,6.81,0,0,1-3.59,2.2,23.43,23.43,0,0,1-5.92.61,23.1,23.1,0,0,1-5.9-.61,6.82,6.82,0,0,1-3.58-2.2A8.78,8.78,0,0,1,49,86.62a29.36,29.36,0,0,1-.49-6V65.22ZM92.53,92.63,85.82,82.9a4.59,4.59,0,0,1-.44-2.11h-.17V92.63H76.44V65.22h8.24L91.39,75a4.41,4.41,0,0,1,.44,2.1H92V65.22h8.77V92.63Z"/></svg>`;
-  } else if(group_day == 'monday')  {
-    return `<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 122.88 116.61"><defs><style>.cls-1{fill:gray;}.cls-2{fill:#fff;}.cls-2,.cls-3,.cls-4{fill-rule:evenodd;}.cls-3{fill:#ef4136;}.cls-4{fill:#c72b20;}.cls-5{fill:#1a1a1a;}</style></defs><title>week-day-monday</title><path class="cls-1" d="M111.36,116.61H11.52A11.57,11.57,0,0,1,0,105.09V40H122.88v65.07a11.56,11.56,0,0,1-11.52,11.52Z"/><path class="cls-2" d="M12.75,112.92h97.38a9.1,9.1,0,0,0,9.06-9.06V44.94H3.69v58.92a9.08,9.08,0,0,0,9.06,9.06Z"/><path class="cls-3" d="M11.52,6.67h99.84a11.57,11.57,0,0,1,11.52,11.52V44.94H0V18.19A11.56,11.56,0,0,1,11.52,6.67Zm24.79,9.75A9.31,9.31,0,1,1,27,25.73a9.31,9.31,0,0,1,9.31-9.31Zm49.79,0a9.31,9.31,0,1,1-9.31,9.31,9.31,9.31,0,0,1,9.31-9.31Z"/><path class="cls-4" d="M86.1,14.63a11.11,11.11,0,1,1-7.85,3.26l.11-.1a11.06,11.06,0,0,1,7.74-3.16Zm0,1.79a9.31,9.31,0,1,1-9.31,9.31,9.31,9.31,0,0,1,9.31-9.31Z"/><path class="cls-4" d="M36.31,14.63a11.11,11.11,0,1,1-7.85,3.26l.11-.1a11.08,11.08,0,0,1,7.74-3.16Zm0,1.79A9.31,9.31,0,1,1,27,25.73a9.31,9.31,0,0,1,9.31-9.31Z"/><path class="cls-5" d="M80.54,4.56C80.54,2,83,0,86.1,0s5.56,2,5.56,4.56V25.77c0,2.51-2.48,4.56-5.56,4.56s-5.56-2-5.56-4.56V4.56Z"/><path class="cls-5" d="M30.75,4.56C30.75,2,33.24,0,36.31,0s5.56,2,5.56,4.56V25.77c0,2.51-2.48,4.56-5.56,4.56s-5.56-2-5.56-4.56V4.56Z"/><path class="cls-5" d="M26,92.63H16.8l1.66-27.41H29.91l3.42,14h.31l3.42-14H48.5l1.67,27.41H41l-.52-13.29h-.31L36.84,92.63H30.13L26.75,79.34h-.26L26,92.63ZM52.47,79q0-7.5,2.81-10.94t10.13-3.44q7.32,0,10.13,3.44T78.35,79a28.46,28.46,0,0,1-.59,6.27,11.57,11.57,0,0,1-2,4.43,8.25,8.25,0,0,1-4,2.76,19.34,19.34,0,0,1-6.31.88,19.38,19.38,0,0,1-6.31-.88,8.18,8.18,0,0,1-4-2.76,11.44,11.44,0,0,1-2-4.43A28.46,28.46,0,0,1,52.47,79Zm9.43-4.56v11.4h3.64a6.19,6.19,0,0,0,2.61-.41c.54-.28.81-.92.81-1.91V72.06H65.28a5.89,5.89,0,0,0-2.57.42c-.54.28-.81.92-.81,1.91ZM97.84,92.63,91.13,82.9a4.59,4.59,0,0,1-.44-2.11h-.17V92.63H81.75V65.22H90L96.7,75a4.54,4.54,0,0,1,.44,2.1h.18V65.22h8.76V92.63Z"/></svg>`;
+  /** debounce in search */
+  function debounce(func, delay) {
+    let timeoutId;
+    return function (...args) {
+      clearTimeout(timeoutId);
+      timeoutId = setTimeout(() => {
+        func.apply(this, args);
+      }, delay);
+    };
   }
   
-}
+});
