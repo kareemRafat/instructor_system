@@ -44,7 +44,7 @@
                             '%M'
                         ) AS group_end_month
                 FROM `groups` 
-                JOIN instructors ON `groups`.instructor_id = instructors.id 
+                JOIN instructors ON instructors.id = COALESCE(`groups`.second_instructor_id, `groups`.instructor_id) 
                 JOIN branches ON `groups`.branch_id = branches.id
                 WHERE `groups`.is_active = 1
                 AND instructors.id = '{$_SESSION['user_id']}'

@@ -110,15 +110,15 @@ try {
     } else {
         // this section used in index.php page to get the instructors groups
         // Query to fetch all groups
-        $stmt = $pdo->prepare("
-                        SELECT 
-                            `groups`.*, 
-                            branches.name AS branch_name
-                        FROM `groups`
-                        JOIN branches ON groups.branch_id = branches.id
-                        WHERE groups.instructor_id = :instructor
-                        AND groups.is_active = 1
+        $stmt = $pdo->prepare("SELECT 
+                                    `groups`.*,
+                                    branches.name AS branch_name
+                                FROM `groups`
+                                JOIN branches ON groups.branch_id = branches.id
+                                WHERE groups.is_active = 1
+                                AND COALESCE(groups.second_instructor_id, groups.instructor_id) = :instructor
                     ");
+
         $stmt->bindParam(':instructor', $_SESSION['user_id'], PDO::PARAM_INT);
         $stmt->execute();
         $groups = $stmt->fetchAll(PDO::FETCH_ASSOC);
