@@ -86,6 +86,8 @@ document.addEventListener("DOMContentLoaded", async () => {
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
+
+     
       const res = await response.json();
 
       await wait(300);
@@ -94,6 +96,12 @@ document.addEventListener("DOMContentLoaded", async () => {
       if (res.status == "success") {
         if (res.data.length > 0) {
           lecturesCards.innerHTML = ""; // Clear previous cards
+          
+          // if not branch and remove search value don`t retrn cards
+          if(!searchValue && !branch.value){
+             lecturesCards.innerHTML = `<p id="arrow-warning"><i class="fas fa-arrow-up-long mr-2"></i>Select Branch</p>`;
+             return ;
+          };
           res.data.forEach((lec) => {
             let card = setCard(lec);
             lecturesCards.innerHTML += card;
