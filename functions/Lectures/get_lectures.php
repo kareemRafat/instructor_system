@@ -29,7 +29,7 @@ $baseQuery = "SELECT
     FROM lectures 
     JOIN `groups` ON lectures.group_id = `groups`.id 
     JOIN `tracks` ON lectures.track_id = `tracks`.id 
-    JOIN instructors ON lectures.instructor_id = instructors.id 
+    JOIN instructors ON instructors.id = COALESCE(`groups`.second_instructor_id, `groups`.instructor_id)
     WHERE `groups`.is_active = 1";
 
 $params = [];
