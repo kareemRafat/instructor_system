@@ -33,7 +33,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     // when logged user is cs auto run the functions
     if (roleMeta == "cs") {
-      await wait(500);
+      await wait(300);
       skeleton.classList.add("hidden");
       // fetch lectures base on logged user branch
       await fetchBranchLectures(branchMeta);
@@ -67,6 +67,12 @@ document.addEventListener("DOMContentLoaded", async () => {
   async function fetchLecturesWhenSearch(searchValue) {
     let url = null;
 
+    // if not branch and remove search value don`t retrn cards
+    if(!searchValue && !branch.value){
+        lecturesCards.innerHTML = `<p id="arrow-warning"><i class="fas fa-arrow-up-long mr-2"></i>Select Branch</p>`;
+        return ;
+    };
+
     if (!branch.value) {
       if (roleMeta == 'cs') {
         // if the user is cs search with its branch_id found in meta
@@ -87,7 +93,6 @@ document.addEventListener("DOMContentLoaded", async () => {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
 
-     
       const res = await response.json();
 
       await wait(300);
@@ -97,11 +102,6 @@ document.addEventListener("DOMContentLoaded", async () => {
         if (res.data.length > 0) {
           lecturesCards.innerHTML = ""; // Clear previous cards
           
-          // if not branch and remove search value don`t retrn cards
-          if(!searchValue && !branch.value){
-             lecturesCards.innerHTML = `<p id="arrow-warning"><i class="fas fa-arrow-up-long mr-2"></i>Select Branch</p>`;
-             return ;
-          };
           res.data.forEach((lec) => {
             let card = setCard(lec);
             lecturesCards.innerHTML += card;
@@ -113,7 +113,6 @@ document.addEventListener("DOMContentLoaded", async () => {
         throw new Error(res.message || "Failed to fetch lectures");
       }
     } catch (error) {
-      console.error("Error fetching lectures:", error);
       lecturesCards.innerHTML =
         "<p>Failed to load lectures. Please try again.</p>";
     }
@@ -128,7 +127,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         resetAllWithNoBranch();
         groupSearch.value = ""; // reset search
         await fetchBranchLectures(this.value);
-        await wait(500);
+        await wait(300);
         skeleton.classList.add("hidden");
         return;
       }
@@ -149,7 +148,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       // reset search
       groupSearch.value = "";
 
-      await wait(500);
+      await wait(300);
       skeleton.classList.add("hidden");
     } catch (error) {
       console.error("Error in branch change handler:", error);
@@ -199,7 +198,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       // reset groups when select no track
       if (this.value == "") {
         await fetchBranchLectures(branch.value);
-        await wait(500);
+        await wait(300);
         skeleton.classList.add("hidden");
         lecturesCards.classList.remove("hidden");
       }
@@ -209,7 +208,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         await fetchBranchAndTrackLec(branch.value, this.value);
       }
 
-      await wait(500);
+      await wait(300);
       skeleton.classList.add("hidden");
       lecturesCards.classList.remove("hidden");
     } catch (error) {
@@ -261,7 +260,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
       if (this.value == "") {
         await fetchBranchLectures(branch.value);
-        await wait(500);
+        await wait(300);
         skeleton.classList.add("hidden");
         lecturesCards.classList.remove("hidden");
         return;
@@ -299,7 +298,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       lecturesCards.innerHTML =
         "<p>Failed to load lectures. Please try again.</p>";
     } finally {
-      await wait(500);
+      await wait(300);
       skeleton.classList.add("hidden");
       lecturesCards.classList.remove("hidden");
     }
@@ -319,7 +318,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
       if (this.value == "") {
         await fetchBranchLectures(branch.value);
-        await wait(500);
+        await wait(300);
         skeleton.classList.add("hidden");
         lecturesCards.classList.remove("hidden");
         return;
@@ -354,7 +353,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       lecturesCards.innerHTML =
         "<p>Failed to load lectures. Please try again.</p>";
     } finally {
-      await wait(500);
+      await wait(300);
       skeleton.classList.add("hidden");
       lecturesCards.classList.remove("hidden");
     }
@@ -573,7 +572,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   function resetOtherWhenSearch() {
     tracks.value = "";
-
+    groupTimeSelect.value = "";
     if (!branch.value) {
       document.querySelector("#instructor option:first-child").innerHTML =
         "Select Branch First";
