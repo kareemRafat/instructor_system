@@ -144,7 +144,7 @@ $cellHoverColor = ['hover:bg-orange-100', 'hover:bg-indigo-100', 'hover:bg-green
             <table id="groups" class="w-full border-collapse">
                 <!-- Table Header -->
                 <thead>
-                    <tr class="<?= $color ?> bg-[#1b5180] text-white">
+                    <tr class="<?= $color ?> bg-[#1b5180] text-white print:text-black">
                         <th class="border border-gray-300 p-4 text-left font-semibold w-32">
                             Instructor
                         </th>
@@ -155,7 +155,7 @@ $cellHoverColor = ['hover:bg-orange-100', 'hover:bg-indigo-100', 'hover:bg-green
                         <?php endforeach; ?>
                     </tr>
                     <!-- Time slots sub-header -->
-                    <tr class="<?= $color ?> bg-[#1b5180] text-white">
+                    <tr class="<?= $color ?> bg-[#1b5180] text-white print:text-black">
                         <th class="border border-gray-300 p-2"></th>
                         <?php foreach ($days as $dayIndex => $day): ?>
                             <?php foreach ($times as $index => $time): ?>
