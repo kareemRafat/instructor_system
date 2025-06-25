@@ -59,35 +59,35 @@
 
  <!-- table -->
  <div class="relative overflow-x-auto shadow-md sm:rounded-lg mb-10">
-     <table class="w-full text-sm text-left rtl:text-right text-gray-500">
+     <table class="w-full text-sm text-left rtl:text-right text-gray-500 table-fixed">
          <thead class="text-xs text-gray-700 uppercase bg-gray-200">
              <tr class="text-base">
-                 <th scope="col" class="px-6 py-3">
+                 <th scope="col" class="w-40 px-6 py-3">
                      Group
                  </th>
-                 <th scope="col" class="px-6 py-3">
+                 <th scope="col" class="w-40 px-6 py-3">
                      Time
                  </th>
-                 <th scope="col" class="px-6 py-3">
+                 <th scope="col" class="w-40 px-6 py-3">
                      Track
                  </th>
-                 <th scope="col" class="px-6 py-3">
+                 <th scope="col" class="w-40 px-6 py-3">
                      Start Date
                  </th>
-                 <th scope="col" class="px-6 py-3">
+                 <th scope="col" class="w-40 px-6 py-3">
                      Expected End
                  </th>
-                 <th scope="col" class="px-6 py-3">
+                 <th scope="col" class="w-40 px-6 py-3">
                      Time Left
                  </th>
-                 <th scope="col" class="px-6 py-3">
+                 <th scope="col" class="w-40 px-6 py-3">
                      Branch
                  </th>
              </tr>
          </thead>
          <tbody class="font-semibold text-base">
              <?php if ($count == 0) : ?> <tr class="bg-white">
-                     <td colspan="7" class="px-6 py-3 text-gray-500 font-semibold">
+                     <td colspan="7" class="px-6 py-2 text-gray-500 font-semibold">
                          No Groups found
                      </td>
                  </tr>
@@ -108,7 +108,7 @@
                     endif;
                     $previousDay = $currentDay;
                     ?> <tr class="odd:bg-white even:bg-gray-50 bg-white border-b border-gray-200 hover:bg-gray-50">
-                     <th scope="row" class="<?= dayBadgeColor($row['group_day']) ?> px-6 py-3 font-semibold tracking-wider whitespace-nowrap">
+                     <th scope="row" class="<?= dayBadgeColor($row['group_day']) ?> px-6 py-2 font-semibold tracking-wider whitespace-nowrap">
                          <?= ucwords($row['group_name']) ?>
                      </th>
                      <th scope="row" class="px-6 py-2 font-medium text-slate-800 whitespace-nowrap">
@@ -146,7 +146,7 @@
                          <br>
                          <?= $row['group_end_date'] ?? 'No date added' ?>
                      </td>
-                     <td class="px-6 py-2 time-left" data-start="<?= $row['formatted_date'] ?>" data-group-name="<?= $row['group_name'] ?>">
+                     <td class="w-40 px-3 py-4 time-left" data-start="<?= $row['formatted_date'] ?>" data-group-name="<?= $row['group_name'] ?>">
 
                      </td>
                      <td class="px-6 py-2 <?= branchIndicator($row['branch_name'])['textColor'] ?>">

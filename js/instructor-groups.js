@@ -58,7 +58,9 @@ function getTimeRemaining(startDateStr, groupName) {
   }
 
   return `
-    <p class="time-remaining text-orange-600">${monthsRemaining} Months</p>
-    <p class="time-remaining">${daysRemaining} Days</p>
+    <p class="time-remaining text-orange-600 w-full">
+     <span>${monthsRemaining}</span> Months
+    </p>
+    <p class="time-remaining w-full">${daysRemaining} Days</p>
   `;
 }

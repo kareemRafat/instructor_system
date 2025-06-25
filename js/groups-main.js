@@ -193,9 +193,12 @@ function setTable(res, branch = null) {
       }
     };
 
-    tr.innerHTML = `
+    tr.innerHTML = `     
       <th scope="row" class="px-4 py-3.5 font-medium text-gray-900 whitespace-nowrap">
-          ${row.group_name.charAt(0).toUpperCase() + row.group_name.slice(1)}
+          ${row.track !== "Not Updated" 
+            ? `<a href="?id=${row.id}">${capitalizeFirstLetter(row.group_name)}</a>
+               <i class="fa-solid fa-check text-sm text-green-600 ml-2"></i>`
+            : row.group_name.charAt(0).toUpperCase() + row.group_name.slice(1)}
       </th>
       <th scope="row" class="px-4 py-2 font-medium text-pink-900 whitespace-nowrap">
       <i class="fa-solid fa-clock mr-1.5"></i>

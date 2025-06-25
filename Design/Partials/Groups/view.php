@@ -16,6 +16,7 @@
                     g.day AS group_day,
                     i.username AS instructor_name,
                     b.name AS branch_name,
+                    COUNT(l.id) AS lecture_count,
                     DATE_FORMAT(g.start_date, '%d-%m-%Y') AS formatted_date,
                     DATE_FORMAT(g.start_date, '%M') AS month,
                     DATE_FORMAT(
@@ -53,8 +54,10 @@
                 FROM `groups` g
                 JOIN instructors i ON g.instructor_id = i.id
                 JOIN branches b ON g.branch_id = b.id
+                LEFT JOIN lectures l ON l.group_id = g.id
                 WHERE g.is_active = 1
                 AND (:branch IS NULL OR g.branch_id = :branch)
+                GROUP BY g.id
                 ORDER BY g.start_date DESC
                 LIMIT $groupPerPage OFFSET $pageNum"; // Adjust LIMIT and OFFSET as needed for pagination
 
@@ -182,7 +185,13 @@
                 ?>
                  <tr class="odd:bg-white even:bg-gray-50 bg-white border-b border-gray-200 hover:bg-gray-50">
                      <th scope="row" class="px-4 py-2 w-10 font-medium text-gray-900 whitespace-nowrap">
-                         <a href="?id=<?= $row['group_id'] ?>"><?= ucwords($row['group_name']) ?></a>
+                         <?php
+                            if ($row['lecture_count'] == 1) : ?>
+                             <a href="?id=<?= $row['group_id'] ?>"><?= ucwords($row['group_name']); ?></a>
+                             <i class="fa-solid fa-check text-sm text-green-600 ml-2"></i>
+                         <?php else: ?>
+                             <?= ucwords($row['group_name']); ?>
+                         <?php endif; ?>
                      </th>
                      <th scope="row" class="px-4 py-2 font-medium text-pink-900 whitespace-nowrap">
                          <i class="fa-solid fa-clock mr-1.5"></i>
@@ -310,6 +319,6 @@
         return $stmt->fetch(PDO::FETCH_ASSOC)['name'] ?? 'Not Updated';
     }
 
- unset($_SESSION['page']);
- 
-?>
+    unset($_SESSION['page']);
+
+    ?>
