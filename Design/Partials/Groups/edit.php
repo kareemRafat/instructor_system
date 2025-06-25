@@ -22,7 +22,7 @@ function getGroupById($groupId, $pdo)
 
 <div class="p-3 md:p-3 flex flex-col-reverse md:flex-row justify-between md:items-center gap-3">
     <div>
-        <h3 class="text-2xl font-extrabold leading-none tracking-tight text-gray-900 md:text-4xl">Edit <span class="text-blue-600"><?= $group['name'] ?></span> Group </h3>
+        <h3 class="text-2xl font-extrabold leading-none tracking-tight text-gray-900 md:text-4xl">Edit <span class="text-blue-600"><?= ucwords($group['name']) ?></span> Group </h3>
     </div>
     <a href="<?= isset($_SESSION['page']) ? 'tables.php' : 'groups.php'; ?>" class="inline-flex items-center justify-center self-end p-2 text-base font-medium text-gray-500 rounded-lg bg-gray-100 hover:text-gray-900 hover:bg-gray-200">
         <svg class="w-4 h-4 me-2 rotate-90" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
@@ -206,9 +206,7 @@ function getGroupById($groupId, $pdo)
         let res = await instructors.json();
         if (res.data) {
             instructorSelect.innerHTML = '<option value="" selected="">Select instructor</option>';
-            res.data.forEach(instructor => {
-                console.log(instructor);
-                
+            res.data.forEach(instructor => {                
                 let option = document.createElement('option');
                 option.value = instructor.id;
                 option.textContent = capitalizeFirstLetter(instructor.username);

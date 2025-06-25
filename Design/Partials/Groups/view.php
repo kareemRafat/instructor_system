@@ -182,7 +182,7 @@
                 ?>
                  <tr class="odd:bg-white even:bg-gray-50 bg-white border-b border-gray-200 hover:bg-gray-50">
                      <th scope="row" class="px-4 py-2 w-10 font-medium text-gray-900 whitespace-nowrap">
-                         <?= ucwords($row['group_name']) ?>
+                         <a href="?id=<?= $row['group_id'] ?>"><?= ucwords($row['group_name']) ?></a>
                      </th>
                      <th scope="row" class="px-4 py-2 font-medium text-pink-900 whitespace-nowrap">
                          <i class="fa-solid fa-clock mr-1.5"></i>
