@@ -60,10 +60,12 @@ foreach ($lectures as $lecture) {
 
             <!-- Comments Row -->
             <div class="grid gird-cols-1 lg:grid-cols-2 md:gap-4 gap-6">
+                <?php $id = 0 ?>
                 <?php foreach ($row as $key => $newData): ?>
                     <!-- single comment -->
-                    <div class="flex items-start md:items-center justify-between flex-col gap-4 md:flex-row bg-white py-4 md:p-4 shadow-sm border border-slate-400 hover:bg-gray-50 relative rounded-md">
-                        <div class="flex md:items-center gap-3 ml-3 md:ml-0">
+                    <div class="flex items-start md:items-center justify-between flex-col gap-4 md:flex-row bg-white py-4 md:p-4 shadow-sm border border-slate-400 hover:bg-gray-50 relative rounded-md overflow-hidden">
+                        <h1 class="hidden md:flex absolute left-[48%] text-7xl font-bold -z-0 text-gray-200"><?= ++$id ?></h1>
+                        <div class="flex md:items-center gap-3 ml-3 md:ml-0 relative z-10">
                             <div class="flex gap-4 items-center">
                                 <i class="hidden md:inline-block fa-solid fa-comment text-slate-600"></i>
                                 <p class="font-medium text-sm"><?= $newData['comment'] ?></p>
