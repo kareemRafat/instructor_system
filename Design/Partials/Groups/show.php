@@ -64,7 +64,7 @@ foreach ($lectures as $lecture) {
                     <!-- single comment -->
                     <div class="flex items-start md:items-center justify-between flex-col gap-4 md:flex-row bg-white py-4 md:p-4 shadow-sm border border-slate-400 hover:bg-gray-50 relative rounded-md">
                         <div class="flex md:items-center gap-3 ml-3 md:ml-0">
-                            <div class="flex gap-4 items-center">
+                            <div class="flex gap-4 items-center pr-3">
                                 <i class="hidden md:inline-block fa-solid fa-comment text-slate-600"></i>
                                 <p class="font-medium text-sm"><?= $newData['comment'] ?></p>
                                 <i data-tooltip-target="tooltip-animation<?= $key ?>" class="fa-solid fa-user-group text-sky-600"></i>
@@ -77,13 +77,13 @@ foreach ($lectures as $lecture) {
                         </div>
                         <!-- data md -->
                         <div class="flex items-center gap-3 px-3 w-full md:w-fit ">
-                            <div class="flex items-center justify-between md:justify-start gap-4 self-end text-slate-600 w-full">
+                            <div class="flex items-center justify-between md:justify-start gap-4 self-end text-slate-600 w-full text-sm md:text-base">
                                 <div>
                                     <i class="text-sm fa-solid fa-calendar-week mr-2"></i>
-                                    <span class="text-base font-semibold"><?= $newData['date'] ?></span>
+                                    <span class="font-semibold"><?= $newData['date'] ?></span>
                                     <span class="ml-2 hidden md:inline-block"> | </span>
                                 </div>
-                                <div class="text-base font-semibold">
+                                <div class="font-semibold">
                                     <i class="fa-solid fa-stopwatch-20 mr-1"></i>
                                     <?= timeago($newData['date']) ?>
                                 </div>

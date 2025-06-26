@@ -11,6 +11,17 @@ $errors = $_SESSION['errors'] ?? [];
 
 ?>
 
+<!-- preload spinner -->
+<section id="preload" class="fixed inset-0 z-50 flex items-center justify-center bg-slate-800">
+  <div class="text-white font-semibold tracking-wider text-4xl md:text-5xl flex flex-col items-center justify-center gap-5">
+    <div class="spinner">
+      <div class="bounce1"></div>
+      <div class="bounce2"></div>
+      <div class="bounce3"></div>
+    </div>
+  </div>
+</section>
+
 <div class="max-w-7xl mx-auto md:pt-6 md:px-6">
   <!-- card -->
   <div class="flex flex-col items-center justify-center md:my-8 text">

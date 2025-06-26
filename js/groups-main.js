@@ -203,7 +203,7 @@ function setTable(res, branch = null) {
 
     tr.innerHTML = `     
       <th scope="row" class="px-4 py-3.5 font-medium text-gray-900 whitespace-nowrap">
-          ${row.track !== "Not Updated" 
+          ${row.track !== "Not Updated" && (getMetaContent("role") == 'admin' || getMetaContent("role") == 'owner')
             ? `<a href="?id=${row.id}">${capitalizeFirstLetter(row.group_name)}</a>
                <i class="fa-solid fa-check text-sm text-green-600 ml-2"></i>`
             : row.group_name.charAt(0).toUpperCase() + row.group_name.slice(1)}
