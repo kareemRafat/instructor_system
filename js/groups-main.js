@@ -91,9 +91,17 @@ document.addEventListener("DOMContentLoaded", function () {
       .catch((error) => console.error("Error:", error));
   });
 
+  
+  /** search group */
+  const debouncedSearch = debounce( function () {
+    searchFunctionality(this.value)
+  }, 500);
+  searchInput.addEventListener("input", debouncedSearch);
+  /** end search event */
+
   /** search functionality */
-  searchInput.addEventListener("input", function () {
-    const searchValue = this.value.trim();
+  function searchFunctionality(searchInputValue){
+    const searchValue = searchInputValue.trim();
 
     const branchId = getQueryString('branch') || null ;
     
@@ -128,7 +136,7 @@ document.addEventListener("DOMContentLoaded", function () {
         setTable(data);
       })
       .catch((error) => console.error("Error:", error));
-  });
+  }
 });
 
 /** Finish Training groups */
@@ -383,3 +391,14 @@ function setBranchQueryString(branchMeta){
   url.searchParams.set('branch', branchMeta);
   window.history.pushState({}, '', url.toString());
 }
+
+ /** debounce in search */
+  function debounce(func, delay) {
+    let timeoutId;
+    return function (...args) {
+      clearTimeout(timeoutId);
+      timeoutId = setTimeout(() => {
+        func.apply(this, args);
+      }, delay);
+    };
+  }
