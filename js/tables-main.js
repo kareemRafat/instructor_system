@@ -69,6 +69,11 @@ document.addEventListener("DOMContentLoaded", async () => {
     document.getElementById("drawerGroup2").textContent = capitalizeFirstLetter(
       groupData.name
     );
+
+    // set the href to track link if there is a track
+    if(groupData.track_name) {
+      document.getElementById("track-link").href=`groups.php?id=${groupData.id}`;
+    }
     document.getElementById("drawerTrack").textContent =
       capitalizeFirstLetter(groupData.track_name) || "Not Updated";
     document.getElementById("langIcon").innerHTML = setLangIcon(

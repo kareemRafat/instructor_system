@@ -36,22 +36,24 @@
             </div>
 
             <!-- Track -->
-            <div class="flex items-center p-4 hover:bg-gray-50 transition-all duration-200 group">
-               <div class="flex items-center justify-center w-10 h-10 rounded-lg bg-teal-50 mr-3 group-hover:bg-teal-100 transition-colors">
-                  <i class="fa-solid fa-bolt text-teal-600 text-sm"></i>
-               </div>
-               <div class="flex-1 flex justify-between items-center">
-                  <div>
-                     <p class="text-xs font-medium text-gray-400 uppercase tracking-wider">Track</p>
-                     <p class="font-medium text-gray-800 text-lg" id="drawerTrack">
-                        <i class="fa-solid fa-spinner fa-spin"></i>
-                     </p>
+            <a id="track-link">
+               <div class="flex items-center p-4 hover:bg-gray-50 transition-all duration-200 group">
+                  <div class="flex items-center justify-center w-10 h-10 rounded-lg bg-teal-50 mr-3 group-hover:bg-teal-100 transition-colors">
+                     <i class="fa-solid fa-bolt text-teal-600 text-sm"></i>
                   </div>
-                  <div id="langIcon">
-                     <!-- injected with js -->
+                  <div class="flex-1 flex justify-between items-center">
+                     <div>
+                        <p class="text-xs font-medium text-gray-400 uppercase tracking-wider">Track</p>
+                        <p class="font-medium text-gray-800 text-lg" id="drawerTrack">
+                           <i class="fa-solid fa-spinner fa-spin"></i>
+                        </p>
+                     </div>
+                     <div id="langIcon">
+                        <!-- injected with js -->
+                     </div>
                   </div>
                </div>
-            </div>
+            </a>
 
             <!-- Time -->
             <div class="flex items-center p-4 hover:bg-gray-50 transition-all duration-200 group">
