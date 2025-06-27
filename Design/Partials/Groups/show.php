@@ -8,7 +8,7 @@ $query = "SELECT
             DATE_FORMAT(l.date, '%d-%m-%Y') AS formatted_date
             FROM lectures AS l 
             JOIN `groups` AS g ON g.id = l.group_id
-            JOIN instructors AS i ON i.id = l.instructor_id
+            JOIN instructors AS i ON i.id = COALESCE(g.second_instructor_id, g.instructor_id)
             JOIN tracks AS t ON t.id = l.track_id
             WHERE l.group_id = :group
             ORDER BY date ASC";
