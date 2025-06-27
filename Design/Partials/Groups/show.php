@@ -76,24 +76,30 @@ foreach ($lectures as $lecture) {
                 <?php foreach ($row as $key => $newData): ?>
                     <!-- single comment -->
                     <div class="flex items-start md:items-center justify-between flex-col gap-4 md:flex-row bg-white py-4 md:p-4 shadow-sm border border-slate-400 hover:bg-gray-50 relative rounded-md">
-                        <div class="flex md:items-center justify-between md:justify-start gap-3 px-3 md:ml-0 relative w-full">
-                            <div class="flex gap-4 items-center pr-3">
-                                <i class="hidden md:inline-block fa-solid fa-comment text-slate-600"></i>
-                                <p class="font-medium text-sm"><?= $newData['comment'] ?></p>
+                        <div class="flex lg:items-center justify-between lg:justify-start gap-3 px-3 md:ml-0 relative w-full">
+                            <div class="flex flex-col gap-2 items-start pr-3">
+                                <div class="flex gap-4 items-center">
+                                    <i class="hidden md:inline-block fa-solid fa-comment text-slate-600"></i>
+                                    <p class="font-medium text-sm md:text-base"><?= $newData['comment'] ?></p>
+                                </div>
+                                <p class="hidden md:flex font-medium text-sm text-sky-600">
+                                    | <?= $newData['instructor_name'] ?>
+                                </p>
                             </div>
-                            <!-- tooltip -->
-                            <div class="font-medium text-sm text-sky-600">
-                                | <?= $newData['instructor_name'] ?>
-                            </div>
+
                         </div>
                         <!-- data md -->
                         <div class="flex items-center gap-3 px-3 w-full">
-                            <div class="flex items-center justify-between md:justify-start gap-4 self-end text-slate-600 w-full text-sm md:text-base">
+                            <div class="flex items-center justify-between md:justify-end gap-4 self-end text-slate-600 w-full text-sm md:text-base">
+                                <p class="flex md:hidden font-medium text-sm text-sky-600">
+                                    | <?= $newData['instructor_name'] ?>
+                                </p>
                                 <div>
                                     <i class="text-sm fa-solid fa-calendar-week mr-2"></i>
                                     <span class="font-semibold"><?= $newData['date'] ?></span>
                                     <span class="ml-2 hidden md:inline-block"> | </span>
                                 </div>
+
                                 <div class="font-semibold">
                                     <i class="fa-solid fa-stopwatch-20 mr-1"></i>
                                     <?= timeago($newData['date']) ?>
