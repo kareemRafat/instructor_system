@@ -87,7 +87,7 @@ foreach ($lectures as $lecture) {
                             </div>
                         </div>
                         <!-- data md -->
-                        <div class="flex items-center gap-3 px-3 w-full md:w-fit ">
+                        <div class="flex items-center gap-3 px-3 w-full">
                             <div class="flex items-center justify-between md:justify-start gap-4 self-end text-slate-600 w-full text-sm md:text-base">
                                 <div>
                                     <i class="text-sm fa-solid fa-calendar-week mr-2"></i>
