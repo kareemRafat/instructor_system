@@ -12,7 +12,7 @@ $errors = $_SESSION['errors'] ?? [];
 ?>
 
 <!-- preload spinner -->
-<section id="preload" class="fixed inset-0 z-50 flex items-center justify-center bg-slate-800">
+<section id="preload" class="fixed inset-0 z-50 flex items-center justify-center bg-sky-700">
   <div class="text-white font-semibold tracking-wider text-4xl md:text-5xl flex flex-col items-center justify-center gap-5">
     <div class="spinner">
       <div class="bounce1"></div>

@@ -28,6 +28,7 @@ if (isset($_SESSION['user_id'])) {
     <link rel="shortcut icon" href="icon/sah.png" type="image/x-icon">
     <!-- Tailwind CSS CDN -->
     <link href="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.css" rel="stylesheet" />
+    <!-- font awsome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
 
     <!-- tailwind cli output -->

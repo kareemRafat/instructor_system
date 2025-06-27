@@ -25,6 +25,9 @@ if (isset($_SESSION['user_id'])) {
   <link href="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.css" rel="stylesheet" />
   <!-- tailwind cli output -->
   <link rel="stylesheet" href="css/output.css">
+  <!-- font awsome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
   <!-- Flowbite CDN -->
   <script src="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js"></script>
 
@@ -56,8 +59,9 @@ if (isset($_SESSION['user_id'])) {
           <div class="mb-5"> <label for="username" class="block mb-2 text-sm font-medium text-gray-900"> username</label>
             <input autofocus name="username" type="text" id="username" class="bg-gray-50 border-2 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-zinc-500 md:focus:border-blue-500 block w-full p-2.5" placeholder="" required />
           </div>
-          <div class="mb-5"> <label for="password" class="block mb-2 text-sm font-medium text-gray-900"> password</label>
-            <input name="password" type="password" id="password" class="bg-gray-50 border-2 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-zinc-500 md:focus:border-blue-500 block w-full p-2.5" required />
+          <div class="mb-5">
+            <?php $loginPage = true; ?>
+            <?php include_once "Design/Components/password-input.php"; ?>
           </div>
           <div class="flex items-start mb-5">
             <div class="flex items-center h-5">

@@ -7,7 +7,7 @@
         </span>
     </div>
 
-    <input type="password" name="password" id="password" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" placeholder="Enter password if you want to Change it ...">
+    <input type="password" name="password" id="password" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" placeholder="<?= !$loginPage ? 'Enter password if you want to Change it ...' : '' ?>">
     <?php if (isset($errors['password'])) {
         echo '<div class="p-2 my-2 text-sm text-red-800 rounded-lg bg-red-50" role="alert"> ' .
             $errors['password'] .

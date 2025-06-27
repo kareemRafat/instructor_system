@@ -38,7 +38,9 @@ document.addEventListener("DOMContentLoaded", () => {
             }
           });
 
-          document.getElementById('preload').classList.add('hidden');
+          setTimeout(() => {
+            document.getElementById('preload').classList.add('hidden');
+          }, 500);
         }
       });
     })
