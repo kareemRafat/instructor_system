@@ -1,3 +1,17 @@
+<style>
+    .tooltip-arrow::before {
+        content: '';
+        position: absolute;
+        border-style: solid;
+        border-width: 6px;
+        border-color: transparent transparent #64748b transparent;
+        /* for top */
+        top: -6px;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+</style>
+
 <?php
 
 $query = "SELECT 
@@ -8,7 +22,7 @@ $query = "SELECT
             DATE_FORMAT(l.date, '%d-%m-%Y') AS formatted_date
             FROM lectures AS l 
             JOIN `groups` AS g ON g.id = l.group_id
-            JOIN instructors AS i ON i.id = COALESCE(g.second_instructor_id, g.instructor_id)
+            JOIN instructors AS i ON i.id = l.instructor_id
             JOIN tracks AS t ON t.id = l.track_id
             WHERE l.group_id = :group
             ORDER BY date ASC";
@@ -32,8 +46,6 @@ foreach ($lectures as $lecture) {
     ];
 }
 
-
-
 ?>
 <div class=" min-h-screen max-w-8xl mx-auto md:px-6 py-6 pb-20">
     <!-- Track Header -->
@@ -49,8 +61,9 @@ foreach ($lectures as $lecture) {
         </a>
     </div>
     <p class="text-lg font-semibold text-gray-500 mb-4 tracking-wider">Instructor: <?= getLastInstructorName($data) ?></p>
-
+    <?php $id = 0; ?>
     <?php foreach ($data as $key =>  $row) : ?>
+        <?php ++$id ?>
         <!-- track Name -->
         <div class="bg-gray-50 pb-4 rounded-md mb-6">
             <h2 class="text-xl font-semibold text-gray-800 mb-2">
@@ -63,16 +76,14 @@ foreach ($lectures as $lecture) {
                 <?php foreach ($row as $key => $newData): ?>
                     <!-- single comment -->
                     <div class="flex items-start md:items-center justify-between flex-col gap-4 md:flex-row bg-white py-4 md:p-4 shadow-sm border border-slate-400 hover:bg-gray-50 relative rounded-md">
-                        <div class="flex md:items-center gap-3 ml-3 md:ml-0">
+                        <div class="flex md:items-center justify-between md:justify-start gap-3 px-3 md:ml-0 relative w-full">
                             <div class="flex gap-4 items-center pr-3">
                                 <i class="hidden md:inline-block fa-solid fa-comment text-slate-600"></i>
                                 <p class="font-medium text-sm"><?= $newData['comment'] ?></p>
-                                <i data-tooltip-target="tooltip-animation<?= $key ?>" class="fa-solid fa-user-group text-sky-600"></i>
                             </div>
                             <!-- tooltip -->
-                            <div id="tooltip-animation<?= $key ?>" role="tooltip" class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-slate-500 rounded-lg shadow-xs opacity-0 tooltip">
-                                <?= $newData['instructor_name'] ?>
-                                <div class="tooltip-arrow" data-popper-arrow></div>
+                            <div class="font-medium text-sm text-sky-600">
+                                | <?= $newData['instructor_name'] ?>
                             </div>
                         </div>
                         <!-- data md -->
