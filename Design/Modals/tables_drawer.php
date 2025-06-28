@@ -239,4 +239,14 @@ $_SESSION['page'] = 'tables.php';
          document.querySelector("#floatClose").classList.add('hidden');
       })
    })
+
+
+   window.addEventListener('popstate', (event) => {
+      history.pushState({
+         drawerOpen: true
+      }, ""); // push state 
+
+      document.querySelector("#floatClose").click();
+
+   });
 </script>
