@@ -240,11 +240,16 @@ $_SESSION['page'] = 'tables.php';
       })
    })
 
+   // this functionality for when i on mobile return back close drawer
+   history.pushState({
+      drawerOpen: true
+   }, ""); // push state
 
    window.addEventListener('popstate', (event) => {
-      history.pushState({
-         drawerOpen: true
-      }, ""); // push state 
+
+
+      console.log(event);
+
 
       document.querySelector("#floatClose").click();
 
