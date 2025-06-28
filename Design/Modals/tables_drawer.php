@@ -241,12 +241,16 @@ $_SESSION['page'] = 'tables.php';
    })
 
    // this functionality for when i on mobile return back close drawer
+   // push in state when page load
    history.pushState({
       drawerOpen: true
    }, ""); // push state
 
    window.addEventListener('popstate', (event) => {
-
+      // push in state when every back button
+      history.pushState({
+         drawerOpen: true
+      }, ""); // push state
 
       console.log(event);
 
