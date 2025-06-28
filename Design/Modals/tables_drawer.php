@@ -252,10 +252,6 @@ $_SESSION['page'] = 'tables.php';
          drawerOpen: true
       }, ""); // push state
 
-      console.log(event);
-
-
       document.querySelector("#floatClose").click();
-
    });
 </script>
