@@ -75,25 +75,22 @@ foreach ($lectures as $lecture) {
             <div class="grid gird-cols-1 lg:grid-cols-2 md:gap-4 gap-6">
                 <?php foreach ($row as $key => $newData): ?>
                     <!-- single comment -->
-                    <div class="flex items-start md:items-center justify-between flex-col gap-4 md:flex-row bg-white py-4 md:p-4 shadow-sm border border-slate-400 hover:bg-gray-50 relative rounded-md">
+                    <div class="flex items-start lg:items-center justify-between flex-col gap-4  bg-white py-4 md:p-4 shadow-sm border border-slate-400 hover:bg-gray-50 relative rounded-md">
                         <div class="flex lg:items-center justify-between lg:justify-start gap-3 px-3 md:ml-0 relative w-full">
                             <div class="flex flex-col gap-2 items-start pr-3">
                                 <div class="flex gap-4 items-center">
                                     <i class="hidden md:inline-block fa-solid fa-comment text-slate-600"></i>
                                     <p class="font-medium text-sm md:text-base"><?= $newData['comment'] ?></p>
                                 </div>
-                                <p class="hidden md:flex font-medium text-sm text-sky-600">
-                                    | <?= $newData['instructor_name'] ?>
-                                </p>
                             </div>
 
                         </div>
                         <!-- data md -->
                         <div class="flex items-center gap-3 px-3 w-full">
-                            <div class="flex items-center justify-between md:justify-end gap-4 self-end text-slate-600 w-full text-sm md:text-base">
-                                <p class="flex md:hidden font-medium text-sm text-sky-600">
-                                    | <?= $newData['instructor_name'] ?>
+                            <p class="flex font-medium text-sm text-sky-600 md:w-full">
+                                    <span> <span class="mr-1">|</span><?= $newData['instructor_name'] ?></span>
                                 </p>
+                            <div class="flex items-center justify-end gap-4 self-end text-slate-600 w-full text-sm md:text-base">
                                 <div>
                                     <i class="text-sm fa-solid fa-calendar-week mr-2"></i>
                                     <span class="font-semibold"><?= $newData['date'] ?></span>
