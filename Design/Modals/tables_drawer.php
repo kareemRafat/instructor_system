@@ -4,7 +4,7 @@
       height: 100svh;
    }
 </style>
-<div id="drawer-left-example" class="h-[100svh] fixed top-0 left-0 z-40  p-4 overflow-y-auto transition-transform -translate-x-full bg-white w-full md:w-[700px]" tabindex="-1" aria-labelledby="drawer-left-label">
+<div id="drawer-left-example" class="h-screen fixed top-0 left-0 z-40  p-4 overflow-y-auto transition-transform -translate-x-full bg-white w-full md:w-[700px]" tabindex="-1" aria-labelledby="drawer-left-label">
    <h5 id="drawer-left-label" class="inline-flex items-center mb-4 text-base font-semibold text-gray-500">
 
    </h5>
