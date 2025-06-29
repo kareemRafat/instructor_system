@@ -214,7 +214,7 @@
 </div>
 
 <!-- floating Drawer close button -->
-<button id="floatClose" class="hidden md:hidden fixed bottom-1/2 right-4 translate-y-1/2 z-50 opacity-50" data-drawer-hide="drawer-left-example" aria-controls="drawer-left-example">
+<button id="floatClose" class="hidden md:hidden fixed top-[50svh] right-4 translate-y-[-50%] z-50 opacity-50" data-drawer-hide="drawer-left-example" aria-controls="drawer-left-example">
    <div class="relative">
       <!-- Main button -->
       <div class="w-12 h-12 rounded-full bg-blue-600  flex items-center justify-center text-white">
