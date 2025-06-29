@@ -87,7 +87,7 @@ foreach ($lectures as $lecture) {
                         </div>
                         <!-- data md -->
                         <div class="flex items-center gap-3 px-3 w-full">
-                            <p class="flex font-medium text-sm text-sky-600 md:w-full">
+                            <p class="flex font-medium text-sm text-sky-600 md:w-fit">
                                     <span> <span class="mr-1">|</span><?= $newData['instructor_name'] ?></span>
                                 </p>
                             <div class="flex items-center justify-end gap-4 self-end text-slate-600 w-full text-sm md:text-base">
