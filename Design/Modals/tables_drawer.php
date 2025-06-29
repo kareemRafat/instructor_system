@@ -214,44 +214,60 @@
 </div>
 
 <!-- floating Drawer close button -->
-<button id="floatClose" class="hidden md:hidden fixed top-[50svh] right-4 translate-y-[-50%] z-50 opacity-50" data-drawer-hide="drawer-left-example" aria-controls="drawer-left-example">
-   <div class="relative">
-      <!-- Main button -->
-      <div class="w-12 h-12 rounded-full bg-blue-600  flex items-center justify-center text-white">
-         <i class="fa-solid fa-circle-chevron-left text-4xl"></i>
-      </div>
 
-      <!-- Optional pulse effect -->
-      <div class="absolute inset-0 rounded-full bg-blue-600 opacity-0 group-hover:opacity-40 group-hover:animate-ping"></div>
-   </div>
-</button>
+
+
 <?php
 $_SESSION['page'] = 'tables.php';
 ?>
 
 
 <script>
-   const closeBtn = document.querySelector("#floatClose");
-   const closeX = document.querySelectorAll('button[data-drawer-hide]');
+   const closeX = document.querySelector('button[data-drawer-hide]');
+   const openBtn = document.querySelectorAll('button[data-group-id]');
+   console.log(closeX);
 
-   closeX.forEach(btn => {
-      btn.addEventListener('click', function(e) {
-         document.querySelector("#floatClose").classList.add('hidden');
-      })
-   })
+   if (isMobileDevice()) {
+      // Opening the drawer — push to history
+      let isDrawerOpen = false;
 
-   // this functionality for when i on mobile return back close drawer
-   // push in state when page load
-   history.pushState({
-      drawerOpen: true
-   }, ""); // push state
+      openBtn.forEach(btn => {
+         btn.addEventListener('click', function() {
+            isDrawerOpen = true;
+            // document.querySelector("#floatClose").classList.remove('hidden');
 
-   window.addEventListener('popstate', (event) => {
-      // push in state when every back button
-      history.pushState({
-         drawerOpen: true
-      }, ""); // push state
+            // Push state only when opening
+            history.pushState({
+               drawerOpen: true
+            }, "", "");
+         });
+      });
 
-      document.querySelector("#floatClose").click();
-   });
+      // Closing the drawer manually (X or close button)
+      closeX.addEventListener('click', function() {
+         closeDrawer();
+      });
+
+
+      // When user presses BACK (mobile hardware or browser back)
+      window.addEventListener('popstate', (event) => {
+         closeDrawer();
+         // Optional: replace to clear current state
+         history.replaceState({}, "", location.pathname);
+      });
+
+      // Central drawer close logic
+      function closeDrawer() {
+         closeX.click();
+         isDrawerOpen = false;
+      }
+   }
+
+   /** check if mobile device */
+   function isMobileDevice() {
+      return (
+         /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ||
+         window.innerWidth <= 768
+      );
+   }
 </script>
