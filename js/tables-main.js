@@ -1,16 +1,12 @@
-
 document.addEventListener("DOMContentLoaded", async () => {
-
-  const currentBranch = getQueryString("branch") ;
-
-  document.querySelector('.print').addEventListener('click' , (e) => {
+  document.querySelector(".print").addEventListener("click", (e) => {
     window.print();
-  })
+  });
 
   const groupBtn = document.querySelectorAll("button.outline-none");
   groupBtn.forEach((btn) => {
     btn.addEventListener("click", async (e) => {
-      document.getElementById('drawer-left-example').scrollTop = 0; // Scroll to top
+      document.getElementById("drawer-left-example").scrollTop = 0; // Scroll to top
 
       const id = e.currentTarget.dataset.groupId;
       const url = "functions/Tables/get_group.php";
@@ -67,8 +63,10 @@ document.addEventListener("DOMContentLoaded", async () => {
     );
 
     // set the href to track link if there is a track
-    if(groupData.track_name) {
-      document.getElementById("track-link").href=`groups.php?id=${groupData.id}`;
+    if (groupData.track_name) {
+      document.getElementById(
+        "track-link"
+      ).href = `groups.php?id=${groupData.id}`;
     }
     document.getElementById("drawerTrack").textContent =
       capitalizeFirstLetter(groupData.track_name) || "Not Updated";
@@ -86,9 +84,8 @@ document.addEventListener("DOMContentLoaded", async () => {
     document.getElementById("drawerBranch").textContent = capitalizeFirstLetter(
       groupData.branch_name
     );
-    document.getElementById("drawerBranch2").textContent = capitalizeFirstLetter(
-      groupData.branch_name
-    );
+    document.getElementById("drawerBranch2").textContent =
+      capitalizeFirstLetter(groupData.branch_name);
     document.getElementById("drawerStartMonth").innerHTML =
       capitalizeFirstLetter(groupData.month);
     document.getElementById("drawerStartDate").innerHTML = groupData.start_date;
@@ -99,10 +96,12 @@ document.addEventListener("DOMContentLoaded", async () => {
       groupData.group_end_date;
     document.getElementById("today").innerHTML = getTodayDate();
     document.getElementById("time-left").innerHTML = getTimeRemaining(
-      groupData.start_date,groupData.name
+      groupData.start_date,
+      groupData.name
     );
     document.getElementById("time-left2").innerHTML = getTimeRemaining(
-      groupData.start_date,groupData.name
+      groupData.start_date,
+      groupData.name
     );
   }
 
@@ -295,6 +294,37 @@ document.addEventListener("DOMContentLoaded", async () => {
     <p class="time-remaining">${monthsRemaining} months</p>
     <p class="time-remaining">${daysRemaining} days</p>
   `;
-
   }
+
+  /** update Radio For Bracnh */
+  // Function to set radio button state based on URL parameter or default
+  function setRadioButtonState() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const selectedBranch = urlParams.get("branch");
+    const radioButtons = document.getElementsByName("branch");
+
+    // If no branch is selected in URL, check the first radio button
+    if (!selectedBranch) {
+      radioButtons[0].checked = true;
+    } else {
+      // Check the radio button matching the URL parameter
+      for (let radio of radioButtons) {
+        if (radio.value === selectedBranch) {
+          radio.checked = true;
+          break;
+        }
+      }
+    }
+  }
+
+  // Run on page load
+  window.addEventListener("load", setRadioButtonState);
+
+  // Run when navigating back to clear cached state and reapply
+  window.addEventListener("pageshow", function (event) {
+    if (event.persisted) {
+      document.getElementById("branchForm").reset(); // Clear cached form state
+      setRadioButtonState(); // Reapply correct radio button state
+    }
+  });
 });

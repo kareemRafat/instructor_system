@@ -115,12 +115,9 @@ $cellHoverColor = ['hover:bg-orange-100', 'hover:bg-indigo-100', 'hover:bg-green
                     <!-- branch radio buttons -->
                     <?php
                     $branches = $pdo->query("SELECT id, name FROM branches")->fetchAll(PDO::FETCH_ASSOC);
+                    $selectedBranch = isset($_GET['branch']) ? $_GET['branch'] : null;
                     foreach ($branches as $index => $branch):
-                        $checked = (isset($_GET['branch']) && $_GET['branch'] == $branch['id']) ? 'checked' : '';
-                        // Check the first branch if no branch is selected
-                        if (!isset($_GET['branch']) && $index === 0) {
-                            $checked = 'checked';
-                        }
+                        $checked = ($selectedBranch == $branch['id'] || ($selectedBranch === null && $index === 0)) ? 'checked' : '';
                     ?>
                         <li class="border-gray-200 sm:border-b-0">
                             <div class="flex items-center">
@@ -132,7 +129,7 @@ $cellHoverColor = ['hover:bg-orange-100', 'hover:bg-indigo-100', 'hover:bg-green
                                     value="<?= $branch['id'] ?>"
                                     name="branch"
                                     class="list-radio w-4 h-4 <?= $text ?> bg-gray-100 border-gray-300 border">
-                                <label for="list-radio-<?= $branch['id'] ?>" class="w-full py-3 ms-2 text-base font-medium text-gray-900"><?= $branch['name'] ?></label>
+                                <label for="list-radio-<?= $branch['id'] ?>" class="w-full py-3 ms-2 text-base font-medium text-gray-900"><?= htmlspecialchars($branch['name']) ?></label>
                             </div>
                         </li>
                     <?php endforeach; ?>
