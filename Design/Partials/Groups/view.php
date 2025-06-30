@@ -192,8 +192,10 @@
                  <tr class="odd:bg-white even:bg-gray-50 bg-white border-b border-gray-200 hover:bg-gray-50">
                      <th scope="row" class="px-4 py-2 w-10 font-medium text-gray-900 whitespace-nowrap">
                          <?php
+                            // to send sort param to show page
+                            $isSorted = isset($_GET['sort']) && $_GET['sort'] == 'asc' ? "&sort=asc" : "" ;
                             if ($row['lecture_count'] > 0 && hasRole('admin', 'owner')) : ?>
-                             <a href="?id=<?= $row['group_id'] ?>"><?= ucwords($row['group_name']); ?></a>
+                             <a href="?id=<?= $row['group_id'] ?><?= $isSorted ?>"><?= ucwords($row['group_name']); ?></a>
                              <i class="fa-solid fa-check text-sm text-green-600 ml-2"></i>
                          <?php else: ?>
                              <?= ucwords($row['group_name']); ?>
