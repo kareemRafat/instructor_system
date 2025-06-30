@@ -1,6 +1,8 @@
 
 document.addEventListener("DOMContentLoaded", async () => {
 
+  const currentBranch = getQueryString("branch") ;
+
   document.querySelector('.print').addEventListener('click' , (e) => {
     window.print();
   })

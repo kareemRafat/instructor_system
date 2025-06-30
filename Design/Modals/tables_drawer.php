@@ -248,7 +248,7 @@ $_SESSION['page'] = 'tables.php';
       window.addEventListener('popstate', (event) => {
          closeDrawer();
          // Optional: replace to clear current state
-         history.replaceState({}, "", location.pathname);
+         history.replaceState({}, "", location.pathname + location.search);
       });
 
       // Central drawer close logic
