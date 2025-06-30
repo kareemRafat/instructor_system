@@ -296,6 +296,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   `;
   }
 
+  /** --- */
   /** update Radio For Bracnh */
   // Function to set radio button state based on URL parameter or default
   function setRadioButtonState() {
@@ -327,4 +328,5 @@ document.addEventListener("DOMContentLoaded", async () => {
       setRadioButtonState(); // Reapply correct radio button state
     }
   });
+  /** --- */
 });

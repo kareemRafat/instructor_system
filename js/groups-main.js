@@ -11,12 +11,13 @@ const page = getQueryString("page");
 const branchVal = getQueryString("branch");
 const pageList = document.getElementById("page-list");
 const instructorSelect = document.getElementById("instructor-select");
+const groupToggle = document.getElementById('group-toggle');
 // branchSelect const came from the modal in the same page
 
 document.addEventListener("DOMContentLoaded", function () {
   const branchMeta = getMetaContent("branch");
   const roleMeta = getMetaContent("role");
-  
+
   // get branches when page loaded
   fetch("functions/Branches/get_branches.php")
     .then((response) => response.json())
@@ -30,7 +31,7 @@ document.addEventListener("DOMContentLoaded", function () {
           if (option.value == branchVal) {
             option.selected = true;
           }
-          if (option.value == branchMeta && roleMeta == 'cs') {
+          if (option.value == branchMeta && roleMeta == "cs") {
             option.selected = true;
           }
           branchSelect.appendChild(option);
@@ -39,8 +40,7 @@ document.addEventListener("DOMContentLoaded", function () {
     })
     .catch((error) => console.error("Error fetching lectures:", error));
 
-
-  if(roleMeta == 'cs') setBranchQueryString(branchMeta);
+  if (roleMeta == "cs") setBranchQueryString(branchMeta);
 
   // finish group in case of training groups only
   finishTrainingGroups();
@@ -49,7 +49,7 @@ document.addEventListener("DOMContentLoaded", function () {
   groupsTotalCount(getQueryString("branch"));
 
   // when page load get instructors based on branch
-  if(roleMeta == 'cs') {
+  if (roleMeta == "cs") {
     fetchInstructors(branchMeta);
   } else {
     fetchInstructors(branchVal);
@@ -59,7 +59,7 @@ document.addEventListener("DOMContentLoaded", function () {
   instructorSelect.addEventListener("change", function (e) {
     const instructorId = this.value;
     const instructorName = this.selectedOptions[0]?.text;
-    
+
     // get total groups to the instructor
     groupsTotalCount(getQueryString("branch"), instructorId, instructorName);
 
@@ -70,9 +70,8 @@ document.addEventListener("DOMContentLoaded", function () {
       pageList.classList.add("hidden");
     }
 
-    const branchId = getQueryString('branch');
+    const branchId = getQueryString("branch");
 
-    
     let url = "";
 
     if (instructorId) {
@@ -91,20 +90,19 @@ document.addEventListener("DOMContentLoaded", function () {
       .catch((error) => console.error("Error:", error));
   });
 
-  
   /** search group */
-  const debouncedSearch = debounce( function () {
-    searchFunctionality(this.value)
+  const debouncedSearch = debounce(function () {
+    searchFunctionality(this.value);
   }, 500);
   searchInput.addEventListener("input", debouncedSearch);
   /** end search event */
 
   /** search functionality */
-  function searchFunctionality(searchInputValue){
+  function searchFunctionality(searchInputValue) {
     const searchValue = searchInputValue.trim();
 
-    const branchId = getQueryString('branch') || null ;
-    
+    const branchId = getQueryString("branch") || null;
+
     // reset instructor
     fetchInstructors(branchId);
     groupsTotalCount(branchVal);
@@ -118,7 +116,7 @@ document.addEventListener("DOMContentLoaded", function () {
       pageList.classList.add("hidden");
     }
 
-    if (branchId) {      
+    if (branchId) {
       url = `functions/Groups/search_groups.php?search=${encodeURIComponent(
         searchValue
       )}&branch_id=${encodeURIComponent(branchId)}${
@@ -142,35 +140,44 @@ document.addEventListener("DOMContentLoaded", function () {
 /** Finish Training groups */
 function finishTrainingGroups() {
   // i used event delegation because the finish btn added to the dom when search
-  document.getElementById("group-table-body").addEventListener("click", async (e) => {
-  const btn = e.target.closest(".finish-btn");
-  
-  if (!btn) return;
+  document
+    .getElementById("group-table-body")
+    .addEventListener("click", async (e) => {
+      const btn = e.target.closest(".finish-btn");
 
-  const groupId = btn.dataset.groupId;
+      if (!btn) return;
 
-  if (confirm("Are you sure you want to mark this Training group as finished?")) {
-    try {
-      const response = await fetch("functions/Groups/finish_training_group.php", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
-        },
-        body: `id=${encodeURIComponent(groupId)}`,
-      });
+      const groupId = btn.dataset.groupId;
 
-      const result = await response.json();
-      if (result.status === "success") {
-        const row = btn.closest("tr");
-        row.remove();
-        notyf.success("Group Finished Successfully");
+      if (
+        confirm(
+          "Are you sure you want to mark this Training group as finished?"
+        )
+      ) {
+        try {
+          const response = await fetch(
+            "functions/Groups/finish_training_group.php",
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/x-www-form-urlencoded",
+              },
+              body: `id=${encodeURIComponent(groupId)}`,
+            }
+          );
+
+          const result = await response.json();
+          if (result.status === "success") {
+            const row = btn.closest("tr");
+            row.remove();
+            notyf.success("Group Finished Successfully");
+          }
+        } catch (error) {
+          alert("Request failed.");
+          console.error(error);
+        }
       }
-    } catch (error) {
-      alert("Request failed.");
-      console.error(error);
-    }
-  }
-});
+    });
 }
 
 /** setTable */
@@ -185,7 +192,7 @@ function setTable(res, branch = null) {
     `;
   }
 
-  res.data.forEach((row) => {    
+  res.data.forEach((row) => {
     const tr = document.createElement("tr");
     tr.className = "bg-white border-b border-gray-200 hover:bg-gray-50";
 
@@ -203,10 +210,16 @@ function setTable(res, branch = null) {
 
     tr.innerHTML = `     
       <th scope="row" class="px-4 py-3.5 font-medium text-gray-900 whitespace-nowrap">
-          ${row.track !== "Not Updated" && (getMetaContent("role") == 'admin' || getMetaContent("role") == 'owner')
-            ? `<a href="?id=${row.id}">${capitalizeFirstLetter(row.group_name)}</a>
+          ${
+            row.track !== "Not Updated" &&
+            (getMetaContent("role") == "admin" ||
+              getMetaContent("role") == "owner")
+              ? `<a href="?id=${row.id}">${capitalizeFirstLetter(
+                  row.group_name
+                )}</a>
                <i class="fa-solid fa-check text-sm text-green-600 ml-2"></i>`
-            : row.group_name.charAt(0).toUpperCase() + row.group_name.slice(1)}
+              : row.group_name.charAt(0).toUpperCase() + row.group_name.slice(1)
+          }
       </th>
       <th scope="row" class="px-4 py-2 font-medium text-pink-900 whitespace-nowrap">
       <i class="fa-solid fa-clock mr-1.5"></i>
@@ -263,7 +276,6 @@ function setTable(res, branch = null) {
 
 /** Fetch instructors based on selected branch */
 async function fetchInstructors(branchId) {
-  
   try {
     const response = await fetch(
       `functions/Instructors/get_instructors.php?branch_id=${branchId}`
@@ -276,8 +288,8 @@ async function fetchInstructors(branchId) {
     instructorSelect.innerHTML = !branchId
       ? "<option value=''>Select Branch First</option>"
       : "<option value=''>Choose Instructor</option>";
-      
-    if (res.data) {    
+
+    if (res.data) {
       res.data.forEach((instructorData) => {
         const option = document.createElement("option");
         option.value = instructorData.id;
@@ -386,19 +398,48 @@ const renderFinishButton = (groupName, groupId) => {
 };
 
 /** set query string when page load */
-function setBranchQueryString(branchMeta){
+function setBranchQueryString(branchMeta) {
   const url = new URL(window.location);
-  url.searchParams.set('branch', branchMeta);
-  window.history.pushState({}, '', url.toString());
+  url.searchParams.set("branch", branchMeta);
+  window.history.pushState({}, "", url.toString());
 }
 
- /** debounce in search */
-  function debounce(func, delay) {
-    let timeoutId;
-    return function (...args) {
-      clearTimeout(timeoutId);
-      timeoutId = setTimeout(() => {
-        func.apply(this, args);
-      }, delay);
-    };
+/** debounce in search */
+function debounce(func, delay) {
+  let timeoutId;
+  return function (...args) {
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => {
+      func.apply(this, args);
+    }, delay);
+  };
+}
+
+/** toggle group sort */
+let urlParams = new URLSearchParams(window.location.search);
+let sort = urlParams.get('sort') === 'asc' ? 'asc' : 'desc';
+if(sort == 'asc') {
+  document.getElementById('toggle-sort-icon').classList.add('text-blue-600');
+}
+groupToggle.addEventListener('click' , function(e) {
+  if(sort == 'desc') {
+    setQueryString('sort' , 'asc');
+    sort = 'asc';
+  } else {
+    removeQueryString('sort');
+    sort = 'desc';
   }
+})
+
+/** query string set */
+function setQueryString(key, value) {
+  const url = new URL(window.location);
+  url.searchParams.set(key, value); // Set or update the query param
+  window.location.href = url.toString(); // Reload with updated URL
+}
+
+function removeQueryString(key) {
+  const url = new URL(window.location);
+  url.searchParams.delete(key); // Remove param if value is empty
+  window.location.href = url.toString(); // Reload with updated URL
+}

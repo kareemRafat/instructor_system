@@ -9,6 +9,11 @@
     }
 
 
+    // sort
+    $sort = strtoupper($_GET['sort'] ?? 'DESC');
+    // to prevent sql injection
+    $sort = in_array($sort, ['ASC', 'DESC']) ? $sort : 'DESC';
+
     $query = "SELECT 
                     g.id AS group_id,
                     g.name AS group_name,
@@ -58,7 +63,7 @@
                 WHERE g.is_active = 1
                 AND (:branch IS NULL OR g.branch_id = :branch)
                 GROUP BY g.id
-                ORDER BY g.start_date DESC
+                ORDER BY g.start_date $sort
                 LIMIT $groupPerPage OFFSET $pageNum"; // Adjust LIMIT and OFFSET as needed for pagination
 
     $stmt = $pdo->prepare($query);
@@ -143,8 +148,9 @@
      <table class="w-full text-sm text-left rtl:text-right text-gray-500">
          <thead class="text-xs text-gray-700 uppercase bg-gray-200">
              <tr class="text-base">
-                 <th scope="col" class="px-4 py-3 w-10">
+                 <th scope="col" class="px-4 py-3 w-10 cursor-pointer" id="group-toggle">
                      Group
+                     <i id="toggle-sort-icon" class="fa-solid fa-arrow-right-arrow-left rotate-45 ml-3 text-lg"></i>
                  </th>
                  <th scope="col" class="px-4 py-3">
                      Time
@@ -186,7 +192,7 @@
                  <tr class="odd:bg-white even:bg-gray-50 bg-white border-b border-gray-200 hover:bg-gray-50">
                      <th scope="row" class="px-4 py-2 w-10 font-medium text-gray-900 whitespace-nowrap">
                          <?php
-                            if ($row['lecture_count'] > 0 && hasRole('admin' , 'owner')) : ?>
+                            if ($row['lecture_count'] > 0 && hasRole('admin', 'owner')) : ?>
                              <a href="?id=<?= $row['group_id'] ?>"><?= ucwords($row['group_name']); ?></a>
                              <i class="fa-solid fa-check text-sm text-green-600 ml-2"></i>
                          <?php else: ?>
