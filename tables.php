@@ -189,6 +189,7 @@ $cellHoverColor = ['hover:bg-orange-100', 'hover:bg-indigo-100', 'hover:bg-green
                                 <?php foreach ($times as $index => $time): ?>
                                     <td class="border border-gray-300 <?php echo ($index === 3 && $dayIndex < 2) ? 'border-r-2 border-r-slate-400' : ''; ?> p-2 text-center h-16 w-20 <?= $tdHoverColor ?> cursor-pointer transition-colors duration-300">
                                         <?php
+                                        $_SESSION['params']['tables'] = $_SERVER['QUERY_STRING'] ?? null ;
                                         // For combined time slots
                                         if ($time === '12.30-4.00') {
                                             $firstSlot = isset($schedule[$instructor['id']][$day]['12.30']);

@@ -24,12 +24,8 @@ function getGroupById($groupId, $pdo)
     <div>
         <h3 class="text-2xl font-extrabold leading-none tracking-tight text-gray-900 md:text-4xl">Edit <span class="text-blue-600"><?= ucwords($group['name']) ?></span> Group </h3>
     </div>
-    <a href="<?= isset($_SESSION['page']) ? 'tables.php' : 'groups.php'; ?>" class="inline-flex items-center justify-center self-end p-2 text-base font-medium text-gray-500 rounded-lg bg-gray-100 hover:text-gray-900 hover:bg-gray-200">
-        <svg class="w-4 h-4 me-2 rotate-90" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
-            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h12m0 0L9 1m4 4L9 9" />
-        </svg>
-        <span class="w-full">Back</span>
-    </a>
+    <!-- back button component -->
+    <?php include_once "Design/Components/back-component.php"; ?>
 </div>
 
 <div class="grid gird-cols-1 md:grid-cols-2 gap-2">
@@ -206,7 +202,7 @@ function getGroupById($groupId, $pdo)
         let res = await instructors.json();
         if (res.data) {
             instructorSelect.innerHTML = '<option value="" selected="">Select instructor</option>';
-            res.data.forEach(instructor => {                
+            res.data.forEach(instructor => {
                 let option = document.createElement('option');
                 option.value = instructor.id;
                 option.textContent = capitalizeFirstLetter(instructor.username);
@@ -214,11 +210,11 @@ function getGroupById($groupId, $pdo)
                     option.setAttribute('selected', 'true');
                 }
                 instructorSelect.appendChild(option);
-                
+
                 // You need to clone the <option> before appending it to the second <select> parent
                 let clonedOption = option.cloneNode(true);
                 clonedOption.removeAttribute('selected');
-                if(instructor.id == `<?= $group['second_instructor_id'] ?>`) {
+                if (instructor.id == `<?= $group['second_instructor_id'] ?>`) {
                     clonedOption.setAttribute('selected', true);
                 }
                 newInstructor.appendChild(clonedOption);
