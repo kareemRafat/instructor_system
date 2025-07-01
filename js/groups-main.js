@@ -443,3 +443,4 @@ function removeQueryString(key) {
   url.searchParams.delete(key); // Remove param if value is empty
   window.location.href = url.toString(); // Reload with updated URL
 }
+/** end toggle group sort */

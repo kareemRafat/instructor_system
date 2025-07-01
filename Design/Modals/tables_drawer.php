@@ -220,7 +220,6 @@ $_SESSION['page'] = 'tables.php';
 <script>
    const closeX = document.querySelector('button[data-drawer-hide]');
    const openBtn = document.querySelectorAll('button[data-group-id]');
-   console.log(closeX);
 
    if (isMobileDevice()) {
       // Opening the drawer — push to history
@@ -265,4 +264,5 @@ $_SESSION['page'] = 'tables.php';
          window.innerWidth <= 768
       );
    }
+
 </script>
