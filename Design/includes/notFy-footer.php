@@ -1,13 +1,12 @@
 <script>
     // notFy
     const notyf = new Notyf({
-        duration: 80000,
+        duration: 7000,
         dismissible: true,
         position: {
             x: 'right',
             y: 'top',
         },
-        className : 'w-full md:w-fit'
     });
 </script>
 
@@ -17,14 +16,14 @@
         notyf.success({
             message: 'Welcome to Your Dashboard',
             duration: 3000,
-            icon:'<i class="fa-solid fa-code"></i>' ,
+            icon: '<i class="fa-solid fa-code"></i>',
             dismissible: false,
             position: {
                 y: 'top',
                 x: 'center'
             },
-            background : '#39a0ca',
-            className : 'text-white !shadow-none border-l-8 border-slate-500 font-semibold text-center tracking-wider'
+            background: '#39a0ca',
+            className: 'text-white !shadow-none border-l-8 border-slate-500 font-semibold text-center tracking-wider'
         });
     <?php endif; ?>
     // success toaster
