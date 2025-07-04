@@ -1,12 +1,13 @@
 <script>
     // notFy
     const notyf = new Notyf({
-        duration: 7000,
+        duration: 80000,
         dismissible: true,
         position: {
             x: 'right',
             y: 'top',
         },
+        className : 'w-full md:w-fit'
     });
 </script>
 

@@ -10,7 +10,14 @@
 @media (min-width: 640px) {
   .notyf__toast {
     margin-top: 1.5rem; /* sm:mt-6 */
+    max-width: 100% !important;
   }
+}
+
+@media (max-width : 640px) {
+    .notyf__wrapper {
+      width: 90vw;
+    }
 }
 
 @media (min-width: 768px) {
@@ -22,6 +29,8 @@
 .notyf__ripple {
   width: 700px !important;
 }
+
+
 
 @font-face {
     font-family: header-font;
