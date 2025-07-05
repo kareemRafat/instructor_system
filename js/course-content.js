@@ -3,6 +3,7 @@ export const courseContent = [
       track: "HTML",
       lectures: {
         html: [
+          "Course intro",
           "1 - HTML intro and tags to link or image",
           "2 - HTML 5 table - video - audio",
           "3 - HTML form & meta tags",

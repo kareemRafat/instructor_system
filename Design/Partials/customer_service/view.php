@@ -94,7 +94,7 @@ $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
                             <i class="fa-solid fa-pen-to-square mr-1 hidden md:inline-block"></i>
                             Edit
                         </a>
-                        <button <?= $row['role'] === ROLE ? 'disabled' : '' ?>
+                        <button <?= $row['role'] === ROLE || $row['role'] === 'owner' ? 'disabled' : '' ?>
                             class="w-full md:w-fit toggle-status-btn cursor-pointer text-sm border border-gray-300 py-1 px-2 rounded-lg <?= $row['is_active'] ? 'text-red-600' : 'text-green-600' ?> hover:underline disabled:border-gray-200 disabled:bg-gray-50 disabled:text-gray-500 disabled:shadow-none disabled:cursor-not-allowed disabled:hover:no-underline"
                             data-agent-id="<?= $row['id'] ?>">
                             <?= $row['is_active'] ? '<i class="fa-solid fa-user-slash hidden md:inline-block mr-1"></i>' : '<i class="fa-solid fa-user mr-1"></i>' ?>

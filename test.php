@@ -12,7 +12,7 @@ try {
     $mail->Host = 'smtp.gmail.com';
     $mail->SMTPAuth = true;
     $mail->Username = 'yellowkareem@gmail.com';     // Your Gmail
-    $mail->Password = 'xceq lrwg jryx hxjw';        // App password from Google
+    $mail->Password = '';        // App password from Google
     $mail->SMTPSecure = 'ssl';                    // or 'ssl'
     $mail->Port = 465;                            // 465 for SSL, 587 for TLS
 
