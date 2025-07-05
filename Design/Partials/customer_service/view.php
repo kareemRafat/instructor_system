@@ -27,6 +27,12 @@ $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
         Add Agent
     </button>
 
+    <!-- add salary -->
+    <a id="add-salary" href="?action=add"
+        class="w-full md:w-auto text-white bg-sky-700 hover:bg-sky-800 focus:ring-4 focus:outline-none focus:ring-sky-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
+        Add Month salary
+    </a>
+
     <!-- Search Input -->
     <div class="relative w-full md:flex-1">
         <div class="absolute inset-y-0 left-0 rtl:inset-r-0 rtl:right-0 flex items-center ps-3 pointer-events-none">

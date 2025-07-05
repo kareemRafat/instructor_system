@@ -10,7 +10,6 @@ function getInstructorById($instId, $pdo)
     $stmt = $pdo->prepare("SELECT 
                             * 
                         FROM `instructors` i
-                        JOIN branch_instructor bi ON i.id = bi.instructor_id
                         JOIN branch_instructor ON i.id = branch_instructor.instructor_id
                         WHERE id = :id");
     $stmt->execute([':id' => $instId]);

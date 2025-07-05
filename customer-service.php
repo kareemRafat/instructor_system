@@ -6,30 +6,32 @@ include_once 'Design/includes/navbar.php';
 
 <div class="min-h-screen max-w-7xl mx-auto p-6 pb-20">
     <h1 class="text-3xl font-bold mb-6 text-center text-gray-800">Customer Service</h1>
-    <?php 
+    <?php
 
-        if(!isset($_GET['action'])) {
-            include_once("Design/Partials/customer_service/view.php");
-        } elseif($_GET['action'] == 'edit') {
-            include_once("Design/Partials/customer_service/edit.php");
-        } else {
-             include_once("Design/Partials/customer_service/not_found.php");
-        }
+    if (!isset($_GET['action'])) {
+        include_once("Design/Partials/customer_service/view.php");
+    } elseif ($_GET['action'] == 'add') {
+        include_once("Design/Partials/customer_service/add_salary.php");
+    } elseif ($_GET['action'] == 'edit') {
+        include_once("Design/Partials/customer_service/edit.php");
+    } else {
+        include_once("Design/Partials/customer_service/not_found.php");
+    }
 
     ?>
 </div>
 
-<?php 
-if(!isset($_GET['action'])):
+<?php
+if (!isset($_GET['action'])):
 
-  include_once 'Design/Modals/insert_customer_service.php';
+    include_once 'Design/Modals/insert_customer_service.php';
 
 ?>
 
-<!-- Add this before closing body tag -->
-<script src="dist/cs-main.js"></script>
+    <!-- Add this before closing body tag -->
+    <script src="dist/cs-main.js"></script>
 
-<?php endif ; ?>
+<?php endif; ?>
 
 
 <?php
