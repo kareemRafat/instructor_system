@@ -33,6 +33,8 @@ function getBranches($pdo)
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
+
+
 ?>
 
 <div class="p-3 md:p-3 flex flex-col-reverse md:flex-row justify-between md:items-center gap-3">

@@ -130,7 +130,9 @@ function setTable(res) {
     res.data.forEach((instructor) => {
       const row = document.createElement("tr");
       const roleDisabled =
-        instructor.instructor_role === authCSAdmin ? "disabled" : "";
+        instructor.role === authCSAdmin || instructor.role === "owner"
+          ? "disabled"
+          : "";
       const csAdminIcon =
         instructor.role == "cs-admin"
           ? ` <i class="fa-solid fa-user-shield ml-3 text-green-700"></i>`
@@ -169,6 +171,10 @@ function setTable(res) {
                     </span>
                 </td>
                 <td class="px-6 py-4">
+                    <a href="?action=edit&instructor_id=${instructor.id}" class="cursor-pointer border border-gray-300 py-0.5 px-2 rounded-lg font-medium text-blue-600 hover:underline inline-block text-center w-full md:w-fit">
+                      <i class="fa-solid fa-pen-to-square mr-1 hidden md:inline-block"></i>
+                            Edit
+                    </a>
                     <button ${roleDisabled} class="toggle-status-btn cursor-pointer text-sm border border-gray-300 py-1 px-2 rounded-lg hover:underline disabled:border-gray-200 disabled:bg-gray-50 disabled:text-gray-500 disabled:shadow-none disabled:cursor-not-allowed disabled:hover:no-underline mr-2 ${actionColor}" data-agent-id="${
         instructor.id
       }">

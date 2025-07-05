@@ -90,8 +90,8 @@ $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         </span>
                     </td>
                     <td class="px-6 py-4 flex flex-col md:flex-row gap-1">
-                        <a href="?action=edit&instructor_id=<?= $row['id'] ?>" class="cursor-pointer border border-gray-300 py-0.5 px-2 rounded-lg font-medium text-blue-600 hover:underline inline-block text-center w-full md:w-fit">
-                            <i class="fa-solid fa-pen-to-square mr-1 hidden md:inline-block"></i>
+                        <a href="?action=edit&instructor_id=<?= $row['id'] ?>" class="cursor-pointer border border-gray-300 py-0.5 px-2 rounded-lg font-medium <?= $row['role'] === 'owner' ? 'pointer-events-none text-gray-500 cursor-not-allowed' : 'text-blue-600' ?>  hover:underline inline-block text-center w-full md:w-fit ">
+                            <i class="fa-solid fa-pen-to-square mr-1 hidden md:inline-block text-sm"></i>
                             Edit
                         </a>
                         <button <?= $row['role'] === ROLE || $row['role'] === 'owner' ? 'disabled' : '' ?>
