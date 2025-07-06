@@ -68,6 +68,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             ':total'          => $total,
         ]);
 
+        // send email 
+        include_once("../../Design/Partials/customer_service/cs-email.php");
+
+        die();
+
         $_SESSION['success'] = "Month Salary Added Successfully";
         header('Location: ../../customer-service.php');
     } catch (PDOException $e) {

@@ -12,7 +12,7 @@ try {
     $mail->Host = 'smtp.gmail.com';
     $mail->SMTPAuth = true;
     $mail->Username = 'yellowkareem@gmail.com';     // Your Gmail
-    $mail->Password = '';        // App password from Google
+    $mail->Password = 'xceq lrwg jryx hxjw';        // App password from Google
     $mail->SMTPSecure = 'ssl';                    // or 'ssl'
     $mail->Port = 465;                            // 465 for SSL, 587 for TLS
 
@@ -23,7 +23,7 @@ try {
     // Content
     $mail->isHTML(true);
     $mail->Subject = 'Test Email from PHPMailer';
-    $mail->Body    = 'This is a test <b>HTML</b> email sent using PHPMailer and Gmail SMTP.';
+    $mail->Body = file_get_contents('Design/Partials/customer_service/cs-email.php');
     $mail->AltBody = 'This is the plain text version of the email.';
 
     $mail->send();
