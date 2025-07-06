@@ -28,10 +28,12 @@ $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
     </button>
 
     <!-- add salary -->
+    <?php if(hasRole('owner' , 'admin')): ?>
     <a id="add-salary" href="?action=add"
         class="w-full md:w-auto text-white bg-sky-700 hover:bg-sky-800 focus:ring-4 focus:outline-none focus:ring-sky-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
         Add Month salary
     </a>
+    <?php endif ; ?>
 
     <!-- Search Input -->
     <div class="relative w-full md:flex-1">

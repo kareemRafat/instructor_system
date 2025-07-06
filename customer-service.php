@@ -38,6 +38,7 @@ if (!isset($_GET['action'])):
 include_once "Design/includes/notFy-footer.php";
 ?>
 
+<?php unset($_SESSION['error']); ?>
 </body>
 
 </html>

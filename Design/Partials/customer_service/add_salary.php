@@ -1,6 +1,13 @@
 <?php
 
-$errors = $_SESSION['errors'] ?? [];
+
+if(!hasRole('owner' , 'admin')) {
+    include_once "not_found.php";
+    exit();
+}
+
+
+$errors = $_SESSION['error'] ?? [];
 
 function getInstructors($pdo)
 {
@@ -40,12 +47,12 @@ function getInstructors($pdo)
 </div>
 
 
-<form class="max-w-8xl mx-auto p-6 rounded-lg">
+<form method="post" action="functions/Customer-service/insert_salary.php" class="max-w-8xl mx-auto p-6 rounded-lg">
     <div class="gap-5 grid grid-cols-1  md:grid-cols-2 lg:grid-cols-3">
         <!-- الاسم -->
         <div>
-            <label for="countries" class="block mb-2 text-sm font-medium text-gray-900 ">اختر الموظف</label>
-            <select id="countries" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+            <label for="customer-services" class="block mb-2 text-sm font-medium text-gray-900 ">اختر الموظف</label>
+            <select name="instructor_id" id="customer-services" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
                 <option selected>اختر الموظف</option>
                 <?php foreach (getInstructors($pdo) as $branch => $instructors): ?>
                     <optgroup label="<?= ucwords($branch) ?>" class="tracking-wider">
@@ -55,62 +62,119 @@ function getInstructors($pdo)
                     </optgroup>
                 <?php endforeach; ?>
             </select>
+            <?php if (isset($errors['instructor_id'])) {
+                echo '<div class="p-2 my-2 text-sm font-semibold text-red-800 rounded-lg bg-red-50" role="alert"> ' .
+                    $errors['instructor_id'] .
+                    '</div>';
+            }
+            ?>
         </div>
 
         <!-- المرتب الأساسي -->
         <div>
             <label for="basic_salary" class="block mb-2 text-sm font-medium text-gray-900">المرتب الأساسي</label>
             <input type="number" id="basic_salary" name="basic_salary" class="calc-field bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+            <?php if (isset($errors['basic_salary'])) {
+                echo '<div class="p-2 my-2 text-sm font-semibold text-red-800 rounded-lg bg-red-50" role="alert"> ' .
+                    $errors['basic_salary'] .
+                    '</div>';
+            }
+            ?>
         </div>
 
         <!-- أوفر تايم+مكافأت -->
         <div>
             <label for="overtime_days" class="block mb-2 text-sm font-medium text-gray-900">أوفر تايم + مكافأت (بالأيام)</label>
             <input type="number" id="overtime_days" name="overtime_days" class="calc-field bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+            <?php if (isset($errors['overtime_days'])) {
+                echo '<div class="p-2 my-2 text-sm font-semibold text-red-800 rounded-lg bg-red-50" role="alert"> ' .
+                    $errors['overtime_days'] .
+                    '</div>';
+            }
+            ?>
         </div>
 
         <!-- قيمة اليوم -->
         <div>
             <label for="day_value" class="block mb-2 text-sm font-medium text-gray-900">قيمة اليوم</label>
             <input type="number" id="day_value" name="day_value" class="calc-field bg-gray-50 border border-gray-300 text-blue-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 font-bold">
+            <?php if (isset($errors['day_value'])) {
+                echo '<div class="p-2 my-2 text-sm font-semibold text-red-800 rounded-lg bg-red-50" role="alert"> ' .
+                    $errors['day_value'] .
+                    '</div>';
+            }
+            ?>
         </div>
 
         <!-- التارجت -->
         <div>
             <label for="target" class="block mb-2 text-sm font-medium text-gray-900">التارجت</label>
             <input type="number" id="target" name="target" class="calc-field bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+            <?php if (isset($errors['target'])) {
+                echo '<div class="p-2 my-2 text-sm font-semibold text-red-800 rounded-lg bg-red-50" role="alert"> ' .
+                    $errors['target'] .
+                    '</div>';
+            }
+            ?>
         </div>
 
         <!-- المكافآت -->
         <div>
             <label for="bonuses" class="block mb-2 text-sm font-medium text-gray-900">المكافآت</label>
             <input type="number" id="bonuses" name="bonuses" class="calc-field bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+            <?php if (isset($errors['bonuses'])) {
+                echo '<div class="p-2 my-2 text-sm font-semibold text-red-800 rounded-lg bg-red-50" role="alert"> ' .
+                    $errors['bonuses'] .
+                    '</div>';
+            }
+            ?>
         </div>
 
         <!-- السلف -->
         <div>
             <label for="advances" class="block mb-2 text-sm font-medium text-gray-900">السلف</label>
             <input type="number" id="advances" name="advances" class="calc-field bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+            <?php if (isset($errors['advances'])) {
+                echo '<div class="p-2 my-2 text-sm font-semibold text-red-800 rounded-lg bg-red-50" role="alert"> ' .
+                    $errors['advances'] .
+                    '</div>';
+            }
+            ?>
         </div>
 
         <!-- الغياب -->
         <div>
             <label for="absent_days" class="block mb-2 text-sm font-medium text-gray-900">الغياب (بالأيام)</label>
             <input type="number" id="absent_days" name="absent_days" class="calc-field bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+            <?php if (isset($errors['absent_days'])) {
+                echo '<div class="p-2 my-2 text-sm font-semibold text-red-800 rounded-lg bg-red-50" role="alert"> ' .
+                    $errors['absent_days'] .
+                    '</div>';
+            }
+            ?>
         </div>
 
         <!-- خصم -->
         <div>
             <label for="deduction_days" class="block mb-2 text-sm font-medium text-gray-900">خصم (بالأيام)</label>
             <input type="number" id="deduction_days" name="deduction_days" class="calc-field bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+            <?php if (isset($errors['deduction_days'])) {
+                echo '<div class="p-2 my-2 text-sm font-semibold text-red-800 rounded-lg bg-red-50" role="alert"> ' .
+                    $errors['deduction_days'] .
+                    '</div>';
+            }
+            ?>
         </div>
     </div>
     <!-- الإجمالي -->
     <div class="flex flex-col items-end mt-10">
         <!-- Stylish result display -->
-        <div 
-            class="bg-blue-50 text-blue-700 font-extrabold text-3xl rounded px-6 py-3 border-b-2 border-blue-500 w-[300px]">
-            <label class="block mr-7 mb-2 text-sm font-medium text-gray-900">الإجمالي</label>
+        <div
+            class="bg-blue-50 text-blue-700 font-extrabold text-3xl px-6 py-3 border-b-2 border-blue-500 w-full" dir="rtl">
+            <div class="flex gap-4 items-center mb-3">
+                <i class="fa-solid fa-vault text-sm"></i>
+                <label class="block ml-7 text-base font-semibold text-gray-900">الإجمالي</label>
+            </div>
             <span id="totalDisplayBox">0.00</span>
         </div>
 

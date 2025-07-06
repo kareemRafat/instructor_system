@@ -1,0 +1,22 @@
+CREATE TABLE salary_records (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+
+    instructor_id INT NOT NULL,                    -- FK to instructors.id
+
+    basic_salary DECIMAL(10,2) DEFAULT 0,          -- المرتب الأساسي
+    overtime_days INT DEFAULT 0,                   -- أوفر تايم + مكافآت (بالأيام)
+    day_value DECIMAL(10,2) DEFAULT 0,             -- قيمة اليوم
+    target DECIMAL(10,2) DEFAULT 0,                -- التارجت
+    bonuses DECIMAL(10,2) DEFAULT 0,               -- المكافآت
+    advances DECIMAL(10,2) DEFAULT 0,              -- السلف
+    absent_days INT DEFAULT 0,                     -- الغياب (بالأيام)
+    deduction_days INT DEFAULT 0,                  -- خصم (بالأيام)
+    total DECIMAL(10,2) DEFAULT 0,                 -- الإجمالي
+
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT fk_instructor
+        FOREIGN KEY (instructor_id)
+        REFERENCES instructors(id)
+        ON DELETE CASCADE
+);

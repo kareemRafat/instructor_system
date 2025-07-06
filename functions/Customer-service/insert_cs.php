@@ -53,7 +53,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $pdo->rollBack();
 
         echo $e->getMessage();
-        $_SESSION['errors'] = $e->getMessage();
+        $_SESSION['errors'][] = $e->getMessage();
         header('Location: ../../customer-service.php');
     }
 }
