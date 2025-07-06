@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <title>ملخص الراتب</title>
 </head>
+
 <body style="margin:0;padding:0;background-color:#f0f0f0;font-family:'Tahoma','Arial',sans-serif;direction:rtl;">
 
   <table width="100%" cellpadding="0" cellspacing="0" style="max-width:600px;margin:30px auto;background-color:#ffffff;border:1px solid #ddd;border-radius:8px;overflow:hidden;">
@@ -19,12 +20,12 @@
     <tr>
       <td style="padding:24px;">
         <table width="100%" cellpadding="0" cellspacing="0" style="font-size:15px;line-height:1.8;color:#222;">
-          
+
           <!-- Row: Name & Date -->
           <tr>
             <td style="padding:8px 0;">
               <strong>اسم الموظف:</strong><br>
-              مصطفى محمد
+              <span style="color:blue;font-weight:bold"><?= $salaryDataToEmail['cs_name'] ?></span>
             </td>
             <td style="padding:8px 0;text-align:left;">
               <strong>التاريخ:</strong><br>
@@ -36,54 +37,54 @@
           <tr style="background-color:#f9f9f9;">
             <td style="padding:10px 0;">
               <strong>الراتب الأساسي:</strong><br>
-              5000 جنيه
+              <span style="color:Green;font-weight:bold"><?= $salaryDataToEmail['basic_salary'] ?></span> جنيه
             </td>
             <td style="padding:10px 0;text-align:left;">
               <strong>أيام الأوفر تايم:</strong><br>
-              3 أيام
+              <span style="color:blue;font-weight:bold"><?= $salaryDataToEmail['overtime_days'] ?></span> أيام
             </td>
           </tr>
 
           <!-- Row: Day Value & Target -->
           <tr>
             <td style="padding:10px 0;">
-              <strong>قيمة اليوم:</strong><br>
-              150 جنيه
+              <strong>المكافآت:</strong><br>
+              <span style="color:blue;font-weight:bold"><?= $salaryDataToEmail['bonuses'] ?></span> جنيه
             </td>
             <td style="padding:10px 0;text-align:left;">
               <strong>التارجت:</strong><br>
-              800 جنيه
+              <span style="color:blue;font-weight:bold"><?= $salaryDataToEmail['target'] ?></span> جنيه
             </td>
           </tr>
 
           <!-- Row: Bonuses & Advances -->
           <tr style="background-color:#f9f9f9;">
             <td style="padding:10px 0;">
-              <strong>المكافآت:</strong><br>
-              300 جنيه
+              <strong>الغياب:</strong><br>
+              <span><?= $salaryDataToEmail['absent_days'] ?></span> أيام
             </td>
             <td style="padding:10px 0;text-align:left;">
               <strong>السلف:</strong><br>
-              500 جنيه
+              <span style="color:blue;font-weight:bold"><?= $salaryDataToEmail['advances'] ?></span> جنيه
             </td>
+
           </tr>
 
           <!-- Row: Absent & Deductions -->
           <tr>
-            <td style="padding:10px 0;">
-              <strong>الغياب:</strong><br>
-              2 أيام
+            <td style="padding:10px 0;text-align:right;">
+              <strong>الخصم:</strong><br>
+              <span style="color:blue;font-weight:bold"><?= $salaryDataToEmail['deduction_days'] ?></span> أيام
             </td>
             <td style="padding:10px 0;text-align:left;">
-              <strong>الخصم:</strong><br>
-              1 أيام
+          
             </td>
           </tr>
 
           <!-- Row: Total -->
           <tr>
             <td colspan="2" style="padding:20px 0;text-align:center;border-top:1px solid #ccc;">
-              <strong style="font-size:18px;color:#1b5e20;">الإجمالي: 5800 جنيه</strong>
+              <strong style="font-size:18px;color:#1b5e20;">الإجمالي: <span><?= $salaryDataToEmail['total'] ?></span> جنيه</strong>
             </td>
           </tr>
 
@@ -101,4 +102,5 @@
   </table>
 
 </body>
+
 </html>

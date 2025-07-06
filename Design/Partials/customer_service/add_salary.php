@@ -50,6 +50,7 @@ function getInstructors($pdo)
 <form method="post" action="functions/Customer-service/insert_salary.php" class="max-w-8xl mx-auto p-6 rounded-lg">
     <div class="gap-5 grid grid-cols-1  md:grid-cols-2 lg:grid-cols-3">
         <!-- الاسم -->
+        <input type="hidden" value="" name="cs_name" id="cs_name">
         <div>
             <label for="customer-services" class="block mb-2 text-sm font-medium text-gray-900 ">اختر الموظف</label>
             <select name="instructor_id" id="customer-services" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
@@ -225,4 +226,8 @@ function getInstructors($pdo)
         // update the div instead of input
         document.getElementById("totalDisplayBox").textContent = formatted;
     }
+
+    document.getElementById('customer-services').addEventListener('input' , function(){
+        document.getElementById('cs_name').value = this.options[this.selectedIndex].text;;
+    })
 </script>

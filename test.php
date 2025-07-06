@@ -22,8 +22,8 @@ try {
 
     // Content
     $mail->isHTML(true);
-    $mail->Subject = 'Test Email from PHPMailer';
-    $mail->Body = file_get_contents('Design/Partials/customer_service/cs-email.php');
+    $mail->Subject = 'ملخص الراتب الشهري';
+    $mail->Body = file_get_contents($filePath);
     $mail->AltBody = 'This is the plain text version of the email.';
 
     $mail->send();

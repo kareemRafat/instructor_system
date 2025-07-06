@@ -13,6 +13,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     try {
 
         // Step 2: Retrieve POST data safely
+        $cs_name = $_POST['cs_name'] ?? null;
         $instructor_id   = $_POST['instructor_id'] ?? 0;
         $basic_salary    = $_POST['basic_salary'] ?? 0;
         $overtime_days   = $_POST['overtime_days'] ?? 0;
@@ -68,8 +69,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             ':total'          => $total,
         ]);
 
+        $salaryDataToEmail = [
+            'basic_salary'   => $basic_salary,
+            'overtime_days'  => $overtime_days,
+            'day_value'      => $day_value,
+            'target'         => $target,
+            'bonuses'        => $bonuses,
+            'advances'       => $advances,
+            'absent_days'    => $absent_days,
+            'deduction_days' => $deduction_days,
+            'total'          => $total,
+            'cs_name' => $cs_name
+        ];
+
         // send email 
-        include_once("../../Design/Partials/customer_service/cs-email.php");
+        $filePath = "../../Design/Partials/customer_service/cs-email.php";
+        include_once("../../test.php");
 
         die();
 
