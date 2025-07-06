@@ -82,11 +82,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             'cs_name' => $cs_name
         ];
 
+        // email html design path
+        include_once "../../Design/Partials/customer_service/cs-email.php";
+        $emailBody = renderEmailTemplate($salaryDataToEmail);
         // send email 
-        $filePath = "../../Design/Partials/customer_service/cs-email.php";
-        include_once("../../test.php");
-
-        die();
+        include_once("../send-email.php");
 
         $_SESSION['success'] = "Month Salary Added Successfully";
         header('Location: ../../customer-service.php');

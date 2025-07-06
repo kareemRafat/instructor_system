@@ -2,7 +2,7 @@
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
-require 'vendor/autoload.php'; // or include files manually if not using Composer
+require __DIR__ . '/../vendor/autoload.php';
 
 $mail = new PHPMailer(true);
 
@@ -17,17 +17,18 @@ try {
     $mail->Port = 465;                            // 465 for SSL, 587 for TLS
 
     // Recipients
-    $mail->setFrom('yellowkareem@gmail.com', 'kareem');
+    $mail->setFrom('yellowkareem@gmail.com', 'Createivo');
     $mail->addAddress('kareem.force@gmail.com', 'AHMED');
 
     // Content
     $mail->isHTML(true);
+    $mail->CharSet = 'UTF-8';
     $mail->Subject = 'ملخص الراتب الشهري';
-    $mail->Body = file_get_contents($filePath);
+    $mail->Body = $emailBody;
     $mail->AltBody = 'This is the plain text version of the email.';
 
     $mail->send();
-    echo 'Message has been sent successfully';
+    $_SESSION['success'] = 'Message has been sent successfully';
 } catch (Exception $e) {
     echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
 }
