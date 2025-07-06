@@ -64,6 +64,7 @@ function hasRole(...$roles)
                                         Instructors
                                     </a>
                                 </li>
+
                             <?php } ?>
                             <?php
                             if (hasRole('admin', 'cs-admin', 'owner')) {
@@ -73,6 +74,17 @@ function hasRole(...$roles)
                                         class=" <?= $pageName == 'customer-service.php' ? 'text-blue-600' : '' ?> block px-4 py-2 hover:bg-gray-100">
                                         <i class="fa-brands fa-teamspeak text-blue-700"></i>
                                         Customer Service
+                                    </a>
+                                </li>
+                            <?php } ?>
+                            <?php
+                            if (hasRole('admin', 'owner')) {
+                            ?>
+                                <li>
+                                    <a href="salaries.php"
+                                        class=" <?= $pageName == 'salaries.php' ? 'text-blue-600' : '' ?> block px-4 py-2 hover:bg-gray-100">
+                                        <i class="fa-solid fa-vault !text-sm text-blue-700"></i>
+                                        Salaries
                                     </a>
                                 </li>
                             <?php } ?>
