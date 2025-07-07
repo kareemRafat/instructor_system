@@ -6,7 +6,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // Validate input
     if (!checkSalaryFormErrors($_POST, $pdo)) {
-        header("Location: ../../customer-service.php?action=add");
+        header("Location: ../../customer-service.php?action=add&id=" . $_POST['instructor_id']);
         exit();
     }
 
@@ -23,6 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $advances        = $_POST['advances'] ?? 0;
         $absent_days     = $_POST['absent_days'] ?? 0;
         $deduction_days  = $_POST['deduction_days'] ?? 0;
+        $created_at  = $_POST['created_at'] ?? 0;
 
         // Convert to float/int safely
         $basic_salary   = (float)$basic_salary;
@@ -34,6 +35,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $absent_days    = (int)$absent_days;
         $deduction_days = (int)$deduction_days;
 
+
         // Step 3: Calculate الإجمالي (total)
         $total = ($basic_salary + ($overtime_days * $day_value) + $target + $bonuses - $advances)
             - ($absent_days * $day_value) - ($deduction_days * $day_value);
@@ -41,12 +43,57 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if ($total < 0) {
             // It’s a negative value
             $_SESSION['errors'][] = "القيمة النهائية قيمة سالبة !";
-            header("Location: ../../customer-service.php?action=add");
+            header("Location: ../../customer-service.php?action=add&id=" . $_POST['instructor_id']);
             exit();
         }
 
-        // Step 4: Prepare and execute the SQL INSERT
-        $sql = "INSERT INTO salary_records (
+        // check insturctor first
+        $checkStmt = $pdo->prepare("
+            SELECT id FROM salary_records 
+            WHERE instructor_id = :instructor_id AND created_at = :created_at
+        ");
+        $checkStmt->execute([
+            ':instructor_id' => $instructor_id,
+            ':created_at' => $created_at
+        ]);
+
+        $existingId = $checkStmt->fetchColumn();
+
+        if ($existingId) {
+            // UPDATE
+            $updateStmt = $pdo->prepare("
+                UPDATE salary_records SET
+                    basic_salary = :basic_salary,
+                    overtime_days = :overtime_days,
+                    day_value = :day_value,
+                    target = :target,
+                    bonuses = :bonuses,
+                    advances = :advances,
+                    absent_days = :absent_days,
+                    deduction_days = :deduction_days,
+                    total = :total
+                WHERE instructor_id = :instructor_id AND created_at = :created_at
+            ");
+            $updateStmt->execute([
+                ':basic_salary' => $basic_salary,
+                ':overtime_days' => $overtime_days,
+                ':day_value' => $day_value,
+                ':target' => $target,
+                ':bonuses' => $bonuses,
+                ':advances' => $advances,
+                ':absent_days' => $absent_days,
+                ':deduction_days' => $deduction_days,
+                ':total' => $total,
+                ':instructor_id' => $instructor_id,
+                ':created_at' => $created_at
+            ]);
+
+            $_SESSION['success'] = "Month Salary Updated";
+            header("Location: ../../customer-service.php?action=add&id=" . $_POST['instructor_id']);
+        } else {
+            // INSERT
+            // Step 4: Prepare and execute the SQL INSERT
+            $sql = "INSERT INTO salary_records (
                     instructor_id, basic_salary, overtime_days, day_value, target,
                     bonuses, advances, absent_days, deduction_days, total
                 ) VALUES (
@@ -54,42 +101,43 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     :bonuses, :advances, :absent_days, :deduction_days, :total
                 )";
 
-        $stmt = $pdo->prepare($sql);
+            $stmt = $pdo->prepare($sql);
 
-        $success = $stmt->execute([
-            ':instructor_id'  => $instructor_id,
-            ':basic_salary'   => $basic_salary,
-            ':overtime_days'  => $overtime_days,
-            ':day_value'      => $day_value,
-            ':target'         => $target,
-            ':bonuses'        => $bonuses,
-            ':advances'       => $advances,
-            ':absent_days'    => $absent_days,
-            ':deduction_days' => $deduction_days,
-            ':total'          => $total,
-        ]);
+            $success = $stmt->execute([
+                ':instructor_id'  => $instructor_id,
+                ':basic_salary'   => $basic_salary,
+                ':overtime_days'  => $overtime_days,
+                ':day_value'      => $day_value,
+                ':target'         => $target,
+                ':bonuses'        => $bonuses,
+                ':advances'       => $advances,
+                ':absent_days'    => $absent_days,
+                ':deduction_days' => $deduction_days,
+                ':total'          => $total,
+            ]);
 
-        $salaryDataToEmail = [
-            'basic_salary'   => $basic_salary,
-            'overtime_days'  => $overtime_days,
-            'day_value'      => $day_value,
-            'target'         => $target,
-            'bonuses'        => $bonuses,
-            'advances'       => $advances,
-            'absent_days'    => $absent_days,
-            'deduction_days' => $deduction_days,
-            'total'          => $total,
-            'cs_name' => $cs_name
-        ];
 
-        // email html design path
-        include_once "../../Design/Partials/customer_service/cs-email.php";
-        $emailBody = renderEmailTemplate($salaryDataToEmail);
-        // send email 
-        include_once("../send-email.php");
 
-        $_SESSION['success'] = "Month Salary Added Successfully";
-        header('Location: ../../customer-service.php');
+            $_SESSION['success'] = "Month Salary Added Successfully";
+            header('Location: ../../customer-service.php');
+        }
+
+        // work when sending report only
+        if (isset($_POST['send_report'])) {
+            $salaryDataToEmail = [
+                'basic_salary'   => $basic_salary,
+                'overtime_days'  => $overtime_days,
+                'day_value'      => $day_value,
+                'target'         => $target,
+                'bonuses'        => $bonuses,
+                'advances'       => $advances,
+                'absent_days'    => $absent_days,
+                'deduction_days' => $deduction_days,
+                'total'          => $total,
+                'cs_name' => ucwords($cs_name)
+            ];
+            sendMail($salaryDataToEmail);
+        }
     } catch (PDOException $e) {
         echo $e->getMessage();
         $_SESSION['errors'][] = $e->getMessage();
@@ -145,4 +193,14 @@ function checkSalaryFormErrors(array $formData, PDO $pdo): bool
     }
 
     return true;
+}
+
+function sendMail($salaryDataToEmail)
+{
+    // send report when click on send report
+    // email html design path
+    include_once "../../Design/Partials/customer_service/cs-email.php";
+    $emailBody = renderEmailTemplate($salaryDataToEmail);
+    // send email 
+    include_once("../send-email.php");
 }

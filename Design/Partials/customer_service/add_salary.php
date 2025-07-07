@@ -1,42 +1,66 @@
 <?php
 
 
-if(!hasRole('owner' , 'admin')) {
+if (!hasRole('owner', 'admin')) {
     include_once "not_found.php";
     exit();
 }
 
+$agentId = $_GET['id'];
+$agentRecores = getAgentSalaryRecords($agentId, $pdo);
+$agent = getAgentById($agentId, $pdo);
 
-$errors = $_SESSION['error'] ?? [];
+function getAgentSalaryRecords($agentId, $pdo)
+{
+    $stmt = $pdo->prepare("SELECT
+                        i.username AS cs_name ,
+                        i.role,
+                        sr.instructor_id AS instructor_id,
+                        sr.basic_salary AS basic_salary ,
+                        sr.overtime_days AS overtime_days , 
+                        sr.day_value AS day_value ,
+                        sr.target AS target , 
+                        sr.bonuses AS bonuses , 
+                        sr.advances AS advances , 
+                        sr.absent_days AS absent_days , 
+                        sr.deduction_days AS deduction_days , 
+                        sr.total AS total ,
+                        sr.created_at AS created_at
+                        FROM instructors i 
+                        JOIN salary_records sr ON i.id = sr.instructor_id
+                        WHERE i.id = :id");
+    $stmt->execute([':id' => $agentId]);
+    $instructor = $stmt->fetch(PDO::FETCH_ASSOC);
 
-function getInstructors($pdo)
+    return $instructor;
+}
+
+
+function getAgentById($agentId, $pdo)
 {
     $stmt = $pdo->prepare("SELECT 
-                            i.id ,
-                            i.username AS username ,
-                            bi.branch_id AS branch_id,
-                            b.name AS branch_name
+                            * 
                         FROM `instructors` i
-                        JOIN branch_instructor bi ON i.id = bi.instructor_id
-                        JOIN branches b ON b.id = bi.branch_id 
-                        WHERE i.role IN ('cs-admin' , 'cs')");
-    $stmt->execute();
-    $instructors = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                        JOIN branch_instructor ON i.id = branch_instructor.instructor_id
+                        WHERE id = :id");
+    $stmt->execute([':id' => $agentId]);
+    $instructor = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-    $finalData = [];
-
-    foreach ($instructors as $instructor) {
-        $finalData[$instructor['branch_name']][] = $instructor;
+    if (empty($instructor) || $instructor[0]['role'] == 'owner') {
+        include "not_found.php";
+        exit();
     }
 
-    return $finalData;
+    return $instructor;
 }
+
+$errors = $_SESSION['error'] ?? [];
 
 ?>
 
 <div class="p-3 md:p-3 flex flex-col-reverse md:flex-row justify-between md:items-center gap-3">
     <div>
-        <h3 class="text-2xl font-extrabold leading-none tracking-tight text-gray-900 md:text-4xl">Add <span class="text-blue-600"> SALARY</span> info </h3>
+        <h3 class="text-2xl font-extrabold leading-none tracking-tight text-gray-900 md:text-4xl">Edit <span class="text-blue-600"><?= ucwords($agent[0]['username']) ?></span>'s info </h3>
     </div>
     <a href="customer-service.php" class="inline-flex items-center justify-center self-end p-2 text-base font-medium text-gray-500 rounded-lg bg-gray-100 hover:text-gray-900 hover:bg-gray-200">
         <svg class="w-4 h-4 me-2 rotate-90" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
@@ -46,35 +70,18 @@ function getInstructors($pdo)
     </a>
 </div>
 
-
+<!-- action="functions/Customer-service/insert_salary.php" -->
 <form method="post" action="functions/Customer-service/insert_salary.php" class="max-w-8xl mx-auto p-6 rounded-lg">
     <div class="gap-5 grid grid-cols-1  md:grid-cols-2 lg:grid-cols-3">
         <!-- الاسم -->
-        <input type="hidden" value="" name="cs_name" id="cs_name">
-        <div>
-            <label for="customer-services" class="block mb-2 text-sm font-medium text-gray-900 ">اختر الموظف</label>
-            <select name="instructor_id" id="customer-services" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
-                <option selected>اختر الموظف</option>
-                <?php foreach (getInstructors($pdo) as $branch => $instructors): ?>
-                    <optgroup label="<?= ucwords($branch) ?>" class="tracking-wider">
-                        <?php foreach ($instructors as $instructor) : ?>
-                            <option value="<?= $instructor['id'] ?>"><?= ucwords($instructor['username']) ?></option>
-                        <?php endforeach; ?>
-                    </optgroup>
-                <?php endforeach; ?>
-            </select>
-            <?php if (isset($errors['instructor_id'])) {
-                echo '<div class="p-2 my-2 text-sm font-semibold text-red-800 rounded-lg bg-red-50" role="alert"> ' .
-                    $errors['instructor_id'] .
-                    '</div>';
-            }
-            ?>
-        </div>
+        <input type="hidden" value="<?= $agent[0]['username'] ?>" name="cs_name">
+        <input type="hidden" value="<?= $agent[0]['id'] ?>" name="instructor_id">
+        <input type="hidden" value="<?= $agentRecores['created_at'] ?>" name="created_at">
 
         <!-- المرتب الأساسي -->
         <div>
             <label for="basic_salary" class="block mb-2 text-sm font-medium text-gray-900">المرتب الأساسي</label>
-            <input type="number" id="basic_salary" name="basic_salary" class="calc-field bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+            <input type="number" id="basic_salary" value="<?= floor($agentRecores['basic_salary']) ?? 4500 ?>" name="basic_salary" class="calc-field bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 font-bold tracking-wider">
             <?php if (isset($errors['basic_salary'])) {
                 echo '<div class="p-2 my-2 text-sm font-semibold text-red-800 rounded-lg bg-red-50" role="alert"> ' .
                     $errors['basic_salary'] .
@@ -86,7 +93,7 @@ function getInstructors($pdo)
         <!-- أوفر تايم+مكافأت -->
         <div>
             <label for="overtime_days" class="block mb-2 text-sm font-medium text-gray-900">أوفر تايم + مكافأت (بالأيام)</label>
-            <input type="number" value="0" id="overtime_days" name="overtime_days" class="calc-field bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+            <input type="number" value="<?= $agentRecores['overtime_days'] ?? 0 ?>" id="overtime_days" name="overtime_days" class="calc-field bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 font-bold tracking-wider">
             <?php if (isset($errors['overtime_days'])) {
                 echo '<div class="p-2 my-2 text-sm font-semibold text-red-800 rounded-lg bg-red-50" role="alert"> ' .
                     $errors['overtime_days'] .
@@ -98,7 +105,7 @@ function getInstructors($pdo)
         <!-- قيمة اليوم -->
         <div>
             <label for="day_value" class="block mb-2 text-sm font-medium text-gray-900">قيمة اليوم</label>
-            <input type="number" placeholder="Auto Generated with Salary" id="day_value" name="day_value" class="calc-field bg-gray-50 border border-gray-300 text-blue-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 font-bold">
+            <input type="number" value="<?= $agentRecores['day_value'] ?? 0 ?>" placeholder="Auto Generated with Salary" id="day_value" name="day_value" class="calc-field bg-gray-50 border border-gray-300 text-blue-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 font-bold tracking-wider">
             <?php if (isset($errors['day_value'])) {
                 echo '<div class="p-2 my-2 text-sm font-semibold text-red-800 rounded-lg bg-red-50" role="alert"> ' .
                     $errors['day_value'] .
@@ -110,7 +117,7 @@ function getInstructors($pdo)
         <!-- التارجت -->
         <div>
             <label for="target" class="block mb-2 text-sm font-medium text-gray-900">التارجت</label>
-            <input type="number" value="0" id="target" name="target" class="calc-field bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+            <input type="number" value="<?= floor($agentRecores['target'] ?? 0) ?>" id="target" name="target" class="calc-field bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 font-bold tracking-wider">
             <?php if (isset($errors['target'])) {
                 echo '<div class="p-2 my-2 text-sm font-semibold text-red-800 rounded-lg bg-red-50" role="alert"> ' .
                     $errors['target'] .
@@ -122,7 +129,7 @@ function getInstructors($pdo)
         <!-- المكافآت -->
         <div>
             <label for="bonuses" class="block mb-2 text-sm font-medium text-gray-900">المكافآت</label>
-            <input type="number" value="0" id="bonuses" name="bonuses" class="calc-field bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+            <input type="number" value="<?= floor($agentRecores['bonuses'] ?? 0) ?>" id="bonuses" name="bonuses" class="calc-field bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 font-bold tracking-wider">
             <?php if (isset($errors['bonuses'])) {
                 echo '<div class="p-2 my-2 text-sm font-semibold text-red-800 rounded-lg bg-red-50" role="alert"> ' .
                     $errors['bonuses'] .
@@ -134,7 +141,7 @@ function getInstructors($pdo)
         <!-- السلف -->
         <div>
             <label for="advances" class="block mb-2 text-sm font-medium text-gray-900">السلف</label>
-            <input type="number" value="0" id="advances" name="advances" class="calc-field bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+            <input type="number" value="<?= floor($agentRecores['advances'] ?? 0) ?>" id="advances" name="advances" class="calc-field bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 font-bold tracking-wider">
             <?php if (isset($errors['advances'])) {
                 echo '<div class="p-2 my-2 text-sm font-semibold text-red-800 rounded-lg bg-red-50" role="alert"> ' .
                     $errors['advances'] .
@@ -146,7 +153,7 @@ function getInstructors($pdo)
         <!-- الغياب -->
         <div>
             <label for="absent_days" class="block mb-2 text-sm font-medium text-gray-900">الغياب (بالأيام)</label>
-            <input type="number" value="0" id="absent_days" name="absent_days" class="calc-field bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+            <input type="number" value="<?= $agentRecores['absent_days'] ?? 0 ?>" id="absent_days" name="absent_days" class="calc-field bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 font-bold tracking-wider">
             <?php if (isset($errors['absent_days'])) {
                 echo '<div class="p-2 my-2 text-sm font-semibold text-red-800 rounded-lg bg-red-50" role="alert"> ' .
                     $errors['absent_days'] .
@@ -158,7 +165,7 @@ function getInstructors($pdo)
         <!-- خصم -->
         <div>
             <label for="deduction_days" class="block mb-2 text-sm font-medium text-gray-900">خصم (بالأيام)</label>
-            <input type="number" value="0" id="deduction_days" name="deduction_days" class="calc-field bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+            <input type="number" value="<?= $agentRecores['deduction_days'] ?? 0 ?>" id="deduction_days" name="deduction_days" class="calc-field bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 font-bold tracking-wider">
             <?php if (isset($errors['deduction_days'])) {
                 echo '<div class="p-2 my-2 text-sm font-semibold text-red-800 rounded-lg bg-red-50" role="alert"> ' .
                     $errors['deduction_days'] .
@@ -176,18 +183,30 @@ function getInstructors($pdo)
                 <i class="fa-solid fa-vault text-sm"></i>
                 <label class="block ml-7 text-base font-semibold text-gray-900">الإجمالي</label>
             </div>
-            <span id="totalDisplayBox">0.00</span>
+            <span id="totalDisplayBox"></span>
         </div>
 
     </div>
     <!-- Submit Button -->
-    <button type="submit" class="mt-5 w-fit text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm  sm:w-auto px-5 py-2.5 text-center">
-        حفظ البيانات
-    </button>
+    <div class="flex flex-col md:flex-row justify-between items-center">
+        <button type="submit" class="mt-5 w-full md:w-fit text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm  sm:w-auto px-5 py-2.5 text-center">
+            حفظ البيانات
+        </button>
+
+        <button
+            type="submit"
+            name="send_report"
+            id="sendBtn"
+            class="mt-5 w-full md:w-fit text-white bg-blue-700 hover:bg-blue-800 
+            focus:ring-4 focus:outline-none focus:ring-blue-300 
+            font-medium rounded-lg text-sm sm:w-auto px-5 py-2.5 text-center
+            disabled:bg-blue-500 disabled:text-white disabled:cursor-not-allowed"
+            onclick="setTimeout(() => this.disabled = true, 1)">
+            ارسال التقرير
+        </button>
+    </div>
 
 </form>
-
-
 
 
 
@@ -222,12 +241,10 @@ function getInstructors($pdo)
             (absent * dayVal) -
             (deduction * dayVal);
 
-        const formatted = total.toFixed(2);
+        const formatted = total.toFixed(0);
         // update the div instead of input
         document.getElementById("totalDisplayBox").textContent = formatted;
     }
 
-    document.getElementById('customer-services').addEventListener('input' , function(){
-        document.getElementById('cs_name').value = this.options[this.selectedIndex].text;;
-    })
+    calculateTotal();
 </script>
