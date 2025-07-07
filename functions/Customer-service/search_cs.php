@@ -16,7 +16,7 @@ try {
         LEFT JOIN branch_instructor ON instructors.id = branch_instructor.instructor_id
         LEFT JOIN branches ON branches.id = branch_instructor.branch_id
         WHERE instructors.username LIKE :search
-        AND role IN ('cs' ,'cs-admin' , 'owner')
+        AND role IN ('cs' ,'cs-admin')
         GROUP BY instructors.id, instructors.username, instructors.is_active
         ORDER BY instructors.is_active DESC";
 
