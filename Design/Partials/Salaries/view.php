@@ -34,6 +34,11 @@ foreach ($records as $record) {
         </tr>
     </thead>
     <tbody class="text-base font-medium">
+        <?php if(empty($records)): ?>
+            <tr class="odd:bg-white even:bg-gray-50 border-b border-gray-200 hover:bg-gray-100">
+                    <td class="px-4 py-3 text-gray-800" colspan="11">No Records Found</td>
+            <tr>
+        <?php endif; ?>
         <?php foreach ($grouped as $month => $rows): ?>
             <?php
             $monthlyTotal = 0;
