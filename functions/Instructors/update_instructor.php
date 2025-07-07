@@ -15,6 +15,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         $id = $_POST['id'];
         $username = trim($_POST['username']);
+        $email = trim($_POST['email']);
         $password = $_POST['password'];
         $branchIds = $_POST['branch_ids'] ?? [];
 
@@ -31,10 +32,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
 
         // update instructor
-        $query = "UPDATE instructors SET username = :username WHERE id = $id";
+        $query = "UPDATE instructors SET username = :username , email = :email WHERE id = $id";
         $stmt = $pdo->prepare($query);
         $stmt->execute([
             ':username' => $username,
+            ':email' => $email,
         ]);
 
         // update pivot table
@@ -69,6 +71,10 @@ function checkErrors($formData, $id,  $pdo): bool
 
     if (empty($formData['username'])) {
         $errors['username'] = "username is required.";
+    }
+
+    if (empty($formData['email'])) {
+        $errors['email'] = "Email is required.";
     }
 
     if (empty($formData['branch_ids']) || !is_array($formData['branch_ids'])) {

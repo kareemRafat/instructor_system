@@ -4,6 +4,7 @@ $query = "
         SELECT 
             i.id,
             i.username,
+            i.email,
             i.is_active,
             i.role,
             MIN(b.name) AS branch_name,
@@ -54,6 +55,9 @@ $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 <th scope="col" class="px-6 py-2">
                     Username
                 </th>
+                <th scope="col" class="px-6 py-2">
+                    Email
+                </th>
                 <th scope="col" class="px-6 py-2" >
                     Branch
                 </th>
@@ -80,6 +84,9 @@ $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     class="odd:bg-white even:bg-gray-50 bg-white border-b border-gray-200 hover:bg-gray-50">
                     <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
                         <?= ucwords($row['username']) ?>
+                    </th>
+                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
+                        <?= ucwords($row['email'] ?? '<span class="text-gray-400">Not Assigned</span>') ?>
                     </th>
                     <td class="pr-3 py-4 md:flex  md:flex-row md:justify-start">
                         <?php

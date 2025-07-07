@@ -4,6 +4,7 @@ $instId = $_GET['instructor_id'];
 $instructor = getInstructorById($instId, $pdo);
 $errors = $_SESSION['errors'] ?? [];
 
+
 function getInstructorById($instId, $pdo)
 {
     $stmt = $pdo->prepare("SELECT 
@@ -14,12 +15,12 @@ function getInstructorById($instId, $pdo)
     $stmt->execute([':id' => $instId]);
     $instructor = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-    if(empty($instructor)) {
+    if (empty($instructor)) {
         include "not_found.php";
         exit();
     }
 
-    return $instructor ;
+    return $instructor;
 }
 
 function getBranches($pdo)
@@ -62,6 +63,15 @@ function getBranches($pdo)
         </div>
         <div class="col-span-2">
             <?php include "Design/Components/password-input.php"; ?>
+        </div>
+        <div class="col-span-2"> <label for="email" class="block mb-2 text-sm font-medium text-gray-900">Email</label>
+            <input type="text" name="email" id="email" value="<?= $instructor[0]['email'] ?? '' ?>" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" placeholder="Enter instructor Email" required>
+            <?php if (isset($errors['email'])) {
+                echo '<div class="p-2 my-2 text-sm text-red-800 rounded-lg bg-red-50" role="alert"> ' .
+                    $errors['email'] .
+                    '</div>';
+            }
+            ?>
         </div>
         <div class="col-span-2">
             <label class="block mb-2 text-sm font-medium text-gray-900">Branches</label>
