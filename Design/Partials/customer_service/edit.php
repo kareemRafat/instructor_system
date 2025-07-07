@@ -52,7 +52,8 @@ function getBranches($pdo)
 <form class="p-4 md:p-5" action="functions/Customer-service/update_cs.php" method="POST">
     <input type="hidden" name="id" value="<?= $instId ?> ">
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-        <div> <label for="username" class="block mb-2 text-sm font-medium text-gray-900">Username</label>
+        <div>
+            <label for="username" class="block mb-2 text-sm font-medium text-gray-900">Username</label>
             <input type="text" name="username" value="<?= $instructor[0]['username'] ?>" id="username" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" placeholder="Enter agent username" required value="<?= isset($_SESSION['old']) ? $_SESSION['old']['username'] : '' ?>">
             <?php if (isset($errors['username'])) {
                 echo '<div class="p-2 my-2 text-sm text-red-800 rounded-lg bg-red-50" role="alert"> ' .
@@ -63,6 +64,16 @@ function getBranches($pdo)
         </div>
         <div>
             <?php include_once "Design/Components/password-input.php"; ?>
+        </div>
+        <div>
+            <label for="email" class="block mb-2 text-sm font-medium text-gray-900">Email</label>
+            <input type="text" name="email" value="<?= $instructor[0]['email'] ?>" id="email" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" placeholder="Enter agent email" required value="<?= isset($_SESSION['old']) ? $_SESSION['old']['email'] : '' ?>">
+            <?php if (isset($errors['email'])) {
+                echo '<div class="p-2 my-2 text-sm text-red-800 rounded-lg bg-red-50" role="alert"> ' .
+                    $errors['email'] .
+                    '</div>';
+            }
+            ?>
         </div>
         <div>
             <label for="branch" class="block mb-2 text-sm font-medium text-gray-900">Branch</label>

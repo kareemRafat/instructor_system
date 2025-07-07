@@ -9,6 +9,7 @@ try {
     $query = "SELECT 
             instructors.id,
             instructors.username,
+            instructors.email,
             instructors.is_active,
             instructors.role,
             GROUP_CONCAT(branches.name SEPARATOR ', ') AS branch_names

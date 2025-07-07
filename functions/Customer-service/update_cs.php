@@ -14,6 +14,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         $id = $_POST['id'] ?? null;
         $username = trim($_POST['username']);
+        $email = trim($_POST['email']);
         $password = $_POST['password'];
         $branch = trim($_POST['branch']);
         $role = $_POST['role'] ?? 'cs';
@@ -34,11 +35,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
 
         // update customer service
-        $query = "UPDATE instructors SET username = :username , role = :role WHERE id = $id";
+        $query = "UPDATE instructors SET username = :username , role = :role , email = :email WHERE id = $id";
         $stmt = $pdo->prepare($query);
         $stmt->execute([
             ':username' => $username,
             ':role' => $role,
+            ':email' => $email
         ]);
 
         // update branch
@@ -81,6 +83,10 @@ function checkErrors($formData, $pdo): bool
 
     if (empty($formData['username'])) {
         $errors['username'] = "username is required.";
+    }
+
+    if (empty($formData['email'])) {
+        $errors['email'] = "Email is required.";
     }
 
     if (empty($formData['branch'])) {

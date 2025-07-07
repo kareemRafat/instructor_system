@@ -13,6 +13,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     try {
 
         $username = trim($_POST['username']);
+        $email = trim($_POST['email']);
         $password = $_POST['password'];
         $branch = trim($_POST['branch']);
         $role = $_POST['role'] ?? 'cs';
@@ -23,12 +24,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $pdo->beginTransaction();
         
         // Insert new instructor
-        $query = "INSERT INTO instructors (username, password, is_active , role) VALUES (:username, :password, 1 , :role)";
+        $query = "INSERT INTO instructors (username, password,email, is_active , role) VALUES (:username, :password, :email, 1 , :role)";
         $stmt = $pdo->prepare($query);
         $stmt->execute([
             ':username' => $username,
             ':password' => $hashedPassword,
             ':role' => $role,
+            ':email' => $email
         ]);
 
         // Get the new instructor ID
@@ -76,6 +78,10 @@ function checkErrors($formData, $pdo): bool
 
     if (empty($formData['username'])) {
         $errors['username'] = "username is required.";
+    }
+
+    if (empty($formData['email'])) {
+        $errors['email'] = "Email is required.";
     }
 
     if (empty($formData['password'])) {

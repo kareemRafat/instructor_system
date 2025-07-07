@@ -4,6 +4,7 @@ require_once 'Database/connect.php';
 $query = "SELECT 
                     i.id,
                     i.username,
+                    i.email,
                     i.is_active,
                     i.role,
                     MIN(b.name) AS branch_name,
@@ -56,6 +57,9 @@ $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         <span>Salary</span>
                     </th>
                 <?php endif; ?>
+                <th scope="col" class="w-40 px-6 py-3">
+                    Email
+                </th>
                 <th scope="col" class="w-20 px-6 py-3">
                     Branch
                 </th>
@@ -93,6 +97,9 @@ $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
                             </div>
                         </td>
                     <?php endif; ?>
+                    <th scope="row" class="w-40 px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
+                        <?= ucwords($row['email'] ?? '<span class="text-gray-400">Not Assigned</span>') ?>
+                    </th>
                     <td class="w-40 px-6 py-4 <?= branchIndicator($row['branch_name'])['textColor'] ?>">
                         <div class="flex flex-row justify-start items-center">
                             <svg class=" w-5 h-5 mr-1.5 md:inline " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
@@ -108,7 +115,7 @@ $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         </span>
                     </td>
                     <td class="px-6 py-4 flex flex-col md:flex-row gap-1 w-fit">
-                        <a href="?action=edit&instructor_id=<?= $row['id'] ?>" class="cursor-pointer border border-gray-300 py-0.5 px-2 rounded-lg font-medium <?= $row['role'] === 'owner' ? 'pointer-events-none text-gray-500 cursor-not-allowed' : 'text-blue-600' ?>  hover:underline inline-block text-center w-full md:w-fit ">
+                        <a href="?action=edit&instructor_id=<?= $row['id'] ?>" class="cursor-pointer border border-gray-300 py-0.5 px-2 rounded-lg font-medium <?= $row['role'] === 'owner' ? 'pointer-events-none text-gray-500 cursor-not-allowed' : 'text-blue-600' ?>  hover:underline text-center w-full md:w-fit flex items-center">
                             <i class="fa-solid fa-pen-to-square mr-1 hidden md:inline-block text-sm"></i>
                             Edit
                         </a>

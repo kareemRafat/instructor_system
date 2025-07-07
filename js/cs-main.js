@@ -157,6 +157,15 @@ function setTable(res) {
                     ${capitalizeFirstLetter(instructor.username)}
                     ${csAdminIcon}
                 </th>
+                <td class="w-40 px-6 py-4">
+                  <div class="w-fit text-white bg-sky-700 hover:bg-sky-800 focus:ring-4 focus:outline-none focus:ring-sky-300 font-medium rounded text-sm py-1 px-2 text-center">
+                    <a class="flex" id="add-salary" href="?action=add&id=${instructor.id}">
+                      <i class="fa-solid fa-money-check-dollar mr-2 text-sm"></i>
+                      <span class="hidden md:inline-block mr-1">Edit </span>
+                      salary
+                    </a>
+                  </div>
+                </td>
                 <td class="px-6 py-4">
                 <div class="flex flex-row justify-start items-center">
                 <svg class=" w-5 h-5 mr-1.5  md:inline " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
@@ -169,21 +178,17 @@ function setTable(res) {
                     }
                     </div>
                 </td>
+                <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
+                    ${instructor.email || `<span class="text-gray-400">Not Assigned</span>`}
+                </td>
                 <td class="px-6 py-4">
                     <span class="inline-flex items-center rounded-md px-2 py-1 text-xs font-medium ring-1 ring-inset  ${statusColor}">
                         ${statusText}
                     </span>
                 </td>
+
                 ${generateActionCell(instructor, authCSAdmin)}
-                <td class="w-40 px-6 py-4">
-                  <div class="w-fit text-white bg-sky-700 hover:bg-sky-800 focus:ring-4 focus:outline-none focus:ring-sky-300 font-medium rounded text-sm py-1 px-2 text-center">
-                    <a class="flex" id="add-salary" href="?action=add&id=${instructor.id}">
-                      <i class="fa-solid fa-money-check-dollar mr-2 text-sm"></i>
-                      <span class="hidden md:inline-block mr-1">Edit </span>
-                      salary
-                    </a>
-                  </div>
-                </td>
+                
             `;
       tbody.appendChild(row);
     });
@@ -208,7 +213,7 @@ function generateActionCell(instructor, authCSAdmin) {
   return `
     <td class="px-6 py-4 flex flex-col md:flex-row gap-1 w-fit">
       <a href="?action=edit&instructor_id=${instructor.id}"
-         class="cursor-pointer border border-gray-300 py-0.5 px-2 rounded-lg font-medium ${editBtnClass} hover:underline inline-block text-center w-full md:w-fit">
+         class="cursor-pointer border border-gray-300 py-0.5 px-2 rounded-lg font-medium ${editBtnClass} hover:underline text-center w-full md:w-fit flex items-center">
         <i class="fa-solid fa-pen-to-square mr-1 hidden md:inline-block text-sm"></i>
         Edit
       </a>
