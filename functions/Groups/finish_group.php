@@ -58,6 +58,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             // Commit transaction if both queries succeeded
             $pdo->commit();
+            // send email to instructor
+            $instructorGroupInfo = [
+                'group_name'      => $group_name,
+                'end_date'        => $finish_date,
+                'has_bonus'       => $hasBonus,
+                'bonus_amount'    => 500
+            ];
+            sendMail($instructorGroupInfo);
+
+
             $_SESSION['success'] = 'Group Finish successfully';
 
             // if the request came from tables.php or groups.php
@@ -68,7 +78,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             } else {
                 header('location: ../../groups.php');
             }
-
         } catch (PDOException $e) {
             // Roll back transaction if any error occurs
             $pdo->rollBack();
@@ -123,4 +132,15 @@ function checkGroupExists($pdo, $group_id)
     $stmtCheck = $pdo->prepare("SELECT COUNT(*) FROM bonus WHERE group_id = :group_id");
     $stmtCheck->execute([':group_id' => $group_id]);
     return  $stmtCheck->fetchColumn();
+}
+
+/** send email when finish group */
+function sendMail($instructorGroupInfo)
+{
+    // send report when click on send report
+    // email html design path
+    include_once "../../Design/Partials/Instructors/inst-email.php";
+    $emailBody = renderGroupFinishEmail($instructorGroupInfo);
+    // send email 
+    include_once("../send-email.php");
 }

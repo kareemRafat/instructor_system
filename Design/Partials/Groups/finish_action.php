@@ -77,7 +77,7 @@ function getGroupById($groupId, $pdo)
         <div class="my-1">
             <button
                 type="submit"
-                onclick="return confirm('Are you sure you want to finish this group?');"
+                onclick="return confirmFinish(this);"
                 class="sm:mt-5 md:mt-0 md:max-w-fit text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
                 <i class="fa-solid fa-pen-to-square mr-2"></i>
                 Finish Group
@@ -85,3 +85,16 @@ function getGroupById($groupId, $pdo)
         </div>
     </div>
 </form>
+
+<script>
+    function confirmFinish(btn) {
+        if (confirm('Are you sure you want to finish this group?')) {
+            setTimeout(() => {
+                btn.disabled = true;
+                btn.classList.add('opacity-50', 'cursor-not-allowed');
+            }, 300); // delay in milliseconds
+            return true; // allow form to submit
+        }
+        return false; // cancel submission if not confirmed
+    }
+</script>
