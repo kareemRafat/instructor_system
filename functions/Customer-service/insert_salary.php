@@ -22,7 +22,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $advances        = (float)($_POST['advances'] ?? 0);
         $absent_days     = (int)($_POST['absent_days'] ?? 0);
         $deduction_days  = (int)($_POST['deduction_days'] ?? 0);
-        $created_at_raw  = $_POST['created_at'] ?? '01-1970';
+        $created_at_raw  = $_POST['created_at'] ?? null;
         $formatted_date = DateTime::createFromFormat('m-Y', $created_at_raw)->format('Y-m-d');
 
         // Calculate total
@@ -102,6 +102,10 @@ function checkSalaryFormErrors(array $formData, PDO $pdo): bool
     // Required: instructor_id
     if (empty($formData['instructor_id'])) {
         $errors['instructor_id'] = "الموظف مطلوب";
+    }
+    
+    if (empty($formData['created_at'])) {
+        $errors['created_at'] = "تاريخ المحاسبة مطلوب";
     }
 
     // Required: basic_salary
