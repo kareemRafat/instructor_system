@@ -13,22 +13,25 @@ $agent = getAgentById($agentId, $pdo);
 function getAgentSalaryRecords($agentId, $pdo)
 {
     $stmt = $pdo->prepare("SELECT
-                        i.username AS cs_name ,
-                        i.role,
-                        sr.instructor_id AS instructor_id,
-                        sr.basic_salary AS basic_salary ,
-                        sr.overtime_days AS overtime_days , 
-                        sr.day_value AS day_value ,
-                        sr.target AS target , 
-                        sr.bonuses AS bonuses , 
-                        sr.advances AS advances , 
-                        sr.absent_days AS absent_days , 
-                        sr.deduction_days AS deduction_days , 
-                        sr.total AS total ,
-                        sr.created_at AS created_at
-                        FROM instructors i 
-                        JOIN salary_records sr ON i.id = sr.instructor_id
-                        WHERE i.id = :id");
+                            i.username AS cs_name ,
+                            i.role,
+                            sr.instructor_id AS instructor_id,
+                            sr.basic_salary AS basic_salary ,
+                            sr.overtime_days AS overtime_days , 
+                            sr.day_value AS day_value ,
+                            sr.target AS target , 
+                            sr.bonuses AS bonuses , 
+                            sr.advances AS advances , 
+                            sr.absent_days AS absent_days , 
+                            sr.deduction_days AS deduction_days , 
+                            sr.total AS total ,
+                            sr.created_at AS created_at,
+                            MONTH(sr.created_at) AS month ,
+                            YEAR(sr.created_at) AS year
+                            FROM instructors i 
+                            JOIN salary_records sr ON i.id = sr.instructor_id
+                            WHERE i.id = :id
+                            ORDER BY created_at DESC");
     $stmt->execute([':id' => $agentId]);
     $instructor = $stmt->fetch(PDO::FETCH_ASSOC);
 
@@ -56,8 +59,12 @@ function getAgentById($agentId, $pdo)
 
 $errors = $_SESSION['error'] ?? [];
 
-?>
+echo "<pre>";
+print_r($agentRecores);
+echo "</pre>";
 
+?>
+<div id="agent-id" data-agent-id="<?= $agentId ?>"></div>
 <div class="p-3 md:p-3 flex flex-col-reverse md:flex-row justify-between md:items-center gap-3">
     <div>
         <h3 class="text-2xl font-extrabold leading-none tracking-tight text-gray-900 md:text-4xl">Edit <span class="text-blue-600"><?= ucwords($agent[0]['username']) ?></span>'s info </h3>
@@ -78,10 +85,17 @@ $errors = $_SESSION['error'] ?? [];
         <input type="hidden" value="<?= $agent[0]['id'] ?>" name="instructor_id">
         <input type="hidden" value="<?= $agentRecores['created_at'] ?>" name="created_at">
 
+        <!-- الايام  -->
+        <div>
+            <label for="month" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">شهر المحاسبة</label>
+            <select name="created_at" id="month" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 font-bold">
+                <option selected disabled>Choose a Month</option>
+            </select>
+        </div>
         <!-- المرتب الأساسي -->
         <div>
             <label for="basic_salary" class="block mb-2 text-sm font-medium text-gray-900">المرتب الأساسي</label>
-            <input type="number" id="basic_salary" value="<?= floor($agentRecores['basic_salary']) ?? 4500 ?>" name="basic_salary" class="calc-field bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 font-bold tracking-wider">
+            <input type="number" id="basic_salary" value="<?= floor($agentRecores['basic_salary'] ?? 4500) ?>" name="basic_salary" class="calc-field bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 font-bold tracking-wider">
             <?php if (isset($errors['basic_salary'])) {
                 echo '<div class="p-2 my-2 text-sm font-semibold text-red-800 rounded-lg bg-red-50" role="alert"> ' .
                     $errors['basic_salary'] .
@@ -208,6 +222,12 @@ $errors = $_SESSION['error'] ?? [];
 
 </form>
 
+<?php
+$selectedMonth = isset($agentRecores['month']) ? str_pad($agentRecores['month'], 2, '0', STR_PAD_LEFT) : false;
+$selectedYear = $agentRecores['year'] ?? '';
+$selectedValue = $selectedMonth ? "$selectedMonth-$selectedYear" : '';
+
+?>
 
 
 
@@ -246,5 +266,94 @@ $errors = $_SESSION['error'] ?? [];
         document.getElementById("totalDisplayBox").textContent = formatted;
     }
 
+    // run when page load
     calculateTotal();
+
+    /** add months to select Month */
+    const select = document.getElementById('month');
+    const selectedValue = "<?= $selectedValue ?>";
+
+    const now = new Date();
+
+    const currentYear = now.getFullYear();
+    const currentMonth = now.getMonth() + 1; // 1-based
+    let nextMonth = currentMonth + 1;
+    let nextMonthYear = currentYear;
+
+    if (nextMonth === 13) {
+        nextMonth = 1;
+        nextMonthYear += 1;
+    }
+
+    const pad = (num) => num < 10 ? '0' + num : num;
+
+    // Loop from Jan of current year to the next month (inclusive)
+    let year = currentYear;
+    let month = 1;
+
+    while (year < nextMonthYear || (year === nextMonthYear && month <= nextMonth)) {
+        const value = `${pad(month)}-${year}`;
+        const option = document.createElement('option');
+        option.value = value;
+        option.classList.add('font-bold');
+        option.textContent = `${month} - ${year}`;
+        if (selectedValue && value === selectedValue) option.selected = true;
+        select.appendChild(option);
+
+        // Increment month/year
+        month++;
+        if (month > 12) {
+            month = 1;
+            year++;
+        }
+    }
+
+
+    // ajax to get salary Records
+    const monthSelect = document.getElementById("month");
+    const agentId = document.getElementById('agent-id').dataset.agentId;
+
+
+    monthSelect.addEventListener("change", async function() {
+        const selected = this.value; // e.g. "07-2025"
+        const [month, year] = selected.split("-");
+        
+        try {
+            const url = `functions/Customer-service/get_salary_records.php?id=${agentId}&month=${month}&year=${year}`;
+            const response = await fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    id: agentId,
+                    month,
+                    year
+                })
+            });
+
+            if (!response.ok) throw new Error("Network response was not ok");
+
+            const data = await response.json();
+
+            // Fill fields
+            if (data) {
+                document.getElementById("basic_salary").value = data.basic_salary ?? 0;
+                document.getElementById("overtime_days").value = data.overtime_days ?? 0;
+                document.getElementById("day_value").value = data.day_value ?? 0;
+                document.getElementById("target").value = data.target ?? 0;
+                document.getElementById("bonuses").value = data.bonuses ?? 0;
+                document.getElementById("advances").value = data.advances ?? 0;
+                document.getElementById("absent_days").value = data.absent_days ?? 0;
+                document.getElementById("deduction_days").value = data.deduction_days ?? 0;
+
+                calculateTotal(); // Trigger calculation
+            } else {
+                alert("No salary data found for the selected month.");
+            }
+        } catch (error) {
+            console.error("Fetch error:", error);
+            alert("Failed to load salary data.");
+        }
+    });
 </script>

@@ -24,6 +24,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $absent_days     = $_POST['absent_days'] ?? 0;
         $deduction_days  = $_POST['deduction_days'] ?? 0;
         $created_at  = $_POST['created_at'] ?? 0;
+        $formatted_date = DateTime::createFromFormat('m-Y', $created_at)->format('Y-m-d');
 
         // Convert to float/int safely
         $basic_salary   = (float)$basic_salary;
@@ -54,7 +55,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         ");
         $checkStmt->execute([
             ':instructor_id' => $instructor_id,
-            ':created_at' => $created_at
+            ':created_at' => $formatted_date
         ]);
 
         $existingId = $checkStmt->fetchColumn();
@@ -85,7 +86,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 ':deduction_days' => $deduction_days,
                 ':total' => $total,
                 ':instructor_id' => $instructor_id,
-                ':created_at' => $created_at
+                ':created_at' => $formatted_date
             ]);
 
             $_SESSION['success'] = "Month Salary Updated";
@@ -95,10 +96,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // Step 4: Prepare and execute the SQL INSERT
             $sql = "INSERT INTO salary_records (
                     instructor_id, basic_salary, overtime_days, day_value, target,
-                    bonuses, advances, absent_days, deduction_days, total
+                    bonuses, advances, absent_days, deduction_days, total , created_at
                 ) VALUES (
                     :instructor_id, :basic_salary, :overtime_days, :day_value, :target,
-                    :bonuses, :advances, :absent_days, :deduction_days, :total
+                    :bonuses, :advances, :absent_days, :deduction_days, :total , :created_at
                 )";
 
             $stmt = $pdo->prepare($sql);
@@ -114,6 +115,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 ':absent_days'    => $absent_days,
                 ':deduction_days' => $deduction_days,
                 ':total'          => $total,
+                ':created_at' => $formatted_date
             ]);
 
 
