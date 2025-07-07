@@ -38,7 +38,6 @@ function getAgentSalaryRecords($agentId, $pdo)
     return $instructor;
 }
 
-
 function getAgentById($agentId, $pdo)
 {
     $stmt = $pdo->prepare("SELECT 
@@ -58,10 +57,6 @@ function getAgentById($agentId, $pdo)
 }
 
 $errors = $_SESSION['error'] ?? [];
-
-echo "<pre>";
-print_r($agentRecores);
-echo "</pre>";
 
 ?>
 <div id="agent-id" data-agent-id="<?= $agentId ?>"></div>

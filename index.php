@@ -10,6 +10,15 @@ echo '<script src="https://cdn.jsdelivr.net/npm/slim-select@2.8.1/dist/slimselec
 $errors = $_SESSION['errors'] ?? [];
 
 ?>
+<?php if (isset($_SESSION['login'])): ?>
+<style>
+  @media (max-width : 640px) {
+    .notyf__wrapper {
+      width: 100% !important;
+    }
+}
+</style>
+<?php endif; ?>
 
 <!-- preload spinner -->
 <section id="preload" class="fixed inset-0 z-50 flex items-center justify-center bg-sky-700">
@@ -95,7 +104,7 @@ $errors = $_SESSION['errors'] ?? [];
             '</div>';
         }
         ?>
-        <button type="submit" class="w-full px-6 py-3 text-white bg-zinc-800 md:bg-blue-600 rounded-lg hover:bg-blue-600 focus:ring-4 focus:ring-blue-300 transition duration-200 font-medium shadow-sm disabled:bg-blue-400 disabled:text-white disabled:cursor-not-allowed" onclick="setTimeout(() => this.disabled = true, 1)">Submit</button>
+        <button type="submit" class="w-full px-6 py-3 text-white bg-zinc-800 md:bg-blue-600 rounded-lg hover:bg-blue-600 focus:ring-4 focus:ring-blue-300 transition duration-200 font-medium shadow-sm disabled:bg-gray-500 md:disabled:bg-blue-400 disabled:text-white disabled:cursor-not-allowed" onclick="setTimeout(() => this.disabled = true, 1)">Submit</button>
       </form>
     </div>
     <div class="w-full max-w-md mr-11 md:mr-0 mt-3 text-xl text-blue-600 text-right">

@@ -35,8 +35,8 @@ function renderEmailTemplate($salaryDataToEmail)
                 <span style="color:blue;font-weight:bold"><?= $salaryDataToEmail['cs_name'] ?></span>
               </td>
               <td style="padding:8px 0;text-align:left;">
-                <strong>التاريخ:</strong><br>
-                2025-07-05
+                <strong>شهر المحاسبة :</strong><br>
+                <span style="color:Brown;font-weight:bold"><?= $salaryDataToEmail['month'] ?></span>
               </td>
             </tr>
 

@@ -50,6 +50,12 @@ $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 <th scope="col" class="w-40 px-6 py-3">
                     Username
                 </th>
+                <!-- add salary -->
+                <?php if (hasRole('owner', 'admin')): ?>
+                    <th scope="col" class="w-40 px-6 py-3">
+                        <span>Salary</span>
+                    </th>
+                <?php endif; ?>
                 <th scope="col" class="w-20 px-6 py-3">
                     Branch
                 </th>
@@ -59,12 +65,7 @@ $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 <th scope="col" class="w-20 px-6 py-3">
                     <span>Action</span>
                 </th>
-                <!-- add salary -->
-                <?php if (hasRole('owner', 'admin')): ?>
-                    <th scope="col" class="w-40 px-6 py-3">
-                        <span>Salary</span>
-                    </th>
-                <?php endif; ?>
+
             </tr>
         </thead>
         <tbody class="font-semibold text-base">
@@ -80,6 +81,18 @@ $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
                             <i class="fa-solid fa-user-tie ml-3 text-teal-800 text-lg"></i>
                         <?php endif; ?>
                     </th>
+                    <!-- add salary -->
+                    <?php if (hasRole('owner', 'admin')): ?>
+                        <td class="w-40 px-6 py-4 ">
+                            <div class=" w-fit text-white bg-sky-700 hover:bg-sky-800 focus:ring-4 focus:outline-none focus:ring-sky-300 font-medium rounded text-sm py-1 px-2 text-center">
+                                <a class="flex" id="add-salary" href="?action=add&id=<?= $row['id'] ?>">
+                                    <i class="fa-solid fa-money-check-dollar mr-2 text-sm"></i>
+                                    <span class="hidden md:block mr-1">Edit </span>
+                                    salary
+                                </a>
+                            </div>
+                        </td>
+                    <?php endif; ?>
                     <td class="w-40 px-6 py-4 <?= branchIndicator($row['branch_name'])['textColor'] ?>">
                         <div class="flex flex-row justify-start items-center">
                             <svg class=" w-5 h-5 mr-1.5 md:inline " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
@@ -111,18 +124,7 @@ $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
                             <i class="fa-solid fa-trash mr-1 hidden md:inline-block"></i>Delete
                         </button>
                     </td>
-                    <!-- add salary -->
-                    <?php if (hasRole('owner', 'admin')): ?>
-                        <td class="w-40 px-6 py-4 ">
-                            <div class=" w-fit text-white bg-sky-700 hover:bg-sky-800 focus:ring-4 focus:outline-none focus:ring-sky-300 font-medium rounded text-sm py-1 px-2 text-center">
-                                <a class="flex" id="add-salary" href="?action=add&id=<?= $row['id'] ?>">
-                                    <i class="fa-solid fa-money-check-dollar mr-2 text-sm"></i>
-                                    <span class="hidden md:block mr-1">Edit </span>
-                                    salary
-                                </a>
-                            </div>
-                        </td>
-                    <?php endif; ?>
+
 
                 </tr>
             <?php endforeach; ?>
