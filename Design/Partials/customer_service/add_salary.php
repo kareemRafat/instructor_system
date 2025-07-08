@@ -281,6 +281,11 @@ $selectedValue = $selectedMonth ? "$selectedMonth-$selectedYear" : '';
     let nextMonth = currentMonth + 1;
     let nextMonthYear = currentYear;
 
+    if (!selectedValue) {
+        // Fallback to current month if not provided from PHP
+        selectedValue = `${pad(currentMonth)}-${currentYear}`;
+    }
+
     if (nextMonth === 13) {
         nextMonth = 1;
         nextMonthYear += 1;
@@ -318,7 +323,7 @@ $selectedValue = $selectedMonth ? "$selectedMonth-$selectedYear" : '';
     monthSelect.addEventListener("change", async function() {
         const selected = this.value; // e.g. "07-2025"
         const [month, year] = selected.split("-");
-        
+
         try {
             const url = `functions/Customer-service/get_salary_records.php?id=${agentId}&month=${month}&year=${year}`;
             const response = await fetch(url, {
