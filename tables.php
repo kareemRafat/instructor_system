@@ -102,7 +102,7 @@ $cellHoverColor = ['hover:bg-orange-100', 'hover:bg-indigo-100', 'hover:bg-green
 
 ?>
 
-<div class="p-6 bg-gray-50 min-h-screen" style="height: 100svh;">
+<div class="p-6 bg-gray-50 min-h-screen">
     <div class="mx-auto">
         <h1 class="print-hide text-3xl font-bold text-center mb-8 text-gray-800">
             Instructor Schedule

@@ -102,7 +102,7 @@ foreach ($result as $row) {
                             </td>
                         <?php endif; ?>
                         <th scope="row" class="w-40 px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
-                            <?= ucwords($row['email'] ?? '<span class="text-gray-400">Not Assigned</span>') ?>
+                            <?= $row['email'] ?? '<span class="text-gray-400">Not Assigned</span>' ?>
                         </th>
                         <td class="w-40 px-6 py-4 <?= branchIndicator($row['branch_name'])['textColor'] ?>">
                             <div class="flex flex-row justify-start items-center">
@@ -118,8 +118,9 @@ foreach ($result as $row) {
                             </span>
                         </td>
                         <td class="px-6 py-4 flex flex-col md:flex-row gap-1 w-fit">
-                            <a href="?action=edit&instructor_id=<?= $row['id'] ?>" class="cursor-pointer border border-gray-300 py-0.5 px-2 rounded-lg font-medium <?= $row['role'] === 'owner' ? 'pointer-events-none text-gray-500 cursor-not-allowed' : 'text-blue-600' ?> hover:underline text-center w-full md:w-fit flex items-center">
-                                <i class="fa-solid fa-pen-to-square mr-1 hidden md:inline-block text-sm"></i>Edit
+                            <a href="?action=edit&instructor_id=<?= $row['id'] ?>" class="cursor-pointer border border-gray-300 py-0.5 px-2 rounded-lg font-medium <?= $row['role'] === 'owner' ? 'pointer-events-none text-gray-500 cursor-not-allowed' : 'text-blue-600' ?> hover:underline text-center w-full md:w-fit flex items-center justify-center">
+                                <i class="fa-solid fa-pen-to-square mr-1 hidden md:inline-block text-sm"></i>
+                                <span>Edit</span>
                             </a>
                             <button <?= $row['role'] === ROLE || $row['role'] === 'owner' ? 'disabled' : '' ?>
                                 class="w-full md:w-fit toggle-status-btn cursor-pointer text-sm border border-gray-300 py-1 px-2 rounded-lg <?= $row['is_active'] ? 'text-red-600' : 'text-green-600' ?> hover:underline disabled:border-gray-200 disabled:bg-gray-50 disabled:text-gray-500 disabled:shadow-none disabled:cursor-not-allowed disabled:hover:no-underline"

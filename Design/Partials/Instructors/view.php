@@ -86,7 +86,7 @@ $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         <?= ucwords($row['username']) ?>
                     </th>
                     <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
-                        <?= ucwords($row['email'] ?? '<span class="text-gray-400">Not Assigned</span>') ?>
+                        <?= $row['email'] ?? '<span class="text-gray-400">Not Assigned</span>' ?>
                     </th>
                     <td class="pr-3 py-4 md:flex  md:flex-row md:justify-start">
                         <?php

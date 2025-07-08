@@ -17,34 +17,36 @@ foreach ($records as $record) {
 }
 ?>
 
-<table class="w-full text-sm text-left rtl:text-right text-gray-600">
-    <thead class="text-sm text-gray-800 uppercase bg-gray-200">
-        <tr>
-            <th class="px-4 py-3">Employee</th>
-            <th class="px-4 py-3">Basic Salary</th>
-            <th class="px-4 py-3">Overtime</th>
-            <th class="px-4 py-3">Day Value</th>
-            <th class="px-4 py-3">Target</th>
-            <th class="px-4 py-3">Bonuses</th>
-            <th class="px-4 py-3">Advances</th>
-            <th class="px-4 py-3">Absent</th>
-            <th class="px-4 py-3">Deduction</th>
-            <th class="px-4 py-3 text-green-800 font-bold">Total</th>
-            <th class="px-4 py-3">Created At</th>
-        </tr>
-    </thead>
-    <tbody class="text-base font-medium">
-        <?php if(empty($records)): ?>
-            <tr class="odd:bg-white even:bg-gray-50 border-b border-gray-200 hover:bg-gray-100">
-                    <td class="px-4 py-3 text-gray-800" colspan="11">No Records Found</td>
+<div class="relative overflow-x-scroll max-h-screen">
+    <table class="w-full text-sm text-left rtl:text-right text-gray-500">
+        <thead class="text-sm text-gray-800 uppercase bg-gray-200">
             <tr>
-        <?php endif; ?>
-        <?php foreach ($grouped as $month => $rows): ?>
-            <?php
-            $monthlyTotal = 0;
-            foreach ($rows as $row):
-                $monthlyTotal += $row['total'];
-            ?>
+                <th class="px-4 py-3">Employee</th>
+                <th class="px-4 py-3">Basic Salary</th>
+                <th class="px-4 py-3">Overtime</th>
+                <th class="px-4 py-3">Day Value</th>
+                <th class="px-4 py-3">Target</th>
+                <th class="px-4 py-3">Bonuses</th>
+                <th class="px-4 py-3">Advances</th>
+                <th class="px-4 py-3">Absent</th>
+                <th class="px-4 py-3">Deduction</th>
+                <th class="px-4 py-3 text-green-800 font-bold">Total</th>
+                <th class="px-4 py-3">Created At</th>
+            </tr>
+        </thead>
+        <tbody class="text-base font-medium">
+            <?php if (empty($records)): ?>
+                <tr class="odd:bg-white even:bg-gray-50 border-b border-gray-200 hover:bg-gray-100">
+                    <td class="px-4 py-3 text-gray-800" colspan="11">No Records Found</td>
+                </tr>
+                <tr>
+                <?php endif; ?>
+                <?php foreach ($grouped as $month => $rows): ?>
+                    <?php
+                    $monthlyTotal = 0;
+                    foreach ($rows as $row):
+                        $monthlyTotal += $row['total'];
+                    ?>
                 <tr class="odd:bg-white even:bg-gray-50 border-b border-gray-200 hover:bg-gray-100">
                     <td class="px-4 py-3 text-blue-800"><?= htmlspecialchars(ucwords($row['instructor_name'])) ?></td>
                     <td class="px-4 py-3"><?= $row['basic_salary'] ?></td>
@@ -66,5 +68,6 @@ foreach ($records as $record) {
                 <td></td>
             </tr>
         <?php endforeach; ?>
-    </tbody>
-</table>
+        </tbody>
+    </table>
+</div>
