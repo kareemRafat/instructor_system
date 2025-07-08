@@ -272,7 +272,7 @@ $selectedValue = $selectedMonth ? "$selectedMonth-$selectedYear" : '';
 
     /** add months to select Month */
     const select = document.getElementById('month');
-    const selectedValue = "<?= $selectedValue ?>";
+    let selectedValue = "<?= $selectedValue ?>";
 
     const now = new Date();
 
@@ -281,17 +281,18 @@ $selectedValue = $selectedMonth ? "$selectedMonth-$selectedYear" : '';
     let nextMonth = currentMonth + 1;
     let nextMonthYear = currentYear;
 
-    if (!selectedValue) {
-        // Fallback to current month if not provided from PHP
-        selectedValue = `${pad(currentMonth)}-${currentYear}`;
-    }
-
     if (nextMonth === 13) {
         nextMonth = 1;
         nextMonthYear += 1;
     }
 
     const pad = (num) => num < 10 ? '0' + num : num;
+
+    
+    if (!selectedValue) {
+        // Fallback to current month if not provided from PHP
+        selectedValue = `${pad(currentMonth)}-${currentYear}`;
+    }
 
     // Loop from Jan of current year to the next month (inclusive)
     let year = currentYear;
