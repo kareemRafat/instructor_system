@@ -2,19 +2,19 @@
 // Fetch all instructors from the database, grouped by branch
 require_once 'Database/connect.php';
 $query = "SELECT 
-                    i.id,
-                    i.username,
-                    i.email,
-                    i.is_active,
-                    i.role,
-                    MIN(b.name) AS branch_name,
-                    GROUP_CONCAT(b.name SEPARATOR ', ') AS branches
-                FROM instructors i
-                JOIN branch_instructor bi ON i.id = bi.instructor_id
-                JOIN branches b ON b.id = bi.branch_id
-                WHERE role IN ('cs' , 'cs-admin')
-                GROUP BY i.id, i.username, i.is_active, i.role
-                ORDER BY b.name ASC, i.is_active DESC, i.username ASC";
+            i.id,
+            i.username,
+            i.email,
+            i.is_active,
+            i.role,
+            MIN(b.name) AS branch_name,
+            GROUP_CONCAT(b.name SEPARATOR ', ') AS branches
+        FROM instructors i
+        JOIN branch_instructor bi ON i.id = bi.instructor_id
+        JOIN branches b ON b.id = bi.branch_id
+        WHERE i.role IN ('cs', 'cs-admin')
+        GROUP BY i.id, i.username, i.email, i.is_active, i.role
+        ORDER BY branch_name ASC, i.is_active DESC, i.username ASC";
 
 $stmt = $pdo->prepare($query);
 $stmt->execute();
