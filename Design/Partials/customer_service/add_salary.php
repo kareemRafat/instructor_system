@@ -72,7 +72,7 @@ $errors = $_SESSION['error'] ?? [];
     </a>
 </div>
 
-<div class="p-3 md:p-3 grid grid-cols-2 md:grid-cols-4  gap-1 md:w-fit w-full">
+<div class="p-3 md:p-3 grid grid-cols-2 md:grid-cols-5  gap-1 md:w-fit w-full">
     <div class="w-full text-white bg-sky-700 hover:bg-sky-800 focus:ring-4 focus:outline-none focus:ring-sky-300 font-medium rounded text-sm py-1 px-2 text-center">
         <a class="flex cursor-pointer" id="add-bonus" data-modal-target="add-bonus-modal" data-modal-toggle="add-bonus-modal">
             <i class="fa-solid fa-money-check-dollar mr-2 text-sm"></i>
@@ -95,6 +95,12 @@ $errors = $_SESSION['error'] ?? [];
         <a class="flex cursor-pointer" id="add-absent" data-modal-target="add-absent-modal" data-modal-toggle="add-absent-modal">
             <i class="fa-solid fa-money-check-dollar mr-2 text-sm"></i>
             إضافة غياب
+        </a>
+    </div>
+    <div class="w-full text-white bg-teal-700 hover:bg-teal-800 focus:ring-4 focus:outline-none focus:ring-teal-300 font-medium rounded text-sm py-1 px-2 text-center">
+        <a class="flex cursor-pointer" id="add-overtime" data-modal-target="add-overtime-modal" data-modal-toggle="add-overtime-modal">
+            <i class="fa-solid fa-money-check-dollar mr-2 text-sm"></i>
+            إضافة أوفر تايم
         </a>
     </div>
 
@@ -264,6 +270,7 @@ include_once "Design/Modals/Salary/insert_bonus.php";
 include_once "Design/Modals/Salary/insert_deduction.php";
 include_once "Design/Modals/Salary/insert_advances.php";
 include_once "Design/Modals/Salary/insert_absent_days.php";
+include_once "Design/Modals/Salary/insert_overtime_days.php";
 
 ?>
 
@@ -314,6 +321,7 @@ include_once "Design/Modals/Salary/insert_absent_days.php";
     document.getElementById('createAtDate2').value = selectedValue;
     document.getElementById('createAtDate3').value = selectedValue;
     document.getElementById('createAtDate4').value = selectedValue;
+    document.getElementById('createAtDate5').value = selectedValue;
 
     const now = new Date();
 
@@ -337,6 +345,7 @@ include_once "Design/Modals/Salary/insert_absent_days.php";
         document.getElementById('createAtDate2').value = `${currentMonth}-${currentYear}`;
         document.getElementById('createAtDate3').value = `${currentMonth}-${currentYear}`;
         document.getElementById('createAtDate4').value = `${currentMonth}-${currentYear}`;
+        document.getElementById('createAtDate5').value = `${currentMonth}-${currentYear}`;
 
         
     }
@@ -376,6 +385,7 @@ include_once "Design/Modals/Salary/insert_absent_days.php";
         document.getElementById('createAtDate2').value = `${month}-${year}`;
         document.getElementById('createAtDate3').value = `${month}-${year}`;
         document.getElementById('createAtDate4').value = `${month}-${year}`;
+        document.getElementById('createAtDate5').value = `${month}-${year}`;
         try {
             const url = `functions/Customer-service/get_salary_records.php?id=${agentId}&month=${month}&year=${year}`;
             const response = await fetch(url, {

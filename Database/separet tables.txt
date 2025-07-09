@@ -31,7 +31,7 @@ CREATE TABLE `salary_deductions` (
   PRIMARY KEY (`id`)
 );
 
--- Creating the deductions table
+-- Creating the absent table
 CREATE TABLE `salary_absent_days` (
   `id` int NOT NULL AUTO_INCREMENT,
   `agent_id` int NOT NULL,
@@ -42,7 +42,20 @@ CREATE TABLE `salary_absent_days` (
   PRIMARY KEY (`id`)
 );
 
+-- Creating the overtime table
+CREATE TABLE `salary_overtime_days` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `agent_id` int NOT NULL,
+  `days` int DEFAULT '0',
+  `reason` varchar(255) NOT NULL,
+  `created_at` date NOT NULL,
+  `overtime_created_at` date NOT NULL ,
+  PRIMARY KEY (`id`)
+);
+
 ALTER TABLE `salary_records`
   DROP COLUMN `bonuses`,
   DROP COLUMN `advances`,
+  DROP COLUMN `absent_days`,
+  DROP COLUMN `overtime_days`,
   DROP COLUMN `deduction_days`;
