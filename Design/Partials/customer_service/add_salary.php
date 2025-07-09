@@ -324,12 +324,7 @@ include_once "Design/Modals/Salary/insert_target_modal.php";
     let selectedValue = "<?= $selectedValue ?>";
 
     // set the modal create_at input
-    document.getElementById('createAtDate').value = selectedValue;
-    document.getElementById('createAtDate2').value = selectedValue;
-    document.getElementById('createAtDate3').value = selectedValue;
-    document.getElementById('createAtDate4').value = selectedValue;
-    document.getElementById('createAtDate5').value = selectedValue;
-    document.getElementById('createAtDate6').value = selectedValue;
+    sendDateToModal(selectedValue)
 
     const now = new Date();
 
@@ -349,14 +344,7 @@ include_once "Design/Modals/Salary/insert_target_modal.php";
         // Fallback to current month if not provided from PHP
         selectedValue = `${pad(currentMonth)}-${currentYear}`;
         // set the modal create_at input
-        document.getElementById('createAtDate').value = `${currentMonth}-${currentYear}`;
-        document.getElementById('createAtDate2').value = `${currentMonth}-${currentYear}`;
-        document.getElementById('createAtDate3').value = `${currentMonth}-${currentYear}`;
-        document.getElementById('createAtDate4').value = `${currentMonth}-${currentYear}`;
-        document.getElementById('createAtDate5').value = `${currentMonth}-${currentYear}`;
-        document.getElementById('createAtDate6').value = `${currentMonth}-${currentYear}`;
-
-        
+        sendDateToModal(`${currentMonth}-${currentYear}`)
     }
 
     // Loop from Jan of current year to the next month (inclusive)
@@ -385,17 +373,12 @@ include_once "Design/Modals/Salary/insert_target_modal.php";
     const monthSelect = document.getElementById("month");
     const agentId = document.getElementById('agent-id').dataset.agentId;
 
-
     monthSelect.addEventListener("change", async function() {
         const selected = this.value; // e.g. "07-2025"
         const [month, year] = selected.split("-");
         // set the modal create_at input on change date
-        document.getElementById('createAtDate').value = `${month}-${year}`;
-        document.getElementById('createAtDate2').value = `${month}-${year}`;
-        document.getElementById('createAtDate3').value = `${month}-${year}`;
-        document.getElementById('createAtDate4').value = `${month}-${year}`;
-        document.getElementById('createAtDate5').value = `${month}-${year}`;
-        document.getElementById('createAtDate6').value = `${month}-${year}`;
+        sendDateToModal(`${month}-${year}`);
+
         try {
             const url = `functions/Customer-service/get_salary_records.php?id=${agentId}&month=${month}&year=${year}`;
             const response = await fetch(url, {
@@ -434,4 +417,22 @@ include_once "Design/Modals/Salary/insert_target_modal.php";
             alert("Failed to load salary data.");
         }
     });
+
+
+    // send salary Month modal
+    function sendDateToModal(dateVal) {
+        let elements = document.querySelectorAll('.createAtDate');
+        elements.forEach(elm => {
+            elm.value = dateVal
+        })
+        
+        // to span
+        let spanElm = document.querySelectorAll('.month-target');
+        spanElm.forEach(elm => {
+            elm.innerText = dateVal
+        })
+
+        console.log(dateVal);
+        
+    }
 </script>

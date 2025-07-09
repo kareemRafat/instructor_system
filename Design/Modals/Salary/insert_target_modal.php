@@ -7,8 +7,9 @@
             <!-- Modal header -->
             <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t border-gray-200">
                 <h3 class="text-lg font-semibold text-gray-900 ">
-                    <span> لشهر 100000 </span>
-                     إضافة التارجت لكل الموظفين
+                    إضافة التارجت لكل الموظفين
+                    <span> لشهر  </span>
+                    <span class="text-red-700 font-semibold month-target"> 7-2025  </span>
                 </h3>
                 <button type="button" class="end-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center" data-modal-hide="add-target-modal">
                     <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
@@ -20,7 +21,7 @@
             <!-- Modal body -->
             <div class="p-4 md:p-4">
                 <form method="post" class="space-y-2" action="functions/Salary/insert_target.php">
-                    <input type="hidden" name="created_at" id="createAtDate6" value="">
+                    <input type="hidden" name="created_at" class="createAtDate" value="">
                     <input type="hidden" name="id" id="agent-id" value="<?= $agentId ?>">
                     <div>
                         <label for="target" class="block mb-2 text-sm font-medium text-gray-900 ">مكافأة التارجت الشهري </label>

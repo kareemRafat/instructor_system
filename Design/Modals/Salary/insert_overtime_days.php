@@ -9,6 +9,11 @@
                 <h3 class="text-lg font-semibold text-gray-900 ">
                     <span class="text-blue-600 font-semibold"><?= ucwords($agent[0]['username']) ?></span>
                     إضافة أوفر تايم ومكافأت بالأيام
+                    <div>
+                        <span> لشهر </span>
+                        <span class="text-red-700 font-semibold month-target"> 7-2025 </span>
+                    </div>
+
                 </h3>
                 <button type="button" class="end-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center" data-modal-hide="add-overtime-modal">
                     <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
@@ -20,10 +25,10 @@
             <!-- Modal body -->
             <div class="p-4 md:p-4">
                 <form method="post" class="space-y-2" action="functions/Salary/insert_overtime.php">
-                    <input type="hidden" name="created_at" id="createAtDate5" value="">
+                    <input type="hidden" name="created_at" class="createAtDate" value="">
                     <input type="hidden" name="id" id="agent-id" value="<?= $agentId ?>">
                     <div>
-                        <label for="overtime" class="block mb-2 text-sm font-medium text-gray-900 ">قيمة الأوفر تايم او المكافأة   </label>
+                        <label for="overtime" class="block mb-2 text-sm font-medium text-gray-900 ">قيمة الأوفر تايم او المكافأة </label>
                         <input type="overtime" name="overtime" id="overtime" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="Amount" required />
                     </div>
                     <div>
