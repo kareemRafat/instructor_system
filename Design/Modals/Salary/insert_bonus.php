@@ -17,7 +17,7 @@
                 </button>
             </div>
             <!-- Modal body -->
-            <div class="p-4 md:p-5">
+            <div class="p-4 md:p-4">
                 <form method="post" class="space-y-2" action="functions/Salary/insert_bonus.php">
                     <input type="hidden" name="created_at" id="createAtDate" value="">
                     <input type="hidden" name="id" id="agent-id" value="<?= $agentId ?>">
