@@ -12,11 +12,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     try {
         // Retrieve POST data
-        $bonus = $_POST['bonus'] ?? null;
-        $bonus_reason = $_POST['bonus-reason'] ?? null;
+        $advances = $_POST['advances'] ?? null;
+        $advances_reason = $_POST['advances-reason'] ?? null;
         $agentId   = $_POST['id'] ?? 0;
         $created_at   = $_POST['created_at'] ?? 0;
-        $bonus_created_at  = $_POST['bonus_created_at'] ?? 0;
+        $advances_created_at  = $_POST['advances_created_at'] ?? 0;
 
         // conver 07-2025 to mysql format
         list($month, $year) = explode("-", $created_at);
@@ -24,16 +24,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         $data = [
             ':agent_id'  => $agentId,
-            ':amount'   => $bonus,
-            ':reason'  => $bonus_reason,
+            ':advances'   => $advances,
+            ':reason'  => $advances_reason,
             ':created_at' => $mysqlDate,
-            ':bonus_created_at' => $bonus_created_at
+            ':advances_created_at' => $advances_created_at
         ];
 
         // insert sql
         insertBonus($pdo, $data);
 
-        $_SESSION['success'] = "Bonus Added Successfully";
+        $_SESSION['success'] = "Advances Added Successfully";
         header("Location: ../../customer-service.php?action=add&id=$agentId");
         exit();
     } catch (PDOException $e) {
@@ -48,12 +48,12 @@ function checkErrors(array $formData, PDO $pdo): bool
     $errors = [];
 
     // Required: instructor_id
-    if (empty($formData['bonus'])) {
-        $errors['bonus'] = "الموظف مطلوب";
+    if (empty($formData['advances'])) {
+        $errors['advances'] = "قيمة السلف مطلوب";
     }
 
-    if (empty($formData['bonus-reason'])) {
-        $errors['bonus-reason'] = "تاريخ المحاسبة مطلوب";
+    if (empty($formData['advances-reason'])) {
+        $errors['advances-reason'] = "سبب عملية السلف مطلوب";
     }
 
 
@@ -69,10 +69,10 @@ function checkErrors(array $formData, PDO $pdo): bool
 
 function insertBonus(PDO $pdo, array $data): bool
 {
-    $sql = "INSERT INTO salary_bonuses (
-                agent_id, amount, reason, created_at ,bonus_created_at
+    $sql = "INSERT INTO salary_advances (
+                agent_id, amount, reason, created_at ,advances_created_at
             ) VALUES (
-                :agent_id, :amount, :reason, :created_at, :bonus_created_at
+                :agent_id, :advances, :reason, :created_at, :advances_created_at
             )";
     $stmt = $pdo->prepare($sql);
     return $stmt->execute($data);

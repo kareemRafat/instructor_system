@@ -33,6 +33,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // insert sql
         insertBonus($pdo, $data);
 
+        $_SESSION['success'] = "Deduction Added Successfully";
         header("Location: ../../customer-service.php?action=add&id=$agentId");
         exit();
     } catch (PDOException $e) {
