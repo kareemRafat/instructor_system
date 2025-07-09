@@ -72,38 +72,44 @@ $errors = $_SESSION['error'] ?? [];
     </a>
 </div>
 
-<div class="p-3 md:p-3 grid grid-cols-2 md:grid-cols-5  gap-1 md:w-fit w-full">
+<div class="p-3 md:p-3 grid grid-cols-2 md:grid-cols-6  gap-1 md:w-fit w-full">
     <div class="w-full text-white bg-sky-700 hover:bg-sky-800 focus:ring-4 focus:outline-none focus:ring-sky-300 font-medium rounded text-sm py-1 px-2 text-center">
         <a class="flex cursor-pointer" id="add-bonus" data-modal-target="add-bonus-modal" data-modal-toggle="add-bonus-modal">
-            <i class="fa-solid fa-money-check-dollar mr-2 text-sm"></i>
+            <i class="fa-solid fa-award mr-3 text-base"></i>
             إضافة مكافأة
         </a>
     </div>
     <div class="w-full text-white bg-rose-700 hover:bg-rose-800 focus:ring-4 focus:outline-none focus:ring-rose-300 font-medium rounded text-sm py-1 px-2 text-center">
         <a class="flex cursor-pointer" id="add-deduction_days" data-modal-target="add-deduction-modal" data-modal-toggle="add-deduction-modal">
-            <i class="fa-solid fa-money-check-dollar mr-2 text-sm"></i>
+            <i class="fa-solid fa-rectangle-list mr-3 text-base"></i>
             إضافة خصم
         </a>
     </div>
     <div class="w-full text-white bg-orange-700 hover:bg-orange-800 focus:ring-4 focus:outline-none focus:ring-orange-300 font-medium rounded text-sm py-1 px-2 text-center">
         <a class="flex cursor-pointer" id="add-advances" data-modal-target="add-advances-modal" data-modal-toggle="add-advances-modal">
-            <i class="fa-solid fa-money-check-dollar mr-2 text-sm"></i>
+            <i class="fa-solid fa-envelope-circle-check mr-3 text-base"></i>
             إضافة سلفة
         </a>
     </div>
     <div class="w-full text-white bg-slate-700 hover:bg-slate-800 focus:ring-4 focus:outline-none focus:ring-slate-300 font-medium rounded text-sm py-1 px-2 text-center">
         <a class="flex cursor-pointer" id="add-absent" data-modal-target="add-absent-modal" data-modal-toggle="add-absent-modal">
-            <i class="fa-solid fa-money-check-dollar mr-2 text-sm"></i>
+            <i class="fa-solid fa-money-check-dollar mr-3 text-base"></i>
             إضافة غياب
         </a>
     </div>
     <div class="w-full text-white bg-teal-700 hover:bg-teal-800 focus:ring-4 focus:outline-none focus:ring-teal-300 font-medium rounded text-sm py-1 px-2 text-center">
         <a class="flex cursor-pointer" id="add-overtime" data-modal-target="add-overtime-modal" data-modal-toggle="add-overtime-modal">
-            <i class="fa-solid fa-money-check-dollar mr-2 text-sm"></i>
+            <i class="fa-solid fa-check-to-slot mr-3 text-base"></i>
             إضافة أوفر تايم
         </a>
     </div>
 
+    <div class="w-full text-white bg-fuchsia-700 hover:bg-fuchsia focus:ring-4 focus:outline-none focus:ring-fuchsia font-medium rounded text-sm py-1 px-2 text-center">
+        <a class="flex cursor-pointer" id="add-target" data-modal-target="add-target-modal" data-modal-toggle="add-target-modal">
+            <i class="fa-solid fa-users-viewfinder mr-3 text-base"></i>
+            إضافة تارجت
+        </a>
+    </div>
 
 </div>
 
@@ -271,6 +277,7 @@ include_once "Design/Modals/Salary/insert_deduction.php";
 include_once "Design/Modals/Salary/insert_advances.php";
 include_once "Design/Modals/Salary/insert_absent_days.php";
 include_once "Design/Modals/Salary/insert_overtime_days.php";
+include_once "Design/Modals/Salary/insert_target_modal.php";
 
 ?>
 
@@ -322,6 +329,7 @@ include_once "Design/Modals/Salary/insert_overtime_days.php";
     document.getElementById('createAtDate3').value = selectedValue;
     document.getElementById('createAtDate4').value = selectedValue;
     document.getElementById('createAtDate5').value = selectedValue;
+    document.getElementById('createAtDate6').value = selectedValue;
 
     const now = new Date();
 
@@ -346,6 +354,7 @@ include_once "Design/Modals/Salary/insert_overtime_days.php";
         document.getElementById('createAtDate3').value = `${currentMonth}-${currentYear}`;
         document.getElementById('createAtDate4').value = `${currentMonth}-${currentYear}`;
         document.getElementById('createAtDate5').value = `${currentMonth}-${currentYear}`;
+        document.getElementById('createAtDate6').value = `${currentMonth}-${currentYear}`;
 
         
     }
@@ -386,6 +395,7 @@ include_once "Design/Modals/Salary/insert_overtime_days.php";
         document.getElementById('createAtDate3').value = `${month}-${year}`;
         document.getElementById('createAtDate4').value = `${month}-${year}`;
         document.getElementById('createAtDate5').value = `${month}-${year}`;
+        document.getElementById('createAtDate6').value = `${month}-${year}`;
         try {
             const url = `functions/Customer-service/get_salary_records.php?id=${agentId}&month=${month}&year=${year}`;
             const response = await fetch(url, {
