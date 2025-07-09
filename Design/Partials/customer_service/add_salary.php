@@ -80,13 +80,13 @@ $errors = $_SESSION['error'] ?? [];
         </a>
     </div>
     <div class="w-full text-white bg-rose-700 hover:bg-rose-800 focus:ring-4 focus:outline-none focus:ring-rose-300 font-medium rounded text-sm py-1 px-2 text-center">
-        <a class="flex" id="add-deduction_days" href="">
+        <a class="flex cursor-pointer" id="add-deduction_days" data-modal-target="add-deduction-modal" data-modal-toggle="add-deduction-modal">
             <i class="fa-solid fa-money-check-dollar mr-2 text-sm"></i>
             إضافة خصم
         </a>
     </div>
     <div class="w-full text-white bg-orange-700 hover:bg-orange-800 focus:ring-4 focus:outline-none focus:ring-orange-300 font-medium rounded text-sm py-1 px-2 text-center">
-        <a class="flex" id="add-advances" href="">
+        <a class="flex cursor-pointer" id="add-advances" href="">
             <i class="fa-solid fa-money-check-dollar mr-2 text-sm"></i>
             إضافة سلفة
         </a>
@@ -255,6 +255,7 @@ $selectedValue = $selectedMonth ? "$selectedMonth-$selectedYear" : '';
 <?php
 
 include_once "Design/Modals/Salary/insert_bonus.php";
+include_once "Design/Modals/Salary/insert_deduction.php";
 
 ?>
 
@@ -302,6 +303,7 @@ include_once "Design/Modals/Salary/insert_bonus.php";
 
     // set the modal create_at input
     document.getElementById('createAtDate').value = selectedValue;
+    document.getElementById('createAtDate2').value = selectedValue;
 
     const now = new Date();
 
@@ -322,6 +324,7 @@ include_once "Design/Modals/Salary/insert_bonus.php";
         selectedValue = `${pad(currentMonth)}-${currentYear}`;
         // set the modal create_at input
         document.getElementById('createAtDate').value = `${currentMonth}-${currentYear}`;
+        document.getElementById('createAtDate2').value = `${currentMonth}-${currentYear}`;
 
         
     }
