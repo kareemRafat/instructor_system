@@ -74,38 +74,38 @@ $errors = $_SESSION['error'] ?? [];
 
 <div class="p-3 md:p-3 grid grid-cols-2 md:grid-cols-6  gap-1 md:w-fit w-full">
     <div class="w-full text-white bg-sky-700 hover:bg-sky-800 focus:ring-4 focus:outline-none focus:ring-sky-300 font-medium rounded text-sm py-1 px-2 text-center">
-        <a class="flex cursor-pointer" id="add-bonus" data-modal-target="add-bonus-modal" data-modal-toggle="add-bonus-modal">
+        <a class="flex items-center cursor-pointer" id="add-bonus" data-modal-target="add-bonus-modal" data-modal-toggle="add-bonus-modal">
             <i class="fa-solid fa-award mr-3 text-base"></i>
             إضافة مكافأة
         </a>
     </div>
     <div class="w-full text-white bg-rose-700 hover:bg-rose-800 focus:ring-4 focus:outline-none focus:ring-rose-300 font-medium rounded text-sm py-1 px-2 text-center">
-        <a class="flex cursor-pointer" id="add-deduction_days" data-modal-target="add-deduction-modal" data-modal-toggle="add-deduction-modal">
+        <a class="flex items-center cursor-pointer" id="add-deduction_days" data-modal-target="add-deduction-modal" data-modal-toggle="add-deduction-modal">
             <i class="fa-solid fa-rectangle-list mr-3 text-base"></i>
             إضافة خصم
         </a>
     </div>
     <div class="w-full text-white bg-orange-700 hover:bg-orange-800 focus:ring-4 focus:outline-none focus:ring-orange-300 font-medium rounded text-sm py-1 px-2 text-center">
-        <a class="flex cursor-pointer" id="add-advances" data-modal-target="add-advances-modal" data-modal-toggle="add-advances-modal">
+        <a class="flex items-center cursor-pointer" id="add-advances" data-modal-target="add-advances-modal" data-modal-toggle="add-advances-modal">
             <i class="fa-solid fa-envelope-circle-check mr-3 text-base"></i>
             إضافة سلفة
         </a>
     </div>
     <div class="w-full text-white bg-slate-700 hover:bg-slate-800 focus:ring-4 focus:outline-none focus:ring-slate-300 font-medium rounded text-sm py-1 px-2 text-center">
-        <a class="flex cursor-pointer" id="add-absent" data-modal-target="add-absent-modal" data-modal-toggle="add-absent-modal">
+        <a class="flex items-center cursor-pointer" id="add-absent" data-modal-target="add-absent-modal" data-modal-toggle="add-absent-modal">
             <i class="fa-solid fa-money-check-dollar mr-3 text-base"></i>
             إضافة غياب
         </a>
     </div>
     <div class="w-full text-white bg-teal-700 hover:bg-teal-800 focus:ring-4 focus:outline-none focus:ring-teal-300 font-medium rounded text-sm py-1 px-2 text-center">
-        <a class="flex cursor-pointer" id="add-overtime" data-modal-target="add-overtime-modal" data-modal-toggle="add-overtime-modal">
+        <a class="flex items-center cursor-pointer" id="add-overtime" data-modal-target="add-overtime-modal" data-modal-toggle="add-overtime-modal">
             <i class="fa-solid fa-check-to-slot mr-3 text-base"></i>
             إضافة أوفر تايم
         </a>
     </div>
 
     <div class="w-full text-white bg-fuchsia-700 hover:bg-fuchsia focus:ring-4 focus:outline-none focus:ring-fuchsia font-medium rounded text-sm py-1 px-2 text-center">
-        <a class="flex cursor-pointer" id="add-target" data-modal-target="add-target-modal" data-modal-toggle="add-target-modal">
+        <a class="flex items-center cursor-pointer" id="add-target" data-modal-target="add-target-modal" data-modal-toggle="add-target-modal">
             <i class="fa-solid fa-users-viewfinder mr-3 text-base"></i>
             إضافة تارجت
         </a>
@@ -245,7 +245,10 @@ $errors = $_SESSION['error'] ?? [];
     </div>
     <!-- Submit Button -->
     <div class="flex flex-col md:flex-row justify-between items-center">
-        <button type="submit" class="mt-5 w-full md:w-fit text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm  sm:w-auto px-5 py-2.5 text-center">
+        <button type="submit" class="mt-5 w-full md:w-fit text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm  sm:w-auto px-5 py-2.5 text-center flex gap-2">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+            </svg>
             حفظ البيانات
         </button>
 
@@ -256,8 +259,11 @@ $errors = $_SESSION['error'] ?? [];
             class="mt-5 w-full md:w-fit text-white bg-blue-700 hover:bg-blue-800 
             focus:ring-4 focus:outline-none focus:ring-blue-300 
             font-medium rounded-lg text-sm sm:w-auto px-5 py-2.5 text-center
-            disabled:bg-blue-500 disabled:text-white disabled:cursor-not-allowed"
+            disabled:bg-blue-500 disabled:text-white disabled:cursor-not-allowed flex gap-2"
             onclick="setTimeout(() => this.disabled = true, 1)">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                <path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z"></path>
+            </svg>
             ارسال التقرير
         </button>
     </div>
@@ -425,7 +431,7 @@ include_once "Design/Modals/Salary/insert_target_modal.php";
         elements.forEach(elm => {
             elm.value = dateVal
         })
-        
+
         // to span
         let spanElm = document.querySelectorAll('.month-target');
         spanElm.forEach(elm => {
@@ -433,6 +439,6 @@ include_once "Design/Modals/Salary/insert_target_modal.php";
         })
 
         console.log(dateVal);
-        
+
     }
 </script>
