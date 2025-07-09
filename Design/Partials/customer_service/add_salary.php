@@ -62,7 +62,7 @@ $errors = $_SESSION['error'] ?? [];
 <div id="agent-id" data-agent-id="<?= $agentId ?>"></div>
 <div class="p-3 md:p-3 flex flex-col-reverse md:flex-row justify-between md:items-center gap-3">
     <div>
-        <h3 class="text-2xl font-extrabold leading-none tracking-tight text-gray-900 md:text-4xl">Edit <span class="text-blue-600"><?= ucwords($agent[0]['username']) ?></span>'s info </h3>
+        <h3 class="text-2xl font-extrabold leading-none tracking-tight text-gray-900 md:text-4xl">Edit <span class="text-blue-600"><?= ucwords($agent[0]['username']) ?></span>'s Salary </h3>
     </div>
     <a href="customer-service.php" class="inline-flex items-center justify-center self-end p-2 text-base font-medium text-gray-500 rounded-lg bg-gray-100 hover:text-gray-900 hover:bg-gray-200">
         <svg class="w-4 h-4 me-2 rotate-90" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
@@ -72,8 +72,31 @@ $errors = $_SESSION['error'] ?? [];
     </a>
 </div>
 
+<div class="p-3 md:p-3 grid grid-cols-1 md:grid-cols-3  gap-1 md:w-fit w-full">
+    <div class="w-full text-white bg-sky-700 hover:bg-sky-800 focus:ring-4 focus:outline-none focus:ring-sky-300 font-medium rounded text-sm py-1 px-2 text-center">
+        <a class="flex cursor-pointer" id="add-bonus" data-modal-target="add-bonus-modal" data-modal-toggle="add-bonus-modal">
+            <i class="fa-solid fa-money-check-dollar mr-2 text-sm"></i>
+            إضافة مكافأة
+        </a>
+    </div>
+    <div class="w-full text-white bg-rose-700 hover:bg-rose-800 focus:ring-4 focus:outline-none focus:ring-rose-300 font-medium rounded text-sm py-1 px-2 text-center">
+        <a class="flex" id="add-deduction_days" href="">
+            <i class="fa-solid fa-money-check-dollar mr-2 text-sm"></i>
+            إضافة خصم
+        </a>
+    </div>
+    <div class="w-full text-white bg-orange-700 hover:bg-orange-800 focus:ring-4 focus:outline-none focus:ring-orange-300 font-medium rounded text-sm py-1 px-2 text-center">
+        <a class="flex" id="add-advances" href="">
+            <i class="fa-solid fa-money-check-dollar mr-2 text-sm"></i>
+            إضافة سلفة
+        </a>
+    </div>
+
+
+</div>
+
 <!-- action="functions/Customer-service/insert_salary.php" -->
-<form method="post" action="functions/Customer-service/insert_salary.php" class="max-w-8xl mx-auto p-6 rounded-lg">
+<form method="post" action="functions/Customer-service/insert_salary.php" class="max-w-8xl mx-auto p-3 rounded-lg">
     <div class="gap-5 grid grid-cols-1  md:grid-cols-2 lg:grid-cols-3">
         <!-- الاسم -->
         <input type="hidden" value="<?= $agent[0]['username'] ?>" name="cs_name">
@@ -220,17 +243,20 @@ $errors = $_SESSION['error'] ?? [];
             ارسال التقرير
         </button>
     </div>
-
 </form>
 
 <?php
 $selectedMonth = isset($agentRecores['month']) ? str_pad($agentRecores['month'], 2, '0', STR_PAD_LEFT) : false;
 $selectedYear = $agentRecores['year'] ?? '';
 $selectedValue = $selectedMonth ? "$selectedMonth-$selectedYear" : '';
-
 ?>
 
 
+<?php
+
+include_once "Design/Modals/Salary/insert_bonus.php";
+
+?>
 
 <script>
     // salary formula auto calculate
@@ -274,6 +300,9 @@ $selectedValue = $selectedMonth ? "$selectedMonth-$selectedYear" : '';
     const select = document.getElementById('month');
     let selectedValue = "<?= $selectedValue ?>";
 
+    // set the modal create_at input
+    document.getElementById('createAtDate').value = selectedValue;
+
     const now = new Date();
 
     const currentYear = now.getFullYear();
@@ -288,10 +317,13 @@ $selectedValue = $selectedMonth ? "$selectedMonth-$selectedYear" : '';
 
     const pad = (num) => num < 10 ? '0' + num : num;
 
-    
     if (!selectedValue) {
         // Fallback to current month if not provided from PHP
         selectedValue = `${pad(currentMonth)}-${currentYear}`;
+        // set the modal create_at input
+        document.getElementById('createAtDate').value = `${currentMonth}-${currentYear}`;
+
+        
     }
 
     // Loop from Jan of current year to the next month (inclusive)
@@ -324,7 +356,8 @@ $selectedValue = $selectedMonth ? "$selectedMonth-$selectedYear" : '';
     monthSelect.addEventListener("change", async function() {
         const selected = this.value; // e.g. "07-2025"
         const [month, year] = selected.split("-");
-
+        // set the modal create_at input on change date
+        document.getElementById('createAtDate').value = `${month}-${year}`;
         try {
             const url = `functions/Customer-service/get_salary_records.php?id=${agentId}&month=${month}&year=${year}`;
             const response = await fetch(url, {

@@ -17,7 +17,7 @@ foreach ($records as $record) {
 }
 ?>
 
-<div class="relative overflow-x-scroll max-h-screen">
+<div class="relative overflow-x-auto max-h-screen">
     <table class="w-full text-sm text-left rtl:text-right text-gray-500">
         <thead class="text-sm text-gray-800 uppercase bg-gray-200">
             <tr>

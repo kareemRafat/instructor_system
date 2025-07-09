@@ -1,0 +1,37 @@
+-- Creating the bonuses table
+CREATE TABLE `salary_bonuses` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `agent_id` int NOT NULL,
+  `amount` int DEFAULT '0',
+  `reason` varchar(255) NOT NULL,
+  `created_at` date NOT NULL,
+  `bonus_created_at` datetime NOT NULL ,
+  PRIMARY KEY (`id`)
+);
+
+-- Creating the advances table
+CREATE TABLE `salary_advances` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `agent_id` int NOT NULL,
+  `amount` int DEFAULT '0',
+  `reason` varchar(255) NOT NULL,
+  `created_at` date NOT NULL,
+  `advances_created_at` datetime NOT NULL ,
+  PRIMARY KEY (`id`)
+);
+
+-- Creating the deductions table
+CREATE TABLE `salary_deductions` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `agent_id` int NOT NULL,
+  `days` int DEFAULT '0',
+  `reason` varchar(255) NOT NULL,
+  `created_at` date NOT NULL,
+  `deductions_created_at` datetime NOT NULL ,
+  PRIMARY KEY (`id`)
+);
+
+ALTER TABLE `salary_records`
+  DROP COLUMN `bonuses`,
+  DROP COLUMN `advances`,
+  DROP COLUMN `deduction_days`;

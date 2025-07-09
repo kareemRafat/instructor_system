@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Jul 07, 2025 at 10:44 PM
+-- Generation Time: Jul 09, 2025 at 02:22 AM
 -- Server version: 8.0.42
 -- PHP Version: 8.3.22
 
@@ -89,6 +89,7 @@ INSERT INTO `branch_instructor` (`instructor_id`, `branch_id`) VALUES
 (26, 1),
 (35, 1),
 (36, 1),
+(42, 1),
 (18, 2),
 (20, 2),
 (22, 2),
@@ -143,7 +144,7 @@ INSERT INTO `groups` (`id`, `name`, `time`, `day`, `instructor_id`, `second_inst
 (57, 'laravel', 12.30, 'saturday', 21, NULL, 3, 1, '2025-02-25 17:21:54', NULL),
 (58, 'orchid', 3.00, 'sunday', 21, NULL, 3, 0, '2025-01-15 22:04:08', 0),
 (59, 'training_first', 12.30, 'saturday', 1, NULL, 1, 0, '2025-01-21 00:58:14', NULL),
-(68, 'char', 3.00, 'monday', 21, NULL, 1, 1, '2025-02-20 01:43:21', NULL),
+(68, 'char', 3.00, 'monday', 21, 24, 1, 1, '2025-02-20 01:43:21', NULL),
 (69, 'position', 6.00, 'monday', 21, NULL, 1, 1, '2025-04-07 01:44:16', NULL),
 (70, 'span Online', 6.10, 'saturday', 23, NULL, 1, 1, '2025-06-17 01:52:19', NULL),
 (71, 'design', 12.30, 'sunday', 23, NULL, 1, 1, '2025-06-15 15:56:38', NULL),
@@ -198,7 +199,8 @@ INSERT INTO `instructors` (`id`, `username`, `password`, `email`, `is_active`, `
 (36, 'mostafa', '$2y$10$Og9f64p3/vkUFecXPT562unRnmCI2qTGjgckH7n0AILtAOxzysD6a', NULL, 1, 'owner'),
 (37, 'sondos', '$2y$10$.sENlS50uuJV.F0blFxVDuz4DAeuZSV30jLbW73LOSchIf31zPX2.', NULL, 1, 'cs'),
 (40, 'renaa', '$2y$10$ghnulDsMv3i/KbQIKh2Gd.nY62SQ96gLzFDE6lvPaaU73FEVeaCeW', NULL, 1, 'cs'),
-(41, 'menna', '$2y$10$VstumhvPvpzdLYAB5EFFD.2rEVYLAaPBXDYLIGiNbfVvG7tNOI6ma', NULL, 1, 'cs');
+(41, 'menna', '$2y$10$VstumhvPvpzdLYAB5EFFD.2rEVYLAaPBXDYLIGiNbfVvG7tNOI6ma', NULL, 1, 'cs'),
+(42, 'aml', '$2y$10$2mD/59BbkH9ZWJ53tsPfwu1LDGNItelIKt1IuNYkHuvW4T/wB37Nq', 'amlessa2@gmail.com', 1, 'instructor');
 
 -- --------------------------------------------------------
 
@@ -359,7 +361,17 @@ INSERT INTO `lectures` (`id`, `group_id`, `track_id`, `instructor_id`, `branch_i
 (212, 74, 2, 1, 1, '2 - CSS Margin - padding - fonts', '2025-07-07 16:15:34'),
 (213, 75, 2, 1, 1, '2 - CSS Margin - padding - fonts', '2025-07-07 16:15:42'),
 (214, 51, 3, 22, 2, '16 - Vuejs intro', '2025-07-07 18:06:42'),
-(215, 50, 3, 22, 2, '5 - JavaScript intro - Dom - selectors - events', '2025-07-07 18:07:45');
+(215, 50, 3, 22, 2, '5 - JavaScript intro - Dom - selectors - events', '2025-07-07 18:07:45'),
+(216, 81, 2, 22, 2, '1 - CSS Intro', '2025-07-08 18:12:37'),
+(217, 84, 1, 22, 2, '3 - HTML form & meta tags', '2025-07-08 18:12:53'),
+(218, 81, 2, 22, 2, '1 - CSS Intro', '2025-07-08 18:13:07'),
+(219, 47, 6, 22, 2, '2 - Crud - Login', '2025-07-08 18:13:19'),
+(220, 48, 3, 20, 2, '6 - JavaScript Get - set', '2025-07-08 18:14:28'),
+(221, 54, 4, 20, 2, '1 - PHP intro - functions', '2025-07-08 18:14:50'),
+(222, 72, 1, 20, 2, '3 - HTML form & meta tags', '2025-07-08 18:15:50'),
+(223, 54, 3, 20, 2, '18 - Vuejs - bootstrap Project', '2025-07-08 18:16:42'),
+(224, 74, 2, 1, 1, '3 - CSS display - float - position', '2025-07-08 22:26:22'),
+(225, 75, 2, 1, 1, '3 - CSS display - float - position', '2025-07-08 22:26:43');
 
 -- --------------------------------------------------------
 
@@ -393,7 +405,11 @@ INSERT INTO `remember_tokens` (`id`, `instructor_id`, `token`, `expiry`) VALUES
 (109, 40, 'fa4ace46d9a17157c06668b23beced6d0a657526dd08bc95779a9b9102ef5793', '2025-08-04 12:56:51'),
 (113, 40, '43df81a385cbb8f87c7aae642120394bf303412067ee23d0fe0531caca86faa1', '2025-08-05 11:47:45'),
 (115, 41, '68d3b864900797807d931631c18250ed5dfa228d94a65b300bb1d3834784f103', '2025-08-06 08:10:20'),
-(116, 1, '593ef7bebf98a84409738c93632439487606df10f43e24bf366909bc3335dd0e', '2025-08-06 18:27:23');
+(121, 1, 'e9b27ed76029c144e24d76e1dc6221de5271c41bad8fe949903a9e7ccd78a337', '2025-08-07 16:39:08'),
+(122, 1, '01100d5231b036fd575b2bc5d9230c748218f9ea0cf9b33c767bb2e4c6bc48a6', '2025-08-07 16:49:54'),
+(123, 42, 'e75112118b3b470f9add8e76d75fc244c4dec3d8a7e07c3ed01ade70ac3827c2', '2025-08-07 17:28:18'),
+(124, 42, '5b447fd271f27ee928ef1b817eaaaa7f3b703783e4e3cddc70b85b95a409cb2c', '2025-08-07 19:45:33'),
+(125, 1, '0002cbf979bc50c59178fd303aef4d0cee58b7a28c7eea80fe00163412873875', '2025-08-07 20:50:02');
 
 -- --------------------------------------------------------
 
@@ -413,7 +429,7 @@ CREATE TABLE `salary_records` (
   `deduction_days` int DEFAULT '0',
   `total` decimal(10,2) DEFAULT '0.00',
   `created_at` date NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -537,19 +553,19 @@ ALTER TABLE `groups`
 -- AUTO_INCREMENT for table `instructors`
 --
 ALTER TABLE `instructors`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
 
 --
 -- AUTO_INCREMENT for table `lectures`
 --
 ALTER TABLE `lectures`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=216;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=226;
 
 --
 -- AUTO_INCREMENT for table `remember_tokens`
 --
 ALTER TABLE `remember_tokens`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=117;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=126;
 
 --
 -- AUTO_INCREMENT for table `tracks`
