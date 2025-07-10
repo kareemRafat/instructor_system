@@ -113,19 +113,18 @@ $errors = $_SESSION['error'] ?? [];
 
 </div>
 
-<!-- action="functions/Customer-service/insert_salary.php" -->
-<div class="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-2">
+<div class="min-h-screen p-2">
     <div class="max-w-full mx-auto">
         <div class="bg-white rounded-lg shadow-md p-4 mb-3">
             <div
                 class=" bg-blue-700 text-white rounded-md p-3 mb-4">
                 <div class="flex items-center justify-between">
                     <div>
-                        <h2 class="text-lg font-bold">هند</h2>
+                        <h2 class="text-lg font-bold"><?= ucwords($agent[0]['username']) ?></h2>
                     </div>
                     <div class="text-right">
-                        <p class="text-blue-100 text-xs">تاريخ الإنشاء</p>
-                        <p class="text-sm font-semibold">2025-07-09</p>
+                        <p class="text-blue-100 text-xs">شهر المحاسبة</p>
+                        <p class="text-sm font-semibold">2025-07</p>
                     </div>
                 </div>
             </div>
@@ -143,7 +142,7 @@ $errors = $_SESSION['error'] ?? [];
             </div>
             <div class="grid grid-cols-2 md:grid-cols-3 gap-3 mb-4">
                 <div
-                    class="bg-gradient-to-br from-green-50 to-green-100 p-3 rounded-md border border-green-200">
+                    class="p-3 rounded-md border border-green-200">
                     <div class="flex items-center mb-1">
                         <div
                             class="w-6 h-6 bg-green-500 rounded-full flex items-center justify-center mr-1">
@@ -161,7 +160,7 @@ $errors = $_SESSION['error'] ?? [];
                     <p class="text-xs text-green-600">جنيه مصري</p>
                 </div>
                 <div
-                    class="bg-gradient-to-br from-blue-50 to-blue-100 p-3 rounded-md border border-blue-200">
+                    class="p-3 rounded-md border border-blue-200">
                     <div class="flex items-center mb-1">
                         <div
                             class="w-6 h-6 bg-blue-500 rounded-full flex items-center justify-center mr-1">
@@ -183,7 +182,7 @@ $errors = $_SESSION['error'] ?? [];
                     <p class="text-xs text-blue-600">أيام</p>
                 </div>
                 <div
-                    class="bg-gradient-to-br from-purple-50 to-purple-100 p-3 rounded-md border border-purple-200">
+                    class=" p-3 rounded-md border border-purple-200">
                     <div class="flex items-center mb-1">
                         <div
                             class="w-6 h-6 bg-purple-500 rounded-full flex items-center justify-center mr-1">
@@ -225,7 +224,7 @@ $errors = $_SESSION['error'] ?? [];
                     <p class="text-xs text-orange-600">نقطة</p>
                 </div>
                 <div
-                    class="bg-gradient-to-br from-teal-50 to-teal-100 p-3 rounded-md border border-teal-200">
+                    class="p-3 rounded-md border border-teal-200">
                     <div class="flex items-center mb-1">
                         <div
                             class="w-6 h-6 bg-teal-500 rounded-full flex items-center justify-center mr-1">
@@ -245,7 +244,7 @@ $errors = $_SESSION['error'] ?? [];
                     <p class="text-xs text-teal-600">جنيه مصري</p>
                 </div>
                 <div
-                    class="bg-gradient-to-br from-yellow-50 to-yellow-100 p-3 rounded-md border border-yellow-200">
+                    class="p-3 rounded-md border border-yellow-200">
                     <div class="flex items-center mb-1">
                         <div
                             class="w-6 h-6 bg-yellow-500 rounded-full flex items-center justify-center mr-1">

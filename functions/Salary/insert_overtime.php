@@ -3,9 +3,7 @@
 session_start();
 require_once "../../Database/connect.php";
 
-echo "<pre>"; 
-print_r($_POST);
-die();
+
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
@@ -34,8 +32,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             ':overtime_created_at' => $overtime_created_at
         ];
 
+       
+
         // insert sql
-        insertBonus($pdo, $data);
+        insertOverTime($pdo, $data);
 
         $_SESSION['success'] = "Advances Added Successfully";
         header("Location: ../../customer-service.php?action=add&id=$agentId");
@@ -52,12 +52,12 @@ function checkErrors(array $formData, PDO $pdo): bool
     $errors = [];
 
     // Required: instructor_id
-    if (empty($formData['advances'])) {
-        $errors['advances'] = "قيمة السلف مطلوب";
+    if (empty($formData['overtime'])) {
+        $errors['overtime'] = "قيمة السلف مطلوب";
     }
 
-    if (empty($formData['advances-reason'])) {
-        $errors['advances-reason'] = "سبب عملية السلف مطلوب";
+    if (empty($formData['overtime-reason'])) {
+        $errors['overtime-reason'] = "سبب عملية السلف مطلوب";
     }
 
 
@@ -71,10 +71,10 @@ function checkErrors(array $formData, PDO $pdo): bool
     return true;
 }
 
-function insertBonus(PDO $pdo, array $data): bool
+function insertOverTime(PDO $pdo, array $data): bool
 {
-    $sql = "INSERT INTO salary_advances (
-                agent_id, overtime, reason, created_at ,overtime_created_at
+    $sql = "INSERT INTO salary_overtime_days (
+                agent_id, days, reason, created_at ,overtime_created_at
             ) VALUES (
                 :agent_id, :overtime, :reason, :created_at, :overtime_created_at
             )";
