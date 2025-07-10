@@ -57,7 +57,7 @@ $errors = $_SESSION['error'] ?? [];
     <div class="w-full text-white bg-rose-700 hover:bg-rose-800 focus:ring-4 focus:outline-none focus:ring-rose-300 font-medium rounded text-sm py-1 px-2 text-center">
         <a class="flex items-center cursor-pointer" id="add-deduction_days" data-modal-target="add-deduction-modal" data-modal-toggle="add-deduction-modal">
             <i class="fa-solid fa-rectangle-list mr-3 text-base"></i>
-            إضافة خصم
+            إضافة خصم بالأيام
         </a>
     </div>
     <div class="w-full text-white bg-orange-700 hover:bg-orange-800 focus:ring-4 focus:outline-none focus:ring-orange-300 font-medium rounded text-sm py-1 px-2 text-center">
@@ -69,13 +69,13 @@ $errors = $_SESSION['error'] ?? [];
     <div class="w-full text-white bg-slate-700 hover:bg-slate-800 focus:ring-4 focus:outline-none focus:ring-slate-300 font-medium rounded text-sm py-1 px-2 text-center">
         <a class="flex items-center cursor-pointer" id="add-absent" data-modal-target="add-absent-modal" data-modal-toggle="add-absent-modal">
             <i class="fa-solid fa-money-check-dollar mr-3 text-base"></i>
-            إضافة غياب
+            إضافة غياب بالأيام
         </a>
     </div>
     <div class="w-full text-white bg-teal-700 hover:bg-teal-800 focus:ring-4 focus:outline-none focus:ring-teal-300 font-medium rounded text-sm py-1 px-2 text-center">
         <a class="flex items-center cursor-pointer" id="add-overtime" data-modal-target="add-overtime-modal" data-modal-toggle="add-overtime-modal">
             <i class="fa-solid fa-check-to-slot mr-3 text-base"></i>
-            إضافة أوفر تايم
+            إضافة أوفر تايم بالأيام
         </a>
     </div>
 
@@ -99,7 +99,7 @@ $errors = $_SESSION['error'] ?? [];
                     </div>
                     <div class="text-right">
                         <p class="text-blue-100 text-sm">شهر المحاسبة</p>
-                        <p class="text-lg font-semibold"><?= $agentRecores['month']?> - <?= $agentRecores['year'] ?></p>
+                        <p class="text-lg font-semibold"><?= $agentRecores['month'] ?> - <?= $agentRecores['year'] ?></p>
                     </div>
                 </div>
             </div>
@@ -131,7 +131,7 @@ $errors = $_SESSION['error'] ?? [];
                         </div>
                         <h3 class="text-sm font-semibold text-gray-700">المرتب الأساسي</h3>
                     </div>
-                    <p class="text-xl font-bold text-green-700">6,000</p>
+                    <p class="text-xl font-bold text-green-700"><?= $agentRecores['agent_salary'] ?></p>
                     <p class="text-xs text-green-600">جنيه مصري</p>
                 </div>
                 <div
@@ -153,7 +153,7 @@ $errors = $_SESSION['error'] ?? [];
                             أوفر تايم + مكافأت
                         </h3>
                     </div>
-                    <p class="text-xl font-bold text-blue-700">0</p>
+                    <p class="text-xl font-bold text-blue-700"><?= $agentRecores['overtime_days'] ?? 0 ?></p>
                     <p class="text-xs text-blue-600">أيام</p>
                 </div>
                 <div
@@ -175,7 +175,7 @@ $errors = $_SESSION['error'] ?? [];
                         </div>
                         <h3 class="text-sm font-semibold text-gray-700">قيمة اليوم</h3>
                     </div>
-                    <p class="text-xl font-bold text-purple-700">200.00</p>
+                    <p class="text-xl font-bold text-purple-700"><?= $agentRecores['day_value'] ?></p>
                     <p class="text-xs text-purple-600">جنيه مصري</p>
                 </div>
                 <div
@@ -195,7 +195,7 @@ $errors = $_SESSION['error'] ?? [];
                         </div>
                         <h3 class="text-sm font-semibold text-gray-700">التارجت</h3>
                     </div>
-                    <p class="text-xl font-bold text-orange-700">0</p>
+                    <p class="text-xl font-bold text-orange-700"><?= $agentRecores['taget'] ?? 0 ?></p>
                     <p class="text-xs text-orange-600">نقطة</p>
                 </div>
                 <div
@@ -215,7 +215,7 @@ $errors = $_SESSION['error'] ?? [];
                         </div>
                         <h3 class="text-sm font-semibold text-gray-700">المكافآت</h3>
                     </div>
-                    <p class="text-xl font-bold text-teal-700">0</p>
+                    <p class="text-xl font-bold text-teal-700"><?= $agentRecores['bonuses'] ?? 0 ?></p>
                     <p class="text-xs text-teal-600">جنيه مصري</p>
                 </div>
                 <div
@@ -233,7 +233,7 @@ $errors = $_SESSION['error'] ?? [];
                         </div>
                         <h3 class="text-sm font-semibold text-gray-700">السلف</h3>
                     </div>
-                    <p class="text-xl font-bold text-yellow-700">0</p>
+                    <p class="text-xl font-bold text-yellow-700"><?= $agentRecores['advances'] ?? 0 ?></p>
                     <p class="text-xs text-yellow-600">جنيه مصري</p>
                 </div>
             </div>
@@ -250,13 +250,15 @@ $errors = $_SESSION['error'] ?? [];
                     <div class="bg-white p-2 rounded">
                         <h4 class="font-semibold text-gray-700 mb-1 text-xs">الغياب</h4>
                         <p class="text-lg font-bold text-red-600">
-                            0 <span class="text-xs font-normal">أيام</span>
+                            <?= $agentRecores['absent_days'] ?? 0 ?>
+                            <span class="text-xs font-normal">أيام</span>
                         </p>
                     </div>
                     <div class="bg-white p-2 rounded">
                         <h4 class="font-semibold text-gray-700 mb-1 text-xs">خصم</h4>
                         <p class="text-lg font-bold text-red-600">
-                            0 <span class="text-xs font-normal">أيام</span>
+                            <?= $agentRecores['deduction_days'] ?? 0 ?>
+                            <span class="text-xs font-normal">أيام</span>
                         </p>
                     </div>
                 </div>
@@ -272,7 +274,9 @@ $errors = $_SESSION['error'] ?? [];
                     </svg>
                     <h3 class="text-lg font-bold">إجمالي الراتب</h3>
                 </div>
-                <p class="text-3xl font-extrabold mb-1">6,000</p>
+                <p class="text-3xl font-extrabold mb-1">
+                    <?= $agentRecores['calculated_total'] == '0.00' ? $agentRecores['agent_salary'] : $agentRecores['calculated_total']  ?>
+                </p>
                 <p class="text-blue-200 text-sm">جنيه مصري</p>
             </div>
             <div class="flex flex-col md:flex-row justify-center gap-2 mt-4">
@@ -445,17 +449,17 @@ include_once "Design/Modals/Salary/insert_target_modal.php";
     }
 </script>
 
-<?php 
-function getAgentSalaryRecords($agentId, $month, $year, $pdo) {
+<?php
+function getAgentSalaryRecords($agentId, $month, $year, $pdo)
+{
     $startDate = "$year-" . str_pad($month, 2, '0', STR_PAD_LEFT) . "-01";
     $endDate = date('Y-m-d', strtotime("$startDate +1 month"));
-    
+
     $stmt = $pdo->prepare("
         SELECT 
             i.username AS cs_name,
             i.role,
             i.salary AS agent_salary,
-            COALESCE(sr.basic_salary, 0) AS basic_salary,
             COALESCE(so.overtime_days, 0) AS overtime_days,
             CEIL(COALESCE(i.salary / 30, 0)) AS day_value,
             COALESCE(sr.target, 0) AS target,
@@ -478,7 +482,7 @@ function getAgentSalaryRecords($agentId, $month, $year, $pdo) {
             MONTH(sr.created_at) AS month,
             YEAR(sr.created_at) AS year,
             (
-                COALESCE(sr.basic_salary, 0) +
+                COALESCE(i.salary, 0) +
                 (COALESCE(so.overtime_days, 0) * CEIL(COALESCE(i.salary / 30, 0))) +
                 COALESCE(sr.target, 0) +
                 COALESCE(sb.bonuses, 0) -
