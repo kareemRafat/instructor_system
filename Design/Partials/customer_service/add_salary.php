@@ -6,8 +6,20 @@ if (!hasRole('owner', 'admin')) {
     exit();
 }
 
+if (!isset($_GET['month']) || !isset($_GET['year'])) {
+    include_once "not_found.php";
+    exit();
+}
+
+// Validate query string month and year
+if ($_GET['month'] != date('n') || $_GET['year'] != date('Y')) {
+    include_once "not_found.php";
+    exit();
+}
+
+
 $agentId = $_GET['id'];
-$agentRecores = getAgentSalaryRecords($agentId, 7, 2025, $pdo);
+$agentRecores = getAgentSalaryRecords($agentId, $_GET['month'], $_GET['year'], $pdo);
 $agent = getAgentById($agentId, $pdo);
 
 function getAgentById($agentId, $pdo)
@@ -116,29 +128,12 @@ $errors = $_SESSION['error'] ?? [];
                 ?>
             </div>
             <div class="grid grid-cols-2 md:grid-cols-3 gap-3 mb-4">
-                <div
-                    class="p-3 rounded-md border border-green-200">
-                    <div class="flex items-center mb-1">
-                        <div
-                            class="w-6 h-6 bg-green-500 rounded-full flex items-center justify-center mr-1">
-                            <svg
-                                class="w-3 h-3 text-white"
-                                fill="currentColor"
-                                viewBox="0 0 20 20">
-                                <path
-                                    d="M4 4a2 2 0 00-2 2v4a2 2 0 002 2V6h10a2 2 0 00-2-2H4zm2 6a2 2 0 012-2h8a2 2 0 012 2v4a2 2 0 01-2 2H8a2 2 0 01-2-2v-4zm6 4a2 2 0 100-4 2 2 0 000 4z"></path>
-                            </svg>
-                        </div>
-                        <h3 class="text-sm font-semibold text-gray-700">المرتب الأساسي</h3>
-                    </div>
-                    <p class="text-xl font-bold text-green-700"><?= $agentRecores['agent_salary'] ?></p>
-                    <p class="text-xs text-green-600">جنيه مصري</p>
-                </div>
-                <div
+
+                <div dir="rtl"
                     class="p-3 rounded-md border border-blue-200">
                     <div class="flex items-center mb-1">
                         <div
-                            class="w-6 h-6 bg-blue-500 rounded-full flex items-center justify-center mr-1">
+                            class="w-6 h-6 bg-blue-500 rounded-full flex items-center justify-center ml-2">
                             <svg
                                 class="w-3 h-3 text-white"
                                 fill="currentColor"
@@ -154,13 +149,13 @@ $errors = $_SESSION['error'] ?? [];
                         </h3>
                     </div>
                     <p class="text-xl font-bold text-blue-700"><?= $agentRecores['overtime_days'] ?? 0 ?></p>
-                    <p class="text-xs text-blue-600">أيام</p>
+                    <p class="text-sm text-blue-600">أيام</p>
                 </div>
-                <div
+                <div dir="rtl"
                     class=" p-3 rounded-md border border-purple-200">
                     <div class="flex items-center mb-1">
                         <div
-                            class="w-6 h-6 bg-purple-500 rounded-full flex items-center justify-center mr-1">
+                            class="w-6 h-6 bg-purple-500 rounded-full flex items-center justify-center ml-2">
                             <svg
                                 class="w-3 h-3 text-white"
                                 fill="currentColor"
@@ -176,13 +171,31 @@ $errors = $_SESSION['error'] ?? [];
                         <h3 class="text-sm font-semibold text-gray-700">قيمة اليوم</h3>
                     </div>
                     <p class="text-xl font-bold text-purple-700"><?= $agentRecores['day_value'] ?></p>
-                    <p class="text-xs text-purple-600">جنيه مصري</p>
+                    <p class="text-sm text-purple-600">جنيه مصري</p>
                 </div>
-                <div
+                <div dir="rtl"
+                    class="p-3 rounded-md border border-green-200">
+                    <div class="flex items-center mb-1">
+                        <div dir="rtl"
+                            class="w-6 h-6 bg-green-500 rounded-full flex items-center justify-center ml-2">
+                            <svg
+                                class="w-3 h-3 text-white"
+                                fill="currentColor"
+                                viewBox="0 0 20 20">
+                                <path
+                                    d="M4 4a2 2 0 00-2 2v4a2 2 0 002 2V6h10a2 2 0 00-2-2H4zm2 6a2 2 0 012-2h8a2 2 0 012 2v4a2 2 0 01-2 2H8a2 2 0 01-2-2v-4zm6 4a2 2 0 100-4 2 2 0 000 4z"></path>
+                            </svg>
+                        </div>
+                        <h3 class="text-sm font-semibold text-gray-700">المرتب الأساسي</h3>
+                    </div>
+                    <p class="text-xl font-bold text-green-700"><?= $agentRecores['agent_salary'] ?></p>
+                    <p class="text-sm text-green-600">جنيه مصري</p>
+                </div>
+                <div dir="rtl"
                     class="bg-gradient-to-br from-orange-50 to-orange-100 p-3 rounded-md border border-orange-200">
                     <div class="flex items-center mb-1">
                         <div
-                            class="w-6 h-6 bg-orange-500 rounded-full flex items-center justify-center mr-1">
+                            class="w-6 h-6 bg-orange-500 rounded-full flex items-center justify-center ml-2">
                             <svg
                                 class="w-3 h-3 text-white"
                                 fill="currentColor"
@@ -196,13 +209,13 @@ $errors = $_SESSION['error'] ?? [];
                         <h3 class="text-sm font-semibold text-gray-700">التارجت</h3>
                     </div>
                     <p class="text-xl font-bold text-orange-700"><?= $agentRecores['taget'] ?? 0 ?></p>
-                    <p class="text-xs text-orange-600">نقطة</p>
+                    <p class="text-sm text-orange-600">نقطة</p>
                 </div>
-                <div
-                    class="p-3 rounded-md border border-teal-200">
+                <div dir="rtl"
+                    class="p-3 rounded-md border border-teal-500">
                     <div class="flex items-center mb-1">
                         <div
-                            class="w-6 h-6 bg-teal-500 rounded-full flex items-center justify-center mr-1">
+                            class="w-6 h-6 bg-teal-500 rounded-full flex items-center justify-center ml-2">
                             <svg
                                 class="w-3 h-3 text-white"
                                 fill="currentColor"
@@ -216,13 +229,13 @@ $errors = $_SESSION['error'] ?? [];
                         <h3 class="text-sm font-semibold text-gray-700">المكافآت</h3>
                     </div>
                     <p class="text-xl font-bold text-teal-700"><?= $agentRecores['bonuses'] ?? 0 ?></p>
-                    <p class="text-xs text-teal-600">جنيه مصري</p>
+                    <p class="text-sm text-teal-600">جنيه مصري</p>
                 </div>
-                <div
-                    class="p-3 rounded-md border border-yellow-200">
+                <div dir="rtl"
+                    class="p-3 rounded-md border border-orange-400">
                     <div class="flex items-center mb-1">
                         <div
-                            class="w-6 h-6 bg-yellow-500 rounded-full flex items-center justify-center mr-1">
+                            class="w-6 h-6 bg-orange-500 rounded-full flex items-center justify-center ml-2">
                             <svg
                                 class="w-3 h-3 text-white"
                                 fill="currentColor"
@@ -233,11 +246,11 @@ $errors = $_SESSION['error'] ?? [];
                         </div>
                         <h3 class="text-sm font-semibold text-gray-700">السلف</h3>
                     </div>
-                    <p class="text-xl font-bold text-yellow-700"><?= $agentRecores['advances'] ?? 0 ?></p>
-                    <p class="text-xs text-yellow-600">جنيه مصري</p>
+                    <p class="text-xl font-bold text-orange-700"><?= $agentRecores['advances'] ?? 0 ?></p>
+                    <p class="text-sm text-orange-600">جنيه مصري</p>
                 </div>
             </div>
-            <div class="bg-red-50 rounded-md p-3 mb-4 border border-red-200">
+            <div class="bg-red-50 rounded-md p-3 mb-4 border border-red-200" dir="rtl">
                 <h3 class="text-base font-bold text-red-700 mb-2 flex items-center">
                     <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
                         <path
@@ -251,14 +264,14 @@ $errors = $_SESSION['error'] ?? [];
                         <h4 class="font-semibold text-gray-700 mb-1 text-xs">الغياب</h4>
                         <p class="text-lg font-bold text-red-600">
                             <?= $agentRecores['absent_days'] ?? 0 ?>
-                            <span class="text-xs font-normal">أيام</span>
+                            <span class="text-sm font-normal">أيام</span>
                         </p>
                     </div>
                     <div class="bg-white p-2 rounded">
                         <h4 class="font-semibold text-gray-700 mb-1 text-xs">خصم</h4>
                         <p class="text-lg font-bold text-red-600">
                             <?= $agentRecores['deduction_days'] ?? 0 ?>
-                            <span class="text-xs font-normal">أيام</span>
+                            <span class="text-sm font-normal">أيام</span>
                         </p>
                     </div>
                 </div>
@@ -335,6 +348,7 @@ include_once "Design/Modals/Salary/insert_target_modal.php";
     const select = document.getElementById('month');
     let selectedValue = "<?= $selectedValue ?>";
 
+
     // set the modal create_at input
     sendDateToModal(selectedValue)
 
@@ -349,6 +363,8 @@ include_once "Design/Modals/Salary/insert_target_modal.php";
         nextMonth = 1;
         nextMonthYear += 1;
     }
+
+    // setQueryString(currentMonth, currentYear)
 
     const pad = (num) => num < 10 ? '0' + num : num;
 
@@ -390,44 +406,45 @@ include_once "Design/Modals/Salary/insert_target_modal.php";
         const [month, year] = selected.split("-");
         // set the modal create_at input on change date
         sendDateToModal(`${month}-${year}`);
+        setQueryString(month, year)
 
-        try {
-            const url = `functions/Customer-service/get_salary_records.php?id=${agentId}&month=${month}&year=${year}`;
-            const response = await fetch(url, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    id: agentId,
-                    month,
-                    year
-                })
-            });
+        // try {
+        //     const url = `functions/Customer-service/get_salary_records.php?id=${agentId}&month=${month}&year=${year}`;
+        //     const response = await fetch(url, {
+        //         method: 'POST',
+        //         headers: {
+        //             'Content-Type': 'application/json'
+        //         },
+        //         body: JSON.stringify({
+        //             id: agentId,
+        //             month,
+        //             year
+        //         })
+        //     });
 
-            if (!response.ok) throw new Error("Network response was not ok");
+        //     if (!response.ok) throw new Error("Network response was not ok");
 
-            const data = await response.json();
+        //     const data = await response.json();
 
-            // Fill fields
-            if (data) {
-                document.getElementById("basic_salary").value = data.basic_salary ?? 0;
-                document.getElementById("overtime_days").value = data.overtime_days ?? 0;
-                document.getElementById("day_value").value = data.day_value ?? 0;
-                document.getElementById("target").value = data.target ?? 0;
-                document.getElementById("bonuses").value = data.bonuses ?? 0;
-                document.getElementById("advances").value = data.advances ?? 0;
-                document.getElementById("absent_days").value = data.absent_days ?? 0;
-                document.getElementById("deduction_days").value = data.deduction_days ?? 0;
+        //     // Fill fields
+        //     if (data) {
+        //         document.getElementById("basic_salary").value = data.basic_salary ?? 0;
+        //         document.getElementById("overtime_days").value = data.overtime_days ?? 0;
+        //         document.getElementById("day_value").value = data.day_value ?? 0;
+        //         document.getElementById("target").value = data.target ?? 0;
+        //         document.getElementById("bonuses").value = data.bonuses ?? 0;
+        //         document.getElementById("advances").value = data.advances ?? 0;
+        //         document.getElementById("absent_days").value = data.absent_days ?? 0;
+        //         document.getElementById("deduction_days").value = data.deduction_days ?? 0;
 
-                calculateTotal(); // Trigger calculation
-            } else {
-                alert("No salary data found for the selected month.");
-            }
-        } catch (error) {
-            console.error("Fetch error:", error);
-            alert("Failed to load salary data.");
-        }
+        //         calculateTotal(); // Trigger calculation
+        //     } else {
+        //         alert("No salary data found for the selected month.");
+        //     }
+        // } catch (error) {
+        //     console.error("Fetch error:", error);
+        //     alert("Failed to load salary data.");
+        // }
     });
 
 
@@ -444,8 +461,31 @@ include_once "Design/Modals/Salary/insert_target_modal.php";
             elm.innerText = dateVal
         })
 
-        console.log(dateVal);
+    }
 
+    // set query string 
+    // Function to set query string parameters for month and year
+    function setQueryString(currentMonth, currentYear) {
+        // Ensure month and year are integers to avoid leading zeros
+        const month = parseInt(currentMonth, 10);
+        const year = parseInt(currentYear, 10);
+
+        // Get current URL and query parameters
+        const url = new URL(window.location.href);
+        const params = url.searchParams;
+
+        // Always update month and year when called (remove the hasMonth/hasYear check)
+        params.set('month', month);
+        params.set('year', year);
+
+        // Update URL without reloading
+        history.pushState({}, '', url.toString());
+
+        // Return the updated parameters for further use
+        return {
+            month,
+            year
+        };
     }
 </script>
 
