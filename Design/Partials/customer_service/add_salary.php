@@ -11,13 +11,6 @@ if (!isset($_GET['month']) || !isset($_GET['year'])) {
     exit();
 }
 
-// Validate query string month and year
-// if ($_GET['month'] != date('n') || $_GET['year'] != date('Y')) {
-//     include_once "not_found.php";
-//     exit();
-// }
-
-
 $agentId = $_GET['id'];
 $agentRecores = getAgentSalaryRecords($agentId, $_GET['month'], $_GET['year'], $pdo);
 $agent = getAgentById($agentId, $pdo);
@@ -125,9 +118,9 @@ $errors = $_SESSION['errors'] ?? [];
                 ?>
             </div>
             <div class="grid grid-cols-2 md:grid-cols-3 gap-3 mb-4">
-
                 <div dir="rtl"
-                    class="p-3 rounded-md border border-blue-200">
+                    data-drawer-target="reason-drawer" data-drawer-show="reason-drawer" aria-controls="reason-drawer"
+                    class="p-3 rounded-md border border-blue-200 cursor-pointer">
                     <div class="flex items-center mb-1">
                         <div
                             class="w-6 h-6 bg-blue-500 rounded-full flex items-center justify-center ml-2">
@@ -149,7 +142,8 @@ $errors = $_SESSION['errors'] ?? [];
                     <p class="text-sm text-blue-600">أيام</p>
                 </div>
                 <div dir="rtl"
-                    class=" p-3 rounded-md border border-purple-200">
+                    data-drawer-target="reason-drawer" data-drawer-show="reason-drawer" aria-controls="reason-drawer"
+                    class=" p-3 rounded-md border border-purple-200 cursor-pointer">
                     <div class="flex items-center mb-1">
                         <div
                             class="w-6 h-6 bg-purple-500 rounded-full flex items-center justify-center ml-2">
@@ -171,7 +165,8 @@ $errors = $_SESSION['errors'] ?? [];
                     <p class="text-sm text-purple-600">جنيه مصري</p>
                 </div>
                 <div dir="rtl"
-                    class="p-3 rounded-md border border-green-200">
+                    data-drawer-target="reason-drawer" data-drawer-show="reason-drawer" aria-controls="reason-drawer"
+                    class="p-3 rounded-md border border-green-200 cursor-pointer">
                     <div class="flex items-center mb-1">
                         <div dir="rtl"
                             class="w-6 h-6 bg-green-500 rounded-full flex items-center justify-center ml-2">
@@ -189,7 +184,8 @@ $errors = $_SESSION['errors'] ?? [];
                     <p class="text-sm text-green-600">جنيه مصري</p>
                 </div>
                 <div dir="rtl"
-                    class="bg-gradient-to-br from-orange-50 to-orange-100 p-3 rounded-md border border-orange-200">
+                    data-drawer-target="reason-drawer" data-drawer-show="reason-drawer" aria-controls="reason-drawer"
+                    class="cursor-pointer p-3 rounded-md border border-orange-200">
                     <div class="flex items-center mb-1">
                         <div
                             class="w-6 h-6 bg-orange-500 rounded-full flex items-center justify-center ml-2">
@@ -209,7 +205,8 @@ $errors = $_SESSION['errors'] ?? [];
                     <p class="text-sm text-orange-600">نقطة</p>
                 </div>
                 <div dir="rtl"
-                    class="p-3 rounded-md border border-teal-500">
+                    data-drawer-target="reason-drawer" data-drawer-show="reason-drawer" aria-controls="reason-drawer"
+                    class="p-3 rounded-md border border-teal-500 cursor-pointer">
                     <div class="flex items-center mb-1">
                         <div
                             class="w-6 h-6 bg-teal-500 rounded-full flex items-center justify-center ml-2">
@@ -229,7 +226,8 @@ $errors = $_SESSION['errors'] ?? [];
                     <p class="text-sm text-teal-600">جنيه مصري</p>
                 </div>
                 <div dir="rtl"
-                    class="p-3 rounded-md border border-orange-400">
+                    data-drawer-target="reason-drawer" data-drawer-show="reason-drawer" aria-controls="reason-drawer"
+                    class="p-3 rounded-md border border-orange-400 cursor-pointer">
                     <div class="flex items-center mb-1">
                         <div
                             class="w-6 h-6 bg-orange-500 rounded-full flex items-center justify-center ml-2">
@@ -310,13 +308,6 @@ $errors = $_SESSION['errors'] ?? [];
 </div>
 
 <?php
-$selectedMonth = isset($agentRecores['month']) ? str_pad($agentRecores['month'], 2, '0', STR_PAD_LEFT) : false;
-$selectedYear = $agentRecores['year'] ?? '';
-$selectedValue = $selectedMonth ? "$selectedMonth-$selectedYear" : '';
-?>
-
-
-<?php
 
 include_once "Design/Modals/Salary/insert_bonus.php";
 include_once "Design/Modals/Salary/insert_deduction.php";
@@ -324,86 +315,68 @@ include_once "Design/Modals/Salary/insert_advances.php";
 include_once "Design/Modals/Salary/insert_absent_days.php";
 include_once "Design/Modals/Salary/insert_overtime_days.php";
 include_once "Design/Modals/Salary/insert_target_modal.php";
+include_once "Design/Modals/Salary/show_reasons_drawer.php";
 
 ?>
 
 <script>
-    // Salary formula auto calculate
+    // Auto-calculate salary formula
     const fields = document.querySelectorAll(".calc-field");
     const totalField = document.getElementById("total");
     const dayValue = document.getElementById("day_value");
 
-    fields.forEach(field => {
-        field.addEventListener("input", calculateTotal);
-    });
+    fields.forEach(field => field.addEventListener("input", calculateTotal));
 
     function getVal(id) {
-        return parseFloat(document.getElementById(id).value) || 0;
+        return parseFloat(document.getElementById(id)?.value) || 0;
     }
 
     function calculateTotal() {
         const basic = getVal("basic_salary");
         const overtimeDays = getVal("overtime_days");
-        const dayVal = parseFloat(dayValue.value) || 0;
-
+        const dayVal = getVal("day_value");
         const total = basic + (overtimeDays * dayVal);
         totalField.value = total.toFixed(2);
     }
 
-    // Utility to pad single digit months with leading zero
-    const pad = (num) => num < 10 ? '0' + num : num;
-
-    // Prepare month <select>
+    const pad = num => num < 10 ? '0' + num : num;
     const select = document.getElementById("month");
 
-    // Extract query string month and year (if exist)
+    // Get query string month/year or fallback to current month
     const urlParams = new URLSearchParams(window.location.search);
-    const queryMonth = parseInt(urlParams.get('month'), 10);
-    const queryYear = parseInt(urlParams.get('year'), 10);
+    let queryMonth = parseInt(urlParams.get('month'), 10);
+    let queryYear = parseInt(urlParams.get('year'), 10);
 
-    // Determine current and next month
     const now = new Date();
+    const currentMonth = now.getMonth() + 1;
     const currentYear = now.getFullYear();
-    const currentMonth = now.getMonth() + 1; // JavaScript months are 0-based
-    let nextMonth = currentMonth + 1;
-    let nextMonthYear = currentYear;
 
-    if (nextMonth === 13) {
-        nextMonth = 1;
-        nextMonthYear++;
+    if (isNaN(queryMonth) || isNaN(queryYear)) {
+        queryMonth = currentMonth;
+        queryYear = currentYear;
     }
 
-    // Set selectedValue (from query OR fallback from PHP)
-    let selectedValue = null;
-    if (!isNaN(queryMonth) && !isNaN(queryYear)) {
-        selectedValue = `${pad(queryMonth)}-${queryYear}`;
-    } else {
-        // fallback to PHP variable (if present)
-        selectedValue = "<?= $selectedValue ?>";
-        if (!selectedValue || selectedValue === "<?= $selectedValue ?>") {
-            selectedValue = `${pad(currentMonth)}-${currentYear}`;
-        }
-    }
-
-    // Set modal date input
+    const selectedValue = `${pad(queryMonth)}-${queryYear}`;
     sendDateToModal(selectedValue);
 
-    // Loop from Jan of current year to next month (inclusive)
+    // Generate options from Jan of current year to next month
     let year = currentYear;
     let month = 1;
+    let nextMonth = currentMonth + 1;
+    let nextYear = currentYear;
+    if (nextMonth === 13) {
+        nextMonth = 1;
+        nextYear++;
+    }
 
-    while (year < nextMonthYear || (year === nextMonthYear && month <= nextMonth)) {
-        const paddedMonth = pad(month);
-        const value = `${paddedMonth}-${year}`;
+    while (year < nextYear || (year === nextYear && month <= nextMonth)) {
+        const padded = pad(month);
+        const value = `${padded}-${year}`;
         const option = document.createElement("option");
         option.value = value;
-        option.classList.add("font-bold");
         option.textContent = `${month} - ${year}`;
-
-        if (value === selectedValue) {
-            option.selected = true;
-        }
-
+        option.classList.add("font-bold");
+        if (value === selectedValue) option.selected = true;
         select.appendChild(option);
 
         month++;
@@ -413,61 +386,29 @@ include_once "Design/Modals/Salary/insert_target_modal.php";
         }
     }
 
-
-    // ajax to get salary Records
-    const monthSelect = document.getElementById("month");
-    const agentId = document.getElementById('agent-id').dataset.agentId;
-
-    monthSelect.addEventListener("change", async function() {
-        const selected = this.value; // e.g. "07-2025"
-        const [month, year] = selected.split("-");
-        setQueryString(month, year)
+    // When a new month is selected, reload page with query params
+    select.addEventListener("change", function() {
+        const [m, y] = this.value.split("-");
+        setQueryString(m, y);
     });
 
-
-    // send salary Month modal
+    // Update modal inputs/spans with selected date
     function sendDateToModal(dateVal) {
-        let elements = document.querySelectorAll('.createAtDate');
-        elements.forEach(elm => {
-            elm.value = dateVal
-        })
-
-        // to span
-        let spanElm = document.querySelectorAll('.month-target');
-        spanElm.forEach(elm => {
-            elm.innerText = dateVal
-        })
-
+        document.querySelectorAll('.createAtDate').forEach(el => el.value = dateVal);
+        document.querySelectorAll('.month-target').forEach(el => el.innerText = dateVal);
     }
 
-    // set query string 
-    // Function to set query string parameters for month and year
-    function setQueryString(currentMonth, currentYear) {
-        // Ensure month and year are integers to avoid leading zeros
-        const month = parseInt(currentMonth, 10);
-        const year = parseInt(currentYear, 10);
-
-        // Get current URL and query parameters
+    // Set URL query string and reload
+    function setQueryString(month, year) {
         const url = new URL(window.location.href);
-        const params = url.searchParams;
-
-        // Always update month and year when called (remove the hasMonth/hasYear check)
-        params.set('month', month);
-        params.set('year', year);
-
-        // Update URL without reloading
-        // history.pushState({}, '', url.toString());
-
-        window.location.href = url.toString();
-        // Return the updated parameters for further use
-        return {
-            month,
-            year
-        };
+        url.searchParams.set('month', parseInt(month, 10));
+        url.searchParams.set('year', parseInt(year, 10));
+        window.location.href = url.toString(); // reload with new query string
     }
 </script>
 
 <?php
+// salary records Query
 function getAgentSalaryRecords($agentId, $month, $year, $pdo)
 {
     $startDate = "$year-" . str_pad($month, 2, '0', STR_PAD_LEFT) . "-01";
