@@ -6,7 +6,7 @@
         <div class="relative bg-white rounded-lg shadow-sm ">
             <!-- Modal header -->
             <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t border-gray-200">
-                <span class="text-blue-600 font-semibold mr-3 text-lg"><?= ucwords($agent[0]['username']) ?></span>
+                <span class="text-blue-600 font-semibold mr-3 text-lg"><?= ucwords($agent['username']) ?></span>
                 <h3 class="w-full text-lg font-semibold text-gray-900 ">
                     <span>-</span>
                     إضافة أيام غياب

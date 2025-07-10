@@ -7,7 +7,7 @@
             <!-- Modal header -->
             <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t border-gray-200">
                 <h3 class="w-full text-lg font-semibold text-gray-900 ">
-                    <span class="text-blue-600 font-semibold text-lg"><?= ucwords($agent[0]['username']) ?></span>
+                    <span class="text-blue-600 font-semibold text-lg"><?= ucwords($agent['username']) ?></span>
                     <span> - </span> 
                     إضافة خصومات بالأيام
                     <span> لشهر </span>

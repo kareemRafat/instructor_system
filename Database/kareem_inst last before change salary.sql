@@ -425,13 +425,8 @@ INSERT INTO `remember_tokens` (`id`, `instructor_id`, `token`, `expiry`) VALUES
 CREATE TABLE `salary_records` (
   `instructor_id` int NOT NULL,
   `basic_salary` decimal(10,2) DEFAULT '0.00',
-  `overtime_days` int DEFAULT '0',
   `day_value` decimal(10,2) DEFAULT '0.00',
   `target` decimal(10,2) DEFAULT '0.00',
-  `bonuses` decimal(10,2) DEFAULT '0.00',
-  `advances` decimal(10,2) DEFAULT '0.00',
-  `absent_days` int DEFAULT '0',
-  `deduction_days` int DEFAULT '0',
   `total` decimal(10,2) DEFAULT '0.00',
   `created_at` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;

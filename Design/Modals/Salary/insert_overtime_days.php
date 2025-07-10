@@ -9,7 +9,7 @@
                 <h3 class="w-full text-lg font-semibold text-gray-900 ">
                     إضافة أوفر تايم ومكافأت بالأيام
                     <br>
-                    <span class="text-blue-600 font-semibold"><?= ucwords($agent[0]['username']) ?></span>
+                    <span class="text-blue-600 font-semibold"><?= ucwords($agent['username']) ?></span>
                     <span> - </span> 
                     <span> لشهر </span>
                     <span class="text-red-700 font-semibold month-target"> 7-2025 </span>

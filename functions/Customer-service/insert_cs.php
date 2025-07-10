@@ -15,6 +15,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $username = trim($_POST['username']);
         $email = trim($_POST['email']);
         $password = $_POST['password'];
+        $salary = $_POST['salary'];
         $branch = trim($_POST['branch']);
         $role = $_POST['role'] ?? 'cs';
 
@@ -24,13 +25,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $pdo->beginTransaction();
         
         // Insert new instructor
-        $query = "INSERT INTO instructors (username, password,email, is_active , role) VALUES (:username, :password, :email, 1 , :role)";
+        $query = "INSERT INTO instructors (username, password,email, is_active , role , salary) VALUES (:username, :password, :email, 1 , :role , :salary)";
         $stmt = $pdo->prepare($query);
         $stmt->execute([
             ':username' => $username,
             ':password' => $hashedPassword,
             ':role' => $role,
-            ':email' => $email
+            ':email' => $email,
+            ':salary' => $salary
         ]);
 
         // Get the new instructor ID
@@ -82,6 +84,10 @@ function checkErrors($formData, $pdo): bool
 
     if (empty($formData['email'])) {
         $errors['email'] = "Email is required.";
+    }
+
+    if (empty($formData['salary'])) {
+        $errors['salary'] = "Salary is required.";
     }
 
     if (empty($formData['password'])) {

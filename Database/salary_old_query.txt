@@ -1,0 +1,55 @@
+SELECT 
+            i.username AS cs_name,
+            i.role,
+            sr.instructor_id AS instructor_id,
+            COALESCE(sr.basic_salary, 0) AS basic_salary,
+            COALESCE(SUM(so.days), 0) AS overtime_days,
+            COALESCE(sr.day_value, 0) AS day_value,
+            COALESCE(sr.target, 0) AS target,
+            COALESCE(SUM(sb.amount), 0) AS bonuses,
+            COALESCE(SUM(sa.amount), 0) AS advances,
+            COALESCE(SUM(sad.days),0) AS absent_days,
+            COALESCE(SUM(sd.days), 0) AS deduction_days,
+            COALESCE(sr.total, 0) AS total,
+            sr.created_at AS created_at,
+            MONTH(sr.created_at) AS month,
+            YEAR(sr.created_at) AS year,
+            (
+                COALESCE(sr.basic_salary, 0) +
+                (COALESCE(SUM(so.days), 0) * COALESCE(sr.day_value, 0)) +
+                COALESCE(sr.target, 0) +
+                COALESCE(SUM(sb.amount), 0) -
+                COALESCE(SUM(sa.amount), 0) -
+                (COALESCE(SUM(sad.days), 0) * COALESCE(sr.day_value, 0)) -
+                (COALESCE(SUM(sd.days), 0) * COALESCE(sr.day_value, 0))
+            ) AS calculated_total
+        FROM 
+            instructors i
+        LEFT JOIN 
+            salary_records sr ON i.id = sr.instructor_id
+            AND YEAR(sr.created_at) = :year
+            AND MONTH(sr.created_at) = :month
+        LEFT JOIN 
+            salary_bonuses sb ON i.id = sb.agent_id 
+            AND YEAR(sb.created_at) = :year 
+            AND MONTH(sb.created_at) = :month
+        LEFT JOIN 
+            salary_advances sa ON i.id = sa.agent_id 
+            AND YEAR(sa.created_at) = :year 
+            AND MONTH(sa.created_at) = :month
+        LEFT JOIN 
+            salary_absent_days sad ON i.id = sad.agent_id 
+            AND YEAR(sad.created_at) = :year 
+            AND MONTH(sad.created_at) = :month
+        LEFT JOIN 
+            salary_deductions sd ON i.id = sd.agent_id 
+            AND YEAR(sd.created_at) = :year 
+            AND MONTH(sd.created_at) = :month
+        LEFT JOIN 
+            salary_overtime_days so ON i.id = so.agent_id 
+            AND YEAR(so.created_at) = :year 
+            AND MONTH(so.created_at) = :month
+        WHERE 
+            i.id = :agentId
+        GROUP BY 
+            i.id, i.username, i.role, sr.instructor_id, sr.basic_salary, sr.day_value, sr.target, sr.total, sr.created_at

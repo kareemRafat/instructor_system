@@ -1,0 +1,65 @@
+$stmt = $pdo->prepare("
+        SELECT 
+            i.username AS cs_name,
+            i.role,
+            i.salary AS agent_salary,
+            COALESCE(so.overtime_days, 0) AS overtime_days,
+            CEIL(COALESCE(i.salary / 30, 0)) AS day_value,
+            COALESCE(sr.target, 0) AS target,
+            COALESCE(sb.bonuses, 0) AS bonuses,
+            COALESCE(sa.advances, 0) AS advances,
+            COALESCE(sad.absent_days, 0) AS absent_days,
+            COALESCE(sd.deduction_days, 0) AS deduction_days,
+            sr.created_at AS created_at,
+            MONTH(sr.created_at) AS month,
+            YEAR(sr.created_at) AS year,
+            (
+                COALESCE(i.salary, 0) +
+                (COALESCE(so.overtime_days, 0) * CEIL(COALESCE(i.salary / 30, 0))) +
+                COALESCE(sr.target, 0) +
+                COALESCE(sb.bonuses, 0) -
+                COALESCE(sa.advances, 0) -
+                (COALESCE(sad.absent_days, 0) * CEIL(COALESCE(i.salary / 30, 0))) -
+                (COALESCE(sd.deduction_days, 0) * CEIL(COALESCE(i.salary / 30, 0)))
+            ) AS calculated_total
+        FROM 
+            instructors i
+        LEFT JOIN 
+            (SELECT instructor_id, basic_salary, target, total, created_at
+             FROM salary_records 
+             WHERE YEAR(created_at) = :year 
+             AND MONTH(created_at) = :month
+             LIMIT 1) sr ON i.id = sr.instructor_id
+        LEFT JOIN 
+            (SELECT agent_id, SUM(amount) AS bonuses
+             FROM salary_bonuses 
+             WHERE YEAR(created_at) = :year 
+             AND MONTH(created_at) = :month 
+             GROUP BY agent_id) sb ON i.id = sb.agent_id
+        LEFT JOIN 
+            (SELECT agent_id, SUM(amount) AS advances
+             FROM salary_advances 
+             WHERE YEAR(created_at) = :year 
+             AND MONTH(created_at) = :month 
+             GROUP BY agent_id) sa ON i.id = sa.agent_id
+        LEFT JOIN 
+            (SELECT agent_id, SUM(days) AS absent_days
+             FROM salary_absent_days 
+             WHERE YEAR(created_at) = :year 
+             AND MONTH(created_at) = :month 
+             GROUP BY agent_id) sad ON i.id = sad.agent_id
+        LEFT JOIN 
+            (SELECT agent_id, SUM(days) AS deduction_days
+             FROM salary_deductions 
+             WHERE YEAR(created_at) = :year 
+             AND MONTH(created_at) = :month 
+             GROUP BY agent_id) sd ON i.id = sd.agent_id
+        LEFT JOIN 
+            (SELECT agent_id, SUM(days) AS overtime_days
+             FROM salary_overtime_days 
+             WHERE YEAR(created_at) = :year 
+             AND MONTH(created_at) = :month 
+             GROUP BY agent_id) so ON i.id = so.agent_id
+        WHERE 
+            i.id = :agentId
+    ");

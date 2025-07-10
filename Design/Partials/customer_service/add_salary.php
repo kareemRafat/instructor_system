@@ -7,36 +7,8 @@ if (!hasRole('owner', 'admin')) {
 }
 
 $agentId = $_GET['id'];
-// $agentRecores = getAgentSalaryRecords($agentId, $pdo);
+$agentRecores = getAgentSalaryRecords($agentId, 7, 2025, $pdo);
 $agent = getAgentById($agentId, $pdo);
-
-// function getAgentSalaryRecords($agentId, $pdo)
-// {
-//     $stmt = $pdo->prepare("SELECT
-//                             i.username AS cs_name ,
-//                             i.role,
-//                             sr.instructor_id AS instructor_id,
-//                             sr.basic_salary AS basic_salary ,
-//                             sr.overtime_days AS overtime_days , 
-//                             sr.day_value AS day_value ,
-//                             sr.target AS target , 
-//                             sr.bonuses AS bonuses , 
-//                             sr.advances AS advances , 
-//                             sr.absent_days AS absent_days , 
-//                             sr.deduction_days AS deduction_days , 
-//                             sr.total AS total ,
-//                             sr.created_at AS created_at,
-//                             MONTH(sr.created_at) AS month ,
-//                             YEAR(sr.created_at) AS year
-//                             FROM instructors i 
-//                             JOIN salary_records sr ON i.id = sr.instructor_id
-//                             WHERE i.id = :id
-//                             ORDER BY created_at DESC");
-//     $stmt->execute([':id' => $agentId]);
-//     $instructor = $stmt->fetch(PDO::FETCH_ASSOC);
-
-//     return $instructor;
-// }
 
 function getAgentById($agentId, $pdo)
 {
@@ -46,9 +18,9 @@ function getAgentById($agentId, $pdo)
                         JOIN branch_instructor ON i.id = branch_instructor.instructor_id
                         WHERE id = :id");
     $stmt->execute([':id' => $agentId]);
-    $instructor = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    $instructor = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    if (empty($instructor) || $instructor[0]['role'] == 'owner') {
+    if (empty($instructor) || $instructor['role'] == 'owner') {
         include "not_found.php";
         exit();
     }
@@ -56,13 +28,16 @@ function getAgentById($agentId, $pdo)
     return $instructor;
 }
 
+echo "<pre>";
+print_r($agentRecores);
+echo "</pre>";
 $errors = $_SESSION['error'] ?? [];
 
 ?>
 <div id="agent-id" data-agent-id="<?= $agentId ?>"></div>
 <div class="p-3 md:p-3 flex flex-col-reverse md:flex-row justify-between md:items-center gap-3">
     <div>
-        <h3 class="text-2xl font-extrabold leading-none tracking-tight text-gray-900 md:text-4xl">Edit <span class="text-blue-600"><?= ucwords($agent[0]['username']) ?></span>'s Salary </h3>
+        <h3 class="text-2xl font-extrabold leading-none tracking-tight text-gray-900 md:text-4xl">Edit <span class="text-blue-600"><?= ucwords($agent['username']) ?></span>'s Salary </h3>
     </div>
     <a href="customer-service.php" class="inline-flex items-center justify-center self-end p-2 text-base font-medium text-gray-500 rounded-lg bg-gray-100 hover:text-gray-900 hover:bg-gray-200">
         <svg class="w-4 h-4 me-2 rotate-90" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
@@ -120,11 +95,11 @@ $errors = $_SESSION['error'] ?? [];
                 class=" bg-blue-700 text-white rounded-md p-3 mb-4">
                 <div class="flex items-center justify-between">
                     <div>
-                        <h2 class="text-lg font-bold"><?= ucwords($agent[0]['username']) ?></h2>
+                        <h2 class="text-lg font-bold"><?= ucwords($agent['username']) ?></h2>
                     </div>
                     <div class="text-right">
-                        <p class="text-blue-100 text-xs">شهر المحاسبة</p>
-                        <p class="text-sm font-semibold">2025-07</p>
+                        <p class="text-blue-100 text-sm">شهر المحاسبة</p>
+                        <p class="text-lg font-semibold"><?= $agentRecores['month']?> - <?= $agentRecores['year'] ?></p>
                     </div>
                 </div>
             </div>
@@ -469,3 +444,115 @@ include_once "Design/Modals/Salary/insert_target_modal.php";
 
     }
 </script>
+
+<?php 
+function getAgentSalaryRecords($agentId, $month, $year, $pdo) {
+    $startDate = "$year-" . str_pad($month, 2, '0', STR_PAD_LEFT) . "-01";
+    $endDate = date('Y-m-d', strtotime("$startDate +1 month"));
+    
+    $stmt = $pdo->prepare("
+        SELECT 
+            i.username AS cs_name,
+            i.role,
+            i.salary AS agent_salary,
+            COALESCE(sr.basic_salary, 0) AS basic_salary,
+            COALESCE(so.overtime_days, 0) AS overtime_days,
+            CEIL(COALESCE(i.salary / 30, 0)) AS day_value,
+            COALESCE(sr.target, 0) AS target,
+            COALESCE(sb.bonuses, 0) AS bonuses,
+            COALESCE(sb.bonus_reasons, '') AS bonus_reasons,
+            COALESCE(sb.bonus_created_at_dates, '') AS bonus_created_at_dates,
+            COALESCE(sa.advances, 0) AS advances,
+            COALESCE(sa.advance_reasons, '') AS advance_reasons,
+            COALESCE(sa.advances_created_at_dates, '') AS advances_created_at_dates,
+            COALESCE(sad.absent_days, 0) AS absent_days,
+            COALESCE(sad.absent_reasons, '') AS absent_reasons,
+            COALESCE(sad.absent_created_at_dates, '') AS absent_created_at_dates,
+            COALESCE(sd.deduction_days, 0) AS deduction_days,
+            COALESCE(sd.deduction_reasons, '') AS deduction_reasons,
+            COALESCE(sd.deductions_created_at_dates, '') AS deductions_created_at_dates,
+            COALESCE(so.overtime_reasons, '') AS overtime_reasons,
+            COALESCE(so.overtime_created_at_dates, '') AS overtime_created_at_dates,
+            COALESCE(sr.total, 0) AS total,
+            sr.created_at AS created_at,
+            MONTH(sr.created_at) AS month,
+            YEAR(sr.created_at) AS year,
+            (
+                COALESCE(sr.basic_salary, 0) +
+                (COALESCE(so.overtime_days, 0) * CEIL(COALESCE(i.salary / 30, 0))) +
+                COALESCE(sr.target, 0) +
+                COALESCE(sb.bonuses, 0) -
+                COALESCE(sa.advances, 0) -
+                (COALESCE(sad.absent_days, 0) * CEIL(COALESCE(i.salary / 30, 0))) -
+                (COALESCE(sd.deduction_days, 0) * CEIL(COALESCE(i.salary / 30, 0)))
+            ) AS calculated_total
+        FROM 
+            instructors i
+        LEFT JOIN 
+            (SELECT instructor_id, basic_salary, target, total, created_at
+             FROM salary_records 
+             WHERE created_at >= :startDate 
+             AND created_at < :endDate
+             LIMIT 1) sr ON i.id = sr.instructor_id
+        LEFT JOIN 
+            (SELECT 
+                 agent_id, 
+                 SUM(amount) AS bonuses,
+                 GROUP_CONCAT(reason SEPARATOR ', ') AS bonus_reasons,
+                 GROUP_CONCAT(bonus_created_at SEPARATOR ', ') AS bonus_created_at_dates
+             FROM salary_bonuses 
+             WHERE created_at >= :startDate 
+             AND created_at < :endDate
+             GROUP BY agent_id) sb ON i.id = sb.agent_id
+        LEFT JOIN 
+            (SELECT 
+                 agent_id, 
+                 SUM(amount) AS advances,
+                 GROUP_CONCAT(reason SEPARATOR ', ') AS advance_reasons,
+                 GROUP_CONCAT(advances_created_at SEPARATOR ', ') AS advances_created_at_dates
+             FROM salary_advances 
+             WHERE created_at >= :startDate 
+             AND created_at < :endDate
+             GROUP BY agent_id) sa ON i.id = sa.agent_id
+        LEFT JOIN 
+            (SELECT 
+                 agent_id, 
+                 SUM(days) AS absent_days,
+                 GROUP_CONCAT(reason SEPARATOR ', ') AS absent_reasons,
+                 GROUP_CONCAT(absent_created_at SEPARATOR ', ') AS absent_created_at_dates
+             FROM salary_absent_days 
+             WHERE created_at >= :startDate 
+             AND created_at < :endDate
+             GROUP BY agent_id) sad ON i.id = sad.agent_id
+        LEFT JOIN 
+            (SELECT 
+                 agent_id, 
+                 SUM(days) AS deduction_days,
+                 GROUP_CONCAT(reason SEPARATOR ', ') AS deduction_reasons,
+                 GROUP_CONCAT(deductions_created_at SEPARATOR ', ') AS deductions_created_at_dates
+             FROM salary_deductions 
+             WHERE created_at >= :startDate 
+             AND created_at < :endDate
+             GROUP BY agent_id) sd ON i.id = sd.agent_id
+        LEFT JOIN 
+            (SELECT 
+                 agent_id, 
+                 SUM(days) AS overtime_days,
+                 GROUP_CONCAT(reason SEPARATOR ', ') AS overtime_reasons,
+                 GROUP_CONCAT(overtime_created_at SEPARATOR ', ') AS overtime_created_at_dates
+             FROM salary_overtime_days 
+             WHERE created_at >= :startDate 
+             AND created_at < :endDate
+             GROUP BY agent_id) so ON i.id = so.agent_id
+        WHERE 
+            i.id = :agentId
+    ");
+    $stmt->execute([
+        ':agentId' => $agentId,
+        ':startDate' => $startDate,
+        ':endDate' => $endDate
+    ]);
+    return $stmt->fetch(PDO::FETCH_ASSOC);
+}
+
+?>
