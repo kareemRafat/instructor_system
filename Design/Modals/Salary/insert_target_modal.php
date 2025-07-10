@@ -8,8 +8,8 @@
             <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t border-gray-200">
                 <h3 class="text-lg font-semibold text-gray-900 ">
                     إضافة التارجت لكل الموظفين
-                    <span> لشهر  </span>
-                    <span class="text-red-700 font-semibold month-target"> 7-2025  </span>
+                    <span> لشهر </span>
+                    <span class="text-red-700 font-semibold month-target"> 7-2025 </span>
                 </h3>
                 <button type="button" class="end-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center" data-modal-hide="add-target-modal">
                     <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
@@ -27,7 +27,35 @@
                         <label for="target" class="block mb-2 text-sm font-medium text-gray-900 ">مكافأة التارجت الشهري </label>
                         <input type="target" name="target" id="target" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 mb-2" placeholder="Amount" required />
                     </div>
-                     
+
+                    <div>
+                        <input
+                            type="hidden"
+                            name="target_created_at"
+                            id="target_created_at"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
+                            required />
+                    </div>
+                    <script>
+                        // add date now to upove input
+                        document.addEventListener("DOMContentLoaded", function() {
+                            const input = document.getElementById("target_created_at");
+
+                            const now = new Date();
+
+                            const yyyy = now.getFullYear();
+                            const mm = String(now.getMonth() + 1).padStart(2, '0');
+                            const dd = String(now.getDate()).padStart(2, '0');
+                            const hh = String(now.getHours()).padStart(2, '0');
+                            const mi = String(now.getMinutes()).padStart(2, '0');
+                            const ss = String(now.getSeconds()).padStart(2, '0');
+
+                            const mysqlDatetime = `${yyyy}-${mm}-${dd} ${hh}:${mi}:${ss}`;
+
+                            input.value = mysqlDatetime;
+                        });
+                    </script>
+
                     <button type="submit" class="w-full text-white bg-fuchsia-700 hover:bg-fuchsia-800 focus:ring-4 focus:outline-none focus:ring-fuchsia-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">إضافة</button>
                 </form>
             </div>

@@ -7,10 +7,7 @@ require_once "../../Database/connect.php";
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-    if (!checkErrors($_POST, $pdo)) {
-        header("Location: ../../customer-service.php?action=add&id=" . $_POST['id']);
-        exit();
-    }
+
 
     try {
         // Retrieve POST data
@@ -32,13 +29,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             ':overtime_created_at' => $overtime_created_at
         ];
 
-       
+        if (!checkErrors($_POST, $pdo)) {
+            header("Location: ../../customer-service.php?action=add&id=" . $_POST['id'] . "&month={$month}&year={$year}");
+            exit();
+        }
+
 
         // insert sql
         insertOverTime($pdo, $data);
 
         $_SESSION['success'] = "Advances Added Successfully";
-        header("Location: ../../customer-service.php?action=add&id=$agentId");
+        header("Location: ../../customer-service.php?action=add&id=" . $_POST['id'] . "&month={$month}&year={$year}");
         exit();
     } catch (PDOException $e) {
         $_SESSION['errors'][] = $e->getMessage();

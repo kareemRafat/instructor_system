@@ -37,12 +37,11 @@ document.addEventListener("DOMContentLoaded", () => {
               }
             }
           });
-
-          setTimeout(() => {
-            document.getElementById('preload').classList.add('hidden');
-          }, 500);
         }
       });
+      setTimeout(() => {
+        document.getElementById('preload').classList.add('hidden');
+      }, 500);
     })
     .catch((error) => console.error("Error fetching groups:", error));
 

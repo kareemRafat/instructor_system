@@ -53,6 +53,15 @@ CREATE TABLE `salary_overtime_days` (
   PRIMARY KEY (`id`)
 );
 
+-- Creating the target
+CREATE TABLE `salary_target` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `target` int DEFAULT '0',
+  `created_at` date NOT NULL,
+  `target_created_at` date NOT NULL ,
+  PRIMARY KEY (`id`)
+);
+
 ALTER TABLE `salary_records`
   DROP COLUMN `bonuses`,
   DROP COLUMN `advances`,

@@ -6,11 +6,6 @@ require_once "../../Database/connect.php";
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-    if (!checkErrors($_POST, $pdo)) {
-        header("Location: ../../customer-service.php?action=add&id=" . $_POST['id']);
-        exit();
-    }
-
     try {
         // Retrieve POST data
         $absent_days = $_POST['absent_days'] ?? null;
@@ -31,11 +26,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             ':absent_created_at' => $absent_created_at
         ];
 
+        if (!checkErrors($_POST, $pdo)) {
+            header("Location: ../../customer-service.php?action=add&id=" . $_POST['id'] . "&month={$month}&year={$year}");
+            exit();
+        }
+
         // insert sql
         insertAbsentDay($pdo, $data);
 
         $_SESSION['success'] = "Absent Day Added Successfully";
-        header("Location: ../../customer-service.php?action=add&id=$agentId");
+        header("Location: ../../customer-service.php?action=add&id=" . $_POST['id'] . "&month={$month}&year={$year}");
         exit();
     } catch (PDOException $e) {
         $_SESSION['errors'][] = $e->getMessage();

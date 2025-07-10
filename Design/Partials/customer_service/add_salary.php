@@ -12,10 +12,10 @@ if (!isset($_GET['month']) || !isset($_GET['year'])) {
 }
 
 // Validate query string month and year
-if ($_GET['month'] != date('n') || $_GET['year'] != date('Y')) {
-    include_once "not_found.php";
-    exit();
-}
+// if ($_GET['month'] != date('n') || $_GET['year'] != date('Y')) {
+//     include_once "not_found.php";
+//     exit();
+// }
 
 
 $agentId = $_GET['id'];
@@ -40,10 +40,7 @@ function getAgentById($agentId, $pdo)
     return $instructor;
 }
 
-echo "<pre>";
-print_r($agentRecores);
-echo "</pre>";
-$errors = $_SESSION['error'] ?? [];
+$errors = $_SESSION['errors'] ?? [];
 
 ?>
 <div id="agent-id" data-agent-id="<?= $agentId ?>"></div>
@@ -208,7 +205,7 @@ $errors = $_SESSION['error'] ?? [];
                         </div>
                         <h3 class="text-sm font-semibold text-gray-700">التارجت</h3>
                     </div>
-                    <p class="text-xl font-bold text-orange-700"><?= $agentRecores['taget'] ?? 0 ?></p>
+                    <p class="text-xl font-bold text-orange-700 target-points"><?= $agentRecores['target'] ?? 0 ?></p>
                     <p class="text-sm text-orange-600">نقطة</p>
                 </div>
                 <div dir="rtl"
@@ -228,7 +225,7 @@ $errors = $_SESSION['error'] ?? [];
                         </div>
                         <h3 class="text-sm font-semibold text-gray-700">المكافآت</h3>
                     </div>
-                    <p class="text-xl font-bold text-teal-700"><?= $agentRecores['bonuses'] ?? 0 ?></p>
+                    <p class="text-xl font-bold text-teal-700 bonuses-display"><?= $agentRecores['bonuses'] ?? 0 ?></p>
                     <p class="text-sm text-teal-600">جنيه مصري</p>
                 </div>
                 <div dir="rtl"
@@ -246,7 +243,7 @@ $errors = $_SESSION['error'] ?? [];
                         </div>
                         <h3 class="text-sm font-semibold text-gray-700">السلف</h3>
                     </div>
-                    <p class="text-xl font-bold text-orange-700"><?= $agentRecores['advances'] ?? 0 ?></p>
+                    <p class="text-xl font-bold text-orange-700 advances-display"><?= $agentRecores['advances'] ?? 0 ?></p>
                     <p class="text-sm text-orange-600">جنيه مصري</p>
                 </div>
             </div>
@@ -263,14 +260,14 @@ $errors = $_SESSION['error'] ?? [];
                     <div class="bg-white p-2 rounded">
                         <h4 class="font-semibold text-gray-700 mb-1 text-xs">الغياب</h4>
                         <p class="text-lg font-bold text-red-600">
-                            <?= $agentRecores['absent_days'] ?? 0 ?>
+                            <span class="absent-days-display"><?= $agentRecores['absent_days'] ?? 0 ?></span>
                             <span class="text-sm font-normal">أيام</span>
                         </p>
                     </div>
                     <div class="bg-white p-2 rounded">
                         <h4 class="font-semibold text-gray-700 mb-1 text-xs">خصم</h4>
                         <p class="text-lg font-bold text-red-600">
-                            <?= $agentRecores['deduction_days'] ?? 0 ?>
+                            <span class="deduction-days-display"><?= $agentRecores['deduction_days'] ?? 0 ?></span>
                             <span class="text-sm font-normal">أيام</span>
                         </p>
                     </div>
@@ -287,8 +284,8 @@ $errors = $_SESSION['error'] ?? [];
                     </svg>
                     <h3 class="text-lg font-bold">إجمالي الراتب</h3>
                 </div>
-                <p class="text-3xl font-extrabold mb-1">
-                    <?= $agentRecores['calculated_total'] == '0.00' ? $agentRecores['agent_salary'] : $agentRecores['calculated_total']  ?>
+                <p class="text-3xl font-extrabold mb-1 total-salary-value">
+                    <?= ($agentRecores['calculated_total'] == '0.00' ? $agentRecores['agent_salary'] : $agentRecores['calculated_total']) ?? '0.00'  ?>
                 </p>
                 <p class="text-blue-200 text-sm">جنيه مصري</p>
             </div>
@@ -331,10 +328,10 @@ include_once "Design/Modals/Salary/insert_target_modal.php";
 ?>
 
 <script>
-    // salary formula auto calculate
+    // Salary formula auto calculate
     const fields = document.querySelectorAll(".calc-field");
     const totalField = document.getElementById("total");
-    const dayValue = document.getElementById('day_value');
+    const dayValue = document.getElementById("day_value");
 
     fields.forEach(field => {
         field.addEventListener("input", calculateTotal);
@@ -344,51 +341,71 @@ include_once "Design/Modals/Salary/insert_target_modal.php";
         return parseFloat(document.getElementById(id).value) || 0;
     }
 
-    /** add months to select Month */
-    const select = document.getElementById('month');
-    let selectedValue = "<?= $selectedValue ?>";
+    function calculateTotal() {
+        const basic = getVal("basic_salary");
+        const overtimeDays = getVal("overtime_days");
+        const dayVal = parseFloat(dayValue.value) || 0;
 
+        const total = basic + (overtimeDays * dayVal);
+        totalField.value = total.toFixed(2);
+    }
 
-    // set the modal create_at input
-    sendDateToModal(selectedValue)
+    // Utility to pad single digit months with leading zero
+    const pad = (num) => num < 10 ? '0' + num : num;
 
+    // Prepare month <select>
+    const select = document.getElementById("month");
+
+    // Extract query string month and year (if exist)
+    const urlParams = new URLSearchParams(window.location.search);
+    const queryMonth = parseInt(urlParams.get('month'), 10);
+    const queryYear = parseInt(urlParams.get('year'), 10);
+
+    // Determine current and next month
     const now = new Date();
-
     const currentYear = now.getFullYear();
-    const currentMonth = now.getMonth() + 1; // 1-based
+    const currentMonth = now.getMonth() + 1; // JavaScript months are 0-based
     let nextMonth = currentMonth + 1;
     let nextMonthYear = currentYear;
 
     if (nextMonth === 13) {
         nextMonth = 1;
-        nextMonthYear += 1;
+        nextMonthYear++;
     }
 
-    // setQueryString(currentMonth, currentYear)
-
-    const pad = (num) => num < 10 ? '0' + num : num;
-
-    if (!selectedValue) {
-        // Fallback to current month if not provided from PHP
-        selectedValue = `${pad(currentMonth)}-${currentYear}`;
-        // set the modal create_at input
-        sendDateToModal(`${currentMonth}-${currentYear}`)
+    // Set selectedValue (from query OR fallback from PHP)
+    let selectedValue = null;
+    if (!isNaN(queryMonth) && !isNaN(queryYear)) {
+        selectedValue = `${pad(queryMonth)}-${queryYear}`;
+    } else {
+        // fallback to PHP variable (if present)
+        selectedValue = "<?= $selectedValue ?>";
+        if (!selectedValue || selectedValue === "<?= $selectedValue ?>") {
+            selectedValue = `${pad(currentMonth)}-${currentYear}`;
+        }
     }
 
-    // Loop from Jan of current year to the next month (inclusive)
+    // Set modal date input
+    sendDateToModal(selectedValue);
+
+    // Loop from Jan of current year to next month (inclusive)
     let year = currentYear;
     let month = 1;
 
     while (year < nextMonthYear || (year === nextMonthYear && month <= nextMonth)) {
-        const value = `${pad(month)}-${year}`;
-        const option = document.createElement('option');
+        const paddedMonth = pad(month);
+        const value = `${paddedMonth}-${year}`;
+        const option = document.createElement("option");
         option.value = value;
-        option.classList.add('font-bold');
+        option.classList.add("font-bold");
         option.textContent = `${month} - ${year}`;
-        if (selectedValue && value === selectedValue) option.selected = true;
+
+        if (value === selectedValue) {
+            option.selected = true;
+        }
+
         select.appendChild(option);
 
-        // Increment month/year
         month++;
         if (month > 12) {
             month = 1;
@@ -404,47 +421,7 @@ include_once "Design/Modals/Salary/insert_target_modal.php";
     monthSelect.addEventListener("change", async function() {
         const selected = this.value; // e.g. "07-2025"
         const [month, year] = selected.split("-");
-        // set the modal create_at input on change date
-        sendDateToModal(`${month}-${year}`);
         setQueryString(month, year)
-
-        // try {
-        //     const url = `functions/Customer-service/get_salary_records.php?id=${agentId}&month=${month}&year=${year}`;
-        //     const response = await fetch(url, {
-        //         method: 'POST',
-        //         headers: {
-        //             'Content-Type': 'application/json'
-        //         },
-        //         body: JSON.stringify({
-        //             id: agentId,
-        //             month,
-        //             year
-        //         })
-        //     });
-
-        //     if (!response.ok) throw new Error("Network response was not ok");
-
-        //     const data = await response.json();
-
-        //     // Fill fields
-        //     if (data) {
-        //         document.getElementById("basic_salary").value = data.basic_salary ?? 0;
-        //         document.getElementById("overtime_days").value = data.overtime_days ?? 0;
-        //         document.getElementById("day_value").value = data.day_value ?? 0;
-        //         document.getElementById("target").value = data.target ?? 0;
-        //         document.getElementById("bonuses").value = data.bonuses ?? 0;
-        //         document.getElementById("advances").value = data.advances ?? 0;
-        //         document.getElementById("absent_days").value = data.absent_days ?? 0;
-        //         document.getElementById("deduction_days").value = data.deduction_days ?? 0;
-
-        //         calculateTotal(); // Trigger calculation
-        //     } else {
-        //         alert("No salary data found for the selected month.");
-        //     }
-        // } catch (error) {
-        //     console.error("Fetch error:", error);
-        //     alert("Failed to load salary data.");
-        // }
     });
 
 
@@ -479,8 +456,9 @@ include_once "Design/Modals/Salary/insert_target_modal.php";
         params.set('year', year);
 
         // Update URL without reloading
-        history.pushState({}, '', url.toString());
+        // history.pushState({}, '', url.toString());
 
+        window.location.href = url.toString();
         // Return the updated parameters for further use
         return {
             month,
@@ -502,7 +480,7 @@ function getAgentSalaryRecords($agentId, $month, $year, $pdo)
             i.salary AS agent_salary,
             COALESCE(so.overtime_days, 0) AS overtime_days,
             CEIL(COALESCE(i.salary / 30, 0)) AS day_value,
-            COALESCE(sr.target, 0) AS target,
+            COALESCE(st.target, 0) AS target,
             COALESCE(sb.bonuses, 0) AS bonuses,
             COALESCE(sb.bonus_reasons, '') AS bonus_reasons,
             COALESCE(sb.bonus_created_at_dates, '') AS bonus_created_at_dates,
@@ -524,7 +502,7 @@ function getAgentSalaryRecords($agentId, $month, $year, $pdo)
             (
                 COALESCE(i.salary, 0) +
                 (COALESCE(so.overtime_days, 0) * CEIL(COALESCE(i.salary / 30, 0))) +
-                COALESCE(sr.target, 0) +
+                COALESCE(st.target, 0) +
                 COALESCE(sb.bonuses, 0) -
                 COALESCE(sa.advances, 0) -
                 (COALESCE(sad.absent_days, 0) * CEIL(COALESCE(i.salary / 30, 0))) -
@@ -588,6 +566,16 @@ function getAgentSalaryRecords($agentId, $month, $year, $pdo)
              WHERE created_at >= :startDate 
              AND created_at < :endDate
              GROUP BY agent_id) so ON i.id = so.agent_id
+        LEFT JOIN 
+            (
+                SELECT 
+                    sum(target) AS target, 
+                    MONTH(created_at) AS target_month, 
+                    YEAR(created_at) AS target_year
+                FROM salary_target
+                WHERE created_at >= :startDate AND created_at < :endDate
+                LIMIT 1
+            ) st ON MONTH(sr.created_at) = st.target_month AND YEAR(sr.created_at) = st.target_year
         WHERE 
             i.id = :agentId
     ");

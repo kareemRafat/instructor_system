@@ -5,11 +5,6 @@ require_once "../../Database/connect.php";
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-    if (!checkErrors($_POST, $pdo)) {
-        header("Location: ../../customer-service.php?action=add&id=" . $_POST['id']);
-        exit();
-    }
-
     try {
         // Retrieve POST data
         $bonus = $_POST['bonus'] ?? null;
@@ -30,11 +25,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             ':bonus_created_at' => $bonus_created_at
         ];
 
+        if (!checkErrors($_POST, $pdo)) {
+            header("Location: ../../customer-service.php?action=add&id=" . $_POST['id'] . "&month={$month}&year={$year}");
+            exit();
+        }
+
         // insert sql
         insertBonus($pdo, $data);
 
         $_SESSION['success'] = "Bonus Added Successfully";
-        header("Location: ../../customer-service.php?action=add&id=$agentId");
+        header("Location: ../../customer-service.php?action=add&id=" . $_POST['id'] . "&month={$month}&year={$year}");
         exit();
     } catch (PDOException $e) {
         $_SESSION['errors'][] = $e->getMessage();
