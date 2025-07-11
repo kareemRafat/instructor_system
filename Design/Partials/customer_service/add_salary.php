@@ -276,7 +276,8 @@ $errors = $_SESSION['errors'] ?? [];
                     <p class="text-sm text-orange-600">جنيه مصري</p>
                 </div>
             </div>
-            <div class="bg-red-50 rounded-md p-3 mb-4 border border-red-200" dir="rtl">
+            <div class="bg-red-50 rounded-md p-3 mb-4 border border-red-200"
+                dir="rtl">
                 <h3 class="text-base font-bold text-red-700 mb-2 flex items-center">
                     <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
                         <path
@@ -286,15 +287,31 @@ $errors = $_SESSION['errors'] ?? [];
                     </svg>الخصومات والغياب
                 </h3>
                 <div class="grid grid-cols-2 gap-2">
-                    <div class="bg-white p-2 rounded">
-                        <h4 class="font-semibold text-gray-700 mb-1 text-xs">الغياب</h4>
+                    <div class="bg-white p-2 rounded cursor-pointer"
+                        <?php if ($agentRecords['absent_reasons']): ?>
+                        data-drawer-target="reason-drawer" data-drawer-show="reason-drawer" aria-controls="reason-drawer"
+                        <?php endif; ?>>
+                        <div class="flex justify-between items-center">
+                            <h4 class="font-semibold text-gray-700 mb-1 text-xs">الغياب</h4>
+                            <?php if ($agentRecords['absent_reasons']): ?>
+                                <i class="fa-solid fa-circle-arrow-left text-rose-500 text-2xl"></i>
+                            <?php endif; ?>
+                        </div>
                         <p class="text-lg font-bold text-red-600">
                             <span class="absent-days-display"><?= $agentRecords['absent_days'] ?? 0 ?></span>
                             <span class="text-sm font-normal">أيام</span>
                         </p>
                     </div>
-                    <div class="bg-white p-2 rounded">
-                        <h4 class="font-semibold text-gray-700 mb-1 text-xs">خصم</h4>
+                    <div class="bg-white p-2 rounded cursor-pointer"
+                        <?php if ($agentRecords['deduction_reasons']): ?>
+                        data-drawer-target="reason-drawer" data-drawer-show="reason-drawer" aria-controls="reason-drawer"
+                        <?php endif; ?>>
+                        <div class="flex justify-between items-center">
+                            <h4 class="font-semibold text-gray-700 mb-1 text-xs">خصم</h4>
+                            <?php if ($agentRecords['deduction_reasons']): ?>
+                                <i class="fa-solid fa-circle-arrow-left text-rose-500 text-2xl"></i>
+                            <?php endif; ?>
+                        </div>
                         <p class="text-lg font-bold text-red-600">
                             <span class="deduction-days-display"><?= $agentRecords['deduction_days'] ?? 0 ?></span>
                             <span class="text-sm font-normal">أيام</span>
