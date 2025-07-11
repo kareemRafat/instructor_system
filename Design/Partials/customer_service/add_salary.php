@@ -94,7 +94,7 @@ $errors = $_SESSION['errors'] ?? [];
 
 </div>
 
-<div class="min-h-screen p-2">
+<div class="min-h-screen p-2" id="the-big-div">
     <div class="max-w-full mx-auto">
         <div class="bg-white rounded-lg shadow-md p-4 mb-3">
             <div
@@ -123,6 +123,7 @@ $errors = $_SESSION['errors'] ?? [];
             </div>
             <div class="grid grid-cols-2 md:grid-cols-3 gap-3 mb-4">
                 <div dir="rtl"
+                    data-action="overtime"
                     <?php if ($agentRecords['overtime_days']): ?>
                     data-drawer-target="reason-drawer" data-drawer-show="reason-drawer" aria-controls="reason-drawer"
                     <?php endif; ?>
@@ -193,9 +194,6 @@ $errors = $_SESSION['errors'] ?? [];
                     <p class="text-sm text-green-600">جنيه مصري</p>
                 </div>
                 <div dir="rtl"
-                    <?php if ($agentRecords['target']): ?>
-                    data-drawer-target="reason-drawer" data-drawer-show="reason-drawer" aria-controls="reason-drawer"
-                    <?php endif; ?>
                     class="cursor-pointer p-3 rounded-md border border-orange-200">
                     <div class="flex justify-between items-center mb-1">
                         <div class="flex items-center mb-1">
@@ -213,15 +211,13 @@ $errors = $_SESSION['errors'] ?? [];
                             </div>
                             <h3 class="text-sm font-semibold text-gray-700">التارجت</h3>
                         </div>
-                        <?php if ($agentRecords['target']): ?>
-                            <i class="fa-solid fa-circle-exclamation text-sky-700 text-xl ml-1"></i>
-                        <?php endif; ?>
                     </div>
 
                     <p class="text-xl font-bold text-orange-700 target-points"><?= $agentRecords['target'] ?? 0 ?></p>
                     <p class="text-sm text-orange-600">نقطة</p>
                 </div>
-                <div dir="rtl" +
+                <div dir="rtl"
+                    data-action="bonuses"
                     <?php if ($agentRecords['bonus_reasons']): ?>
                     data-drawer-target="reason-drawer" data-drawer-show="reason-drawer" aria-controls="reason-drawer"
                     <?php endif; ?>
@@ -250,6 +246,7 @@ $errors = $_SESSION['errors'] ?? [];
                     <p class="text-sm text-teal-600">جنيه مصري</p>
                 </div>
                 <div dir="rtl"
+                    data-action="advances"
                     <?php if ($agentRecords['advance_reasons']): ?>
                     data-drawer-target="reason-drawer" data-drawer-show="reason-drawer" aria-controls="reason-drawer"
                     <?php endif; ?>
@@ -288,6 +285,7 @@ $errors = $_SESSION['errors'] ?? [];
                 </h3>
                 <div class="grid grid-cols-2 gap-2">
                     <div class="bg-white p-2 rounded cursor-pointer"
+                        data-action="absent_days"
                         <?php if ($agentRecords['absent_reasons']): ?>
                         data-drawer-target="reason-drawer" data-drawer-show="reason-drawer" aria-controls="reason-drawer"
                         <?php endif; ?>>
@@ -303,6 +301,7 @@ $errors = $_SESSION['errors'] ?? [];
                         </p>
                     </div>
                     <div class="bg-white p-2 rounded cursor-pointer"
+                        data-action="deduction_days"
                         <?php if ($agentRecords['deduction_reasons']): ?>
                         data-drawer-target="reason-drawer" data-drawer-show="reason-drawer" aria-controls="reason-drawer"
                         <?php endif; ?>>
@@ -373,20 +372,6 @@ include_once "Design/Modals/Salary/show_reasons_drawer.php";
     const totalField = document.getElementById("total");
     const dayValue = document.getElementById("day_value");
 
-    fields.forEach(field => field.addEventListener("input", calculateTotal));
-
-    function getVal(id) {
-        return parseFloat(document.getElementById(id)?.value) || 0;
-    }
-
-    function calculateTotal() {
-        const basic = getVal("basic_salary");
-        const overtimeDays = getVal("overtime_days");
-        const dayVal = getVal("day_value");
-        const total = basic + (overtimeDays * dayVal);
-        totalField.value = total.toFixed(2);
-    }
-
     const pad = num => num < 10 ? '0' + num : num;
     const select = document.getElementById("month");
 
@@ -453,6 +438,18 @@ include_once "Design/Modals/Salary/show_reasons_drawer.php";
         url.searchParams.set('year', parseInt(year, 10));
         window.location.href = url.toString(); // reload with new query string
     }
+
+
+    /** Drawer functionality */
+    const bigDiv = document.querySelectorAll('#the-big-div [data-action]');
+    bigDiv.forEach(div => {
+        div.addEventListener('click', function() {
+            //? hide all the reasons first
+            //! show the reason of what you click data-action
+        })
+    })
+
+    /** END Drawer functionality */
 </script>
 
 <?php
@@ -568,7 +565,7 @@ function getAgentSalaryRecords($agentId, $month, $year, $pdo)
         ':agentId' => $agentId,
         ':startDate' => $startDate,
         ':endDate' => $endDate,
-        ':targetMonth' => $month ,
+        ':targetMonth' => $month,
         ':targetYear' => $year
     ]);
     return $stmt->fetch(PDO::FETCH_ASSOC);
