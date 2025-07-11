@@ -98,7 +98,7 @@ $errors = $_SESSION['errors'] ?? [];
     <div class="max-w-full mx-auto">
         <div class="bg-white rounded-lg shadow-md p-4 mb-3">
             <div
-                class=" bg-blue-700 text-white rounded-md p-3 mb-4">
+                class=" bg-sky-600 text-white rounded-md p-3 mb-4">
                 <div class="flex items-center justify-between">
                     <div>
                         <h2 class="text-lg font-bold"><?= ucwords($agent['username']) ?></h2>
@@ -320,7 +320,7 @@ $errors = $_SESSION['errors'] ?? [];
                 </div>
             </div>
             <div
-                class="bg-blue-700 text-white rounded-lg p-4 text-center">
+                class="bg-sky-600 text-white rounded-lg p-4 text-center">
                 <div class="flex items-center justify-center mb-2">
                     <svg class="w-5 h-5 mr-1" fill="currentColor" viewBox="0 0 20 20">
                         <path
@@ -338,14 +338,14 @@ $errors = $_SESSION['errors'] ?? [];
             <div class="flex flex-col md:flex-row justify-center gap-2 mt-4">
                 <button
                     class="flex items-center justify-center px-4 py-2 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-md transition-colors shadow-sm">
-                    <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                    <svg class="w-4 h-4 mr-3" fill="currentColor" viewBox="0 0 20 20">
                         <path
                             fill-rule="evenodd"
                             d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z"
                             clip-rule="evenodd"></path>
                     </svg>حفظ البيانات</button><button
-                    class="flex items-center justify-center px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-md transition-colors shadow-sm">
-                    <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                    class="flex items-center justify-center px-4 py-2 bg-sky-600 hover:bg-sky-700 text-white font-semibold rounded-md transition-colors shadow-sm">
+                    <svg class="w-4 h-4 mr-3" fill="currentColor" viewBox="0 0 20 20">
                         <path
                             d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z"></path>
                     </svg>إرسال التقرير
@@ -555,23 +555,21 @@ function getAgentSalaryRecords($agentId, $month, $year, $pdo)
              WHERE created_at >= :startDate 
              AND created_at < :endDate
              GROUP BY agent_id) so ON i.id = so.agent_id
-        LEFT JOIN 
-            (
+        LEFT JOIN (
                 SELECT 
-                    sum(target) AS target, 
-                    MONTH(created_at) AS target_month, 
-                    YEAR(created_at) AS target_year
+                    SUM(target) AS target
                 FROM salary_target
-                WHERE created_at >= :startDate AND created_at < :endDate
-                LIMIT 1
-            ) st ON MONTH(sr.created_at) = st.target_month AND YEAR(sr.created_at) = st.target_year
+                WHERE MONTH(created_at) = :targetMonth AND YEAR(created_at) = :targetYear
+            ) st ON 1=1
         WHERE 
             i.id = :agentId
     ");
     $stmt->execute([
         ':agentId' => $agentId,
         ':startDate' => $startDate,
-        ':endDate' => $endDate
+        ':endDate' => $endDate,
+        ':targetMonth' => $month ,
+        ':targetYear' => $year
     ]);
     return $stmt->fetch(PDO::FETCH_ASSOC);
 }
