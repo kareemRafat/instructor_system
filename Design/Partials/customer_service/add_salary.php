@@ -146,7 +146,7 @@ $errors = $_SESSION['errors'] ?? [];
                             </h3>
                         </div>
                         <?php if ($agentRecords['overtime_days']): ?>
-                            <i class="fa-solid fa-circle-arrow-left text-rose-500 text-2xl"></i>
+                            <i class="fa-solid fa-circle-exclamation text-sky-700 text-xl ml-1"></i>
                         <?php endif; ?>
                     </div>
                     <p class="text-xl font-bold text-blue-700"><?= $agentRecords['overtime_days'] ?? 0 ?></p>
@@ -214,7 +214,7 @@ $errors = $_SESSION['errors'] ?? [];
                             <h3 class="text-sm font-semibold text-gray-700">التارجت</h3>
                         </div>
                         <?php if ($agentRecords['target']): ?>
-                            <i class="fa-solid fa-circle-arrow-left text-rose-500 text-2xl"></i>
+                            <i class="fa-solid fa-circle-exclamation text-sky-700 text-xl ml-1"></i>
                         <?php endif; ?>
                     </div>
 
@@ -243,7 +243,7 @@ $errors = $_SESSION['errors'] ?? [];
                             <h3 class="text-sm font-semibold text-gray-700">المكافآت</h3>
                         </div>
                         <?php if ($agentRecords['bonus_reasons']): ?>
-                            <i class="fa-solid fa-circle-arrow-left text-rose-500 text-2xl"></i>
+                            <i class="fa-solid fa-circle-exclamation text-sky-700 text-xl ml-1"></i>
                         <?php endif; ?>
                     </div>
                     <p class="text-xl font-bold text-teal-700 bonuses-display"><?= $agentRecords['bonuses'] ?? 0 ?></p>
@@ -269,7 +269,7 @@ $errors = $_SESSION['errors'] ?? [];
                             <h3 class="text-sm font-semibold text-gray-700">السلف</h3>
                         </div>
                         <?php if ($agentRecords['advance_reasons']): ?>
-                            <i class="fa-solid fa-circle-arrow-left text-rose-500 text-2xl"></i>
+                            <i class="fa-solid fa-circle-exclamation text-sky-700 text-xl ml-1"></i>
                         <?php endif; ?>
                     </div>
                     <p class="text-xl font-bold text-orange-700 advances-display"><?= $agentRecords['advances'] ?? 0 ?></p>
@@ -294,7 +294,7 @@ $errors = $_SESSION['errors'] ?? [];
                         <div class="flex justify-between items-center">
                             <h4 class="font-semibold text-gray-700 mb-1 text-xs">الغياب</h4>
                             <?php if ($agentRecords['absent_reasons']): ?>
-                                <i class="fa-solid fa-circle-arrow-left text-rose-500 text-2xl"></i>
+                                <i class="fa-solid fa-circle-exclamation text-sky-700 text-xl ml-1"></i>
                             <?php endif; ?>
                         </div>
                         <p class="text-lg font-bold text-red-600">
@@ -309,7 +309,7 @@ $errors = $_SESSION['errors'] ?? [];
                         <div class="flex justify-between items-center">
                             <h4 class="font-semibold text-gray-700 mb-1 text-xs">خصم</h4>
                             <?php if ($agentRecords['deduction_reasons']): ?>
-                                <i class="fa-solid fa-circle-arrow-left text-rose-500 text-2xl"></i>
+                                <i class="fa-solid fa-circle-exclamation text-sky-700 text-xl ml-1"></i>
                             <?php endif; ?>
                         </div>
                         <p class="text-lg font-bold text-red-600">
