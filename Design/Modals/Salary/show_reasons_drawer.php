@@ -2,6 +2,18 @@
     class="fixed top-0 left-0 z-50 h-screen overflow-y-auto transition-transform -translate-x-full bg-white w-full md:w-[500px] shadow-xl"
     tabindex="-1" aria-labelledby="drawer-label">
 
+    <!-- Loading Overlay (shown by default) -->
+    <section id="salary-preload" class="absolute inset-0 z-50 flex items-center justify-center bg-sky-500">
+        <div class="text-white font-semibold tracking-wider text-4xl md:text-5xl flex flex-col items-center justify-center gap-5">
+            <div class="spinner">
+                <div class="bounce1"></div>
+                <div class="bounce2"></div>
+                <div class="bounce3"></div>
+            </div>
+        </div>
+    </section>
+
+
     <!-- Header with gradient background -->
     <div class="sticky top-0 z-10 bg-blue-500 p-6">
         <div class="flex items-center justify-between">
@@ -28,6 +40,7 @@
     </div>
 
     <!-- Content Area -->
+
     <div class="p-6">
         <!-- Filter Chips -->
         <div class="flex flex-wrap gap-2 mb-6">
@@ -43,7 +56,7 @@
                 </svg>
                 <span id="actionBTN" class="font-semibold"></span>
             </button>
-           
+
         </div>
 
         <!-- Reasons Timeline List -->
@@ -52,8 +65,8 @@
             <div class="absolute left-5 top-0 h-full border-l-2 border-blue-100"></div>
 
             <!-- Example Bonus Item -->
-            <div id="reason-list" class="space-y-4" dir="rtl">
-                
+            <div id="reason-list" class="space-y-3" dir="rtl">
+
             </div>
 
             <!-- Example Deduction Item -->

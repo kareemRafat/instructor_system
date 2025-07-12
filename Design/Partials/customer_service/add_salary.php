@@ -42,7 +42,10 @@ echo "</pre>";
 $errors = $_SESSION['errors'] ?? [];
 
 ?>
+
 <div id="agent-id" data-agent-id="<?= $agentId ?>"></div>
+<div id="created-at" data-created-at="<?= CREATED_AT ?>"></div>
+
 <div class="p-3 md:p-3 flex flex-col-reverse md:flex-row justify-between md:items-center gap-3">
     <div>
         <h3 class="text-2xl font-extrabold leading-none tracking-tight text-gray-900 md:text-4xl">Edit <span class="text-blue-600"><?= ucwords($agent['username']) ?></span>'s Salary </h3>
@@ -220,8 +223,6 @@ $errors = $_SESSION['errors'] ?? [];
                 </div>
                 <div dir="rtl"
                     data-action="bonuses"
-                    data-agent-id="<?= $_GET['id'] ?>"
-                    data-created-at="<?= CREATED_AT ?>"
                     <?php if ($agentRecords['bonus_reasons']): ?>
                     data-drawer-target="reason-drawer" data-drawer-show="reason-drawer" aria-controls="reason-drawer"
                     <?php endif; ?>
