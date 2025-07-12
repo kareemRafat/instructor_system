@@ -1,12 +1,20 @@
 <?php
 
+if (!isset($_GET['group_id'])) {
+    include "not_found.php";
+    exit();
+}
+
 $groupId = $_GET['group_id'];
 $group = getGroupById($groupId, $pdo);
 $errors = $_SESSION['errors'] ?? [];
 
 function getGroupById($groupId, $pdo)
 {
-    $stmt = $pdo->prepare("SELECT * FROM `groups` WHERE id = :id");
+    $stmt = $pdo->prepare("SELECT g.* , i.email , i.username
+                             FROM `groups` g 
+                             JOIN instructors i ON i.id = g.instructor_id 
+                             WHERE g.id = :id");
     $stmt->execute([':id' => $groupId]);
     $group = $stmt->fetch(PDO::FETCH_ASSOC);
 
@@ -29,7 +37,8 @@ function getGroupById($groupId, $pdo)
 <form class="p-4 md:p-5" action="functions/Groups/finish_group.php" method="POST">
     <input type="hidden" name="group_name" value="<?= $group['name'] ?>">
     <input type="hidden" name="group_id" value="<?= $group['id'] ?>">
-
+    <input type="hidden" name="email" value="<?= $group['email'] ?>">
+    <input type="hidden" name="username" value="<?= $group['username'] ?>">
 
 
     <div class="grid gap-4 grid-cols-1 md:grid-cols-3">

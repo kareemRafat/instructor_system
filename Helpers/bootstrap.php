@@ -41,7 +41,7 @@ $user_id = $_SESSION['user_id'];
 
 
 $query = "
-    SELECT i.username, i.role, b.id AS branch_id, b.name AS branch_name
+    SELECT i.username, i.email, i.role, b.id AS branch_id, b.name AS branch_name
     FROM instructors i
     JOIN branch_instructor bi ON i.id = bi.instructor_id
     JOIN branches b ON b.id = bi.branch_id
@@ -53,7 +53,7 @@ $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 $userInfo = [
     'username' => $results[0]['username'],
-    'role' => $results[0]['role'],
+    'role' => $results[0]['role']
 ];
 
 $branches = array_map(function ($row) {
@@ -71,3 +71,4 @@ $_SESSION['branches'] = $branches;
 define('ROLE', $userInfo['role']);
 define('USERNAME', $userInfo['username']);
 define('BRANCH', $branches[0]['id'] ?? null); // First branch, optional
+

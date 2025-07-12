@@ -16,6 +16,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $group_id = $_POST['group_id'] ?? null;
     $group_name = $_POST['group_name'] ?? null;
+    $email = $_POST['email'] ?? null;
+    $username = $_POST['username'] ?? null;
     $finish_date = $_POST['finish_date'] ?? null;
     $total_students = $_POST['total_students'] ?? null;
     $unpaid_students = $_POST['unpaid_students'] ?? null;
@@ -63,7 +65,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 'group_name'      => $group_name,
                 'end_date'        => $finish_date,
                 'has_bonus'       => $hasBonus,
-                'bonus_amount'    => 500
+                'bonus_amount'    => 500,
+                'email'           => $email,
+                'username'        => $username,
             ];
             sendMail($instructorGroupInfo);
 
@@ -141,6 +145,8 @@ function sendMail($instructorGroupInfo)
     // email html design path
     include_once "../../Design/Partials/Instructors/inst-email.php";
     $emailBody = renderGroupFinishEmail($instructorGroupInfo);
+    $username = $instructorGroupInfo['username'];
+    $email = $instructorGroupInfo['email'];
     // send email 
     include_once("../send-email.php");
 }

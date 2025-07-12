@@ -13,17 +13,17 @@ try {
     $mail->SMTPAuth = true;
     $mail->Username = 'yellowkareem@gmail.com';     // Your Gmail
     $mail->Password = 'xceq lrwg jryx hxjw';        // App password from Google
-    $mail->SMTPSecure = 'ssl';                    // or 'ssl'
-    $mail->Port = 465;                            // 465 for SSL, 587 for TLS
+    $mail->SMTPSecure = 'TLS';                    // or 'ssl'
+    $mail->Port = 587;                            // 465 for SSL, 587 for TLS
 
     // Recipients
     $mail->setFrom('yellowkareem@gmail.com', 'Createivo');
-    $mail->addAddress('kareem.force@gmail.com', 'AHMED');
+    $mail->addAddress($email, $username);
 
     // Content
     $mail->isHTML(true);
     $mail->CharSet = 'UTF-8';
-    $mail->Subject = 'ملخص الراتب الشهري';
+    $mail->Subject = 'اشعار نهاية مجموعة';
     $mail->Body = $emailBody;
     $mail->AltBody = 'This is the plain text version of the email.';
 
