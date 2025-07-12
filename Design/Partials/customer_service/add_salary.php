@@ -105,7 +105,7 @@ $errors = $_SESSION['errors'] ?? [];
                     </div>
                     <div class="text-right">
                         <p class="text-blue-100 text-sm">شهر المحاسبة</p>
-                        <p class="text-lg font-semibold"><?= $agentRecords['month'] ?> - <?= $agentRecords['year'] ?></p>
+                        <p class="text-lg font-semibold"><?= $_GET['month'] ?> - <?= $_GET['year'] ?></p>
                     </div>
                 </div>
             </div>
@@ -481,10 +481,6 @@ function getAgentSalaryRecords($agentId, $month, $year, $pdo)
             COALESCE(sd.deductions_created_at_dates, '') AS deductions_created_at_dates,
             COALESCE(so.overtime_reasons, '') AS overtime_reasons,
             COALESCE(so.overtime_created_at_dates, '') AS overtime_created_at_dates,
-            COALESCE(sr.total, 0) AS total,
-            sr.created_at AS created_at,
-            MONTH(sr.created_at) AS month,
-            YEAR(sr.created_at) AS year,
             (
                 COALESCE(i.salary, 0) +
                 (COALESCE(so.overtime_days, 0) * CEIL(COALESCE(i.salary / 30, 0))) +
@@ -496,12 +492,6 @@ function getAgentSalaryRecords($agentId, $month, $year, $pdo)
             ) AS calculated_total
         FROM 
             instructors i
-        LEFT JOIN 
-            (SELECT instructor_id, basic_salary, target, total, created_at
-             FROM salary_records 
-             WHERE created_at >= :startDate 
-             AND created_at < :endDate
-             LIMIT 1) sr ON i.id = sr.instructor_id
         LEFT JOIN 
             (SELECT 
                  agent_id, 
