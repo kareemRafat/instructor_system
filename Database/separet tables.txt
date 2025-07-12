@@ -62,9 +62,19 @@ CREATE TABLE `salary_target` (
   PRIMARY KEY (`id`)
 );
 
-ALTER TABLE `salary_records`
-  DROP COLUMN `bonuses`,
-  DROP COLUMN `advances`,
-  DROP COLUMN `absent_days`,
-  DROP COLUMN `overtime_days`,
-  DROP COLUMN `deduction_days`;
+
+-- Creating indexes
+ALTER TABLE salary_bonuses 
+    ADD INDEX idx_agent_created_bonus (agent_id, created_at);
+
+ALTER TABLE salary_advances 
+    ADD INDEX idx_agent_created_advance (agent_id, created_at);
+
+ALTER TABLE salary_absent_days 
+    ADD INDEX idx_agent_created_absent (agent_id, created_at);
+
+ALTER TABLE salary_deductions 
+    ADD INDEX idx_agent_created_deduction (agent_id, created_at);
+
+ALTER TABLE salary_overtime_days 
+    ADD INDEX idx_agent_created_overtime (agent_id, created_at);
