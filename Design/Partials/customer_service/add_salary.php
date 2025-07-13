@@ -126,30 +126,51 @@ $errors = $_SESSION['errors'] ?? [];
                 }
                 ?>
             </div>
-            <div class="grid grid-cols-2 md:grid-cols-3 gap-3 mb-4">
-                <div dir="rtl"
+            <div class="grid grid-cols-2 md:grid-cols-3 gap-3 mb-4" dir="rtl">
+                <!-- المرتب الأساسي (Order 1) -->
+                <div class="order-1 p-3 rounded-md border border-green-200">
+                    <div class="flex items-center mb-1">
+                        <div class="w-6 h-6 bg-green-500 rounded-full flex items-center justify-center ml-2">
+                            <svg class="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M4 4a2 2 0 00-2 2v4a2 2 0 002 2V6h10a2 2 0 00-2-2H4zm2 6a2 2 0 012-2h8a2 2 0 012 2v4a2 2 0 01-2 2H8a2 2 0 01-2-2v-4zm6 4a2 2 0 100-4 2 2 0 000 4z"></path>
+                            </svg>
+                        </div>
+                        <h3 class="text-sm font-semibold text-gray-700">المرتب الأساسي</h3>
+                    </div>
+                    <p class="text-xl font-bold text-green-700"><?= $agentRecords['agent_salary'] ?></p>
+                    <p class="text-sm text-green-600">جنيه مصري</p>
+                </div>
+
+                <!-- قيمة اليوم (Order 2) -->
+                <div class="order-2 p-3 rounded-md border border-purple-200">
+                    <div class="flex items-center mb-1">
+                        <div class="w-6 h-6 bg-purple-500 rounded-full flex items-center justify-center ml-2">
+                            <svg class="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M8.433 7.418c.155-.103.346-.196.567-.267v1.698a2.305 2.305 0 01-.567-.267C8.07 8.34 8 8.114 8 8c0-.114.07-.34.433-.582zM11 12.849v-1.698c.22.071.412.164.567.267.364.243.433.468.433.582 0 .114-.07.34-.433.582a2.305 2.305 0 01-.567.267z"></path>
+                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm-7-8a7 7 0 1114 0 7 7 0 01-14 0zm7-3a1 1 0 012 0v.01c3.012.232 5 1.755 5 3.99 0 1.704-1.573 3.047-3.5 3.495V15a1 1 0 11-2 0v-.505C9.077 14.053 7.5 12.71 7.5 11c0-2.235 1.988-3.758 5-3.99V7z" clip-rule="evenodd"></path>
+                            </svg>
+                        </div>
+                        <h3 class="text-sm font-semibold text-gray-700">قيمة اليوم</h3>
+                    </div>
+                    <p class="text-xl font-bold text-purple-700"><?= $agentRecords['day_value'] ?></p>
+                    <p class="text-sm text-purple-600">جنيه مصري</p>
+                </div>
+
+                <!-- أوفر تايم + مكافأت (Order 3) -->
+                <div
                     data-action="overtime"
                     <?php if ($agentRecords['overtime_days']): ?>
                     data-drawer-target="reason-drawer" data-drawer-show="reason-drawer" aria-controls="reason-drawer"
                     <?php endif; ?>
-                    class="p-3 rounded-md border border-blue-200 cursor-pointer">
+                    class="order-3 p-3 rounded-md border border-blue-200 cursor-pointer">
                     <div class="flex justify-between items-center mb-1">
                         <div class="flex items-center mb-1">
-                            <div
-                                class="w-6 h-6 bg-blue-500 rounded-full flex items-center justify-center ml-2">
-                                <svg
-                                    class="w-3 h-3 text-white"
-                                    fill="currentColor"
-                                    viewBox="0 0 20 20">
-                                    <path
-                                        fill-rule="evenodd"
-                                        d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z"
-                                        clip-rule="evenodd"></path>
+                            <div class="w-6 h-6 bg-blue-500 rounded-full flex items-center justify-center ml-2">
+                                <svg class="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"></path>
                                 </svg>
                             </div>
-                            <h3 class="text-sm font-semibold text-gray-700">
-                                أوفر تايم + مكافأت
-                            </h3>
+                            <h3 class="text-sm font-semibold text-gray-700">أوفر تايم + مكافأت</h3>
                         </div>
                         <?php if ($agentRecords['overtime_days']): ?>
                             <i class="fa-solid fa-circle-exclamation text-rose-700 text-base ml-1"></i>
@@ -158,87 +179,35 @@ $errors = $_SESSION['errors'] ?? [];
                     <p class="text-xl font-bold text-blue-700"><?= $agentRecords['overtime_days'] ?? 0 ?></p>
                     <p class="text-sm text-blue-600">أيام</p>
                 </div>
-                <div dir="rtl"
-                    class=" p-3 rounded-md border border-purple-200">
-                    <div class="flex items-center mb-1">
-                        <div
-                            class="w-6 h-6 bg-purple-500 rounded-full flex items-center justify-center ml-2">
-                            <svg
-                                class="w-3 h-3 text-white"
-                                fill="currentColor"
-                                viewBox="0 0 20 20">
-                                <path
-                                    d="M8.433 7.418c.155-.103.346-.196.567-.267v1.698a2.305 2.305 0 01-.567-.267C8.07 8.34 8 8.114 8 8c0-.114.07-.34.433-.582zM11 12.849v-1.698c.22.071.412.164.567.267.364.243.433.468.433.582 0 .114-.07.34-.433.582a2.305 2.305 0 01-.567.267z"></path>
-                                <path
-                                    fill-rule="evenodd"
-                                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm-7-8a7 7 0 1114 0 7 7 0 01-14 0zm7-3a1 1 0 012 0v.01c3.012.232 5 1.755 5 3.99 0 1.704-1.573 3.047-3.5 3.495V15a1 1 0 11-2 0v-.505C9.077 14.053 7.5 12.71 7.5 11c0-2.235 1.988-3.758 5-3.99V7z"
-                                    clip-rule="evenodd"></path>
-                            </svg>
-                        </div>
-                        <h3 class="text-sm font-semibold text-gray-700">قيمة اليوم</h3>
-                    </div>
-                    <p class="text-xl font-bold text-purple-700"><?= $agentRecords['day_value'] ?></p>
-                    <p class="text-sm text-purple-600">جنيه مصري</p>
-                </div>
-                <div dir="rtl"
-                    class="p-3 rounded-md border border-green-200">
-                    <div class="flex items-center mb-1">
-                        <div dir="rtl"
-                            class="w-6 h-6 bg-green-500 rounded-full flex items-center justify-center ml-2">
-                            <svg
-                                class="w-3 h-3 text-white"
-                                fill="currentColor"
-                                viewBox="0 0 20 20">
-                                <path
-                                    d="M4 4a2 2 0 00-2 2v4a2 2 0 002 2V6h10a2 2 0 00-2-2H4zm2 6a2 2 0 012-2h8a2 2 0 012 2v4a2 2 0 01-2 2H8a2 2 0 01-2-2v-4zm6 4a2 2 0 100-4 2 2 0 000 4z"></path>
-                            </svg>
-                        </div>
-                        <h3 class="text-sm font-semibold text-gray-700">المرتب الأساسي</h3>
-                    </div>
-                    <p class="text-xl font-bold text-green-700"><?= $agentRecords['agent_salary'] ?></p>
-                    <p class="text-sm text-green-600">جنيه مصري</p>
-                </div>
-                <div dir="rtl"
-                    class="cursor-pointer p-3 rounded-md border border-orange-200">
+
+                <!-- التارجت (Order 4) -->
+                <div class="order-4 p-3 rounded-md border border-orange-200">
                     <div class="flex justify-between items-center mb-1">
                         <div class="flex items-center mb-1">
-                            <div
-                                class="w-6 h-6 bg-orange-500 rounded-full flex items-center justify-center ml-2">
-                                <svg
-                                    class="w-3 h-3 text-white"
-                                    fill="currentColor"
-                                    viewBox="0 0 20 20">
-                                    <path
-                                        fill-rule="evenodd"
-                                        d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                                        clip-rule="evenodd"></path>
+                            <div class="w-6 h-6 bg-orange-500 rounded-full flex items-center justify-center ml-2">
+                                <svg class="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
                                 </svg>
                             </div>
                             <h3 class="text-sm font-semibold text-gray-700">التارجت</h3>
                         </div>
                     </div>
-
                     <p class="text-xl font-bold text-orange-700 target-points"><?= $agentRecords['target'] ?? 0 ?></p>
                     <p class="text-sm text-orange-600">نقطة</p>
                 </div>
-                <div dir="rtl"
+
+                <!-- المكافآت (Order 5) -->
+                <div
                     data-action="bonuses"
                     <?php if ($agentRecords['bonuses']): ?>
                     data-drawer-target="reason-drawer" data-drawer-show="reason-drawer" aria-controls="reason-drawer"
                     <?php endif; ?>
-                    class="p-3 rounded-md border border-teal-500 cursor-pointer">
+                    class="order-5 p-3 rounded-md border border-teal-500 cursor-pointer">
                     <div class="flex justify-between items-center mb-1">
                         <div class="flex items-center mb-1">
-                            <div
-                                class="w-6 h-6 bg-teal-500 rounded-full flex items-center justify-center ml-2">
-                                <svg
-                                    class="w-3 h-3 text-white"
-                                    fill="currentColor"
-                                    viewBox="0 0 20 20">
-                                    <path
-                                        fill-rule="evenodd"
-                                        d="M5 2a1 1 0 011 1v1h1a1 1 0 010 2H6v1a1 1 0 01-2 0V6H3a1 1 0 010-2h1V3a1 1 0 011-1zm0 10a1 1 0 011 1v1h1a1 1 0 110 2H6v1a1 1 0 11-2 0v-1H3a1 1 0 110-2h1v-1a1 1 0 011-1zM12 2a1 1 0 01.967.744L14.146 7.2 17.5 9.134a1 1 0 010 1.732L14.146 12.8l-1.179 4.456a1 1 0 01-1.934 0L9.854 12.8 6.5 10.866a1 1 0 010-1.732L9.854 7.2l1.179-4.456A1 1 0 0112 2z"
-                                        clip-rule="evenodd"></path>
+                            <div class="w-6 h-6 bg-teal-500 rounded-full flex items-center justify-center ml-2">
+                                <svg class="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M5 2a1 1 0 011 1v1h1a1 1 0 010 2H6v1a1 1 0 01-2 0V6H3a1 1 0 010-2h1V3a1 1 0 011-1zm0 10a1 1 0 011 1v1h1a1 1 0 110 2H6v1a1 1 0 11-2 0v-1H3a1 1 0 110-2h1v-1a1 1 0 011-1zM12 2a1 1 0 01.967.744L14.146 7.2 17.5 9.134a1 1 0 010 1.732L14.146 12.8l-1.179 4.456a1 1 0 01-1.934 0L9.854 12.8 6.5 10.866a1 1 0 010-1.732L9.854 7.2l1.179-4.456A1 1 0 0112 2z" clip-rule="evenodd"></path>
                                 </svg>
                             </div>
                             <h3 class="text-sm font-semibold text-gray-700">المكافآت</h3>
@@ -250,22 +219,19 @@ $errors = $_SESSION['errors'] ?? [];
                     <p class="text-xl font-bold text-teal-700 bonuses-display"><?= $agentRecords['bonuses'] ?? 0 ?></p>
                     <p class="text-sm text-teal-600">جنيه مصري</p>
                 </div>
-                <div dir="rtl"
+
+                <!-- السلف (Order 6) -->
+                <div
                     data-action="advances"
                     <?php if ($agentRecords['advances']): ?>
                     data-drawer-target="reason-drawer" data-drawer-show="reason-drawer" aria-controls="reason-drawer"
                     <?php endif; ?>
-                    class="p-3 rounded-md border border-orange-400 cursor-pointer">
+                    class="order-6 p-3 rounded-md border border-orange-400 cursor-pointer">
                     <div class="flex justify-between items-center mb-1">
                         <div class="flex items-center mb-1">
-                            <div
-                                class="w-6 h-6 bg-orange-500 rounded-full flex items-center justify-center ml-2">
-                                <svg
-                                    class="w-3 h-3 text-white"
-                                    fill="currentColor"
-                                    viewBox="0 0 20 20">
-                                    <path
-                                        d="M4 4a2 2 0 00-2 2v4a2 2 0 002 2V6h10a2 2 0 00-2-2H4zm2 6a2 2 0 012-2h8a2 2 0 012 2v4a2 2 0 01-2 2H8a2 2 0 01-2-2v-4zm6 4a2 2 0 100-4 2 2 0 000 4z"></path>
+                            <div class="w-6 h-6 bg-orange-500 rounded-full flex items-center justify-center ml-2">
+                                <svg class="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
+                                    <path d="M4 4a2 2 0 00-2 2v4a2 2 0 002 2V6h10a2 2 0 00-2-2H4zm2 6a2 2 0 012-2h8a2 2 0 012 2v4a2 2 0 01-2 2H8a2 2 0 01-2-2v-4zm6 4a2 2 0 100-4 2 2 0 000 4z"></path>
                                 </svg>
                             </div>
                             <h3 class="text-sm font-semibold text-gray-700">السلف</h3>
@@ -278,6 +244,7 @@ $errors = $_SESSION['errors'] ?? [];
                     <p class="text-sm text-orange-600">جنيه مصري</p>
                 </div>
             </div>
+
             <div class="bg-red-50 rounded-md p-3 mb-4 border border-red-200"
                 dir="rtl">
                 <h3 class="text-base font-bold text-red-700 mb-2 flex items-center">
@@ -445,7 +412,7 @@ include_once "Design/Modals/Salary/show_reasons_drawer.php";
     }
 
 
-    
+
 
     /** END Drawer functionality */
 </script>
