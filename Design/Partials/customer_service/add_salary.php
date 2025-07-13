@@ -223,7 +223,7 @@ $errors = $_SESSION['errors'] ?? [];
                 </div>
                 <div dir="rtl"
                     data-action="bonuses"
-                    <?php if ($agentRecords['bonus_reasons']): ?>
+                    <?php if ($agentRecords['bonuses']): ?>
                     data-drawer-target="reason-drawer" data-drawer-show="reason-drawer" aria-controls="reason-drawer"
                     <?php endif; ?>
                     class="p-3 rounded-md border border-teal-500 cursor-pointer">
@@ -243,7 +243,7 @@ $errors = $_SESSION['errors'] ?? [];
                             </div>
                             <h3 class="text-sm font-semibold text-gray-700">المكافآت</h3>
                         </div>
-                        <?php if ($agentRecords['bonus_reasons']): ?>
+                        <?php if ($agentRecords['bonuses']): ?>
                             <i class="fa-solid fa-circle-exclamation text-rose-700 text-base ml-1"></i>
                         <?php endif; ?>
                     </div>
@@ -252,7 +252,7 @@ $errors = $_SESSION['errors'] ?? [];
                 </div>
                 <div dir="rtl"
                     data-action="advances"
-                    <?php if ($agentRecords['advance_reasons']): ?>
+                    <?php if ($agentRecords['advances']): ?>
                     data-drawer-target="reason-drawer" data-drawer-show="reason-drawer" aria-controls="reason-drawer"
                     <?php endif; ?>
                     class="p-3 rounded-md border border-orange-400 cursor-pointer">
@@ -270,7 +270,7 @@ $errors = $_SESSION['errors'] ?? [];
                             </div>
                             <h3 class="text-sm font-semibold text-gray-700">السلف</h3>
                         </div>
-                        <?php if ($agentRecords['advance_reasons']): ?>
+                        <?php if ($agentRecords['advances']): ?>
                             <i class="fa-solid fa-circle-exclamation text-rose-700 text-base ml-1"></i>
                         <?php endif; ?>
                     </div>
@@ -291,12 +291,12 @@ $errors = $_SESSION['errors'] ?? [];
                 <div class="grid grid-cols-2 gap-2">
                     <div class="bg-white p-2 rounded cursor-pointer"
                         data-action="absent_days"
-                        <?php if ($agentRecords['absent_reasons']): ?>
+                        <?php if ($agentRecords['absent_days']): ?>
                         data-drawer-target="reason-drawer" data-drawer-show="reason-drawer" aria-controls="reason-drawer"
                         <?php endif; ?>>
                         <div class="flex justify-between items-center">
                             <h4 class="font-semibold text-gray-700 mb-1 text-xs">الغياب</h4>
-                            <?php if ($agentRecords['absent_reasons']): ?>
+                            <?php if ($agentRecords['absent_days']): ?>
                                 <i class="fa-solid fa-circle-exclamation text-rose-700 text-base ml-1"></i>
                             <?php endif; ?>
                         </div>
@@ -307,12 +307,12 @@ $errors = $_SESSION['errors'] ?? [];
                     </div>
                     <div class="bg-white p-2 rounded cursor-pointer"
                         data-action="deduction_days"
-                        <?php if ($agentRecords['deduction_reasons']): ?>
+                        <?php if ($agentRecords['deduction_days']): ?>
                         data-drawer-target="reason-drawer" data-drawer-show="reason-drawer" aria-controls="reason-drawer"
                         <?php endif; ?>>
                         <div class="flex justify-between items-center">
                             <h4 class="font-semibold text-gray-700 mb-1 text-xs">خصم</h4>
-                            <?php if ($agentRecords['deduction_reasons']): ?>
+                            <?php if ($agentRecords['deduction_days']): ?>
                                 <i class="fa-solid fa-circle-exclamation text-rose-700 text-base ml-1"></i>
                             <?php endif; ?>
                         </div>
@@ -467,19 +467,9 @@ function getAgentSalaryRecords($agentId, $month, $year, $pdo)
             CEIL(COALESCE(i.salary / 30, 0)) AS day_value,
             COALESCE(st.target, 0) AS target,
             COALESCE(sb.bonuses, 0) AS bonuses,
-            COALESCE(sb.bonus_reasons, '') AS bonus_reasons,
-            COALESCE(sb.bonus_created_at_dates, '') AS bonus_created_at_dates,
             COALESCE(sa.advances, 0) AS advances,
-            COALESCE(sa.advance_reasons, '') AS advance_reasons,
-            COALESCE(sa.advances_created_at_dates, '') AS advances_created_at_dates,
             COALESCE(sad.absent_days, 0) AS absent_days,
-            COALESCE(sad.absent_reasons, '') AS absent_reasons,
-            COALESCE(sad.absent_created_at_dates, '') AS absent_created_at_dates,
             COALESCE(sd.deduction_days, 0) AS deduction_days,
-            COALESCE(sd.deduction_reasons, '') AS deduction_reasons,
-            COALESCE(sd.deductions_created_at_dates, '') AS deductions_created_at_dates,
-            COALESCE(so.overtime_reasons, '') AS overtime_reasons,
-            COALESCE(so.overtime_created_at_dates, '') AS overtime_created_at_dates,
             (
                 COALESCE(i.salary, 0) +
                 (COALESCE(so.overtime_days, 0) * CEIL(COALESCE(i.salary / 30, 0))) +
@@ -494,9 +484,7 @@ function getAgentSalaryRecords($agentId, $month, $year, $pdo)
         LEFT JOIN 
             (SELECT 
                  agent_id, 
-                 SUM(amount) AS bonuses,
-                 GROUP_CONCAT(reason SEPARATOR ', ') AS bonus_reasons,
-                 GROUP_CONCAT(bonus_created_at SEPARATOR ', ') AS bonus_created_at_dates
+                 SUM(amount) AS bonuses
              FROM salary_bonuses 
              WHERE created_at >= :startDate 
              AND created_at < :endDate
@@ -504,9 +492,7 @@ function getAgentSalaryRecords($agentId, $month, $year, $pdo)
         LEFT JOIN 
             (SELECT 
                  agent_id, 
-                 SUM(amount) AS advances,
-                 GROUP_CONCAT(reason SEPARATOR ', ') AS advance_reasons,
-                 GROUP_CONCAT(advances_created_at SEPARATOR ', ') AS advances_created_at_dates
+                 SUM(amount) AS advances
              FROM salary_advances 
              WHERE created_at >= :startDate 
              AND created_at < :endDate
@@ -514,9 +500,7 @@ function getAgentSalaryRecords($agentId, $month, $year, $pdo)
         LEFT JOIN 
             (SELECT 
                  agent_id, 
-                 SUM(days) AS absent_days,
-                 GROUP_CONCAT(reason SEPARATOR ', ') AS absent_reasons,
-                 GROUP_CONCAT(absent_created_at SEPARATOR ', ') AS absent_created_at_dates
+                 SUM(days) AS absent_days
              FROM salary_absent_days 
              WHERE created_at >= :startDate 
              AND created_at < :endDate
@@ -524,9 +508,7 @@ function getAgentSalaryRecords($agentId, $month, $year, $pdo)
         LEFT JOIN 
             (SELECT 
                  agent_id, 
-                 SUM(days) AS deduction_days,
-                 GROUP_CONCAT(reason SEPARATOR ', ') AS deduction_reasons,
-                 GROUP_CONCAT(deductions_created_at SEPARATOR ', ') AS deductions_created_at_dates
+                 SUM(days) AS deduction_days
              FROM salary_deductions 
              WHERE created_at >= :startDate 
              AND created_at < :endDate
@@ -534,9 +516,7 @@ function getAgentSalaryRecords($agentId, $month, $year, $pdo)
         LEFT JOIN 
             (SELECT 
                  agent_id, 
-                 SUM(days) AS overtime_days,
-                 GROUP_CONCAT(reason SEPARATOR ', ') AS overtime_reasons,
-                 GROUP_CONCAT(overtime_created_at SEPARATOR ', ') AS overtime_created_at_dates
+                 SUM(days) AS overtime_days
              FROM salary_overtime_days 
              WHERE created_at >= :startDate 
              AND created_at < :endDate
