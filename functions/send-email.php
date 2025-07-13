@@ -23,7 +23,7 @@ try {
     // Content
     $mail->isHTML(true);
     $mail->CharSet = 'UTF-8';
-    $mail->Subject = 'اشعار نهاية مجموعة';
+    $mail->Subject = $subject;
     $mail->Body = $emailBody;
     $mail->AltBody = 'This is the plain text version of the email.';
 

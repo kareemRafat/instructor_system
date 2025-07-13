@@ -147,6 +147,7 @@ function sendMail($instructorGroupInfo)
     $emailBody = renderGroupFinishEmail($instructorGroupInfo);
     $username = $instructorGroupInfo['username'];
     $email = $instructorGroupInfo['email'];
+    $subject = "إشعار نهاية مجموعة";
     // send email 
     include_once("../send-email.php");
 }

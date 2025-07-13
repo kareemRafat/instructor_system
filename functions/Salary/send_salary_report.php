@@ -61,6 +61,7 @@ function sendMail($salaryDataToEmail)
     // send report when click on send report
     $email = $salaryDataToEmail['email'];
     $username = $salaryDataToEmail['username'];
+    $subject = "ملخص الراتب الشهري عن شهر {$salaryDataToEmail['month']}";
     // email html design path
     include_once "../../Design/Partials/customer_service/cs-email.php";
     $emailBody = renderEmailTemplate($salaryDataToEmail);
