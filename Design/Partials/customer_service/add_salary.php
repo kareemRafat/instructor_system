@@ -35,10 +35,6 @@ function getAgentById($agentId, $pdo)
     return $instructor;
 }
 
-echo "<pre>";
-print_r($agentRecords);
-echo "</pre>";
-
 $errors = $_SESSION['errors'] ?? [];
 
 ?>
