@@ -2,13 +2,9 @@
 session_start();
 require_once "../../Database/connect.php";
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-    // Validate input
-    if (!checkSalaryFormErrors($_POST, $pdo)) {
-        header("Location: ../../customer-service.php?action=add&id=" . $_POST['instructor_id']);
-        exit();
-    }
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     try {
         // Retrieve POST data
@@ -24,10 +20,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $deduction_days  = (int)($_POST['deduction_days'] ?? 0);
         $created_at_raw  = $_POST['created_at'] ?? null;
         $formatted_date = DateTime::createFromFormat('m-Y', $created_at_raw)->format('Y-m-d');
-
-        // Calculate total
-        $total = ($basic_salary + ($overtime_days * $day_value) + $target + $bonuses - $advances)
-            - ($absent_days * $day_value) - ($deduction_days * $day_value);
+        $total = $_POST['total'] ?? null;
 
         if ($total < 0) {
             $_SESSION['errors'][] = "القيمة النهائية قيمة سالبة !";
@@ -35,57 +28,30 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             exit();
         }
 
-        // Prepare data array once
-        $salaryData = [
-            ':instructor_id'  => $instructor_id,
-            ':basic_salary'   => $basic_salary,
-            ':overtime_days'  => $overtime_days,
-            ':day_value'      => $day_value,
-            ':target'         => $target,
-            ':bonuses'        => $bonuses,
-            ':advances'       => $advances,
-            ':absent_days'    => $absent_days,
-            ':deduction_days' => $deduction_days,
-            ':total'          => $total,
-            ':created_at'     => $formatted_date
+
+        // Send email
+        $salaryDataToEmail = [
+            'basic_salary'   => $basic_salary,
+            'overtime_days'  => $overtime_days,
+            'day_value'      => $day_value,
+            'target'         => $target,
+            'bonuses'        => $bonuses,
+            'advances'       => $advances,
+            'absent_days'    => $absent_days,
+            'deduction_days' => $deduction_days,
+            'total'          => $total,
+            'cs_name'        => ucwords($cs_name),
+            'month'          => getMonthName($created_at_raw)
         ];
 
-        // Check for existing record
-        $checkStmt = $pdo->prepare("
-        SELECT COUNT(*) FROM salary_records 
-        WHERE instructor_id = :instructor_id AND created_at = :created_at
-    ");
-        $checkStmt->execute([
-            ':instructor_id' => $instructor_id,
-            ':created_at' => $formatted_date
-        ]);
+        echo "<pre>"; 
+        print_r($salaryDataToEmail);
+        die();
+        sendMail($salaryDataToEmail);
 
-        if ($checkStmt->fetchColumn()) {
-            updateSalaryRecord($pdo, $salaryData);
-            $_SESSION['success'] = "Month Salary Updated";
-        } else {
-            insertSalaryRecord($pdo, $salaryData);
-            $_SESSION['success'] = "Month Salary Added Successfully";
-        }
+        //! add month year to url
 
-        // Send email if requested
-        if (isset($_POST['send_report'])) {
-            $salaryDataToEmail = [
-                'basic_salary'   => $basic_salary,
-                'overtime_days'  => $overtime_days,
-                'day_value'      => $day_value,
-                'target'         => $target,
-                'bonuses'        => $bonuses,
-                'advances'       => $advances,
-                'absent_days'    => $absent_days,
-                'deduction_days' => $deduction_days,
-                'total'          => $total,
-                'cs_name'        => ucwords($cs_name),
-                'month'          => getMonthName($created_at_raw)
-            ];
-            sendMail($salaryDataToEmail);
-        }
-
+        $_SESSION['success'] = 'Report sent successfully';
         header("Location: ../../customer-service.php?action=add&id=$instructor_id");
         exit();
     } catch (PDOException $e) {
@@ -93,60 +59,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         header("Location: ../../customer-service.php?action=add");
         exit();
     }
-}
-
-function checkSalaryFormErrors(array $formData, PDO $pdo): bool
-{
-    $errors = [];
-
-    // Required: instructor_id
-    if (empty($formData['instructor_id'])) {
-        $errors['instructor_id'] = "الموظف مطلوب";
-    }
-    
-    if (empty($formData['created_at'])) {
-        $errors['created_at'] = "تاريخ المحاسبة مطلوب";
-    }
-
-    // Required: basic_salary
-    if (empty($formData['basic_salary']) || !is_numeric($formData['basic_salary'])) {
-        $errors['basic_salary'] = "المرتب الأساسي مطلوب ويجب ان يكون رقم";
-    }
-
-    // Optional but must be numeric if set
-    $numericFields = [
-        'overtime_days' => 'أوفر تايم + مكافأت ',
-        'day_value' => 'قيمة اليوم',
-        'target' => 'التارجت',
-        'bonuses' => 'المكافآت',
-        'advances' => 'السلف',
-        'absent_days' => 'الغياب',
-        'deduction_days' => 'خصم'
-    ];
-
-    foreach ($numericFields as $field => $label) {
-        if (!isset($formData[$field]) || !is_numeric($formData[$field])) {
-            $errors[$field] = "$label يجب ان يكون رقم";
-        }
-    }
-
-    // Example: Check if instructor exists (optional)
-    if (!empty($formData['instructor_id'])) {
-        $stmt = $pdo->prepare("SELECT COUNT(*) FROM instructors WHERE id = ?");
-        $stmt->execute([$formData['instructor_id']]);
-        if ($stmt->fetchColumn() == 0) {
-            $errors['instructor_id'] = "Instructor not found.";
-        }
-    }
-
-    // Return false with error storage if any
-    if (!empty($errors)) {
-        $_SESSION['old'] = $formData;
-        $_SESSION['error'] = $errors;
-        return false;
-    }
-
-    return true;
 }
 
 function sendMail($salaryDataToEmail)
@@ -177,35 +89,9 @@ function getMonthName($created_at)
         11 => 'نوفمبر',
         12 => 'ديسمبر'
     ];
+    
     $month_number = DateTime::createFromFormat('m-Y', $created_at)->format('n'); // Numeric month (1-12)
     return $month_map[$month_number];
 }
 
 
-function insertSalaryRecord(PDO $pdo, array $data): bool {
-    $sql = "INSERT INTO salary_records (
-                instructor_id, basic_salary, overtime_days, day_value, target,
-                bonuses, advances, absent_days, deduction_days, total , created_at
-            ) VALUES (
-                :instructor_id, :basic_salary, :overtime_days, :day_value, :target,
-                :bonuses, :advances, :absent_days, :deduction_days, :total , :created_at
-            )";
-    $stmt = $pdo->prepare($sql);
-    return $stmt->execute($data);
-}
-
-function updateSalaryRecord(PDO $pdo, array $data): bool {
-    $sql = "UPDATE salary_records SET
-                basic_salary = :basic_salary,
-                overtime_days = :overtime_days,
-                day_value = :day_value,
-                target = :target,
-                bonuses = :bonuses,
-                advances = :advances,
-                absent_days = :absent_days,
-                deduction_days = :deduction_days,
-                total = :total
-            WHERE instructor_id = :instructor_id AND created_at = :created_at";
-    $stmt = $pdo->prepare($sql);
-    return $stmt->execute($data);
-}

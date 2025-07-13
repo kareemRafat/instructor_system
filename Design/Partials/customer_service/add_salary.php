@@ -58,7 +58,7 @@ $errors = $_SESSION['errors'] ?? [];
     </a>
 </div>
 
-<div class="p-3 md:p-3 grid grid-cols-1 md:grid-cols-6  gap-1 md:w-fit">
+<div class="p-3 flex flex-col md:flex-row gap-1 px-6">
     <div class="w-full text-white bg-sky-700 hover:bg-sky-800 focus:ring-4 focus:outline-none focus:ring-sky-300 font-medium rounded text-sm py-1 px-2 text-center">
         <a class="flex items-center cursor-pointer" id="add-bonus" data-modal-target="add-bonus-modal" data-modal-toggle="add-bonus-modal">
             <i class="fa-solid fa-award mr-3 text-base"></i>
@@ -306,21 +306,26 @@ $errors = $_SESSION['errors'] ?? [];
                 </p>
                 <p class="text-blue-200 text-sm">جنيه مصري</p>
             </div>
-            <div class="flex flex-col md:flex-row justify-center gap-2 mt-4">
-                <button
-                    class="flex items-center justify-center px-4 py-2 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-md transition-colors shadow-sm">
-                    <svg class="w-4 h-4 mr-3" fill="currentColor" viewBox="0 0 20 20">
-                        <path
-                            fill-rule="evenodd"
-                            d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z"
-                            clip-rule="evenodd"></path>
-                    </svg>حفظ البيانات</button><button
-                    class="flex items-center justify-center px-4 py-2 bg-sky-600 hover:bg-sky-700 text-white font-semibold rounded-md transition-colors shadow-sm">
-                    <svg class="w-4 h-4 mr-3" fill="currentColor" viewBox="0 0 20 20">
-                        <path
-                            d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z"></path>
-                    </svg>إرسال التقرير
-                </button>
+            <div class="flex flex-col md:flex-row justify-end gap-2 mt-4">
+                <form method="post" action="functions/Customer-service/insert_salary.php">
+                    <input type="hidden" name="cs_name" value="<?= $agentRecords['cs_name'] ?>">
+                    <input type="hidden" name="basic_salary" value="<?= $agentRecords['agent_salary'] ?>">
+                    <input type="hidden" name="overtime_days" value="<?= $agentRecords['overtime_days'] ?>">
+                    <input type="hidden" name="target" value="<?= $agentRecords['target'] ?>">
+                    <input type="hidden" name="bonuses" value="<?= $agentRecords['bonuses'] ?>">
+                    <input type="hidden" name="advances" value="<?= $agentRecords['advances'] ?>">
+                    <input type="hidden" name="absent_days" value="<?= $agentRecords['absent_days'] ?>">
+                    <input type="hidden" name="deduction_days" value="<?= $agentRecords['deduction_days'] ?>">
+                    <input type="hidden" name="created_at" value="<?= CREATED_AT ?>">
+                    <input type="hidden" name="total" value="<?= $agentRecords['calculated_total'] ?>">
+                    <button
+                        class="flex items-center justify-center px-4 py-2 bg-sky-600 hover:bg-sky-700 text-white font-semibold rounded-md transition-colors shadow-sm">
+                        <svg class="w-4 h-4 mr-3" fill="currentColor" viewBox="0 0 20 20">
+                            <path
+                                d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z"></path>
+                        </svg>إرسال التقرير
+                    </button>
+                </form>
             </div>
         </div>
     </div>

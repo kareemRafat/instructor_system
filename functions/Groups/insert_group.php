@@ -110,7 +110,7 @@ function isGroupNameDuplicated($name, $pdo):bool
 /** check if the group time with the same instructor and branch is already exists */
 function checkGoupTimeDuplication($pdo, $instructor, $branch, $groupTime, $groupDay):bool
 {
-    $stmt = $pdo->prepare("SELECT COUNT(*) FROM `groups` WHERE instructor_id = :instructor AND branch_id = :branch AND time = :groupTime AND day = :groupDay AND is_active = 1");
+    $stmt = $pdo->prepare("SELECT COUNT(*) FROM `groups` WHERE COALESCE(second_instructor_id, instructor_id) = :instructor AND branch_id = :branch AND time = :groupTime AND day = :groupDay AND is_active = 1");
     $stmt->bindParam(':instructor', $instructor);
     $stmt->bindParam(':branch', $branch);
     $stmt->bindParam(':groupTime', $groupTime);
