@@ -307,8 +307,10 @@ $errors = $_SESSION['errors'] ?? [];
                 <p class="text-blue-200 text-sm">جنيه مصري</p>
             </div>
             <div class="flex flex-col md:flex-row justify-end gap-2 mt-4">
-                <form method="post" action="functions/Customer-service/insert_salary.php">
+                <form method="post" action="functions/Salary/send_salary_report.php">
+                    <input type="hidden" name="agent_id" value="<?= $agentId ?>">
                     <input type="hidden" name="cs_name" value="<?= $agentRecords['cs_name'] ?>">
+                    <input type="hidden" name="email" value="<?= $agent['email'] ?>">
                     <input type="hidden" name="basic_salary" value="<?= $agentRecords['agent_salary'] ?>">
                     <input type="hidden" name="overtime_days" value="<?= $agentRecords['overtime_days'] ?>">
                     <input type="hidden" name="target" value="<?= $agentRecords['target'] ?>">
@@ -319,7 +321,8 @@ $errors = $_SESSION['errors'] ?? [];
                     <input type="hidden" name="created_at" value="<?= CREATED_AT ?>">
                     <input type="hidden" name="total" value="<?= $agentRecords['calculated_total'] ?>">
                     <button
-                        class="flex items-center justify-center px-4 py-2 bg-sky-600 hover:bg-sky-700 text-white font-semibold rounded-md transition-colors shadow-sm">
+                        onclick="setTimeout(() => this.disabled = true, 1)"
+                        class="flex items-center justify-center px-4 py-2 bg-sky-600 hover:bg-sky-700 text-white font-semibold rounded-md transition-colors shadow-sm md:disabled:bg-sky-500 disabled:text-white disabled:cursor-not-allowed">
                         <svg class="w-4 h-4 mr-3" fill="currentColor" viewBox="0 0 20 20">
                             <path
                                 d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z"></path>
@@ -421,7 +424,7 @@ include_once "Design/Modals/Salary/show_reasons_drawer.php";
 
     /** END Drawer functionality */
 </script>
-<script src="js/salary.js"></script>
+<script src="dist/salary.js"></script>
 
 <?php
 // salary records Query

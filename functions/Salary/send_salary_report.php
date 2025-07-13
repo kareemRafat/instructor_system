@@ -2,14 +2,13 @@
 session_start();
 require_once "../../Database/connect.php";
 
-
-
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     try {
         // Retrieve POST data
         $cs_name = $_POST['cs_name'] ?? null;
-        $instructor_id   = $_POST['instructor_id'] ?? 0;
+        $email = $_POST['email'] ?? null;
+        $agent_id   = $_POST['agent_id'] ?? 0;
         $basic_salary    = (float)($_POST['basic_salary'] ?? 0);
         $overtime_days   = (int)($_POST['overtime_days'] ?? 0);
         $day_value       = (float)($_POST['day_value'] ?? 0);
@@ -24,7 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         if ($total < 0) {
             $_SESSION['errors'][] = "القيمة النهائية قيمة سالبة !";
-            header("Location: ../../customer-service.php?action=add&id=$instructor_id");
+            header("Location: ../../customer-service.php");
             exit();
         }
 
@@ -40,23 +39,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             'absent_days'    => $absent_days,
             'deduction_days' => $deduction_days,
             'total'          => $total,
-            'cs_name'        => ucwords($cs_name),
-            'month'          => getMonthName($created_at_raw)
+            'username'       => ucwords($cs_name),
+            'month'          => getMonthName($created_at_raw),
+            'email'          => $email
         ];
 
-        echo "<pre>"; 
-        print_r($salaryDataToEmail);
-        die();
         sendMail($salaryDataToEmail);
 
-        //! add month year to url
-
         $_SESSION['success'] = 'Report sent successfully';
-        header("Location: ../../customer-service.php?action=add&id=$instructor_id");
+        header("Location: ../../customer-service.php");
         exit();
     } catch (PDOException $e) {
         $_SESSION['errors'][] = $e->getMessage();
-        header("Location: ../../customer-service.php?action=add");
+        header("Location: ../../customer-service.php");
         exit();
     }
 }
@@ -64,6 +59,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 function sendMail($salaryDataToEmail)
 {
     // send report when click on send report
+    $email = $salaryDataToEmail['email'];
+    $username = $salaryDataToEmail['username'];
     // email html design path
     include_once "../../Design/Partials/customer_service/cs-email.php";
     $emailBody = renderEmailTemplate($salaryDataToEmail);

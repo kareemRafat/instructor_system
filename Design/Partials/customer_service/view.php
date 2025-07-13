@@ -94,7 +94,7 @@ foreach ($result as $row) {
                         <?php if (hasRole('owner', 'admin')): ?>
                             <td class="w-40 px-6 py-4">
                                 <div class="w-fit text-white bg-sky-700 hover:bg-sky-800 focus:ring-4 focus:outline-none focus:ring-sky-300 font-medium rounded text-sm py-1 px-2 text-center">
-                                    <a class="flex" id="add-salary" href="?action=add&id=<?= $row['id'] ?>&month=<?= date('n')?>&year=<?= date('Y')?>">
+                                    <a class="flex" id="add-salary" href="?action=add&id=<?= $row['id'] ?>&month=<?= date('n') ?>&year=<?= date('Y') ?>">
                                         <i class="fa-solid fa-money-check-dollar mr-2 text-sm"></i>
                                         <span class="hidden md:block mr-1">Edit </span>salary
                                     </a>
@@ -102,7 +102,7 @@ foreach ($result as $row) {
                             </td>
                         <?php endif; ?>
                         <th scope="row" class="w-40 px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
-                            <?= $row['email'] ?? '<span class="text-gray-400">Not Assigned</span>' ?>
+                            <?= !empty($row['email']) ? substr($row['email'], 0, 15) . "..." : '<span class="text-gray-400">Not Assigned</span>' ?>
                         </th>
                         <td class="w-40 px-6 py-4 <?= branchIndicator($row['branch_name'])['textColor'] ?>">
                             <div class="flex flex-row justify-start items-center">

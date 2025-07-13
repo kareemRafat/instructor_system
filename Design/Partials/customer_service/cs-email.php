@@ -32,7 +32,7 @@ function renderEmailTemplate($salaryDataToEmail)
             <tr>
               <td style="padding:8px 0;">
                 <strong>اسم الموظف:</strong><br>
-                <span style="color:blue;font-weight:bold"><?= $salaryDataToEmail['cs_name'] ?></span>
+                <span style="color:blue;font-weight:bold"><?= $salaryDataToEmail['username'] ?></span>
               </td>
               <td style="padding:8px 0;text-align:left;">
                 <strong>شهر المحاسبة :</strong><br>
