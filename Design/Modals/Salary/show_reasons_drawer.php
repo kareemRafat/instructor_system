@@ -69,36 +69,6 @@
 
             </div>
 
-            <!-- Example Deduction Item -->
-            <!-- <div class="relative pl-10 group">
-                <div class="absolute left-0 top-3 w-3 h-3 bg-red-500 rounded-full ring-4 ring-red-100  group-hover:scale-125 transition-transform duration-200"></div>
-
-                <div class="bg-white  border border-gray-200 p-4 shadow-xs hover:shadow-sm transition-shadow duration-200 hover:border-red-200 ">
-                    <div class="flex items-center justify-between mb-1">
-                        <span class="text-xs font-medium text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-900/30 px-2 py-0.5 rounded-full inline-flex items-center">
-                            <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd" />
-                            </svg>
-                            Deduction
-                        </span>
-                        <span class="text-xs text-gray-500 dark:text-gray-400">-$120.00</span>
-                    </div>
-                    <h3 class="text-gray-800 dark:text-gray-100 font-medium mb-1">Unauthorized Absence</h3>
-                    <p class="text-gray-600 dark:text-gray-300 text-sm mb-2">
-                        Instructor was absent for 3 days without prior notice.
-                    </p>
-                    <div class="flex items-center justify-between text-xs text-gray-500 dark:text-gray-400">
-                        <span>July 1, 2025</span>
-                        <span class="flex items-center">
-                            <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd" />
-                            </svg>
-                            System
-                        </span>
-                    </div>
-                </div>
-            </div> -->
-
             <!-- Add more items dynamically... -->
         </div>
     </div>
