@@ -512,3 +512,5 @@ function getAgentSalaryRecords($agentId, $month, $year, $pdo)
 }
 
 ?>
+
+<span data-drawer-target="reason-drawer" data-drawer-show="reason-drawer" aria-controls="reason-drawer"></span>

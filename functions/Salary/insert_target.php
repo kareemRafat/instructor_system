@@ -30,7 +30,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // insert sql
         insertOrUpdateTarget($pdo, $data);
 
-        $_SESSION['success'] = "Target Added Successfully";
+        
         header("Location: ../../customer-service.php?action=add&id=" . $_POST['id'] . "&month={$month}&year={$year}");
         exit();
     } catch (PDOException $e) {
@@ -60,14 +60,12 @@ function checkErrors(array $formData, PDO $pdo): bool
 }
 
 
-function insertOrUpdateTarget(PDO $pdo, array $data): bool
+function insertOrUpdateTarget(PDO $pdo, array $data)
 {
     // Extract month & year from the incoming created_at date
     $createdAt = new DateTime($data[':created_at']);
     $month = $createdAt->format('m');
     $year = $createdAt->format('Y');
-
-
 
     // 1. Check if a record exists for the same month and year
     $checkSql = "SELECT id FROM salary_target 
@@ -82,16 +80,18 @@ function insertOrUpdateTarget(PDO $pdo, array $data): bool
                       SET target = :target, target_created_at = :target_created_at 
                       WHERE id = :id";
         $updateStmt = $pdo->prepare($updateSql);
-        return $updateStmt->execute([
+        $updateStmt->execute([
             'target' => $data[':target'],
             'target_created_at' => $data[':target_created_at'],
             'id' => $existingId,
         ]);
+        $_SESSION['success'] = "Target Updated Successfully";
     } else {
         // 3. Insert if not found
         $insertSql = "INSERT INTO salary_target (target, created_at, target_created_at) 
                       VALUES (:target, :created_at, :target_created_at)";
         $insertStmt = $pdo->prepare($insertSql);
-        return $insertStmt->execute($data);
+        $insertStmt->execute($data);
+        $_SESSION['success'] = "Target Added Successfully";
     }
 }
