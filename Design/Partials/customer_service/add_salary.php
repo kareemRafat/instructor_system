@@ -158,7 +158,7 @@ $errors = $_SESSION['errors'] ?? [];
                     <?php if ($agentRecords['overtime_days']): ?>
                     data-drawer-target="reason-drawer" data-drawer-show="reason-drawer" aria-controls="reason-drawer"
                     <?php endif; ?>
-                    class="order-3 p-3 rounded-md border border-blue-200 cursor-pointer">
+                    class="order-3 p-3 rounded-md border border-blue-200 cursor-pointer col-span-2 md:col-span-1">
                     <div class="flex justify-between items-center mb-1">
                         <div class="flex items-center mb-1">
                             <div class="w-6 h-6 bg-blue-500 rounded-full flex items-center justify-center ml-2">
@@ -222,7 +222,7 @@ $errors = $_SESSION['errors'] ?? [];
                     <?php if ($agentRecords['advances']): ?>
                     data-drawer-target="reason-drawer" data-drawer-show="reason-drawer" aria-controls="reason-drawer"
                     <?php endif; ?>
-                    class="order-6 p-3 rounded-md border border-orange-400 cursor-pointer">
+                    class="order-6 p-3 rounded-md border border-orange-400 cursor-pointer col-span-2 md:col-span-1">
                     <div class="flex justify-between items-center mb-1">
                         <div class="flex items-center mb-1">
                             <div class="w-6 h-6 bg-orange-500 rounded-full flex items-center justify-center ml-2">
