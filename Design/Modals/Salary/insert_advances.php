@@ -8,7 +8,7 @@
             <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t border-gray-200">
                 <h3 class="w-full text-lg font-semibold text-gray-900 ">
                     <span class="text-blue-600 font-semibold"><?= ucwords($agent['username']) ?></span>
-                    <span> - </span> 
+                    <span> - </span>
                     إضافة سلفة
                     <span> لشهر </span>
                     <span class="text-red-700 font-semibold month-target"> 7-2025 </span>
