@@ -127,8 +127,7 @@
                          <?php
                             $groupId = $row['group_id'];
                             $getTrack = "SELECT 
-                                            *,
-                                            DATE_FORMAT(l.date, '%d-%m-%Y') AS date
+                                            *
                                             FROM lectures AS l 
                                             JOIN tracks AS t ON t.id =  l.track_id
                                             WHERE group_id = :group ORDER BY date DESC LIMIT 1";
@@ -168,10 +167,14 @@
                                  <span class="font-bold text-rose-600"> Latest Comment : </span>
                                  <?= $track['comment'] ?>
                              </div>
+                             <?php
+                                $date = new DateTime($track['date']);
+                                $trackDate = $date->format('j-n-Y');
+                                ?>
                              <div class="ml-5">
                                  <i class="fa-solid fa-calendar mx-3 fa-beat"></i>
                                  <span class="font-bold hidden md:inline-block text-rose-600"> Latest Comment Date : </span>
-                                 <?= $track['date'] ?>
+                                 <?= $trackDate ?>
                              </div>
                          </div>
                      </td>
