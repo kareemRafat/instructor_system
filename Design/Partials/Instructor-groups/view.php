@@ -162,19 +162,19 @@
                  <tr>
                      <td colspan="7" class="px-6 py-2 border-b border-sky-200 bg-sky-50 text-base">
                          <div class="flex md:justify-between items-center">
-                             <div>
-                                 <i class="fa-solid fa-comment text-gray-600 mr-3 fa-beat"></i>
-                                 <span class="font-bold text-rose-600"> Latest Comment : </span>
-                                 <?= $track['comment'] ?>
+                             <div class="bg-sky-700 py-1 px-3 text-white rounded-md">
+                                 <i class="fa-solid fa-comment  mr-3 fa-beat text-sm"></i>
+                                 <span class="font-bold "> Latest Comment : </span>
+                                 <span class=""><?= $track['comment'] ?></span>
                              </div>
                              <?php
                                 $date = new DateTime($track['date']);
                                 $trackDate = $date->format('j-n-Y');
                                 ?>
                              <div class="ml-5">
-                                 <i class="fa-solid fa-calendar mx-3 fa-beat"></i>
+                                 <i class="fa-solid fa-calendar mx-3 fa-beat text-sm"></i>
                                  <span class="font-bold hidden md:inline-block text-rose-600"> Latest Comment Date : </span>
-                                 <?= $trackDate ?>
+                                 <span class="text-sky-700 font-bold"><?= $trackDate ?></span>
                              </div>
                          </div>
                      </td>
