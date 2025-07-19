@@ -127,13 +127,15 @@
                          <?php
                             $groupId = $row['group_id'];
                             $getTrack = "SELECT 
-                                            *
+                                            *,
+                                            DATE_FORMAT(l.date, '%d-%m-%Y') AS date
                                             FROM lectures AS l 
                                             JOIN tracks AS t ON t.id =  l.track_id
                                             WHERE group_id = :group ORDER BY date DESC LIMIT 1";
                             $stmt = $pdo->prepare($getTrack);
                             $stmt->execute([':group' => $groupId]);
-                            echo $stmt->fetch(PDO::FETCH_ASSOC)['name'] ?? 'Not Updated';
+                            $track =  $stmt->fetch(PDO::FETCH_ASSOC);
+                            echo $track['name'] ?? 'Not Updated';
                             ?>
                      </td>
                      <td class="px-6 py-2">
@@ -155,6 +157,22 @@
                                  <path fill-rule="evenodd" d="M12 2c-.791 0-1.55.314-2.11.874l-.893.893a.985.985 0 0 1-.696.288H7.04A2.984 2.984 0 0 0 4.055 7.04v1.262a.986.986 0 0 1-.288.696l-.893.893a2.984 2.984 0 0 0 0 4.22l.893.893a.985.985 0 0 1 .288.696v1.262a2.984 2.984 0 0 0 2.984 2.984h1.262c.261 0 .512.104.696.288l.893.893a2.984 2.984 0 0 0 4.22 0l.893-.893a.985.985 0 0 1 .696-.288h1.262a2.984 2.984 0 0 0 2.984-2.984V15.7c0-.261.104-.512.288-.696l.893-.893a2.984 2.984 0 0 0 0-4.22l-.893-.893a.985.985 0 0 1-.288-.696V7.04a2.984 2.984 0 0 0-2.984-2.984h-1.262a.985.985 0 0 1-.696-.288l-.893-.893A2.984 2.984 0 0 0 12 2Zm3.683 7.73a1 1 0 1 0-1.414-1.413l-4.253 4.253-1.277-1.277a1 1 0 0 0-1.415 1.414l1.985 1.984a1 1 0 0 0 1.414 0l4.96-4.96Z" clip-rule="evenodd" />
                              </svg>
                              <?= ucwords($row['branch_name']) ?>
+                         </div>
+                     </td>
+                 </tr>
+                 <tr>
+                     <td colspan="7" class="px-6 py-2 border-b border-sky-200 bg-sky-50 text-base">
+                         <div class="flex md:justify-between items-center">
+                             <div>
+                                 <i class="fa-solid fa-comment text-gray-600 mr-3 fa-beat"></i>
+                                 <span class="font-bold text-rose-600"> Latest Comment : </span>
+                                 <?= $track['comment'] ?>
+                             </div>
+                             <div class="ml-5">
+                                 <i class="fa-solid fa-calendar mx-3 fa-beat"></i>
+                                 <span class="font-bold hidden md:inline-block text-rose-600"> Latest Comment Date : </span>
+                                 <?= $track['date'] ?>
+                             </div>
                          </div>
                      </td>
                  </tr>
