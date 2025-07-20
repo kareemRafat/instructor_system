@@ -124,8 +124,9 @@ async function getGroupInfo(groupId) {
   if (res.data) {
     startDate.innerText = res.data.formatted_date;
     endDate.innerText = `End : ` + res.data.group_end_date;
-    latestComment.innerText = res.data.comment;
+    latestComment.innerText = res.data.comment.length > 36 ? res.data.comment.substring(0, 36) + ' ...' : res.data.comment;
     latestCommentDate.innerText = res.data.date;
+     
   }
 }
 
