@@ -18,7 +18,6 @@ try {
                 ROW_NUMBER() OVER (PARTITION BY l.group_id ORDER BY l.date DESC) AS rn
             FROM lectures l
         )
-
         SELECT
             lc.comment,
             lc.date,
@@ -41,7 +40,7 @@ try {
                 ),
                 '%d-%m-%Y'
             ) AS group_end_date
-        FROM groups g
+        FROM `groups` g
         JOIN latest_comment lc ON lc.group_id = g.id AND lc.rn = 1
         WHERE g.is_active = 1 AND g.id = :group";
 
