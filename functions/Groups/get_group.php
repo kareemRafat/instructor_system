@@ -10,7 +10,14 @@ if (!isset($_SESSION['user_id'])) {
 }
 
 try {
-    $query = "SELECT 
+    $query = "SELECT
+                (
+                    SELECT l2.comment
+                    FROM lectures l2
+                    WHERE l2.group_id = g.id
+                    ORDER BY l2.date DESC
+                    LIMIT 1
+                ) AS comment,
                 g.id,
                 g.name  As group_name,
                 DATE_FORMAT(g.start_date, '%M %d-%m-%Y') AS formatted_date,
@@ -31,7 +38,8 @@ try {
                         '%d-%m-%Y'
                     ) AS group_end_date
         FROM `groups` g
-        WHERE g.is_active = 1 AND id = :group";
+        JOIN lectures l ON g.id = l.group_id
+        WHERE g.is_active = 1 AND g.id = :group";
 
     $stmt = $pdo->prepare($query);
     $stmt->execute([':group' => $_GET['group_id']]);

@@ -5,6 +5,7 @@ const groupSelect = document.getElementById("group");
 const track = document.getElementById("track");
 const startDate = document.getElementById("start-date");
 const endDate = document.getElementById("end-date");
+const latestComment = document.getElementById('latest-comment');
 
 document.addEventListener("DOMContentLoaded", () => {
   // Fetch instructor Groups
@@ -120,6 +121,7 @@ async function getGroupInfo(groupId) {
   if (res.data) {
     startDate.innerText = res.data.formatted_date;
     endDate.innerText = `End : ` + res.data.group_end_date;
+    latestComment.innerText = res.data.comment;
   }
 }
 

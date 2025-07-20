@@ -11,13 +11,13 @@ $errors = $_SESSION['errors'] ?? [];
 
 ?>
 <?php if (isset($_SESSION['login'])): ?>
-<style>
-  @media (max-width : 640px) {
-    .notyf__wrapper {
-      width: 100% !important;
+  <style>
+    @media (max-width : 640px) {
+      .notyf__wrapper {
+        width: 100% !important;
+      }
     }
-}
-</style>
+  </style>
 <?php endif; ?>
 
 <!-- preload spinner -->
@@ -70,6 +70,7 @@ $errors = $_SESSION['errors'] ?? [];
             <span id="end-date" class="text-teal-700 font-medium text-sm">Expected End Date</span>
           </div>
         </div>
+
         <div class="mb-6">
           <label for="track" class="block text-sm font-medium text-gray-700 mb-2">Track</label>
           <select id="track" name="track" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
@@ -87,6 +88,10 @@ $errors = $_SESSION['errors'] ?? [];
               '</div>';
           }
           ?>
+        </div>
+        <div class="flex items-center gap-2 bg-sky-50 px-4 py-2 rounded-lg border border-sky-200 w-full shadow-sm">
+          <i class="fa-solid fa-message text-sky-500 text-sm"></i>
+          <span id="latest-comment" class="text-sky-700 font-medium text-sm">Latest Comment</span>
         </div>
         <!-- dropdown list for lectures with search -->
         <div class="relative w-full">

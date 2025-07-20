@@ -48,7 +48,16 @@
                 JOIN branches ON `groups`.branch_id = branches.id
                 WHERE `groups`.is_active = 1
                 AND instructors.id = '{$_SESSION['user_id']}'
-                ORDER BY `groups`.day ASC , `groups`.time ASC";
+                ORDER BY `groups`.day ASC ,
+                 CASE 
+                    WHEN `groups`.time = 10 THEN 1
+                    WHEN `groups`.time = 12.30 THEN 2
+                    WHEN `groups`.time = 3 THEN 3
+                    WHEN `groups`.time = 6 THEN 4
+                    WHEN `groups`.time = 6.10 THEN 5
+                    WHEN `groups`.time = 8 THEN 6
+                    ELSE 99
+                END ASC";
 
     $stmt = $pdo->prepare($query);
     $stmt->execute();
@@ -162,19 +171,24 @@
                  <tr>
                      <td colspan="7" class="px-6 py-2 border-b border-sky-200 bg-sky-50 text-base">
                          <div class="flex md:justify-between items-center">
-                             <div class="bg-sky-700 py-1 px-3 text-white rounded-md">
-                                 <i class="fa-solid fa-comment  mr-3 fa-beat text-sm"></i>
+                             <div class="bg-sky-800 py-1 px-3 text-white rounded-md">
+                                 <i class="fa-solid fa-comment  mr-1 text-sm"></i>
                                  <span class="font-bold "> Latest Comment : </span>
-                                 <span class=""><?= $track['comment'] ?></span>
+                                 <span class=""><?= $track['comment'] ?? 'No comments Yet' ?></span>
                              </div>
                              <?php
-                                $date = new DateTime($track['date']);
-                                $trackDate = $date->format('j-n-Y');
+                                if (isset($track['date'])) {
+                                    $date = new DateTime($track['date']);
+                                    $trackDate = $date->format('j-n-Y');
+                                } else {
+                                    $trackDate = "No date yet";
+                                }
+
                                 ?>
                              <div class="ml-5">
-                                 <i class="fa-solid fa-calendar mx-3 fa-beat text-sm"></i>
+                                 <i class="fa-solid fa-calendar mx-1 text-sm text-slate-500"></i>
                                  <span class="font-bold hidden md:inline-block text-rose-600"> Latest Comment Date : </span>
-                                 <span class="text-sky-700 font-bold"><?= $trackDate ?></span>
+                                 <span class="text-sky-700 font-bold"><?= $trackDate  ?></span>
                              </div>
                          </div>
                      </td>
