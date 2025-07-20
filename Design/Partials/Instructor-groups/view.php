@@ -173,7 +173,7 @@
                          <div class="flex md:justify-between items-center">
                              <div class="bg-sky-800 py-1 px-3 text-white rounded-md">
                                  <i class="fa-solid fa-comment  mr-1 text-sm"></i>
-                                 <span class="font-bold "> Latest Comment : </span>
+                                 <span class="font-semibold"> Latest Comment : </span>
                                  <span class=""><?= $track['comment'] ?? 'No comments Yet' ?></span>
                              </div>
                              <?php
@@ -186,9 +186,9 @@
 
                                 ?>
                              <div class="ml-5">
-                                 <i class="fa-solid fa-calendar mx-1 text-sm text-slate-500"></i>
-                                 <span class="font-bold hidden md:inline-block text-rose-600"> Latest Comment Date : </span>
-                                 <span class="text-sky-700 font-bold"><?= $trackDate  ?></span>
+                                 <i class="fa-solid fa-calendar mx-1 text-sm text-rose-700"></i>
+                                 <span class="font-semibold hidden md:inline-block text-rose-600"> Latest Comment Date : </span>
+                                 <span class="text-sky-700 font-semibold"><?= $trackDate  ?></span>
                              </div>
                          </div>
                      </td>
