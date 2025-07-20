@@ -76,6 +76,7 @@ groupSelect.oninput = async function () {
     track.value = "";
     startDate.innerText = "Group Start Date";
     endDate.innerText = "Excpected End Date";
+    latestComment.innerText = "Latest Comment";
     populateLectures(null); // reset comment box
     return;
   }
