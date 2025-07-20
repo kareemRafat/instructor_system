@@ -6,6 +6,7 @@ const track = document.getElementById("track");
 const startDate = document.getElementById("start-date");
 const endDate = document.getElementById("end-date");
 const latestComment = document.getElementById('latest-comment');
+const latestCommentDate = document.getElementById('latest-comment-date');
 
 document.addEventListener("DOMContentLoaded", () => {
   // Fetch instructor Groups
@@ -77,6 +78,7 @@ groupSelect.oninput = async function () {
     startDate.innerText = "Group Start Date";
     endDate.innerText = "Excpected End Date";
     latestComment.innerText = "Latest Comment";
+    latestCommentDate.innerText = "";
     populateLectures(null); // reset comment box
     return;
   }
@@ -123,6 +125,7 @@ async function getGroupInfo(groupId) {
     startDate.innerText = res.data.formatted_date;
     endDate.innerText = `End : ` + res.data.group_end_date;
     latestComment.innerText = res.data.comment;
+    latestCommentDate.innerText = res.data.date;
   }
 }
 

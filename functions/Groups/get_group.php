@@ -10,35 +10,39 @@ if (!isset($_SESSION['user_id'])) {
 }
 
 try {
-    $query = "SELECT
-                (
-                    SELECT l2.comment
-                    FROM lectures l2
-                    WHERE l2.group_id = g.id
-                    ORDER BY l2.date DESC
-                    LIMIT 1
-                ) AS comment,
-                g.id,
-                g.name  As group_name,
-                DATE_FORMAT(g.start_date, '%M %d-%m-%Y') AS formatted_date,
-                DATE_FORMAT(
-                        DATE_ADD(
-                            DATE_ADD(
-                                g.start_date,
-                                INTERVAL CASE
-                                            WHEN g.name LIKE '%training%' THEN 2
-                                            ELSE 5
-                                        END MONTH
-                            ),
-                            INTERVAL CASE
-                                        WHEN g.name LIKE '%training%' THEN 15
-                                        ELSE 21
-                                    END DAY
-                        ),
-                        '%d-%m-%Y'
-                    ) AS group_end_date
-        FROM `groups` g
-        JOIN lectures l ON g.id = l.group_id
+    $query = "WITH latest_comment AS (
+            SELECT
+                l.group_id,
+                l.comment,
+                DATE_FORMAT( l.date, '%d-%m-%Y') AS date,
+                ROW_NUMBER() OVER (PARTITION BY l.group_id ORDER BY l.date DESC) AS rn
+            FROM lectures l
+        )
+
+        SELECT
+            lc.comment,
+            lc.date,
+            g.id,
+            g.name AS group_name,
+            DATE_FORMAT(g.start_date, '%M %d-%m-%Y') AS formatted_date,
+            DATE_FORMAT(
+                DATE_ADD(
+                    DATE_ADD(
+                        g.start_date,
+                        INTERVAL CASE
+                                    WHEN g.name LIKE '%training%' THEN 2
+                                    ELSE 5
+                                END MONTH
+                    ),
+                    INTERVAL CASE
+                                WHEN g.name LIKE '%training%' THEN 15
+                                ELSE 21
+                            END DAY
+                ),
+                '%d-%m-%Y'
+            ) AS group_end_date
+        FROM groups g
+        JOIN latest_comment lc ON lc.group_id = g.id AND lc.rn = 1
         WHERE g.is_active = 1 AND g.id = :group";
 
     $stmt = $pdo->prepare($query);

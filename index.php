@@ -90,9 +90,13 @@ $errors = $_SESSION['errors'] ?? [];
           ?>
         </div>
         <div class="flex items-center gap-2 bg-sky-50 px-4 py-2 rounded-lg border border-sky-200 w-full shadow-sm">
-          <i class="fa-solid fa-message text-sky-500 text-sm"></i>
-          <span id="latest-comment" class="text-sky-700 font-medium text-sm">Latest Comment</span>
+          <i class="fa-solid fa-message text-sky-500 text-sm self-start"></i>
+          <div class="flex flex-col md:flex-row gap-1 justify-between w-full">
+            <span id="latest-comment" class="text-sky-700 font-medium text-sm">Latest Comment</span>
+            <span id="latest-comment-date" class="text-sky-700 font-medium text-sm self-end"></span>
+          </div>
         </div>
+
         <!-- dropdown list for lectures with search -->
         <div class="relative w-full">
           <label class="block mb-2 text-sm font-medium text-gray-900">Comment</label>
