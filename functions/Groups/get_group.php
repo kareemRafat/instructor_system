@@ -17,6 +17,7 @@ try {
                 DATE_FORMAT( l.date, '%d-%m-%Y') AS date,
                 ROW_NUMBER() OVER (PARTITION BY l.group_id ORDER BY l.date DESC) AS rn
             FROM lectures l
+            WHERE l.group_id = :group
         )
         SELECT
             lc.comment,
