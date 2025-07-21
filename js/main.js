@@ -79,6 +79,7 @@ groupSelect.oninput = async function () {
     endDate.innerText = "Excpected End Date";
     latestComment.innerText = "Latest Comment";
     latestCommentDate.innerText = "";
+    document.querySelector('i.fa-message').classList.remove("!text-rose-600");
     populateLectures(null); // reset comment box
     return;
   }
@@ -126,7 +127,12 @@ async function getGroupInfo(groupId) {
     endDate.innerText = `End : ` + res.data.group_end_date;
     latestComment.innerText = res.data.comment.length > 36 ? res.data.comment.substring(0, 36) + ' ...' : res.data.comment;
     latestCommentDate.innerText = res.data.date;
+    document.querySelector('i.fa-message').classList.remove("!text-rose-600");
      
+  } else {
+    latestComment.innerHTML = "<span class='text-rose-600'>No Comments yet ... </span>";
+    latestCommentDate.innerText = "";
+    document.querySelector('i.fa-message').classList.add("!text-rose-600");
   }
 }
 
